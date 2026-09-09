@@ -1,0 +1,393 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 Condition Guidance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  /* Palette taken from the datasets' own render specs rather than invented:
+     --accent   is wall=(33,33,222) in style_2_arcade_color
+     --accent-2 is bg=(26,92,68)    in style_6_board_skeuo */
+  :root {
+    --ground:   #F6F7FA;
+    --surface:  #FFFFFF;
+    --ink:      #14161C;
+    --ink-2:    #4C536A;
+    --ink-3:    #8B92A6;
+    --line:     #DEE2EC;
+    --line-soft:#EBEEF4;
+    --accent:   #2121DE;
+    --accent-2: #1A5C44;
+    --chip:     #EEF0F8;
+
+    --display: "Newsreader", Georgia, "Times New Roman", serif;
+    --body:    "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+      --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+      --accent:#8C8CFF; --accent-2:#4FAE8D; --chip:#1E2230;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+    --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+    --accent:#8C8CFF; --accent-2:#4FAE8D; --chip:#1E2230;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--body); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px 96px; }
+
+  /* ---------- masthead ---------- */
+  header { padding: 60px 0 34px; border-bottom: 1px solid var(--line); margin-bottom: 56px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--ink-3); margin: 0 0 16px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(2.6rem, 6vw, 4.1rem);
+    line-height: 1.04; letter-spacing: -.018em;
+    margin: 0 0 16px; text-wrap: balance;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .standfirst { font-size: 1.1rem; color: var(--ink-2); margin: 0; max-width: 62ch; }
+
+  /* ---------- sections ---------- */
+  section { margin-bottom: 88px; }
+  .sec-head {
+    display: flex; gap: 16px; align-items: baseline;
+    padding-bottom: 14px; border-bottom: 2px solid var(--accent); margin-bottom: 22px;
+  }
+  .sec-num {
+    font-family: var(--mono); font-weight: 500;
+    font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--accent); flex: none;
+  }
+  h2 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(2.1rem, 4.6vw, 3.1rem);
+    line-height: 1.08; letter-spacing: -.014em; margin: 0; text-wrap: balance;
+  }
+  .setup { margin: 0 0 6px; color: var(--ink-2); max-width: 74ch; }
+
+  /* result-group heading: sized to be read from across a room */
+  h3 {
+    font-family: var(--display); font-weight: 500;
+    font-size: clamp(1.6rem, 3.2vw, 2.15rem);
+    line-height: 1.14; letter-spacing: -.01em;
+    margin: 52px 0 6px; text-wrap: balance;
+  }
+  h3 .qual {
+    display: block; font-family: var(--body); font-weight: 400;
+    font-size: .92rem; color: var(--ink-3); letter-spacing: 0; margin-top: 5px;
+  }
+
+  figure.diagram { margin: 26px 0 0; }
+  figure.diagram > svg {
+    display: block; max-width: 100%; height: auto;
+    color: var(--ink-2); font-family: var(--mono);
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 2px; padding: 10px 6px;
+  }
+  figure.diagram > figcaption {
+    margin-top: 12px; font-size: 14.5px; color: var(--ink-3); max-width: 84ch;
+  }
+  .diagram-scroll { overflow-x: auto; }
+
+  /* ---------- video figures ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 34px 26px; margin-top: 22px; }
+  .grid.wide { grid-template-columns: 1fr; gap: 38px; }
+  figure { margin: 0; }
+  figure video {
+    display: block; width: 100%; height: auto;
+    background: #000; border: 1px solid var(--line); border-radius: 2px;
+  }
+  figcaption { margin-top: 10px; }
+  .cap-title {
+    display: block; font-family: var(--mono); font-size: 13.5px;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .cap-panes { display: block; font-size: 14px; color: var(--ink-3); }
+  .cap-panes b { font-weight: 600; color: var(--accent-2); }
+
+  footer {
+    border-top: 1px solid var(--line); padding-top: 22px;
+    font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  }
+  footer code { color: var(--ink-2); }
+  a { color: var(--accent); }
+  .eyebrow a.up { color: var(--ink-3); text-decoration: none; }
+  .eyebrow a.up:hover, .eyebrow a.up:focus-visible { color: var(--accent); text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow"><a class="up" href="../">All weeks</a> &nbsp;/&nbsp; Cosmos3-Edge</p>
+    <h1>Week 2: Fine-tune Cosmos on different types of <em>condition guidance</em></h1>
+    <p class="standfirst">
+      Every clip is 61 frames, 832&times;480, 10&nbsp;fps. Test clips hold out an entire
+      visual style (<code>style_6</code>) and the last four episodes, so the appearance in
+      them was never trained on.
+    </p>
+  </header>
+
+
+  <!-- ===================== how the sequence is assembled ===================== -->
+  <section id="sequence">
+    <div class="sec-head">
+      <span class="sec-num">(0)</span>
+      <h2>How the latents are combined</h2>
+    </div>
+    <p class="setup">Both variants pack one flat token sequence. They differ only in what sits in the conditioning slot ahead of the video being denoised.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 980 330" role="img" width="980"
+     aria-label="Both variants pack text, then a conditioning block, then the target video latent of 16 frames whose first frame is the clean reference frame. In the spatial-map variant the conditioning block is a second full video track of 6240 tokens; in the action variant it is 60 action tokens, drawn to the same scale.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="24" y="22" font-size="13" font-weight="600" fill="currentColor">(1) spatial-map conditioned</text>
+  <rect x="24" y="56" width="76" height="46" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="62" y="83" font-size="11.5" text-anchor="middle" fill="currentColor">text</text>
+  <text x="110" y="48" font-size="11" fill="currentColor">control latent - 6240 tokens</text>
+  <rect x="110" y="56" width="374" height="46" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <g>
+          <rect x="112.3" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="135.4" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="158.5" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="181.6" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="204.6" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="227.7" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="250.8" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="273.9" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="297.0" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="320.1" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="343.2" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="366.3" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="389.3" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="412.4" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="435.5" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="458.6" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+  </g>
+  <text x="868.0" y="48" font-size="11" text-anchor="end" fill="currentColor">target video latent - 6240 tokens</text>
+  <rect x="494.0" y="56" width="374" height="46" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <g>
+          <rect x="496.3" y="58.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="519.4" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="542.5" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="565.6" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="588.6" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="611.7" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="634.8" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="657.9" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="681.0" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="704.1" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="727.2" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="750.3" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="773.3" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="796.4" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="819.5" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="842.6" y="58.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+  </g>
+  <text x="508" y="119" font-size="10.5" text-anchor="middle" fill="#2121DE">frame 0</text>
+  <text x="508" y="131" font-size="10.5" text-anchor="middle" fill="#2121DE">= ref frame</text>
+  <text x="711" y="119" font-size="10.5" text-anchor="middle" fill="currentColor">frames 1-15 are noise, and get denoised</text>
+  <path d="M 346 102 L 346 142 L 730 142 L 730 102" fill="none" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.5" marker-end="url(#ar)"/>
+  <text x="538" y="158" font-size="10.5" text-anchor="middle" fill="currentColor" font-style="italic">share_vision_temporal_positions: control frame t aligns with target frame t</text>
+  <line x1="24" y1="178" x2="956" y2="178" stroke="currentColor" stroke-width="1" stroke-opacity="0.22"/>
+  <text x="24" y="202" font-size="13" font-weight="600" fill="currentColor">(2) action conditioned</text>
+  <rect x="24" y="236" width="76" height="46" rx="2" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="62" y="263" font-size="11.5" text-anchor="middle" fill="currentColor">text</text>
+  <rect x="110" y="236" width="4.0" height="46" fill="#2121DE" fill-opacity="0.85"/>
+  <text x="498" y="228" font-size="11" text-anchor="end" fill="currentColor">target video latent - 6240 tokens</text>
+  <rect x="124" y="236" width="374" height="46" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <g>
+          <rect x="126.3" y="238.3" width="21.9" height="41.4" fill="#2121DE" fill-opacity="0.55"/>
+          <rect x="149.4" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="172.5" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="195.6" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="218.6" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="241.7" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="264.8" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="287.9" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="311.0" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="334.1" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="357.2" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="380.3" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="403.3" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="426.4" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="449.5" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+          <rect x="472.6" y="238.3" width="21.9" height="41.4" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+  </g>
+  <path d="M 112 282 L 112 300 L 198 300" fill="none" stroke="currentColor" stroke-width="0.9" stroke-opacity="0.6"/>
+  <text x="204" y="304" font-size="10.5" fill="currentColor">action stream - 60 tokens, all clean, at the same scale as above</text>
+  <rect x="640" y="244" width="13" height="13" fill="#2121DE" fill-opacity="0.55"/>
+  <text x="661" y="254" font-size="11" fill="currentColor">clean, held fixed as conditioning</text>
+  <rect x="640" y="265" width="13" height="13" fill="none" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.45"/>
+  <text x="661" y="275" font-size="11" fill="currentColor">noise at step 0, this is what is predicted</text>
+</svg>
+      <figcaption>
+        One cell is one latent frame (390 tokens; 61 pixel frames compress to 16 latent frames).
+        Both variants pin latent frame 0 of the target to the reference frame and denoise frames 1-15.
+        The conditioning block ahead of it is a second full video track in (1) and a 60-token action
+        stream in (2) &mdash; drawn to the same horizontal scale.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================== 1 ============================== -->
+  <section id="spatial-map">
+    <div class="sec-head">
+      <span class="sec-num">(1)</span>
+      <h2>Spatial-map conditioned</h2>
+    </div>
+    <p class="setup">Trained on 1000 Pong clips. Control signal: the per-frame spatial map, a colourised mask of the moving entities only.</p>
+
+    <h3>Test on Pong
+      <span class="qual">Held-out episode. <code>style_6</code> is a style the model never trained on.</span>
+    </h3>
+    <div class="grid wide">
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/spatialmap__pong_style6.jpg" src="videos/spatialmap__pong_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">ep0196 &mdash; style_6_table_skeuo</span>
+          <span class="cap-panes"><b>control</b> &nbsp;|&nbsp; <b>ground truth</b> &nbsp;|&nbsp; <b>baseline, stock Edge</b> &nbsp;|&nbsp; <b>fine-tuned</b></span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/spatialmap__pong_style2.jpg" src="videos/spatialmap__pong_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>control</b> &nbsp;|&nbsp; <b>ground truth</b> &nbsp;|&nbsp; <b>baseline, stock Edge</b> &nbsp;|&nbsp; <b>fine-tuned</b></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3>Test on Pac-Man
+      <span class="qual">The same Pong-trained model. No Pac-Man clip was in its training set.</span>
+    </h3>
+    <div class="grid wide">
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/spatialmap__pacman_style6.jpg" src="videos/spatialmap__pacman_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">ep0196 &mdash; style_6_board_skeuo</span>
+          <span class="cap-panes"><b>control</b> &nbsp;|&nbsp; <b>ground truth</b> &nbsp;|&nbsp; <b>generated</b></span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/spatialmap__pacman_style2.jpg" src="videos/spatialmap__pacman_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>control</b> &nbsp;|&nbsp; <b>ground truth</b> &nbsp;|&nbsp; <b>generated</b></span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================== 2 ============================== -->
+  <section id="action">
+    <div class="sec-head">
+      <span class="sec-num">(2)</span>
+      <h2>Action conditioned</h2>
+    </div>
+    <p class="setup">Trained separately on Pong and on Pac-Man, then each model tested on both games. Control signal: one action vector per frame &mdash; two channels of up / stay / down for Pong's paddles, a one-hot direction for Pac-Man.</p>
+
+    <h3>Trained on Pong
+      <span class="qual">Tested on Pong, then on Pac-Man.</span>
+    </h3>
+    <div class="grid">
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pongmodel__pong_style6.jpg" src="videos/action__pongmodel__pong_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pong &mdash; ep0196 &mdash; style_6_table_skeuo</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pongmodel__pong_style2.jpg" src="videos/action__pongmodel__pong_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pong &mdash; ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pongmodel__pacman_style6.jpg" src="videos/action__pongmodel__pacman_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pac-Man &mdash; ep0196 &mdash; style_6_board_skeuo</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pongmodel__pacman_style2.jpg" src="videos/action__pongmodel__pacman_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pac-Man &mdash; ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3>Trained on Pac-Man
+      <span class="qual">Tested on Pong, then on Pac-Man.</span>
+    </h3>
+    <div class="grid">
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pacmanmodel__pong_style6.jpg" src="videos/action__pacmanmodel__pong_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pong &mdash; ep0196 &mdash; style_6_table_skeuo</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pacmanmodel__pong_style2.jpg" src="videos/action__pacmanmodel__pong_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pong &mdash; ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pacmanmodel__pacman_style6.jpg" src="videos/action__pacmanmodel__pacman_style6.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pac-Man &mdash; ep0196 &mdash; style_6_board_skeuo</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+      <figure>
+        <video controls loop muted playsinline preload="metadata"
+               poster="videos/action__pacmanmodel__pacman_style2.jpg" src="videos/action__pacmanmodel__pacman_style2.mp4"></video>
+        <figcaption>
+          <span class="cap-title">Pac-Man &mdash; ep0196 &mdash; style_2_arcade_color</span>
+          <span class="cap-panes"><b>ground truth</b> above, <b>generated</b> below</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    Method and commands: <code>cosmos/FINETUNE_ON_SPATIAL_MAP.md</code>
+  </footer>
+
+</div>
