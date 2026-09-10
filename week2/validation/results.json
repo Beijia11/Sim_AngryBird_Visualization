@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Every local link, script, poster, video, and embed target exists",
+    "Existing 12 experiment videos remain; two Astra cases are initially unloaded",
+    "Both reports render as readable HTML; source tabs, keyboard navigation, and reference decoding work",
+    "Embedded Pac-Man receives keyboard input, resizes, and unloads on close",
+    "Embedded Angry Birds executes a physical shot and retains the angle/strength controls",
+    "390px mobile layout fits; embedded touch buttons and launch sliders remain usable",
+    "No JavaScript errors; local file use works with networking disabled"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "representation": [
+    "phase",
+    "pull_dx",
+    "pull_dy"
+  ],
+  "phases": [
+    "loaded",
+    "pulling",
+    "holding",
+    "released",
+    "passive_flight"
+  ],
+  "estimated_pull_in_crop_pixels": [
+    -156,
+    80
+  ],
+  "estimated_launch_angle_degrees": 27,
+  "source": "Visual inspection and red-component centroids in the supplied recording; no original action labels.",
+  "limitations": [
+    "Pixel centroids are not exact sprite centers.",
+    "Camera pan and zoom prevent a reliable world-space speed fit.",
+    "Underlying input device and actual control values are not observed.",
+    "Linear spring mapping is a reconstruction assumption."
+  ],
+  "segments": [
+    {
+      "start": 1.8,
+      "end": 4.4,
+      "phase": "loaded"
+    },
+    {
+      "start": 4.4,
+      "end": 4.8,
+      "phase": "pulling"
+    },
+    {
+      "start": 4.8,
+      "end": 6.86,
+      "phase": "holding",
+      "detail": "Small pull adjustments are visible."
+    },
+    {
+      "start": 6.86,
+      "end": 6.97,
+      "phase": "released"
+    },
+    {
+      "start": 6.97,
+      "end": 8.25,
+      "phase": "passive_flight"
+    }
+  ]
+}

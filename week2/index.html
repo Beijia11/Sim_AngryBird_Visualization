@@ -1,6 +1,8 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Week 2 Condition Guidance</title>
+<title>Week 2 — Condition Guidance &amp; Astra Results</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -129,6 +131,7 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
+<link rel="stylesheet" href="astra.css">
 
 <div class="wrap">
 
@@ -136,10 +139,11 @@
     <p class="eyebrow"><a class="up" href="../">All weeks</a> &nbsp;/&nbsp; Cosmos3-Edge</p>
     <h1>Week 2: Fine-tune Cosmos on different types of <em>condition guidance</em></h1>
     <p class="standfirst">
-      Every clip is 61 frames, 832&times;480, 10&nbsp;fps. Test clips hold out an entire
+      For the Cosmos experiments, each clip is 61 frames, 832&times;480, 10&nbsp;fps. Test clips hold out an entire
       visual style (<code>style_6</code>) and the last four episodes, so the appearance in
       them was never trained on.
     </p>
+    <nav class="summary-nav" aria-label="Summary sections"><a href="#sequence">Latent sequence</a><a href="#spatial-map">Spatial-map results</a><a href="#action">Action results</a><a href="#astra">Astra: playable games ↓</a></nav>
   </header>
 
 
@@ -386,8 +390,4350 @@
     </div>
   </section>
 
+<!-- ASTRA RESULTS START -->
+  <section id="astra">
+    <div class="sec-head"><span class="sec-num">(3)</span><h2>Astra: from video to a playable game</h2></div>
+    <p class="astra-intro">Two video-to-code results. Astra inspected the supplied video, inferred an interpretable action representation and visible mechanics, then implemented a playable browser game. The reports distinguish observations from rules added for playability.</p>
+    <div class="astra-flow" aria-label="Input video and prompt lead to inferred actions and mechanics, then code and data, then a playable game"><b>Video + prompt</b><span>→</span><b>Actions + mechanics</b><span>→</span><b>Code + data</b><span>→</span><b>Play in browser</b></div>
+    <p class="astra-note">These are interactive code reconstructions from individual clips. Their action representations are explicit abstractions; they are not the trained conditioning tokens used in the Cosmos experiments above.</p>
+
+    <article class="astra-case" id="astra-pacman">
+      <div class="astra-case-head"><div><span class="astra-label">ASTRA / 01</span><h3>Pac-Man</h3><p>A fixed maze, four-direction movement, collectible dots, and a temporary power state reconstructed from one short clip.</p></div><span class="astra-badge">Video → playable code</span></div>
+      <div class="astra-body">
+        <div class="astra-inputs"><div><span class="astra-block-label">INPUT / PROMPT</span><blockquote class="astra-prompt">Read the video. Assume you do not know what game it is beforehand. Based only on the video, can you infer the agent’s action latents or some of the game mechanics, then write a program that recreates the game so I can play it?</blockquote></div>
+        <figure><span class="astra-block-label">INPUT / REFERENCE VIDEO</span><video controls playsinline preload="none" poster="astra/pacman/evidence/frame_0000.png" src="astra/pacman/reference.mp4"></video><figcaption><span class="cap-title">6.1 s · 61 frames · 832 × 480</span><span class="cap-panes">Original supplied gameplay clip, unchanged.</span></figcaption></figure></div>
+        <div class="astra-findings"><span>Action: ↑ / ↓ / ← / →</span><span>19 × 11 grid</span><span>89 visible dots</span><span>~2.4 s state change</span></div>
+        <details class="astra-disclosure astra-report"><summary>Read REPORT.md — observations, actions, and assumptions</summary><div class="astra-file-tools"><a href="astra/pacman/REPORT.md" download>Download REPORT.md ↓</a><span>Full report from this result</span></div><div class="astra-document" tabindex="0"><h2>Reconstructing White Line Maze from a 6.1-second video</h2>
+<p>The only inference input was the supplied <code>ep0000_style_1_classic_bw.mp4</code>. No game source code, action labels, spatial-state JSON, or dataset documentation was read. The input path contains the game name, so it would be inaccurate to claim the name was never seen. This implementation was based on video pixels; the name was not used to look up rules.</p>
+<h3>Observations and inferred mechanics</h3>
+<p>The video contains 61 frames at 10 FPS and 832×480 resolution. The first and last samples are 6.0 seconds apart; playback lasts approximately 6.1 seconds.</p>
+<div class="astra-table-wrap"><table><thead><tr><th>Observation</th><th>Inference</th><th>Confidence</th></tr></thead><tbody>
+<tr><td>Walls remain fixed; corridor centers are 36 px apart</td><td>A static grid with 19 columns and 11 rows, starting at (92,60)</td><td>High; treating wall interiors as inaccessible still requires geometric inference</td></tr>
+<tr><td>The circular character travels along horizontal and vertical corridors and turns at junctions</td><td>Movement can be represented by four classes: up, down, left, and right</td><td>High; actual input codes cannot be recovered</td></tr>
+<tr><td>The player moves 12 px between most consecutive frames</td><td>Speed during motion is approximately 120 px/s, or 3⅓ cells/s</td><td>High</td></tr>
+<tr><td>Small dots disappear after the player passes over them</td><td>Single-use collectibles</td><td>High; no score display appears in the video</td></tr>
+<tr><td>The first frame contains 85 small dots and 4 large dots</td><td>89 initially visible collectibles</td><td>High; objects hidden behind characters cannot be confirmed and were not invented</td></tr>
+<tr><td>The second character moves independently and pauses roughly once every four frames</td><td>An autonomous entity averaging about 90 px/s in ordinary movement segments</td><td>Medium; this does not prove it always follows the player</td></tr>
+<tr><td>The upper-left large dot disappears; the other character darkens from approximately 235 to 119 grayscale at 3.4 s and returns to normal at 5.8 s</td><td>A temporary state lasts about 2.4 seconds, possibly triggered by the large dot</td><td>High for the visible change; medium for causality, with only one event observed</td></tr>
+</tbody></table></div>
+<p>Wall outlines were traced as polygons from the first frame. Dots were extracted using connected components. Sprite positions were tracked using bounding boxes and snapped to observed 12 px substeps. Around 3.2 seconds, the large dot and player form a connected pixel region; the bounding box&#x27;s lower edge was used to correct the estimated center. The corridor inside the central U-shaped wall is accessible.</p>
+<h3>Action latents: observable movement classes</h3>
+<p>Let <code>z_t ∈ {up, down, left, right, stationary/unidentified}</code> represent movement between adjacent frames. Nonzero displacement is classified by axis and sign. A stationary frame cannot distinguish no input, wall blocking, repeated frames, or simulation timing.</p>
+<p>Per-frame coordinates, timestamps, and motion classes are stored in <code>evidence/inferred.json</code>. The coarse player trajectory is shown below. Boundaries between adjacent samples have approximately one frame of uncertainty.</p>
+<div class="astra-table-wrap"><table><thead><tr><th>Interval</th><th>Motion</th></tr></thead><tbody>
+<tr><td>0.0–0.1 s</td><td>Stationary, cause unknown</td></tr>
+<tr><td>0.1–1.6 s</td><td>Up, from (200,348) to (200,168)</td></tr>
+<tr><td>1.6–2.5 s</td><td>Left, to (92,168)</td></tr>
+<tr><td>2.5–3.4 s</td><td>Up, to (92,60)</td></tr>
+<tr><td>3.4–3.7 s</td><td>Down, to (92,96)</td></tr>
+<tr><td>3.7–4.0 s</td><td>Up, back to (92,60)</td></tr>
+<tr><td>4.0–5.8 s</td><td>Right, to (308,60)</td></tr>
+<tr><td>5.8–6.0 s</td><td>Down, to (308,84)</td></tr>
+</tbody></table></div>
+<p>This is an interpretable discrete latent representation; no neural network was trained. Actual keys, control frequency, persistent actions, buffered turns, and an explicit idle action cannot be uniquely identified from this short clip.</p>
+<p>A sufficient implementation state is <code>s=(player position, direction, other character position, remaining dots, temporary-state timer)</code>. Transitions combine corridor-constrained movement, dot removal on contact, and timed state changes. Rendering converts the state into wall outlines, dots, and two sprites.</p>
+<h3>Rules added for playability</h3>
+<ul>
+<li>Small dots award 10 points, large dots 50 points, and catching the other character while powered awards 200 points. These values were chosen, not observed.</li>
+<li>Ordinary contact ends the game. Powered contact sends the other character to the center with a one-second delay. The clip contains no collision evidence; these are added rules.</li>
+<li>Collecting all visible dots wins the game. Restart, pause, and touch controls are added features.</li>
+<li>At junctions, the other character approaches the player using shortest corridor distance. While darkened, it selects a direction away from the player. This is an approximate playable policy, not an identified original policy.</li>
+<li>The player continues in its current direction; unavailable turns are buffered until a legal junction. Reversing within a corridor is allowed. These are interaction design choices.</li>
+<li>The playable version moves smoothly. There is insufficient evidence to explain the other character&#x27;s periodic pauses and its larger position jump from 3.3 to 3.4 seconds. The observed-path replay retains the measured positions.</li>
+</ul>
+<p>This is an approximate reconstruction of the visuals and main interactions, not a unique or exact recovery of the original dynamics. Full policies, death animations, multiple levels, and longer-term state require more video or active experiments.</p>
+<h3>Playing and reproducing the result</h3>
+<p>Open <code>play.html</code> in a browser for the standalone version. It embeds the code, data, source video, and this report and works offline. For development, open <code>index.html</code>, which loads the adjacent <code>game.js</code> and <code>data.js</code> files. Changes to those files do not automatically update <code>play.html</code>.</p>
+<p>Use arrow keys or WASD to move, Space to pause, and R to restart. On mobile, use the direction buttons or swipe the maze. <strong>Replay observed path</strong> replays measured coordinates for comparison; it does not validate model predictions.</p>
+<p>Alternatively, run this command from the project directory:</p>
+<pre><code>python3 -m http.server 8765 --bind 127.0.0.1</code></pre>
+<p>Then visit <code>http://127.0.0.1:8765</code> on the same machine. If the browser runs on another computer, download the game files to that computer or forward port 8765 over SSH.</p>
+<h3>File guide</h3>
+<div class="astra-table-wrap"><table><thead><tr><th>File</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>index.html</code></td><td>Development entry point, interface, and styles</td></tr>
+<tr><td><code>game.js</code></td><td>Map geometry, movement, collection, enemy behavior, collisions, rendering, and controls</td></tr>
+<tr><td><code>data.js</code></td><td>Video measurements used for initialization and observed-path replay</td></tr>
+<tr><td><code>play.html</code></td><td>Standalone game with embedded assets and documentation</td></tr>
+<tr><td><code>reference.mp4</code></td><td>Copy of the source video for comparison</td></tr>
+<tr><td><code>analyze_video.py</code></td><td>Extracts dots, sprite coordinates, and motion classes from the supplied video</td></tr>
+<tr><td><code>test_browser.py</code></td><td>Browser checks for controls, game behavior, replay, and mobile layout</td></tr>
+<tr><td><code>test_offline.py</code></td><td>Verifies standalone gameplay with browser networking disabled</td></tr>
+<tr><td><code>REPORT.md</code></td><td>Observations, inferred mechanics, assumptions, and usage instructions</td></tr>
+<tr><td><code>evidence/frame_*.png</code></td><td>Source frames sampled every three frames; numbers identify frame indices</td></tr>
+<tr><td><code>evidence/contact_sheet.jpg</code></td><td>Overview of sampled video frames</td></tr>
+<tr><td><code>evidence/inferred.json</code></td><td>Structured measurements, including all 61 tracked frames and initial dot positions</td></tr>
+<tr><td><code>evidence/browser.png</code>, <code>evidence/mobile.png</code></td><td>Desktop and mobile screenshots</td></tr>
+<tr><td><code>evidence/validation.txt</code></td><td>Validation summary</td></tr>
+</tbody></table></div>
+<p>The analysis script requires OpenCV and NumPy. Browser tests require Playwright and Chrome. The game itself does not require those dependencies.</p>
+<p>Validation covers keyboard movement, wall blocking, collection, pause, navigable trajectory coordinates, reachability of every initial dot, replay, power state, both collision outcomes, winning, restarting, and mobile layout and controls. Collision and win checks use controlled states to verify the added rules; they do not prove equivalence with the original game.</p></div></details>
+        <details class="astra-disclosure astra-source"><summary>Inspect code &amp; data</summary><p class="astra-note" style="padding:0 17px">data.js contains the extracted initial dot positions and observed trajectories. inferred.json provides the structured measurements.</p><div class="astra-tablist" role="tablist" aria-label="Pac-Man / White Line Maze source files"><button class="astra-tab" id="pacman-file-0-tab" role="tab" aria-selected="true" aria-controls="pacman-file-0" tabindex="0">game.js</button><button class="astra-tab" id="pacman-file-1-tab" role="tab" aria-selected="false" aria-controls="pacman-file-1" tabindex="-1">data.js</button><button class="astra-tab" id="pacman-file-2-tab" role="tab" aria-selected="false" aria-controls="pacman-file-2" tabindex="-1">inferred.json</button><button class="astra-tab" id="pacman-file-3-tab" role="tab" aria-selected="false" aria-controls="pacman-file-3" tabindex="-1">analyze_video.py</button></div><div class="astra-panel" id="pacman-file-0" role="tabpanel" aria-labelledby="pacman-file-0-tab"><div class="astra-file-tools"><span>game.js · 7,606 bytes</span><a href="astra/pacman/game.js" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>&#x27;use strict&#x27;;
+const canvas=document.querySelector(&#x27;#game&#x27;),ctx=canvas.getContext(&#x27;2d&#x27;),D=window.VIDEO_DATA;
+const dirs={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+const polygons=[];
+function rect(x,y,w,h){polygons.push([[x,y],[x+w,y],[x+w,y+h],[x,y+h]]);}
+for(const y of [80,332]){for(const x of [112,220,544,652])rect(x,y,68,68);rect(328,y,176,68);}
+for(const x of [112,652])for(const y of [188,260])rect(x,y,68,32);
+for(const x of [220,580])rect(x,188,32,104);
+polygons.push([[292,188],[396,188],[396,220],[328,220],[328,260],[504,260],[504,220],[436,220],[436,188],[540,188],[540,292],[292,292]]);
+function inside(x,y,p){let hit=false;for(let i=0,j=p.length-1;i&lt;p.length;j=i++){const a=p[i],b=p[j];if((a[1]&gt;y)!=(b[1]&gt;y)&amp;&amp;x&lt;(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])hit=!hit;}return hit;}
+const open=(x,y)=&gt;x&gt;=0&amp;&amp;x&lt;19&amp;&amp;y&gt;=0&amp;&amp;y&lt;11&amp;&amp;!polygons.some(p=&gt;inside(92+x*36,60+y*36,p));
+const key=(x,y)=&gt;`${x},${y}`;
+let player,enemy,pellets,score,power,elapsed,mode=&#x27;ready&#x27;,resumeMode=&#x27;play&#x27;,enemyWait=0;
+function actor(x,y,dir){return {x,y,dir,target:null};}
+function reset(){player=actor(3,8,&#x27;left&#x27;);player.want=null;enemy=actor(2,0,&#x27;right&#x27;);pellets=new Map(D.pellets.map(([x,y,big])=&gt;[key(x,y),{x,y,big}]));score=0;power=0;elapsed=0;enemyWait=0;}
+function overlay(title,subtitle,button){document.querySelector(&#x27;#overlay&#x27;).hidden=false;document.querySelector(&#x27;#title&#x27;).textContent=title;document.querySelector(&#x27;#subtitle&#x27;).textContent=subtitle;document.querySelector(&#x27;#start&#x27;).textContent=button;}
+function begin(){reset();mode=&#x27;play&#x27;;document.querySelector(&#x27;#overlay&#x27;).hidden=true;canvas.focus();}
+function pause(){if(mode===&#x27;play&#x27;||mode===&#x27;replay&#x27;){resumeMode=mode;mode=&#x27;paused&#x27;;overlay(&#x27;Paused&#x27;,&#x27;Continue when you are ready.&#x27;,&#x27;Resume&#x27;);}else if(mode===&#x27;paused&#x27;){mode=resumeMode;document.querySelector(&#x27;#overlay&#x27;).hidden=true;}}
+function valid(a,d){const [dx,dy]=dirs[d];return open(Math.round(a.x)+dx,Math.round(a.y)+dy);}
+function distances(x,y){const q=[[x,y]],dist=new Map([[key(x,y),0]]);for(let i=0;i&lt;q.length;i++){const [a,b]=q[i];for(const [dx,dy] of Object.values(dirs)){const nx=a+dx,ny=b+dy,k=key(nx,ny);if(open(nx,ny)&amp;&amp;!dist.has(k)){dist.set(k,dist.get(key(a,b))+1);q.push([nx,ny]);}}}return dist;}
+function chooseEnemy(){const dist=distances(Math.round(player.x),Math.round(player.y));const candidates=Object.keys(dirs).filter(d=&gt;valid(enemy,d));candidates.sort((a,b)=&gt;{function cost(d){const [dx,dy]=dirs[d];return dist.get(key(enemy.x+dx,enemy.y+dy))??999;}return (power&gt;0?-1:1)*(cost(a)-cost(b))+(a===enemy.dir?-.05:b===enemy.dir?.05:0);});return candidates[0];}
+function move(a,budget,choose,onArrival){while(budget&gt;1e-8){if(!a.target){const d=choose();if(!d||!valid(a,d))break;a.dir=d;const [dx,dy]=dirs[d];a.target={x:Math.round(a.x)+dx,y:Math.round(a.y)+dy};}const t=a.target,dist=Math.hypot(t.x-a.x,t.y-a.y),step=Math.min(dist,budget);if(dist&gt;0){a.x+=(t.x-a.x)/dist*step;a.y+=(t.y-a.y)/dist*step;}budget-=step;if(step&gt;=dist-1e-8){a.x=t.x;a.y=t.y;a.target=null;if(onArrival)onArrival();}else break;}}
+function consume(){for(const [k,p] of pellets){if(Math.hypot(player.x-p.x,player.y-p.y)&lt;.16){pellets.delete(k);score+=p.big?50:10;if(p.big)power=2.4;}}if(!pellets.size){mode=&#x27;won&#x27;;overlay(&#x27;All dots collected&#x27;,&#x27;You cleared the maze.&#x27;,&#x27;Play again&#x27;);}}
+function update(dt){if(mode!==&#x27;play&#x27;&amp;&amp;mode!==&#x27;replay&#x27;)return;elapsed+=dt;
+ if(mode===&#x27;replay&#x27;){const f=Math.min(60,Math.floor(elapsed*10)),r=D.trace[f];player.x=(r.player[0]-92)/36;player.y=(r.player[1]-60)/36;if(r.motion!==&#x27;stationary&#x27;)player.dir=r.motion;enemy.x=(r.other[0]-92)/36;enemy.y=(r.other[1]-60)/36;power=r.other_gray&lt;180?.1:0;consume();if(elapsed&gt;=6.1){mode=&#x27;replayDone&#x27;;overlay(&#x27;Observed path replay complete&#x27;,&#x27;Now try your own route.&#x27;,&#x27;Start game&#x27;);}return;}
+ power=Math.max(0,power-dt);move(player,120/36*dt,()=&gt;player.want&amp;&amp;valid(player,player.want)?player.want:player.dir,consume);consume();if(mode!==&#x27;play&#x27;)return;
+ if(enemyWait&gt;0)enemyWait-=dt;else move(enemy,90/36*dt,chooseEnemy);
+ if(enemyWait&lt;=0&amp;&amp;Math.hypot(player.x-enemy.x,player.y-enemy.y)&lt;.65){if(power&gt;0){score+=200;enemy=actor(9,5,&#x27;up&#x27;);enemyWait=1;}else{mode=&#x27;lost&#x27;;overlay(&#x27;The chaser caught you&#x27;,&#x27;Turn at junctions or find a power dot in a corner.&#x27;,&#x27;Try again&#x27;);}}}
+function circle(x,y,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();}
+function draw(){ctx.fillStyle=&#x27;#000&#x27;;ctx.fillRect(0,0,832,480);ctx.lineWidth=4;ctx.strokeStyle=&#x27;#fafbf7&#x27;;ctx.strokeRect(74,41,686,400);for(const p of polygons){ctx.beginPath();p.forEach(([x,y],i)=&gt;i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.stroke();}for(const p of pellets.values())circle(92+p.x*36,60+p.y*36,p.big?(elapsed%0.6&lt;.3?9:7):3.3,&#x27;#fafbf7&#x27;);
+ const x=92+player.x*36,y=60+player.y*36,angle={right:0,down:Math.PI/2,left:Math.PI,up:-Math.PI/2}[player.dir],mouth=.08+.46*(.5+.5*Math.sin(elapsed*22));ctx.fillStyle=&#x27;#fff&#x27;;ctx.beginPath();ctx.moveTo(x,y);ctx.arc(x,y,16,angle+mouth,angle+Math.PI*2-mouth);ctx.closePath();ctx.fill();
+ const gx=92+enemy.x*36,gy=60+enemy.y*36;ctx.fillStyle=power&gt;0?&#x27;#777&#x27;:&#x27;#ebebeb&#x27;;ctx.beginPath();ctx.arc(gx,gy,15,Math.PI,0);ctx.lineTo(gx+15,gy+13);ctx.lineTo(gx+8,gy+6);ctx.lineTo(gx,gy+15);ctx.lineTo(gx-8,gy+7);ctx.lineTo(gx-15,gy+15);ctx.closePath();ctx.fill();for(const offset of [-6,6]){circle(gx+offset,gy-5,4,&#x27;#fff&#x27;);circle(gx+offset+1,gy-5,2.3,&#x27;#111&#x27;);}
+ document.querySelector(&#x27;#score&#x27;).textContent=String(score).padStart(4,&#x27;0&#x27;);document.querySelector(&#x27;#remaining&#x27;).textContent=pellets.size;document.querySelector(&#x27;#state&#x27;).textContent=mode===&#x27;replay&#x27;?&#x27;Replaying&#x27;:mode===&#x27;paused&#x27;?&#x27;Paused&#x27;:mode===&#x27;ready&#x27;?&#x27;Ready&#x27;:mode===&#x27;lost&#x27;?&#x27;Game over&#x27;:mode===&#x27;won&#x27;?&#x27;Cleared&#x27;:mode===&#x27;replayDone&#x27;?&#x27;Replay complete&#x27;:power&gt;0?`Power ${power.toFixed(1)}s`:&#x27;Exploring&#x27;;}
+function input(d){if(mode===&#x27;ready&#x27;)begin();if(mode===&#x27;play&#x27;){player.want=d;if(player.target){const [dx,dy]=dirs[d],[ox,oy]=dirs[player.dir];if(dx===-ox&amp;&amp;dy===-oy){player.target={x:player.target.x-ox,y:player.target.y-oy};player.dir=d;}}}}
+document.querySelector(&#x27;#start&#x27;).onclick=()=&gt;mode===&#x27;paused&#x27;?pause():begin();document.querySelector(&#x27;#pause&#x27;).onclick=pause;document.querySelector(&#x27;#restart&#x27;).onclick=begin;document.querySelector(&#x27;#replay&#x27;).onclick=()=&gt;{reset();mode=&#x27;replay&#x27;;document.querySelector(&#x27;#overlay&#x27;).hidden=true;};document.querySelectorAll(&#x27;[data-dir]&#x27;).forEach(b=&gt;b.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{e.preventDefault();input(b.dataset.dir);}));
+window.addEventListener(&#x27;keydown&#x27;,e=&gt;{const d={ArrowUp:&#x27;up&#x27;,ArrowDown:&#x27;down&#x27;,ArrowLeft:&#x27;left&#x27;,ArrowRight:&#x27;right&#x27;,w:&#x27;up&#x27;,s:&#x27;down&#x27;,a:&#x27;left&#x27;,d:&#x27;right&#x27;}[e.key]||{W:&#x27;up&#x27;,S:&#x27;down&#x27;,A:&#x27;left&#x27;,D:&#x27;right&#x27;}[e.key];if(d){e.preventDefault();input(d);}if(e.code===&#x27;Space&#x27;){e.preventDefault();if(!e.repeat)pause();}if(e.key.toLowerCase()===&#x27;r&#x27;)begin();});document.addEventListener(&#x27;visibilitychange&#x27;,()=&gt;{if(document.hidden&amp;&amp;(mode===&#x27;play&#x27;||mode===&#x27;replay&#x27;))pause();});let touchStart;canvas.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{touchStart=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);});canvas.addEventListener(&#x27;pointerup&#x27;,e=&gt;{if(!touchStart)return;const dx=e.clientX-touchStart[0],dy=e.clientY-touchStart[1];if(Math.hypot(dx,dy)&gt;15)input(Math.abs(dx)&gt;Math.abs(dy)?dx&gt;0?&#x27;right&#x27;:&#x27;left&#x27;:dy&gt;0?&#x27;down&#x27;:&#x27;up&#x27;);touchStart=null;});
+reset();let last=0,acc=0;function frame(t){acc+=Math.min((t-last)/1000,.1);last=t;while(acc&gt;=1/120){update(1/120);acc-=1/120;}draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);
+// Read-only inspection surface for verifying geometry and state in a real browser.
+window.maze={snapshot:()=&gt;JSON.parse(JSON.stringify({player,enemy,score,power,mode,remaining:pellets.size})),open};
+</code></pre></div><div class="astra-panel" id="pacman-file-1" role="tabpanel" aria-labelledby="pacman-file-1-tab" hidden><div class="astra-file-tools"><span>data.js · 7,815 bytes</span><a href="astra/pacman/data.js" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>window.VIDEO_DATA = {&quot;fps&quot;: 10.0, &quot;width&quot;: 832, &quot;height&quot;: 480, &quot;grid&quot;: {&quot;origin&quot;: [92, 60], &quot;spacing&quot;: 36, &quot;cols&quot;: 19, &quot;rows&quot;: 11}, &quot;pellets&quot;: [[0, 0, true], [18, 0, true], [1, 0, false], [3, 0, false], [4, 0, false], [5, 0, false], [7, 0, false], [8, 0, false], [9, 0, false], [10, 0, false], [11, 0, false], [12, 0, false], [13, 0, false], [15, 0, false], [16, 0, false], [17, 0, false], [6, 1, false], [12, 1, false], [18, 1, false], [0, 2, false], [6, 2, false], [12, 2, false], [15, 2, false], [18, 2, false], [0, 3, false], [1, 3, false], [2, 3, false], [4, 3, false], [10, 3, false], [12, 3, false], [13, 3, false], [14, 3, false], [15, 3, false], [16, 3, false], [3, 4, false], [9, 4, false], [13, 4, false], [15, 4, false], [0, 5, false], [1, 5, false], [3, 5, false], [7, 5, false], [10, 5, false], [13, 5, false], [15, 5, false], [16, 5, false], [17, 5, false], [18, 5, false], [0, 6, false], [3, 6, false], [13, 6, false], [15, 6, false], [18, 6, false], [1, 7, false], [2, 7, false], [3, 7, false], [4, 7, false], [5, 7, false], [6, 7, false], [8, 7, false], [9, 7, false], [12, 7, false], [13, 7, false], [16, 7, false], [17, 7, false], [18, 7, false], [15, 8, false], [18, 8, false], [0, 9, false], [3, 9, false], [6, 9, false], [12, 9, false], [15, 9, false], [0, 10, true], [18, 10, true], [1, 10, false], [4, 10, false], [5, 10, false], [6, 10, false], [7, 10, false], [8, 10, false], [9, 10, false], [11, 10, false], [12, 10, false], [13, 10, false], [14, 10, false], [15, 10, false], [16, 10, false], [17, 10, false]], &quot;trace&quot;: [{&quot;frame&quot;: 0, &quot;t&quot;: 0.0, &quot;player&quot;: [200, 348], &quot;other&quot;: [164, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;stationary&quot;}, {&quot;frame&quot;: 1, &quot;t&quot;: 0.1, &quot;player&quot;: [200, 348], &quot;other&quot;: [176, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 2, &quot;t&quot;: 0.2, &quot;player&quot;: [200, 336], &quot;other&quot;: [188, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 3, &quot;t&quot;: 0.3, &quot;player&quot;: [200, 324], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 4, &quot;t&quot;: 0.4, &quot;player&quot;: [200, 312], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 5, &quot;t&quot;: 0.5, &quot;player&quot;: [200, 300], &quot;other&quot;: [212, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 6, &quot;t&quot;: 0.6, &quot;player&quot;: [200, 288], &quot;other&quot;: [224, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 7, &quot;t&quot;: 0.7, &quot;player&quot;: [200, 276], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 8, &quot;t&quot;: 0.8, &quot;player&quot;: [200, 264], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 9, &quot;t&quot;: 0.9, &quot;player&quot;: [200, 252], &quot;other&quot;: [248, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 10, &quot;t&quot;: 1.0, &quot;player&quot;: [200, 240], &quot;other&quot;: [260, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 11, &quot;t&quot;: 1.1, &quot;player&quot;: [200, 228], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 12, &quot;t&quot;: 1.2, &quot;player&quot;: [200, 216], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 13, &quot;t&quot;: 1.3, &quot;player&quot;: [200, 204], &quot;other&quot;: [284, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 14, &quot;t&quot;: 1.4, &quot;player&quot;: [200, 192], &quot;other&quot;: [296, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 15, &quot;t&quot;: 1.5, &quot;player&quot;: [200, 180], &quot;other&quot;: [308, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 16, &quot;t&quot;: 1.6, &quot;player&quot;: [200, 168], &quot;other&quot;: [308, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 17, &quot;t&quot;: 1.7, &quot;player&quot;: [188, 168], &quot;other&quot;: [296, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 18, &quot;t&quot;: 1.8, &quot;player&quot;: [176, 168], &quot;other&quot;: [284, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 19, &quot;t&quot;: 1.9, &quot;player&quot;: [164, 168], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 20, &quot;t&quot;: 2.0, &quot;player&quot;: [152, 168], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 21, &quot;t&quot;: 2.1, &quot;player&quot;: [140, 168], &quot;other&quot;: [260, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 22, &quot;t&quot;: 2.2, &quot;player&quot;: [128, 168], &quot;other&quot;: [248, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 23, &quot;t&quot;: 2.3, &quot;player&quot;: [116, 168], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 24, &quot;t&quot;: 2.4, &quot;player&quot;: [104, 168], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;left&quot;}, {&quot;frame&quot;: 25, &quot;t&quot;: 2.5, &quot;player&quot;: [92, 168], &quot;other&quot;: [224, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 26, &quot;t&quot;: 2.6, &quot;player&quot;: [92, 156], &quot;other&quot;: [212, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 27, &quot;t&quot;: 2.7, &quot;player&quot;: [92, 144], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 28, &quot;t&quot;: 2.8, &quot;player&quot;: [92, 132], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 29, &quot;t&quot;: 2.9, &quot;player&quot;: [92, 120], &quot;other&quot;: [188, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 30, &quot;t&quot;: 3.0, &quot;player&quot;: [92, 108], &quot;other&quot;: [176, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 31, &quot;t&quot;: 3.1, &quot;player&quot;: [92, 96], &quot;other&quot;: [164, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 32, &quot;t&quot;: 3.2, &quot;player&quot;: [92, 84], &quot;other&quot;: [164, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 33, &quot;t&quot;: 3.3, &quot;player&quot;: [92, 72], &quot;other&quot;: [152, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 34, &quot;t&quot;: 3.4, &quot;player&quot;: [92, 60], &quot;other&quot;: [188, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;down&quot;}, {&quot;frame&quot;: 35, &quot;t&quot;: 3.5, &quot;player&quot;: [92, 72], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;down&quot;}, {&quot;frame&quot;: 36, &quot;t&quot;: 3.6, &quot;player&quot;: [92, 84], &quot;other&quot;: [200, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;down&quot;}, {&quot;frame&quot;: 37, &quot;t&quot;: 3.7, &quot;player&quot;: [92, 96], &quot;other&quot;: [212, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 38, &quot;t&quot;: 3.8, &quot;player&quot;: [92, 84], &quot;other&quot;: [224, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 39, &quot;t&quot;: 3.9, &quot;player&quot;: [92, 72], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;up&quot;}, {&quot;frame&quot;: 40, &quot;t&quot;: 4.0, &quot;player&quot;: [92, 60], &quot;other&quot;: [236, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 41, &quot;t&quot;: 4.1, &quot;player&quot;: [104, 60], &quot;other&quot;: [248, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 42, &quot;t&quot;: 4.2, &quot;player&quot;: [116, 60], &quot;other&quot;: [260, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 43, &quot;t&quot;: 4.3, &quot;player&quot;: [128, 60], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 44, &quot;t&quot;: 4.4, &quot;player&quot;: [140, 60], &quot;other&quot;: [272, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 45, &quot;t&quot;: 4.5, &quot;player&quot;: [152, 60], &quot;other&quot;: [284, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 46, &quot;t&quot;: 4.6, &quot;player&quot;: [164, 60], &quot;other&quot;: [296, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 47, &quot;t&quot;: 4.7, &quot;player&quot;: [176, 60], &quot;other&quot;: [308, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 48, &quot;t&quot;: 4.8, &quot;player&quot;: [188, 60], &quot;other&quot;: [308, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 49, &quot;t&quot;: 4.9, &quot;player&quot;: [200, 60], &quot;other&quot;: [320, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 50, &quot;t&quot;: 5.0, &quot;player&quot;: [212, 60], &quot;other&quot;: [332, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 51, &quot;t&quot;: 5.1, &quot;player&quot;: [224, 60], &quot;other&quot;: [344, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 52, &quot;t&quot;: 5.2, &quot;player&quot;: [236, 60], &quot;other&quot;: [344, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 53, &quot;t&quot;: 5.3, &quot;player&quot;: [248, 60], &quot;other&quot;: [356, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 54, &quot;t&quot;: 5.4, &quot;player&quot;: [260, 60], &quot;other&quot;: [368, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 55, &quot;t&quot;: 5.5, &quot;player&quot;: [272, 60], &quot;other&quot;: [380, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 56, &quot;t&quot;: 5.6, &quot;player&quot;: [284, 60], &quot;other&quot;: [380, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 57, &quot;t&quot;: 5.7, &quot;player&quot;: [296, 60], &quot;other&quot;: [392, 60], &quot;other_gray&quot;: 119, &quot;motion&quot;: &quot;right&quot;}, {&quot;frame&quot;: 58, &quot;t&quot;: 5.8, &quot;player&quot;: [308, 60], &quot;other&quot;: [404, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;down&quot;}, {&quot;frame&quot;: 59, &quot;t&quot;: 5.9, &quot;player&quot;: [308, 72], &quot;other&quot;: [416, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;down&quot;}, {&quot;frame&quot;: 60, &quot;t&quot;: 6.0, &quot;player&quot;: [308, 84], &quot;other&quot;: [416, 60], &quot;other_gray&quot;: 235, &quot;motion&quot;: &quot;stationary&quot;}]};
+</code></pre></div><div class="astra-panel" id="pacman-file-2" role="tabpanel" aria-labelledby="pacman-file-2-tab" hidden><div class="astra-file-tools"><span>evidence/inferred.json · 16,079 bytes</span><a href="astra/pacman/evidence/inferred.json" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>{
+  &quot;fps&quot;: 10.0,
+  &quot;width&quot;: 832,
+  &quot;height&quot;: 480,
+  &quot;grid&quot;: {
+    &quot;origin&quot;: [
+      92,
+      60
+    ],
+    &quot;spacing&quot;: 36,
+    &quot;cols&quot;: 19,
+    &quot;rows&quot;: 11
+  },
+  &quot;pellets&quot;: [
+    [
+      0,
+      0,
+      true
+    ],
+    [
+      18,
+      0,
+      true
+    ],
+    [
+      1,
+      0,
+      false
+    ],
+    [
+      3,
+      0,
+      false
+    ],
+    [
+      4,
+      0,
+      false
+    ],
+    [
+      5,
+      0,
+      false
+    ],
+    [
+      7,
+      0,
+      false
+    ],
+    [
+      8,
+      0,
+      false
+    ],
+    [
+      9,
+      0,
+      false
+    ],
+    [
+      10,
+      0,
+      false
+    ],
+    [
+      11,
+      0,
+      false
+    ],
+    [
+      12,
+      0,
+      false
+    ],
+    [
+      13,
+      0,
+      false
+    ],
+    [
+      15,
+      0,
+      false
+    ],
+    [
+      16,
+      0,
+      false
+    ],
+    [
+      17,
+      0,
+      false
+    ],
+    [
+      6,
+      1,
+      false
+    ],
+    [
+      12,
+      1,
+      false
+    ],
+    [
+      18,
+      1,
+      false
+    ],
+    [
+      0,
+      2,
+      false
+    ],
+    [
+      6,
+      2,
+      false
+    ],
+    [
+      12,
+      2,
+      false
+    ],
+    [
+      15,
+      2,
+      false
+    ],
+    [
+      18,
+      2,
+      false
+    ],
+    [
+      0,
+      3,
+      false
+    ],
+    [
+      1,
+      3,
+      false
+    ],
+    [
+      2,
+      3,
+      false
+    ],
+    [
+      4,
+      3,
+      false
+    ],
+    [
+      10,
+      3,
+      false
+    ],
+    [
+      12,
+      3,
+      false
+    ],
+    [
+      13,
+      3,
+      false
+    ],
+    [
+      14,
+      3,
+      false
+    ],
+    [
+      15,
+      3,
+      false
+    ],
+    [
+      16,
+      3,
+      false
+    ],
+    [
+      3,
+      4,
+      false
+    ],
+    [
+      9,
+      4,
+      false
+    ],
+    [
+      13,
+      4,
+      false
+    ],
+    [
+      15,
+      4,
+      false
+    ],
+    [
+      0,
+      5,
+      false
+    ],
+    [
+      1,
+      5,
+      false
+    ],
+    [
+      3,
+      5,
+      false
+    ],
+    [
+      7,
+      5,
+      false
+    ],
+    [
+      10,
+      5,
+      false
+    ],
+    [
+      13,
+      5,
+      false
+    ],
+    [
+      15,
+      5,
+      false
+    ],
+    [
+      16,
+      5,
+      false
+    ],
+    [
+      17,
+      5,
+      false
+    ],
+    [
+      18,
+      5,
+      false
+    ],
+    [
+      0,
+      6,
+      false
+    ],
+    [
+      3,
+      6,
+      false
+    ],
+    [
+      13,
+      6,
+      false
+    ],
+    [
+      15,
+      6,
+      false
+    ],
+    [
+      18,
+      6,
+      false
+    ],
+    [
+      1,
+      7,
+      false
+    ],
+    [
+      2,
+      7,
+      false
+    ],
+    [
+      3,
+      7,
+      false
+    ],
+    [
+      4,
+      7,
+      false
+    ],
+    [
+      5,
+      7,
+      false
+    ],
+    [
+      6,
+      7,
+      false
+    ],
+    [
+      8,
+      7,
+      false
+    ],
+    [
+      9,
+      7,
+      false
+    ],
+    [
+      12,
+      7,
+      false
+    ],
+    [
+      13,
+      7,
+      false
+    ],
+    [
+      16,
+      7,
+      false
+    ],
+    [
+      17,
+      7,
+      false
+    ],
+    [
+      18,
+      7,
+      false
+    ],
+    [
+      15,
+      8,
+      false
+    ],
+    [
+      18,
+      8,
+      false
+    ],
+    [
+      0,
+      9,
+      false
+    ],
+    [
+      3,
+      9,
+      false
+    ],
+    [
+      6,
+      9,
+      false
+    ],
+    [
+      12,
+      9,
+      false
+    ],
+    [
+      15,
+      9,
+      false
+    ],
+    [
+      0,
+      10,
+      true
+    ],
+    [
+      18,
+      10,
+      true
+    ],
+    [
+      1,
+      10,
+      false
+    ],
+    [
+      4,
+      10,
+      false
+    ],
+    [
+      5,
+      10,
+      false
+    ],
+    [
+      6,
+      10,
+      false
+    ],
+    [
+      7,
+      10,
+      false
+    ],
+    [
+      8,
+      10,
+      false
+    ],
+    [
+      9,
+      10,
+      false
+    ],
+    [
+      11,
+      10,
+      false
+    ],
+    [
+      12,
+      10,
+      false
+    ],
+    [
+      13,
+      10,
+      false
+    ],
+    [
+      14,
+      10,
+      false
+    ],
+    [
+      15,
+      10,
+      false
+    ],
+    [
+      16,
+      10,
+      false
+    ],
+    [
+      17,
+      10,
+      false
+    ]
+  ],
+  &quot;trace&quot;: [
+    {
+      &quot;frame&quot;: 0,
+      &quot;t&quot;: 0.0,
+      &quot;player&quot;: [
+        200,
+        348
+      ],
+      &quot;other&quot;: [
+        164,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;stationary&quot;
+    },
+    {
+      &quot;frame&quot;: 1,
+      &quot;t&quot;: 0.1,
+      &quot;player&quot;: [
+        200,
+        348
+      ],
+      &quot;other&quot;: [
+        176,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 2,
+      &quot;t&quot;: 0.2,
+      &quot;player&quot;: [
+        200,
+        336
+      ],
+      &quot;other&quot;: [
+        188,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 3,
+      &quot;t&quot;: 0.3,
+      &quot;player&quot;: [
+        200,
+        324
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 4,
+      &quot;t&quot;: 0.4,
+      &quot;player&quot;: [
+        200,
+        312
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 5,
+      &quot;t&quot;: 0.5,
+      &quot;player&quot;: [
+        200,
+        300
+      ],
+      &quot;other&quot;: [
+        212,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 6,
+      &quot;t&quot;: 0.6,
+      &quot;player&quot;: [
+        200,
+        288
+      ],
+      &quot;other&quot;: [
+        224,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 7,
+      &quot;t&quot;: 0.7,
+      &quot;player&quot;: [
+        200,
+        276
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 8,
+      &quot;t&quot;: 0.8,
+      &quot;player&quot;: [
+        200,
+        264
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 9,
+      &quot;t&quot;: 0.9,
+      &quot;player&quot;: [
+        200,
+        252
+      ],
+      &quot;other&quot;: [
+        248,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 10,
+      &quot;t&quot;: 1.0,
+      &quot;player&quot;: [
+        200,
+        240
+      ],
+      &quot;other&quot;: [
+        260,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 11,
+      &quot;t&quot;: 1.1,
+      &quot;player&quot;: [
+        200,
+        228
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 12,
+      &quot;t&quot;: 1.2,
+      &quot;player&quot;: [
+        200,
+        216
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 13,
+      &quot;t&quot;: 1.3,
+      &quot;player&quot;: [
+        200,
+        204
+      ],
+      &quot;other&quot;: [
+        284,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 14,
+      &quot;t&quot;: 1.4,
+      &quot;player&quot;: [
+        200,
+        192
+      ],
+      &quot;other&quot;: [
+        296,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 15,
+      &quot;t&quot;: 1.5,
+      &quot;player&quot;: [
+        200,
+        180
+      ],
+      &quot;other&quot;: [
+        308,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 16,
+      &quot;t&quot;: 1.6,
+      &quot;player&quot;: [
+        200,
+        168
+      ],
+      &quot;other&quot;: [
+        308,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 17,
+      &quot;t&quot;: 1.7,
+      &quot;player&quot;: [
+        188,
+        168
+      ],
+      &quot;other&quot;: [
+        296,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 18,
+      &quot;t&quot;: 1.8,
+      &quot;player&quot;: [
+        176,
+        168
+      ],
+      &quot;other&quot;: [
+        284,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 19,
+      &quot;t&quot;: 1.9,
+      &quot;player&quot;: [
+        164,
+        168
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 20,
+      &quot;t&quot;: 2.0,
+      &quot;player&quot;: [
+        152,
+        168
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 21,
+      &quot;t&quot;: 2.1,
+      &quot;player&quot;: [
+        140,
+        168
+      ],
+      &quot;other&quot;: [
+        260,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 22,
+      &quot;t&quot;: 2.2,
+      &quot;player&quot;: [
+        128,
+        168
+      ],
+      &quot;other&quot;: [
+        248,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 23,
+      &quot;t&quot;: 2.3,
+      &quot;player&quot;: [
+        116,
+        168
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 24,
+      &quot;t&quot;: 2.4,
+      &quot;player&quot;: [
+        104,
+        168
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;left&quot;
+    },
+    {
+      &quot;frame&quot;: 25,
+      &quot;t&quot;: 2.5,
+      &quot;player&quot;: [
+        92,
+        168
+      ],
+      &quot;other&quot;: [
+        224,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 26,
+      &quot;t&quot;: 2.6,
+      &quot;player&quot;: [
+        92,
+        156
+      ],
+      &quot;other&quot;: [
+        212,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 27,
+      &quot;t&quot;: 2.7,
+      &quot;player&quot;: [
+        92,
+        144
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 28,
+      &quot;t&quot;: 2.8,
+      &quot;player&quot;: [
+        92,
+        132
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 29,
+      &quot;t&quot;: 2.9,
+      &quot;player&quot;: [
+        92,
+        120
+      ],
+      &quot;other&quot;: [
+        188,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 30,
+      &quot;t&quot;: 3.0,
+      &quot;player&quot;: [
+        92,
+        108
+      ],
+      &quot;other&quot;: [
+        176,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 31,
+      &quot;t&quot;: 3.1,
+      &quot;player&quot;: [
+        92,
+        96
+      ],
+      &quot;other&quot;: [
+        164,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 32,
+      &quot;t&quot;: 3.2,
+      &quot;player&quot;: [
+        92,
+        84
+      ],
+      &quot;other&quot;: [
+        164,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 33,
+      &quot;t&quot;: 3.3,
+      &quot;player&quot;: [
+        92,
+        72
+      ],
+      &quot;other&quot;: [
+        152,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 34,
+      &quot;t&quot;: 3.4,
+      &quot;player&quot;: [
+        92,
+        60
+      ],
+      &quot;other&quot;: [
+        188,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;down&quot;
+    },
+    {
+      &quot;frame&quot;: 35,
+      &quot;t&quot;: 3.5,
+      &quot;player&quot;: [
+        92,
+        72
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;down&quot;
+    },
+    {
+      &quot;frame&quot;: 36,
+      &quot;t&quot;: 3.6,
+      &quot;player&quot;: [
+        92,
+        84
+      ],
+      &quot;other&quot;: [
+        200,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;down&quot;
+    },
+    {
+      &quot;frame&quot;: 37,
+      &quot;t&quot;: 3.7,
+      &quot;player&quot;: [
+        92,
+        96
+      ],
+      &quot;other&quot;: [
+        212,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 38,
+      &quot;t&quot;: 3.8,
+      &quot;player&quot;: [
+        92,
+        84
+      ],
+      &quot;other&quot;: [
+        224,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 39,
+      &quot;t&quot;: 3.9,
+      &quot;player&quot;: [
+        92,
+        72
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;up&quot;
+    },
+    {
+      &quot;frame&quot;: 40,
+      &quot;t&quot;: 4.0,
+      &quot;player&quot;: [
+        92,
+        60
+      ],
+      &quot;other&quot;: [
+        236,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 41,
+      &quot;t&quot;: 4.1,
+      &quot;player&quot;: [
+        104,
+        60
+      ],
+      &quot;other&quot;: [
+        248,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 42,
+      &quot;t&quot;: 4.2,
+      &quot;player&quot;: [
+        116,
+        60
+      ],
+      &quot;other&quot;: [
+        260,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 43,
+      &quot;t&quot;: 4.3,
+      &quot;player&quot;: [
+        128,
+        60
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 44,
+      &quot;t&quot;: 4.4,
+      &quot;player&quot;: [
+        140,
+        60
+      ],
+      &quot;other&quot;: [
+        272,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 45,
+      &quot;t&quot;: 4.5,
+      &quot;player&quot;: [
+        152,
+        60
+      ],
+      &quot;other&quot;: [
+        284,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 46,
+      &quot;t&quot;: 4.6,
+      &quot;player&quot;: [
+        164,
+        60
+      ],
+      &quot;other&quot;: [
+        296,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 47,
+      &quot;t&quot;: 4.7,
+      &quot;player&quot;: [
+        176,
+        60
+      ],
+      &quot;other&quot;: [
+        308,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 48,
+      &quot;t&quot;: 4.8,
+      &quot;player&quot;: [
+        188,
+        60
+      ],
+      &quot;other&quot;: [
+        308,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 49,
+      &quot;t&quot;: 4.9,
+      &quot;player&quot;: [
+        200,
+        60
+      ],
+      &quot;other&quot;: [
+        320,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 50,
+      &quot;t&quot;: 5.0,
+      &quot;player&quot;: [
+        212,
+        60
+      ],
+      &quot;other&quot;: [
+        332,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 51,
+      &quot;t&quot;: 5.1,
+      &quot;player&quot;: [
+        224,
+        60
+      ],
+      &quot;other&quot;: [
+        344,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 52,
+      &quot;t&quot;: 5.2,
+      &quot;player&quot;: [
+        236,
+        60
+      ],
+      &quot;other&quot;: [
+        344,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 53,
+      &quot;t&quot;: 5.3,
+      &quot;player&quot;: [
+        248,
+        60
+      ],
+      &quot;other&quot;: [
+        356,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 54,
+      &quot;t&quot;: 5.4,
+      &quot;player&quot;: [
+        260,
+        60
+      ],
+      &quot;other&quot;: [
+        368,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 55,
+      &quot;t&quot;: 5.5,
+      &quot;player&quot;: [
+        272,
+        60
+      ],
+      &quot;other&quot;: [
+        380,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 56,
+      &quot;t&quot;: 5.6,
+      &quot;player&quot;: [
+        284,
+        60
+      ],
+      &quot;other&quot;: [
+        380,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 57,
+      &quot;t&quot;: 5.7,
+      &quot;player&quot;: [
+        296,
+        60
+      ],
+      &quot;other&quot;: [
+        392,
+        60
+      ],
+      &quot;other_gray&quot;: 119,
+      &quot;motion&quot;: &quot;right&quot;
+    },
+    {
+      &quot;frame&quot;: 58,
+      &quot;t&quot;: 5.8,
+      &quot;player&quot;: [
+        308,
+        60
+      ],
+      &quot;other&quot;: [
+        404,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;down&quot;
+    },
+    {
+      &quot;frame&quot;: 59,
+      &quot;t&quot;: 5.9,
+      &quot;player&quot;: [
+        308,
+        72
+      ],
+      &quot;other&quot;: [
+        416,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;down&quot;
+    },
+    {
+      &quot;frame&quot;: 60,
+      &quot;t&quot;: 6.0,
+      &quot;player&quot;: [
+        308,
+        84
+      ],
+      &quot;other&quot;: [
+        416,
+        60
+      ],
+      &quot;other_gray&quot;: 235,
+      &quot;motion&quot;: &quot;stationary&quot;
+    }
+  ]
+}</code></pre></div><div class="astra-panel" id="pacman-file-3" role="tabpanel" aria-labelledby="pacman-file-3-tab" hidden><div class="astra-file-tools"><span>analyze_video.py · 2,133 bytes</span><a href="astra/pacman/analyze_video.py" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>&quot;&quot;&quot;Only input: the user-provided MP4. No game code or labels are read.&quot;&quot;&quot;
+import cv2, json, pathlib, numpy as np
+ROOT=pathlib.Path(__file__).resolve().parent
+SOURCE=ROOT.parent/&#x27;cosmos/datasets/pacman/videos/ep0000_style_1_classic_bw.mp4&#x27;
+cap=cv2.VideoCapture(str(SOURCE)); fps=cap.get(cv2.CAP_PROP_FPS)
+trace=[]; prev=np.array([200,348]); pellets=[]
+for i in range(int(cap.get(cv2.CAP_PROP_FRAME_COUNT))):
+    ok,frame=cap.read()
+    if not ok: break
+    gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+    n,labels,stats,centers=cv2.connectedComponentsWithStats((gray&gt;70).astype(&#x27;uint8&#x27;))
+    candidates=[]
+    for j in range(1,n):
+        x,y,w,h,area=map(int,stats[j]); cx,cy=centers[j]
+        if i==0 and 35&lt;cy&lt;440 and ((3&lt;=w&lt;=9 and 3&lt;=h&lt;=9) or (15&lt;=w&lt;=20 and 15&lt;=h&lt;=20)):
+            pellets.append([round((cx-92)/36),round((cy-60)/36),w&gt;10])
+        if 25&lt;=w&lt;=35 and 25&lt;=h&lt;=50 and area&gt;400:
+            # Bounding box centers avoid bias from the animated mouth, then snap to observed 12px substeps.
+            candidates.append(np.array([92+12*round((x+w/2-92)/12),60+12*round(((y+h-16 if h&gt;32 else y+h/2)-60)/12)]))
+    p=min(candidates,key=lambda a:np.linalg.norm(a-prev)); g=max(candidates,key=lambda a:np.linalg.norm(a-p)); prev=p
+    trace.append({&#x27;frame&#x27;:i,&#x27;t&#x27;:round(i/fps,2),&#x27;player&#x27;:p.tolist(),&#x27;other&#x27;:g.tolist(),&#x27;other_gray&#x27;:int(gray[int(g[1]+5),int(g[0])])})
+for i,row in enumerate(trace):
+    d=np.array(trace[min(i+1,len(trace)-1)][&#x27;player&#x27;])-row[&#x27;player&#x27;]
+    row[&#x27;motion&#x27;]=&#x27;right&#x27; if d[0]&gt;0 else &#x27;left&#x27; if d[0]&lt;0 else &#x27;down&#x27; if d[1]&gt;0 else &#x27;up&#x27; if d[1]&lt;0 else &#x27;stationary&#x27;
+data={&#x27;fps&#x27;:fps,&#x27;width&#x27;:832,&#x27;height&#x27;:480,&#x27;grid&#x27;:{&#x27;origin&#x27;:[92,60],&#x27;spacing&#x27;:36,&#x27;cols&#x27;:19,&#x27;rows&#x27;:11},&#x27;pellets&#x27;:pellets,&#x27;trace&#x27;:trace}
+(ROOT/&#x27;evidence/inferred.json&#x27;).write_text(json.dumps(data,indent=2))
+(ROOT/&#x27;data.js&#x27;).write_text(&#x27;window.VIDEO_DATA = &#x27;+json.dumps(data)+&#x27;;\n&#x27;)
+print(&#x27;visible pellets:&#x27;,len(pellets),&#x27;frames:&#x27;,len(trace))
+print(&#x27;movement runs:&#x27;)
+last=None
+for r in trace:
+ if r[&#x27;motion&#x27;]!=last: print(r[&#x27;t&#x27;],r[&#x27;player&#x27;],r[&#x27;motion&#x27;]); last=r[&#x27;motion&#x27;]
+print(&#x27;other brightness:&#x27;,[(r[&#x27;t&#x27;],r[&#x27;other_gray&#x27;]) for r in trace[::5]])
+</code></pre></div></details>
+        <div class="astra-play"><div class="astra-play-head"><strong>OUTPUT / PLAY THE RECREATION</strong><div class="astra-play-links"><button class="astra-button astra-stop" data-stop-game hidden>Close game</button><a href="astra/pacman/index.html" target="_blank" rel="noopener">Open full game ↗</a><a href="astra/pacman/play.html" download>Download offline HTML ↓</a></div></div>
+          <div class="astra-launcher"><img src="astra/pacman/evidence/browser.png" alt="Screenshot of the recreated Pac-Man / White Line Maze game" loading="lazy"><div><p>Arrow keys or WASD to move. Space pauses; R restarts. Touch controls are included.</p><button class="astra-button" data-start-game>Play here →</button></div></div>
+          <iframe class="astra-game-frame" title="Playable Pac-Man / White Line Maze" data-src="astra/pacman/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        </div><p class="astra-status" role="status" aria-live="polite">Loads only when you choose Play here.</p><p class="astra-case-foot">Scoring, collision outcomes, the win condition, and the chasing policy include explicit reconstruction assumptions.</p>
+      </div>
+    </article>
+    <article class="astra-case" id="astra-angry-birds">
+      <div class="astra-case-head"><div><span class="astra-label">ASTRA / 02</span><h3>Angry Birds / Timber &amp; Flight</h3><p>A two-dimensional pull-and-release action, projectile flight, and a collapsing structure reconstructed from a screen recording.</p></div><span class="astra-badge">Video → playable code</span></div>
+      <div class="astra-body">
+        <div class="astra-inputs"><div><span class="astra-block-label">INPUT / PROMPT</span><blockquote class="astra-prompt">Read the video. Assume you do not know what game it is beforehand. Based only on the video, can you infer the agent’s action latents or some of the game mechanics, then write a program that recreates the game so I can play it?</blockquote></div>
+        <figure><span class="astra-block-label">INPUT / REFERENCE VIDEO</span><video controls playsinline preload="none" poster="astra/angry-birds/evidence/crop_frame_00000.png" src="astra/angry-birds/reference.webm"></video><figcaption><span class="cap-title">11.2 s · 657 frames · 1920 × 1080 source</span><span class="cap-panes">Gameplay-only crop of the supplied screen recording, re-encoded as WebM without audio. The original includes browser chrome; the game camera pans and zooms.</span></figcaption></figure></div>
+        <div class="astra-findings"><span>Action: pull vector + release</span><span>3 visible birds</span><span>Wood + blue supports</span><span>5,000-point target popup</span></div>
+        <details class="astra-disclosure astra-report"><summary>Read REPORT.md — observations, actions, and assumptions</summary><div class="astra-file-tools"><a href="astra/angry-birds/REPORT.md" download>Download REPORT.md ↓</a><span>Full report from this result</span></div><div class="astra-document" tabindex="0"><h2>Timber &amp; Flight: reconstructing a game from a screen recording</h2>
+<p><strong>Input:</strong> <code>Screen Recording 2026-09-10 at 10.12.32.mov</code> (1920×1080, 657 decoded frames, approximately 11.2 seconds).</p>
+<p><strong>Output:</strong> An English browser game with drag-and-release aiming, projectile flight, a destructible wooden tower, blue supports, one green target, three birds, scoring, and offline playback of the cropped reference video.</p>
+<p>The supplied recording was the only source for game-specific observations. No original game code, dataset labels, existing recreation projects, or external gameplay guides were read. The video itself visibly identifies the original game, so this is not a claim of being unaware of its name. A generic physics library was used to implement the inferred interactions.</p>
+<h3>What was observed</h3>
+<div class="astra-table-wrap"><table><thead><tr><th>Evidence in the video</th><th>Interpretation</th><th>Confidence</th></tr></thead><tbody>
+<tr><td>The beginning shows a tall wooden frame, a green target, and two blue inner supports</td><td>A level assembled from separate structural pieces, with distinct visual materials</td><td>High for geometry and appearance; material properties remain unknown</td></tr>
+<tr><td>The camera moves from the tower to the launcher</td><td>Screen coordinates are camera-dependent</td><td>High; zoom also changes apparent size</td></tr>
+<tr><td>One red character is loaded and two more wait nearby</td><td>Three visible birds, likely sequential attempts</td><td>High for count; subsequent loading is not shown</td></tr>
+<tr><td>The loaded character moves left and down while two bands stretch</td><td>Aim can be represented by a two-dimensional pull vector</td><td>High for motion; the underlying mouse, touch, or controller input is not visible</td></tr>
+<tr><td>Release is followed by upward/rightward flight, an apex, then descent</td><td>A ballistic model with gravity is a useful approximation</td><td>High for qualitative motion; exact acceleration cannot be recovered from this recording</td></tr>
+<tr><td>The character reaches the upper frame and the structure rotates and breaks</td><td>Rigid-body impacts, loss of support, and breakable materials</td><td>High qualitatively; masses, friction, and fracture thresholds are unidentified</td></tr>
+<tr><td>The green target disappears and a green <code>5000</code> popup appears</td><td>Target removal contributes approximately 5,000 points</td><td>High for the visible popup and disappearance; exact collision criteria are unknown</td></tr>
+<tr><td>The displayed score rises from 0 to 9560 during collapse</td><td>Scoring includes more than the target alone</td><td>High; individual damage and destruction rewards cannot be fully separated</td></tr>
+<tr><td>The clip ends during the aftermath</td><td>Victory UI, failure rules, and later levels are not observed</td><td>High</td></tr>
+</tbody></table></div>
+<p>Approximate event times:</p>
+<ul>
+<li><strong>0.0–1.2 s:</strong> initial tower view and camera movement toward the launcher.</li>
+<li><strong>1.8–4.4 s:</strong> the loaded bird rests at the launcher, with two waiting birds visible.</li>
+<li><strong>4.5–6.86 s:</strong> the bird is held behind/below the launcher, with small aiming adjustments.</li>
+<li><strong>6.9 s:</strong> release; the bird starts free flight.</li>
+<li><strong>7.0–8.2 s:</strong> flight with camera pan and zoom; the apex is visible near 8.0 s in screen coordinates.</li>
+<li><strong>8.25–8.4 s:</strong> upper-frame impact, target removal, and scoring effects.</li>
+<li><strong>8.4–11.2 s:</strong> structural collapse continues; no completion screen is shown.</li>
+</ul>
+<p>These timestamps use decoded frame indices divided by nominal average FPS. The source is a screen recording; repeated imagery and frame timing make them approximate rather than exact input timestamps.</p>
+<h3>Action representation</h3>
+<p>An interpretable action representation is:</p>
+<pre><code>z = (phase, pull_dx, pull_dy)
+phase ∈ {loaded, pulling, holding, released, passive_flight}
+launch_velocity ≈ -k × pull_vector</code></pre>
+<p>The stable pre-release view shows the main red region moving roughly from <code>(427,377)</code> to <code>(271,457)</code> in the gameplay crop. This implies a pull of about <code>(-156,+80)</code> image pixels, or a launch direction about 27° above the rightward horizontal. These are segmented red-region centroids, not calibrated sprite centers or original control values.</p>
+<p>The vector suggests direction; it does not identify the original spring constant. One observed pull cannot establish whether launch speed is linear, capped, nonlinear, or otherwise transformed. The reconstruction uses a capped linear mapping as a practical choice.</p>
+<p><code>evidence/action_latents.json</code> records this abstraction and its limitations. No neural network was trained and no original action labels were used.</p>
+<h3>Video analysis</h3>
+<p>The fixed gameplay crop is <code>(x=60, y=239, width=1248, height=697)</code>, excluding the browser, recommendations, and emulator menu. The cropped reference is encoded as local WebM for browser playback.</p>
+<p><code>analyze_video.py</code> performs:</p>
+<ol>
+<li>Sequential decoding of the supplied MOV.</li>
+<li>Cropping the gameplay region and writing a reduced-resolution reference video.</li>
+<li>Sampling approximately every six frames.</li>
+<li>Extracting red connected components as candidate character regions.</li>
+<li>Tracking image corners and taking median horizontal optical flow as a rough camera-motion estimate.</li>
+<li>Saving measurements and an annotated event list in <code>evidence/inferred.json</code>.</li>
+</ol>
+<p>The red candidates are not guaranteed character identities: waiting birds, beaks, effects, and fragments can also qualify. The camera estimate is unreliable during zoom, large pans, and scenes with too few matched points. It is diagnostic evidence, not an accurate world-coordinate trajectory. Physics parameters were therefore chosen for playability instead of being presented as fitted physical constants.</p>
+<p>Tower geometry was manually transcribed from the first clear frame into 12 dynamic rectangular pieces: 10 wood pieces and 2 blue supports, plus one circular green target. A fixed deck and the ground support them. Relative structure proportions are preserved approximately; launcher-to-tower distance is estimated because the whole level is not shown at one fixed scale.</p>
+<h3>Implementation choices and limits</h3>
+<ul>
+<li><strong>World:</strong> a 1280×720 canvas shows the whole level. The source pans and zooms; the recreation uses a fixed camera for aiming and touch accessibility.</li>
+<li><strong>Actions:</strong> drag the bird backward and release. Angle/strength sliders offer an alternative. An aim preview, a sample shot, pause, restart, and a next-bird button are added conveniences.</li>
+<li><strong>Flight:</strong> pull radius is capped at 104 canvas pixels. Initial velocity is proportional to the opposite pull vector. Gravity and playback speed are tuned constants, not measurements of the original game&#x27;s internal settings.</li>
+<li><strong>Physics:</strong> independent rigid bodies collide, rotate, settle, and lose support. The frame is not an animation triggered by a hit. Blue supports have lower durability than wood; this relative strength is an assumption.</li>
+<li><strong>Damage:</strong> relative collision speed determines damage. Broken pieces are removed from the physics world and replaced with visual fragments. Fragment-by-fragment fracture physics is not reproduced.</li>
+<li><strong>Scores:</strong> removing the green target gives 5,000 points, consistent with the observed popup. Wood gives 150 and blue supports 300 when destroyed; these individual rewards are chosen and do not reproduce the original final score of 9560.</li>
+<li><strong>Attempts:</strong> three birds are available, matching the visible count. Reuse timing, clearing the target as the win condition, and failure after three missed attempts are added rules.</li>
+<li><strong>Artwork:</strong> the bird, target, landscape, launcher, wood, and supports are redrawn using canvas paths. No art assets were extracted from external games. This is a visual approximation, not a pixel-perfect copy.</li>
+<li><strong>Audio and extra powers:</strong> omitted because this analysis did not establish their mechanics. The source is available for visual comparison; the generated reference video contains no audio.</li>
+</ul>
+<p>The physical response follows the general-purpose <a href="https://brm.io/matter-js/docs/classes/Body.html" target="_blank" rel="noopener">Matter.js Body API</a> and <a href="https://brm.io/matter-js/docs/classes/Engine.html" target="_blank" rel="noopener">Engine API</a>. Matter.js 0.20.0 is vendored locally under its MIT license in <code>vendor/LICENSE-matter.txt</code>. Those references were used for implementation, not to infer the original game&#x27;s rules.</p>
+<h3>Run and edit</h3>
+<p>Download <strong><code>play.html</code></strong> to your own computer and open it with Chrome or Edge. The game, physics engine, cropped video, and report are embedded in one file. No server or network connection is required.</p>
+<p>For development, open <code>index.html</code> alongside <code>game.js</code> and <code>vendor/matter.min.js</code>. Edit <code>game.js</code> to change physics or rendering and <code>index.html</code> to change the interface. Run <code>python3 build.py</code> afterward to regenerate the standalone file and ZIP archive.</p>
+<p>Controls:</p>
+<ul>
+<li>Drag the loaded red bird left/down, then release to launch right/up.</li>
+<li>Alternatively set angle and strength and press <strong>Launch with these settings</strong>.</li>
+<li><strong>Try a sample shot</strong> demonstrates a useful angle; it is not a replay of the measured source trajectory.</li>
+<li><strong>R:</strong> reset. <strong>Space:</strong> pause/resume when focus is outside native controls. <strong>N:</strong> load the next bird once available.</li>
+<li>Native buttons, sliders, and video retain their normal keyboard behavior.</li>
+</ul>
+<h3>Files</h3>
+<div class="astra-table-wrap"><table><thead><tr><th>File</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>index.html</code></td><td>English interface, layout, styles, and development entry point</td></tr>
+<tr><td><code>game.js</code></td><td>Physics state, level geometry, rendering, input, damage, score, and attempt handling</td></tr>
+<tr><td><code>play.html</code></td><td>Standalone offline game with embedded engine, source crop, and report</td></tr>
+<tr><td><code>reference.webm</code></td><td>Gameplay-only crop of the supplied recording</td></tr>
+<tr><td><code>analyze_video.py</code></td><td>Reproducible video analysis and crop export</td></tr>
+<tr><td><code>build.py</code></td><td>Rebuilds the standalone page and distributable ZIP</td></tr>
+<tr><td><code>test_browser.py</code></td><td>Browser checks for launch, physics, progression, controls, mobile layout, and offline use</td></tr>
+<tr><td><code>check_game.py</code></td><td>Development diagnostic: state snapshots and rendered previews</td></tr>
+<tr><td><code>REPORT.md</code></td><td>This evidence and implementation report</td></tr>
+<tr><td><code>vendor/matter.min.js</code></td><td>Local generic physics engine</td></tr>
+<tr><td><code>vendor/LICENSE-matter.txt</code></td><td>Engine license</td></tr>
+<tr><td><code>evidence/metadata.json</code></td><td>Source resolution, frame count, average FPS, and duration</td></tr>
+<tr><td><code>evidence/inferred.json</code></td><td>Red-region measurements, approximate camera flow, and events</td></tr>
+<tr><td><code>evidence/action_latents.json</code></td><td>Interpretable action phases and approximate pull vector</td></tr>
+<tr><td><code>evidence/frame_*.png</code></td><td>Sampled original recording frames</td></tr>
+<tr><td><code>evidence/crop_frame_*.png</code></td><td>Selected gameplay-only screenshots</td></tr>
+<tr><td><code>evidence/contact_sheet.jpg</code></td><td>Overview of the sampled recording</td></tr>
+<tr><td><code>evidence/browser.png</code>, <code>evidence/mobile.png</code>, <code>evidence/after_shot.png</code></td><td>Recreation screenshots</td></tr>
+<tr><td><code>evidence/validation.json</code></td><td>Browser validation results</td></tr>
+</tbody></table></div>
+<p>Analysis requires Python, OpenCV, and NumPy. Testing requires Python, Playwright, and Chrome. Building uses only the Python standard library. Playing requires only a browser.</p></div></details>
+        <details class="astra-disclosure astra-source"><summary>Inspect code &amp; data</summary><p class="astra-note" style="padding:0 17px">This result has no data.js. Its recorded data is in inferred.json and action_latents.json; the level geometry is defined in game.js.</p><div class="astra-tablist" role="tablist" aria-label="Angry Birds / Timber &amp; Flight source files"><button class="astra-tab" id="angry-birds-file-0-tab" role="tab" aria-selected="true" aria-controls="angry-birds-file-0" tabindex="0">game.js</button><button class="astra-tab" id="angry-birds-file-1-tab" role="tab" aria-selected="false" aria-controls="angry-birds-file-1" tabindex="-1">inferred.json</button><button class="astra-tab" id="angry-birds-file-2-tab" role="tab" aria-selected="false" aria-controls="angry-birds-file-2" tabindex="-1">action_latents.json</button><button class="astra-tab" id="angry-birds-file-3-tab" role="tab" aria-selected="false" aria-controls="angry-birds-file-3" tabindex="-1">analyze_video.py</button></div><div class="astra-panel" id="angry-birds-file-0" role="tabpanel" aria-labelledby="angry-birds-file-0-tab"><div class="astra-file-tools"><span>game.js · 16,156 bytes</span><a href="astra/angry-birds/game.js" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>&#x27;use strict&#x27;;
+const {Engine,Bodies,Body,Composite,Events,Vector}=Matter;
+const canvas=document.querySelector(&#x27;#game&#x27;),ctx=canvas.getContext(&#x27;2d&#x27;);
+const W=1280,H=720,GROUND=640,ANCHOR={x:185,y:535},MAX_PULL=104,LAUNCH_SCALE=.20;
+let engine,blocks=[],birds=[],target,bird,phase=&#x27;ready&#x27;,paused=false,dragging=false,pointerId=null,pull={...ANCHOR},score=0,used=0,flightTime=0,time=0,targetGone=false,victoryDelay=0,particles=[],popups=[],trail=[],pending=new Set(),settling=false,impacts=0;
+const $=id=&gt;document.getElementById(id);
+function addBox(x,y,w,h,kind=&#x27;wood&#x27;,fixed=false){const b=Bodies.rectangle(x,y,w,h,{isStatic:fixed,density:kind===&#x27;glass&#x27;?.0011:.002,friction:.65,frictionStatic:1,restitution:.035,frictionAir:.002,label:kind});b.art={kind,w,h,hp:kind===&#x27;glass&#x27;?19:55,maxHp:kind===&#x27;glass&#x27;?19:55,seed:x+y,original:{x,y}};Composite.add(engine.world,b);if(!fixed)blocks.push(b);return b;}
+function newBird(){bird=Bodies.circle(ANCHOR.x,ANCHOR.y,18,{density:.009,friction:.6,restitution:.18,frictionAir:0,label:&#x27;bird&#x27;});Body.setStatic(bird,true);birds.push(bird);Composite.add(engine.world,bird);pull={...ANCHOR};phase=&#x27;ready&#x27;;flightTime=0;trail=[];dragging=false;}
+function reset(){if(engine)Engine.clear(engine);engine=Engine.create({enableSleeping:true,positionIterations:10,velocityIterations:10});engine.gravity.y=.7;engine.timing.timeScale=.7;blocks=[];birds=[];score=0;used=0;time=0;targetGone=false;victoryDelay=0;particles=[];popups=[];trail=[];pending=new Set();paused=false;dragging=false;pointerId=null;impacts=0;
+ addBox(640,670,1700,60,&#x27;ground&#x27;,true);addBox(940,591,270,14,&#x27;platform&#x27;,true);
+ addBox(884,522,14,124);addBox(996,522,14,124);addBox(940,453,140,14);
+ addBox(910,384,14,124);addBox(970,384,14,124);addBox(940,315,74,14);addBox(940,291,14,34);
+ addBox(940,439,34,14);addBox(940,580,68,8);addBox(917,552,12,48,&#x27;glass&#x27;);addBox(963,552,12,48,&#x27;glass&#x27;);addBox(940,521,68,14);
+ target=Bodies.circle(940,413,18,{density:.002,friction:.7,restitution:.1,label:&#x27;target&#x27;});target.hp=18;Composite.add(engine.world,target);
+ Events.on(engine,&#x27;collisionStart&#x27;,event=&gt;{if(settling||used===0)return;for(const pair of event.pairs){const a=pair.bodyA,b=pair.bodyB;const va=a._impactVelocity||a.velocity,vb=b._impactVelocity||b.velocity;const speed=Math.hypot(va.x-vb.x,va.y-vb.y);if(speed&lt;2.6)continue;impacts++;
+ for(const body of [a,b]){if(body.label===&#x27;target&#x27;&amp;&amp;!targetGone){body.hp-=(speed-2)*9;if(body.hp&lt;=0)pending.add(body);}if(body.art&amp;&amp;!body.isStatic){body.art.hp-=(speed-2.6)*9;if(body.art.hp&lt;=0)pending.add(body);}}}});
+ settling=true;for(let i=0;i&lt;220;i++)Engine.update(engine,1000/120);settling=false;newBird();$(&#x27;overlay&#x27;).hidden=true;$(&#x27;pause&#x27;).textContent=&#x27;Pause&#x27;;syncUI();draw();}
+function burst(x,y,color,count=16){for(let i=0;i&lt;count;i++){const a=i*2.39996;particles.push({x,y,vx:Math.cos(a)*(40+(i%5)*30),vy:Math.sin(a)*(40+(i%7)*25)-70,life:.65+(i%4)*.15,max:1.1,size:2+i%5,color,rotation:a});}}
+function destroy(b){if(b===target){if(targetGone)return;targetGone=true;score+=5000;burst(b.position.x,b.position.y,&#x27;#89b744&#x27;,26);popups.push({x:b.position.x,y:b.position.y-25,text:&#x27;+5,000&#x27;,life:1.8,color:&#x27;#547d25&#x27;});victoryDelay=2.5;}else{const i=blocks.indexOf(b);if(i&lt;0)return;blocks.splice(i,1);score+=b.art.kind===&#x27;glass&#x27;?300:150;burst(b.position.x,b.position.y,b.art.kind===&#x27;glass&#x27;?&#x27;#8dd4e3&#x27;:&#x27;#c58b42&#x27;);popups.push({x:b.position.x,y:b.position.y,text:b.art.kind===&#x27;glass&#x27;?&#x27;+300&#x27;:&#x27;+150&#x27;,life:1,color:&#x27;#8f6e36&#x27;});}Composite.remove(engine.world,b);}
+function setPull(x,y){let dx=x-ANCHOR.x,dy=y-ANCHOR.y;const len=Math.hypot(dx,dy);if(len&gt;MAX_PULL){dx*=MAX_PULL/len;dy*=MAX_PULL/len;}pull={x:ANCHOR.x+dx,y:ANCHOR.y+dy};Body.setPosition(bird,pull);}
+function launch(){if(paused||![&#x27;ready&#x27;,&#x27;aiming&#x27;].includes(phase))return;const dx=ANCHOR.x-pull.x,dy=ANCHOR.y-pull.y;if(Math.hypot(dx,dy)&lt;8){setPull(ANCHOR.x,ANCHOR.y);phase=&#x27;ready&#x27;;dragging=false;return;}Body.setStatic(bird,false);Body.setVelocity(bird,{x:dx*LAUNCH_SCALE,y:dy*LAUNCH_SCALE});Body.setAngularVelocity(bird,-.035);phase=&#x27;flying&#x27;;used++;flightTime=0;dragging=false;pointerId=null;syncUI();}
+function settingsShot(){if(paused||phase!==&#x27;ready&#x27;)return;const a=Number($(&#x27;angle&#x27;).value)*Math.PI/180,r=MAX_PULL*Number($(&#x27;power&#x27;).value)/100;setPull(ANCHOR.x-Math.cos(a)*r,ANCHOR.y+Math.sin(a)*r);launch();}
+function nextBird(){if(paused||phase!==&#x27;flying&#x27;||flightTime&lt;1||targetGone)return;if(used&lt;3)newBird();else if(flightTime&gt;7)finish(false);syncUI();}
+function finish(win){phase=win?&#x27;won&#x27;:&#x27;lost&#x27;;$(&#x27;resultTitle&#x27;).textContent=win?&#x27;A beautiful chain reaction.&#x27;:&#x27;One more angle?&#x27;;$(&#x27;resultText&#x27;).textContent=win?`Target cleared. ${score.toLocaleString()} points from ${used} ${used===1?&#x27;bird&#x27;:&#x27;birds&#x27;}.`:&#x27;The target is still standing. Reset the tower and try a different pull.&#x27;;$(&#x27;again&#x27;).textContent=win?&#x27;Play again ↗&#x27;:&#x27;Try again ↗&#x27;;$(&#x27;overlay&#x27;).hidden=false;syncUI();}
+function step(dt){if(paused)return;time+=dt;
+ if(used&gt;0){if(phase===&#x27;flying&#x27;)flightTime+=dt;for(const b of Composite.allBodies(engine.world))b._impactVelocity=Body.getVelocity(b);Engine.update(engine,dt*1000);for(const b of pending)destroy(b);pending.clear();if(!targetGone&amp;&amp;(target.position.y&gt;GROUND+30||target.position.x&gt;W+100||target.position.x&lt; -100))destroy(target);
+ if(phase===&#x27;flying&#x27;){if(Math.floor(flightTime*20)&gt;trail.length&amp;&amp;trail.length&lt;200)trail.push({...bird.position});if(!targetGone&amp;&amp;(flightTime&gt;9||(flightTime&gt;2&amp;&amp;(bird.position.x&gt;W+100||bird.position.x&lt; -100)))){if(used&lt;3)newBird();else finish(false);}}
+ if(targetGone&amp;&amp;![&#x27;won&#x27;,&#x27;lost&#x27;].includes(phase)){victoryDelay-=dt;if(victoryDelay&lt;=0)finish(true);}}
+ for(const p of particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=350*dt;p.rotation+=dt*3;}particles=particles.filter(p=&gt;p.life&gt;0);for(const p of popups){p.life-=dt;p.y-=dt*25;}popups=popups.filter(p=&gt;p.life&gt;0);syncUI();}
+function syncUI(){if(phase===&#x27;won&#x27;)$(&#x27;resultText&#x27;).textContent=`Target cleared. ${score.toLocaleString()} points from ${used} ${used===1?&#x27;bird&#x27;:&#x27;birds&#x27;}.`;$(&#x27;score&#x27;).textContent=String(score).padStart(5,&#x27;0&#x27;);$(&#x27;shots&#x27;).textContent=`${3-used} ${3-used===1?&#x27;BIRD&#x27;:&#x27;BIRDS&#x27;} LEFT`;$(&#x27;used&#x27;).textContent=`${used} / 3`;$(&#x27;targets&#x27;).textContent=targetGone?&#x27;0 / 1&#x27;:&#x27;1 / 1&#x27;;$(&#x27;message&#x27;).textContent=paused?&#x27;PAUSED&#x27;:phase===&#x27;ready&#x27;?&#x27;PULL BACK &amp; RELEASE&#x27;:phase===&#x27;aiming&#x27;?&#x27;RELEASE TO LAUNCH&#x27;:phase===&#x27;won&#x27;?&#x27;TARGET CLEARED&#x27;:phase===&#x27;lost&#x27;?&#x27;OUT OF BIRDS&#x27;:targetGone?&#x27;WATCH IT TUMBLE&#x27;:flightTime&gt;1?&#x27;WATCH THE IMPACT · NEXT BIRD AVAILABLE&#x27;:&#x27;IN FLIGHT&#x27;;$(&#x27;next&#x27;).disabled=paused||phase!==&#x27;flying&#x27;||flightTime&lt;1||targetGone||used&gt;=3;$(&#x27;launch&#x27;).disabled=paused||phase!==&#x27;ready&#x27;;$(&#x27;demo&#x27;).disabled=paused||phase!==&#x27;ready&#x27;;}
+function path(points,fill,stroke,width=2){ctx.beginPath();points.forEach(([x,y],i)=&gt;i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+function ellipse(x,y,rx,ry,color){ctx.fillStyle=color;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();}
+const backdrop=document.createElement(&#x27;canvas&#x27;);backdrop.width=W;backdrop.height=H;
+function makeBackdrop(){const c=backdrop.getContext(&#x27;2d&#x27;);const sky=c.createLinearGradient(0,0,0,640);sky.addColorStop(0,&#x27;#d9edf0&#x27;);sky.addColorStop(.6,&#x27;#eef6ed&#x27;);sky.addColorStop(1,&#x27;#f8f6e5&#x27;);c.fillStyle=sky;c.fillRect(0,0,W,H);
+ function hill(y,color,phase){c.beginPath();c.moveTo(0,H);for(let x=0;x&lt;=W+20;x+=20)c.lineTo(x,y+Math.sin(x/210+phase)*25+Math.sin(x/115+phase)*12);c.lineTo(W,H);c.closePath();c.fillStyle=color;c.fill();}hill(465,&#x27;#d5dfdf&#x27;,2);hill(550,&#x27;#c6d6c4&#x27;,4);
+ c.strokeStyle=&#x27;#fff9&#x27;;c.lineWidth=13;c.lineCap=&#x27;round&#x27;;c.beginPath();c.moveTo(-30,155);c.bezierCurveTo(180,85,210,185,330,142);c.bezierCurveTo(530,63,595,156,758,125);c.bezierCurveTo(960,58,1100,130,1310,78);c.stroke();
+ for(const [x,y,s] of [[325,602,1.1],[1120,603,1.45],[670,601,.55],[49,607,.7],[760,610,.65]]){c.save();c.translate(x,y);c.scale(s,s);c.fillStyle=&#x27;#b6c9cc&#x27;;c.fillRect(-18,-200,36,200);c.strokeStyle=&#x27;#b6c9cc&#x27;;c.lineWidth=15;c.beginPath();c.moveTo(0,-130);c.quadraticCurveTo(-70,-90,-78,-175);c.moveTo(0,-155);c.quadraticCurveTo(55,-116,63,-199);c.stroke();for(const [lx,ly,r] of [[-78,-193,-.3],[62,-219,.2],[0,-244,0]]){c.save();c.translate(lx,ly);c.rotate(r);c.beginPath();c.moveTo(0,25);c.bezierCurveTo(-52,-15,-32,-35,-35,-48);c.lineTo(-18,-36);c.bezierCurveTo(-25,-89,-5,-112,0,-110);c.bezierCurveTo(12,-92,20,-63,18,-44);c.lineTo(33,-57);c.bezierCurveTo(41,-20,20,11,0,25);c.fill();c.restore();}c.restore();}
+ c.fillStyle=&#x27;#718c48&#x27;;c.fillRect(0,638,W,82);c.fillStyle=&#x27;#495f38&#x27;;c.fillRect(0,657,W,63);for(let i=0;i&lt;150;i++){const x=i*9.3,ht=12+(Math.sin(i*17.3)+1)*14;c.strokeStyle=i%3?&#x27;#718c49&#x27;:&#x27;#8fa64b&#x27;;c.lineWidth=3;c.beginPath();c.moveTo(x,644);c.quadraticCurveTo(x-6,637-ht/2,x+(i%2?7:-9),637-ht);c.stroke();}c.fillStyle=&#x27;#aac463&#x27;;c.fillRect(0,638,W,7);for(let i=0;i&lt;55;i++){c.fillStyle=i%2?&#x27;#6d8047&#x27;:&#x27;#859956&#x27;;c.fillRect(i*24+7,666+(i*13)%45,4+(i%4)*3,3);} }
+function drawWood(b){const {w,h,kind,hp,maxHp}=b.art;ctx.save();ctx.translate(b.position.x,b.position.y);ctx.rotate(b.angle);if(kind===&#x27;glass&#x27;){ctx.fillStyle=&#x27;#8ad4e5a6&#x27;;ctx.strokeStyle=&#x27;#60adbc&#x27;;ctx.lineWidth=2;ctx.fillRect(-w/2,-h/2,w,h);ctx.strokeRect(-w/2,-h/2,w,h);ctx.strokeStyle=&#x27;#f4ffffc9&#x27;;ctx.beginPath();ctx.moveTo(-w/2+3,h/2-5);ctx.lineTo(w/2-3,-h/2+5);ctx.stroke();}else{const g=ctx.createLinearGradient(-w/2,-h/2,w/2,h/2);g.addColorStop(0,&#x27;#e3af64&#x27;);g.addColorStop(.4,&#x27;#c89047&#x27;);g.addColorStop(1,&#x27;#aa6d34&#x27;);ctx.fillStyle=g;ctx.fillRect(-w/2,-h/2,w,h);ctx.strokeStyle=&#x27;#855b31&#x27;;ctx.lineWidth=2;ctx.strokeRect(-w/2,-h/2,w,h);ctx.strokeStyle=&#x27;#f4ce86&#x27;;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-w/2+3,h/2-3);ctx.lineTo(-w/2+3,-h/2+3);ctx.lineTo(w/2-3,-h/2+3);ctx.stroke();ctx.strokeStyle=&#x27;#9f6c3577&#x27;;ctx.lineWidth=1;for(let i=0;i&lt;3;i++){ctx.beginPath();if(w&gt;h){ctx.moveTo(-w/2+8,-h/2+4+i*3);ctx.bezierCurveTo(-w/4,3,w/8,-3,w/2-8,-h/2+4+i*3);}else{ctx.moveTo(-w/2+4+i*3,-h/2+8);ctx.bezierCurveTo(2,-h/4,-3,h/8,-w/2+4+i*3,h/2-8);}ctx.stroke();}}if(hp&lt;maxHp*.65){ctx.strokeStyle=kind===&#x27;glass&#x27;?&#x27;#fff&#x27;:&#x27;#79512f&#x27;;ctx.beginPath();ctx.moveTo(-w*.3,-h*.25);ctx.lineTo(0,0);ctx.lineTo(-w*.2,h*.18);ctx.lineTo(w*.3,h*.3);ctx.stroke();}ctx.restore();}
+function drawBird(x,y,angle=0,scale=1){ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(scale,scale);path([[-15,5],[-27,1],[-23,10],[-14,12]],&#x27;#503b31&#x27;);path([[-8,-14],[-12,-26],[-2,-21],[2,-26],[9,-15]],&#x27;#b84031&#x27;,&#x27;#87362b&#x27;);ellipse(0,0,19,18,&#x27;#c64b3a&#x27;);ctx.strokeStyle=&#x27;#8d3a2d&#x27;;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,19,18,0,0,Math.PI*2);ctx.stroke();ellipse(2,11,13,7,&#x27;#f4e8d4&#x27;);ellipse(7,-3,6,7,&#x27;#fff9e9&#x27;);ellipse(16,-2,4.5,6,&#x27;#fff9e9&#x27;);ellipse(9,-2,2,3,&#x27;#343b31&#x27;);ellipse(17,-1,1.8,2.5,&#x27;#343b31&#x27;);path([[9,5],[29,5],[15,12]],&#x27;#e9b143&#x27;,&#x27;#8c6034&#x27;,1.5);ctx.strokeStyle=&#x27;#54372c&#x27;;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-1,-12);ctx.lineTo(12,-8);ctx.lineTo(20,-11);ctx.stroke();ctx.restore();}
+function drawTarget(){if(targetGone)return;ctx.save();ctx.translate(target.position.x,target.position.y);ctx.rotate(target.angle);ellipse(-10,-16,5,7,&#x27;#82ac4c&#x27;);ellipse(9,-17,5,7,&#x27;#82ac4c&#x27;);ellipse(0,0,20,18,&#x27;#88b651&#x27;);ctx.strokeStyle=&#x27;#587a38&#x27;;ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,20,18,0,0,Math.PI*2);ctx.stroke();ellipse(-9,-4,5,6,&#x27;#fffce9&#x27;);ellipse(10,-4,5,6,&#x27;#fffce9&#x27;);ellipse(-8,-3,1.8,2.5,&#x27;#354e30&#x27;);ellipse(9,-3,1.8,2.5,&#x27;#354e30&#x27;);ellipse(1,6,11,8,&#x27;#b5ce6a&#x27;);ellipse(-3,6,2,3,&#x27;#5c803c&#x27;);ellipse(5,6,2,3,&#x27;#5c803c&#x27;);ctx.restore();}
+function sling(back){ctx.lineCap=&#x27;round&#x27;;if(back){ctx.strokeStyle=&#x27;#654a30&#x27;;ctx.lineWidth=18;ctx.beginPath();ctx.moveTo(185,639);ctx.lineTo(186,582);ctx.quadraticCurveTo(166,565,169,520);ctx.stroke();ctx.strokeStyle=&#x27;#bd965e&#x27;;ctx.lineWidth=10;ctx.stroke();}else{ctx.strokeStyle=&#x27;#654a30&#x27;;ctx.lineWidth=17;ctx.beginPath();ctx.moveTo(186,583);ctx.quadraticCurveTo(207,564,207,523);ctx.stroke();ctx.strokeStyle=&#x27;#c69c62&#x27;;ctx.lineWidth=10;ctx.stroke();}const end=phase===&#x27;ready&#x27;||phase===&#x27;aiming&#x27;?pull:ANCHOR;ctx.strokeStyle=&#x27;#654135&#x27;;ctx.lineWidth=back?6:5;ctx.beginPath();ctx.moveTo(back?169:207,530);ctx.lineTo(end.x,end.y+3);ctx.stroke();}
+function trajectory(){if(![&#x27;ready&#x27;,&#x27;aiming&#x27;].includes(phase))return;const a=Number($(&#x27;angle&#x27;).value)*Math.PI/180,r=MAX_PULL*Number($(&#x27;power&#x27;).value)/100;const start=phase===&#x27;aiming&#x27;?pull:{x:ANCHOR.x-Math.cos(a)*r,y:ANCHOR.y+Math.sin(a)*r};const vx=(ANCHOR.x-start.x)*LAUNCH_SCALE,vy=(ANCHOR.y-start.y)*LAUNCH_SCALE;for(let i=1;i&lt;=26;i++){const t=i*2;const x=start.x+vx*t,y=start.y+vy*t+.5*.7*(1000/60)**2*.001*t*t;if(y&gt;GROUND||x&gt;W)break;ellipse(x,y,2.2,2.2,phase===&#x27;aiming&#x27;?&#x27;#f8faf1&#x27;:&#x27;#76927c70&#x27;);}}
+function draw(){ctx.clearRect(0,0,W,H);ctx.drawImage(backdrop,0,0);ellipse(940,640,145,8,&#x27;#3f583222&#x27;);ctx.strokeStyle=&#x27;#84653f&#x27;;ctx.lineWidth=7;for(const x of [815,885,955,1065]){ctx.beginPath();ctx.moveTo(x,638);ctx.lineTo(x,598);ctx.stroke();}ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(816,633);ctx.lineTo(883,600);ctx.moveTo(886,633);ctx.lineTo(953,600);ctx.moveTo(957,633);ctx.lineTo(1063,600);ctx.stroke();drawWood({position:{x:940,y:591},angle:0,art:{w:270,h:14,kind:&#x27;wood&#x27;,hp:1,maxHp:1}});
+ for(let i=0;i&lt;Math.max(0,3-used-([&#x27;ready&#x27;,&#x27;aiming&#x27;].includes(phase)?1:0));i++)drawBird(84-i*48,621,0,.8);sling(true);trajectory();for(let i=0;i&lt;trail.length;i+=3){const p=trail[i];ellipse(p.x,p.y,2,2,&#x27;#fff9&#x27;);}for(const b of blocks)drawWood(b);drawTarget();for(const b of birds){if(b.position.y&lt;H+50&amp;&amp;b.position.x&lt;W+50)drawBird(b.position.x,b.position.y,b.angle);}sling(false);
+ for(const p of particles){ctx.save();ctx.globalAlpha=Math.min(1,p.life/.35);ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.fillStyle=p.color;ctx.fillRect(-p.size,-p.size/2,p.size*2,p.size);ctx.restore();}for(const p of popups){ctx.save();ctx.globalAlpha=Math.min(1,p.life*2);ctx.fillStyle=p.color;ctx.font=&#x27;bold 24px Georgia&#x27;;ctx.textAlign=&#x27;center&#x27;;ctx.fillText(p.text,p.x,p.y);ctx.restore();}}
+function localPoint(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}
+canvas.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{if(phase!==&#x27;ready&#x27;||paused||pointerId!==null)return;const p=localPoint(e);if(Math.hypot(p.x-bird.position.x,p.y-bird.position.y)&gt;65)return;e.preventDefault();pointerId=e.pointerId;canvas.setPointerCapture(e.pointerId);dragging=true;phase=&#x27;aiming&#x27;;canvas.focus();setPull(p.x,p.y);});
+canvas.addEventListener(&#x27;pointermove&#x27;,e=&gt;{if(!dragging||e.pointerId!==pointerId||paused)return;const p=localPoint(e);setPull(p.x,p.y);});canvas.addEventListener(&#x27;pointerup&#x27;,e=&gt;{if(dragging&amp;&amp;e.pointerId===pointerId)launch();});
+function cancelDrag(){if(dragging){dragging=false;pointerId=null;setPull(ANCHOR.x,ANCHOR.y);phase=&#x27;ready&#x27;;}}
+canvas.addEventListener(&#x27;pointercancel&#x27;,cancelDrag);canvas.addEventListener(&#x27;lostpointercapture&#x27;,cancelDrag);
+function pause(){cancelDrag();paused=!paused;$(&#x27;pause&#x27;).textContent=paused?&#x27;Resume&#x27;:&#x27;Pause&#x27;;syncUI();}
+$(&#x27;pause&#x27;).onclick=pause;$(&#x27;restart&#x27;).onclick=reset;$(&#x27;again&#x27;).onclick=reset;$(&#x27;next&#x27;).onclick=nextBird;$(&#x27;launch&#x27;).onclick=settingsShot;$(&#x27;demo&#x27;).onclick=()=&gt;{if(phase===&#x27;ready&#x27;&amp;&amp;!paused){setPull(ANCHOR.x-86,ANCHOR.y+41);launch();}};
+for(const id of [&#x27;angle&#x27;,&#x27;power&#x27;])$(id).addEventListener(&#x27;input&#x27;,()=&gt;{$(id+&#x27;Value&#x27;).textContent=$(id).value+(id===&#x27;angle&#x27;?&#x27;°&#x27;:&#x27;%&#x27;);});window.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.target.matches(&#x27;input,video&#x27;))return;if(e.code===&#x27;Space&#x27;&amp;&amp;e.target.matches(&#x27;button,summary,a&#x27;))return;if(e.code===&#x27;Space&#x27;){e.preventDefault();if(!e.repeat)pause();}if(e.key.toLowerCase()===&#x27;r&#x27;)reset();if(e.key.toLowerCase()===&#x27;n&#x27;)nextBird();});document.addEventListener(&#x27;visibilitychange&#x27;,()=&gt;{if(document.hidden&amp;&amp;!paused)pause();});
+makeBackdrop();reset();let last=0,acc=0;function frame(t){acc+=Math.min((t-last)/1000,.08);last=t;while(acc&gt;=1/120){step(1/120);acc-=1/120;}draw();requestAnimationFrame(frame);}requestAnimationFrame(frame);
+window.reconstruction={snapshot:()=&gt;({phase,paused,score,used,targetGone,blocks:blocks.length,impacts,bird:{x:bird.position.x,y:bird.position.y,vx:Body.getVelocity(bird).x,vy:Body.getVelocity(bird).y},target:{x:target.position.x,y:target.position.y},flightTime}),settings:{width:W,height:H,anchor:ANCHOR,maxPull:MAX_PULL}};
+</code></pre></div><div class="astra-panel" id="angry-birds-file-1" role="tabpanel" aria-labelledby="angry-birds-file-1-tab" hidden><div class="astra-file-tools"><span>evidence/inferred.json · 47,259 bytes</span><a href="astra/angry-birds/evidence/inferred.json" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>{
+  &quot;source&quot;: &quot;Screen Recording 2026-09-10 at 10.12.32.mov&quot;,
+  &quot;crop&quot;: [
+    60,
+    239,
+    1248,
+    697
+  ],
+  &quot;fps&quot;: 58.573551263001484,
+  &quot;frames&quot;: 637,
+  &quot;duration&quot;: 10.87521562658549,
+  &quot;method&quot;: &quot;HSV red candidates and median optical-flow camera estimate. Candidates are not guaranteed identities.&quot;,
+  &quot;samples&quot;: [
+    {
+      &quot;frame&quot;: 0,
+      &quot;time&quot;: 0.0,
+      &quot;camera_x_estimate&quot;: 0,
+      &quot;flow_matches&quot;: 0,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 6,
+      &quot;time&quot;: 0.1024,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 12,
+      &quot;time&quot;: 0.2049,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 123,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 18,
+      &quot;time&quot;: 0.3073,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 122,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 24,
+      &quot;time&quot;: 0.4097,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 122,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 30,
+      &quot;time&quot;: 0.5122,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 126,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 36,
+      &quot;time&quot;: 0.6146,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 126,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 42,
+      &quot;time&quot;: 0.717,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 126,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 48,
+      &quot;time&quot;: 0.8195,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 126,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 54,
+      &quot;time&quot;: 0.9219,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 7,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 60,
+      &quot;time&quot;: 1.0244,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 4,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 66,
+      &quot;time&quot;: 1.1268,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 5,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 72,
+      &quot;time&quot;: 1.2292,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 5,
+      &quot;red_candidates&quot;: []
+    },
+    {
+      &quot;frame&quot;: 78,
+      &quot;time&quot;: 1.3317,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 2,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 103.32,
+          &quot;y&quot;: 397.65,
+          &quot;area&quot;: 1097
+        },
+        {
+          &quot;x&quot;: 126.41,
+          &quot;y&quot;: 421.89,
+          &quot;area&quot;: 140
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 84,
+      &quot;time&quot;: 1.4341,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 2,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 317.47,
+          &quot;y&quot;: 384.91,
+          &quot;area&quot;: 1164
+        },
+        {
+          &quot;x&quot;: 341.54,
+          &quot;y&quot;: 407.19,
+          &quot;area&quot;: 141
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 90,
+      &quot;time&quot;: 1.5365,
+      &quot;camera_x_estimate&quot;: 0.0,
+      &quot;flow_matches&quot;: 5,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 431.29,
+          &quot;y&quot;: 377.37,
+          &quot;area&quot;: 1190
+        },
+        {
+          &quot;x&quot;: 456.16,
+          &quot;y&quot;: 402.81,
+          &quot;area&quot;: 177
+        },
+        {
+          &quot;x&quot;: 415.3,
+          &quot;y&quot;: 503.44,
+          &quot;area&quot;: 84
+        },
+        {
+          &quot;x&quot;: 806.32,
+          &quot;y&quot;: 600.67,
+          &quot;area&quot;: 1733
+        },
+        {
+          &quot;x&quot;: 910.39,
+          &quot;y&quot;: 599.5,
+          &quot;area&quot;: 1413
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 96,
+      &quot;time&quot;: 1.639,
+      &quot;camera_x_estimate&quot;: 0.6,
+      &quot;flow_matches&quot;: 117,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 430.19,
+          &quot;y&quot;: 377.56,
+          &quot;area&quot;: 1201
+        },
+        {
+          &quot;x&quot;: 454.59,
+          &quot;y&quot;: 399.77,
+          &quot;area&quot;: 154
+        },
+        {
+          &quot;x&quot;: 414.1,
+          &quot;y&quot;: 502.32,
+          &quot;area&quot;: 114
+        },
+        {
+          &quot;x&quot;: 909.41,
+          &quot;y&quot;: 594.64,
+          &quot;area&quot;: 1415
+        },
+        {
+          &quot;x&quot;: 805.82,
+          &quot;y&quot;: 604.09,
+          &quot;area&quot;: 1953
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 102,
+      &quot;time&quot;: 1.7414,
+      &quot;camera_x_estimate&quot;: 1.02,
+      &quot;flow_matches&quot;: 108,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 429.16,
+          &quot;y&quot;: 377.51,
+          &quot;area&quot;: 1207
+        },
+        {
+          &quot;x&quot;: 454.19,
+          &quot;y&quot;: 401.07,
+          &quot;area&quot;: 166
+        },
+        {
+          &quot;x&quot;: 805.25,
+          &quot;y&quot;: 608.72,
+          &quot;area&quot;: 1958
+        },
+        {
+          &quot;x&quot;: 907.6,
+          &quot;y&quot;: 609.3,
+          &quot;area&quot;: 1512
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 108,
+      &quot;time&quot;: 1.8438,
+      &quot;camera_x_estimate&quot;: 1.19,
+      &quot;flow_matches&quot;: 124,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 430.76,
+          &quot;y&quot;: 378.93,
+          &quot;area&quot;: 1344
+        },
+        {
+          &quot;x&quot;: 454.11,
+          &quot;y&quot;: 399.86,
+          &quot;area&quot;: 185
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 114,
+      &quot;time&quot;: 1.9463,
+      &quot;camera_x_estimate&quot;: 1.38,
+      &quot;flow_matches&quot;: 136,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.1,
+          &quot;y&quot;: 377.41,
+          &quot;area&quot;: 1230
+        },
+        {
+          &quot;x&quot;: 453.01,
+          &quot;y&quot;: 399.65,
+          &quot;area&quot;: 142
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 120,
+      &quot;time&quot;: 2.0487,
+      &quot;camera_x_estimate&quot;: 1.5,
+      &quot;flow_matches&quot;: 136,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.15,
+          &quot;y&quot;: 377.55,
+          &quot;area&quot;: 1223
+        },
+        {
+          &quot;x&quot;: 452.61,
+          &quot;y&quot;: 399.75,
+          &quot;area&quot;: 147
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 126,
+      &quot;time&quot;: 2.1511,
+      &quot;camera_x_estimate&quot;: 1.57,
+      &quot;flow_matches&quot;: 124,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.19,
+          &quot;y&quot;: 377.58,
+          &quot;area&quot;: 1217
+        },
+        {
+          &quot;x&quot;: 452.36,
+          &quot;y&quot;: 400.24,
+          &quot;area&quot;: 152
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 132,
+      &quot;time&quot;: 2.2536,
+      &quot;camera_x_estimate&quot;: 1.63,
+      &quot;flow_matches&quot;: 122,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.06,
+          &quot;y&quot;: 377.54,
+          &quot;area&quot;: 1221
+        },
+        {
+          &quot;x&quot;: 452.36,
+          &quot;y&quot;: 399.79,
+          &quot;area&quot;: 154
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 138,
+      &quot;time&quot;: 2.356,
+      &quot;camera_x_estimate&quot;: 1.66,
+      &quot;flow_matches&quot;: 125,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.04,
+          &quot;y&quot;: 377.48,
+          &quot;area&quot;: 1218
+        },
+        {
+          &quot;x&quot;: 452.35,
+          &quot;y&quot;: 401.42,
+          &quot;area&quot;: 179
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 144,
+      &quot;time&quot;: 2.4584,
+      &quot;camera_x_estimate&quot;: 1.69,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 428.02,
+          &quot;y&quot;: 377.42,
+          &quot;area&quot;: 1208
+        },
+        {
+          &quot;x&quot;: 452.59,
+          &quot;y&quot;: 401.96,
+          &quot;area&quot;: 191
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 150,
+      &quot;time&quot;: 2.5609,
+      &quot;camera_x_estimate&quot;: 1.69,
+      &quot;flow_matches&quot;: 115,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.88,
+          &quot;y&quot;: 377.44,
+          &quot;area&quot;: 1222
+        },
+        {
+          &quot;x&quot;: 452.72,
+          &quot;y&quot;: 402.16,
+          &quot;area&quot;: 194
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 156,
+      &quot;time&quot;: 2.6633,
+      &quot;camera_x_estimate&quot;: 1.69,
+      &quot;flow_matches&quot;: 115,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.86,
+          &quot;y&quot;: 377.49,
+          &quot;area&quot;: 1223
+        },
+        {
+          &quot;x&quot;: 452.72,
+          &quot;y&quot;: 402.16,
+          &quot;area&quot;: 194
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 162,
+      &quot;time&quot;: 2.7658,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 114,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.43,
+          &quot;y&quot;: 377.32,
+          &quot;area&quot;: 1201
+        },
+        {
+          &quot;x&quot;: 452.07,
+          &quot;y&quot;: 399.52,
+          &quot;area&quot;: 152
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 168,
+      &quot;time&quot;: 2.8682,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 114,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 429.52,
+          &quot;y&quot;: 378.99,
+          &quot;area&quot;: 1365
+        },
+        {
+          &quot;x&quot;: 453.12,
+          &quot;y&quot;: 399.51,
+          &quot;area&quot;: 179
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 174,
+      &quot;time&quot;: 2.9706,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 120,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 429.46,
+          &quot;y&quot;: 379.01,
+          &quot;area&quot;: 1362
+        },
+        {
+          &quot;x&quot;: 453.12,
+          &quot;y&quot;: 399.51,
+          &quot;area&quot;: 179
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 180,
+      &quot;time&quot;: 3.0731,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.35,
+          &quot;y&quot;: 377.45,
+          &quot;area&quot;: 1198
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.62,
+          &quot;area&quot;: 152
+        },
+        {
+          &quot;x&quot;: 802.77,
+          &quot;y&quot;: 599.32,
+          &quot;area&quot;: 1721
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 186,
+      &quot;time&quot;: 3.1755,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.42,
+          &quot;y&quot;: 377.44,
+          &quot;area&quot;: 1201
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        },
+        {
+          &quot;x&quot;: 802.49,
+          &quot;y&quot;: 581.03,
+          &quot;area&quot;: 1718
+        },
+        {
+          &quot;x&quot;: 833.44,
+          &quot;y&quot;: 599.66,
+          &quot;area&quot;: 128
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 192,
+      &quot;time&quot;: 3.2779,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.35,
+          &quot;y&quot;: 377.45,
+          &quot;area&quot;: 1198
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        },
+        {
+          &quot;x&quot;: 802.2,
+          &quot;y&quot;: 580.15,
+          &quot;area&quot;: 1708
+        },
+        {
+          &quot;x&quot;: 833.47,
+          &quot;y&quot;: 598.53,
+          &quot;area&quot;: 133
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 198,
+      &quot;time&quot;: 3.3804,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.47,
+          &quot;y&quot;: 377.43,
+          &quot;area&quot;: 1202
+        },
+        {
+          &quot;x&quot;: 452.07,
+          &quot;y&quot;: 399.52,
+          &quot;area&quot;: 152
+        },
+        {
+          &quot;x&quot;: 802.43,
+          &quot;y&quot;: 596.79,
+          &quot;area&quot;: 1718
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 204,
+      &quot;time&quot;: 3.4828,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 120,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.47,
+          &quot;y&quot;: 377.43,
+          &quot;area&quot;: 1202
+        },
+        {
+          &quot;x&quot;: 452.07,
+          &quot;y&quot;: 399.52,
+          &quot;area&quot;: 152
+        },
+        {
+          &quot;x&quot;: 802.32,
+          &quot;y&quot;: 605.16,
+          &quot;area&quot;: 1702
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 210,
+      &quot;time&quot;: 3.5852,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 120,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.47,
+          &quot;y&quot;: 377.43,
+          &quot;area&quot;: 1202
+        },
+        {
+          &quot;x&quot;: 452.07,
+          &quot;y&quot;: 399.52,
+          &quot;area&quot;: 152
+        },
+        {
+          &quot;x&quot;: 802.24,
+          &quot;y&quot;: 602.96,
+          &quot;area&quot;: 1712
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 216,
+      &quot;time&quot;: 3.6877,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 120,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.47,
+          &quot;y&quot;: 377.43,
+          &quot;area&quot;: 1202
+        },
+        {
+          &quot;x&quot;: 452.07,
+          &quot;y&quot;: 399.52,
+          &quot;area&quot;: 152
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 222,
+      &quot;time&quot;: 3.7901,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 429.49,
+          &quot;y&quot;: 378.82,
+          &quot;area&quot;: 1366
+        },
+        {
+          &quot;x&quot;: 452.73,
+          &quot;y&quot;: 400.34,
+          &quot;area&quot;: 187
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 228,
+      &quot;time&quot;: 3.8925,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 121,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 429.43,
+          &quot;y&quot;: 378.81,
+          &quot;area&quot;: 1363
+        },
+        {
+          &quot;x&quot;: 452.78,
+          &quot;y&quot;: 399.96,
+          &quot;area&quot;: 183
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 234,
+      &quot;time&quot;: 3.995,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.33,
+          &quot;y&quot;: 377.41,
+          &quot;area&quot;: 1197
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 240,
+      &quot;time&quot;: 4.0974,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 118,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.46,
+          &quot;y&quot;: 377.39,
+          &quot;area&quot;: 1204
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 246,
+      &quot;time&quot;: 4.1998,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.46,
+          &quot;y&quot;: 377.39,
+          &quot;area&quot;: 1204
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 252,
+      &quot;time&quot;: 4.3023,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.47,
+          &quot;y&quot;: 377.47,
+          &quot;area&quot;: 1208
+        },
+        {
+          &quot;x&quot;: 451.21,
+          &quot;y&quot;: 400.31,
+          &quot;area&quot;: 170
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 258,
+      &quot;time&quot;: 4.4047,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 118,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 427.34,
+          &quot;y&quot;: 377.42,
+          &quot;area&quot;: 1192
+        },
+        {
+          &quot;x&quot;: 452.05,
+          &quot;y&quot;: 399.56,
+          &quot;area&quot;: 153
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 264,
+      &quot;time&quot;: 4.5072,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 97,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 264.79,
+          &quot;y&quot;: 438.68,
+          &quot;area&quot;: 1100
+        },
+        {
+          &quot;x&quot;: 295.15,
+          &quot;y&quot;: 464.73,
+          &quot;area&quot;: 150
+        },
+        {
+          &quot;x&quot;: 802.22,
+          &quot;y&quot;: 603.77,
+          &quot;area&quot;: 1702
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 270,
+      &quot;time&quot;: 4.6096,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 94,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 266.66,
+          &quot;y&quot;: 444.28,
+          &quot;area&quot;: 1152
+        },
+        {
+          &quot;x&quot;: 297.07,
+          &quot;y&quot;: 470.8,
+          &quot;area&quot;: 150
+        },
+        {
+          &quot;x&quot;: 802.21,
+          &quot;y&quot;: 584.03,
+          &quot;area&quot;: 1698
+        },
+        {
+          &quot;x&quot;: 833.07,
+          &quot;y&quot;: 602.88,
+          &quot;area&quot;: 134
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 276,
+      &quot;time&quot;: 4.712,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 110,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 267.43,
+          &quot;y&quot;: 447.02,
+          &quot;area&quot;: 1135
+        },
+        {
+          &quot;x&quot;: 298.95,
+          &quot;y&quot;: 472.65,
+          &quot;area&quot;: 151
+        },
+        {
+          &quot;x&quot;: 802.27,
+          &quot;y&quot;: 583.67,
+          &quot;area&quot;: 1699
+        },
+        {
+          &quot;x&quot;: 906.65,
+          &quot;y&quot;: 589.77,
+          &quot;area&quot;: 1434
+        },
+        {
+          &quot;x&quot;: 833.07,
+          &quot;y&quot;: 602.99,
+          &quot;area&quot;: 130
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 282,
+      &quot;time&quot;: 4.8145,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 108,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 268.29,
+          &quot;y&quot;: 449.17,
+          &quot;area&quot;: 1146
+        },
+        {
+          &quot;x&quot;: 299.11,
+          &quot;y&quot;: 475.82,
+          &quot;area&quot;: 148
+        },
+        {
+          &quot;x&quot;: 906.85,
+          &quot;y&quot;: 595.9,
+          &quot;area&quot;: 1426
+        },
+        {
+          &quot;x&quot;: 802.33,
+          &quot;y&quot;: 601.8,
+          &quot;area&quot;: 1731
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 288,
+      &quot;time&quot;: 4.9169,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 121,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 268.29,
+          &quot;y&quot;: 449.17,
+          &quot;area&quot;: 1146
+        },
+        {
+          &quot;x&quot;: 299.11,
+          &quot;y&quot;: 475.82,
+          &quot;area&quot;: 148
+        },
+        {
+          &quot;x&quot;: 802.25,
+          &quot;y&quot;: 605.26,
+          &quot;area&quot;: 1713
+        },
+        {
+          &quot;x&quot;: 908.02,
+          &quot;y&quot;: 608.21,
+          &quot;area&quot;: 1617
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 294,
+      &quot;time&quot;: 5.0193,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 84,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 272.35,
+          &quot;y&quot;: 458.44,
+          &quot;area&quot;: 1105
+        },
+        {
+          &quot;x&quot;: 304.86,
+          &quot;y&quot;: 484.06,
+          &quot;area&quot;: 142
+        },
+        {
+          &quot;x&quot;: 802.43,
+          &quot;y&quot;: 606.52,
+          &quot;area&quot;: 1719
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 300,
+      &quot;time&quot;: 5.1218,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 391.17,
+          &quot;y&quot;: 438.25,
+          &quot;area&quot;: 155
+        },
+        {
+          &quot;x&quot;: 273.48,
+          &quot;y&quot;: 461.07,
+          &quot;area&quot;: 1103
+        },
+        {
+          &quot;x&quot;: 306.34,
+          &quot;y&quot;: 486.48,
+          &quot;area&quot;: 127
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 306,
+      &quot;time&quot;: 5.2242,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 88,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 391.0,
+          &quot;y&quot;: 437.41,
+          &quot;area&quot;: 164
+        },
+        {
+          &quot;x&quot;: 276.91,
+          &quot;y&quot;: 467.21,
+          &quot;area&quot;: 1123
+        },
+        {
+          &quot;x&quot;: 309.64,
+          &quot;y&quot;: 491.88,
+          &quot;area&quot;: 149
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 312,
+      &quot;time&quot;: 5.3266,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 122,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.77,
+          &quot;y&quot;: 435.2,
+          &quot;area&quot;: 182
+        },
+        {
+          &quot;x&quot;: 276.91,
+          &quot;y&quot;: 467.22,
+          &quot;area&quot;: 1122
+        },
+        {
+          &quot;x&quot;: 309.64,
+          &quot;y&quot;: 491.88,
+          &quot;area&quot;: 149
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 318,
+      &quot;time&quot;: 5.4291,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 83,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 272.74,
+          &quot;y&quot;: 459.33,
+          &quot;area&quot;: 1135
+        },
+        {
+          &quot;x&quot;: 304.86,
+          &quot;y&quot;: 485.02,
+          &quot;area&quot;: 154
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 324,
+      &quot;time&quot;: 5.5315,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 113,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.72,
+          &quot;y&quot;: 429.96,
+          &quot;area&quot;: 132
+        },
+        {
+          &quot;x&quot;: 270.87,
+          &quot;y&quot;: 455.41,
+          &quot;area&quot;: 1149
+        },
+        {
+          &quot;x&quot;: 302.23,
+          &quot;y&quot;: 481.3,
+          &quot;area&quot;: 148
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 330,
+      &quot;time&quot;: 5.6339,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 84,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 266.98,
+          &quot;y&quot;: 447.96,
+          &quot;area&quot;: 1156
+        },
+        {
+          &quot;x&quot;: 295.55,
+          &quot;y&quot;: 458.25,
+          &quot;area&quot;: 100
+        },
+        {
+          &quot;x&quot;: 300.22,
+          &quot;y&quot;: 473.02,
+          &quot;area&quot;: 196
+        },
+        {
+          &quot;x&quot;: 275.25,
+          &quot;y&quot;: 471.62,
+          &quot;area&quot;: 72
+        },
+        {
+          &quot;x&quot;: 917.26,
+          &quot;y&quot;: 572.38,
+          &quot;area&quot;: 135
+        },
+        {
+          &quot;x&quot;: 902.79,
+          &quot;y&quot;: 604.12,
+          &quot;area&quot;: 1441
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 336,
+      &quot;time&quot;: 5.7364,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 72,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 270.96,
+          &quot;y&quot;: 455.06,
+          &quot;area&quot;: 1133
+        },
+        {
+          &quot;x&quot;: 302.2,
+          &quot;y&quot;: 481.23,
+          &quot;area&quot;: 147
+        },
+        {
+          &quot;x&quot;: 887.96,
+          &quot;y&quot;: 575.36,
+          &quot;area&quot;: 141
+        },
+        {
+          &quot;x&quot;: 918.31,
+          &quot;y&quot;: 597.87,
+          &quot;area&quot;: 1624
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 342,
+      &quot;time&quot;: 5.8388,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 121,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.66,
+          &quot;y&quot;: 432.76,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 271.31,
+          &quot;y&quot;: 456.82,
+          &quot;area&quot;: 1111
+        },
+        {
+          &quot;x&quot;: 303.16,
+          &quot;y&quot;: 482.77,
+          &quot;area&quot;: 146
+        },
+        {
+          &quot;x&quot;: 923.39,
+          &quot;y&quot;: 589.72,
+          &quot;area&quot;: 1767
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 348,
+      &quot;time&quot;: 5.9412,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.66,
+          &quot;y&quot;: 432.76,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 271.33,
+          &quot;y&quot;: 456.81,
+          &quot;area&quot;: 1112
+        },
+        {
+          &quot;x&quot;: 303.16,
+          &quot;y&quot;: 482.77,
+          &quot;area&quot;: 146
+        },
+        {
+          &quot;x&quot;: 913.21,
+          &quot;y&quot;: 601.64,
+          &quot;area&quot;: 1426
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 354,
+      &quot;time&quot;: 6.0437,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 115,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.66,
+          &quot;y&quot;: 432.76,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 271.33,
+          &quot;y&quot;: 456.81,
+          &quot;area&quot;: 1112
+        },
+        {
+          &quot;x&quot;: 303.16,
+          &quot;y&quot;: 482.77,
+          &quot;area&quot;: 146
+        },
+        {
+          &quot;x&quot;: 906.32,
+          &quot;y&quot;: 603.18,
+          &quot;area&quot;: 1429
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 360,
+      &quot;time&quot;: 6.1461,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 114,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.66,
+          &quot;y&quot;: 432.76,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 270.66,
+          &quot;y&quot;: 457.61,
+          &quot;area&quot;: 1124
+        },
+        {
+          &quot;x&quot;: 300.02,
+          &quot;y&quot;: 466.94,
+          &quot;area&quot;: 140
+        },
+        {
+          &quot;x&quot;: 305.42,
+          &quot;y&quot;: 481.35,
+          &quot;area&quot;: 177
+        },
+        {
+          &quot;x&quot;: 280.9,
+          &quot;y&quot;: 480.61,
+          &quot;area&quot;: 72
+        },
+        {
+          &quot;x&quot;: 906.14,
+          &quot;y&quot;: 603.96,
+          &quot;area&quot;: 1432
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 366,
+      &quot;time&quot;: 6.2486,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 129,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 390.66,
+          &quot;y&quot;: 432.76,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 270.66,
+          &quot;y&quot;: 457.61,
+          &quot;area&quot;: 1124
+        },
+        {
+          &quot;x&quot;: 300.02,
+          &quot;y&quot;: 466.94,
+          &quot;area&quot;: 140
+        },
+        {
+          &quot;x&quot;: 305.42,
+          &quot;y&quot;: 481.35,
+          &quot;area&quot;: 177
+        },
+        {
+          &quot;x&quot;: 280.9,
+          &quot;y&quot;: 480.61,
+          &quot;area&quot;: 72
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 372,
+      &quot;time&quot;: 6.351,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 129,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 270.66,
+          &quot;y&quot;: 457.63,
+          &quot;area&quot;: 1121
+        },
+        {
+          &quot;x&quot;: 300.05,
+          &quot;y&quot;: 466.99,
+          &quot;area&quot;: 138
+        },
+        {
+          &quot;x&quot;: 305.23,
+          &quot;y&quot;: 481.62,
+          &quot;area&quot;: 182
+        },
+        {
+          &quot;x&quot;: 280.86,
+          &quot;y&quot;: 480.68,
+          &quot;area&quot;: 71
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 378,
+      &quot;time&quot;: 6.4534,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 128,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 271.34,
+          &quot;y&quot;: 456.75,
+          &quot;area&quot;: 1117
+        },
+        {
+          &quot;x&quot;: 303.9,
+          &quot;y&quot;: 482.32,
+          &quot;area&quot;: 139
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 384,
+      &quot;time&quot;: 6.5559,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 121,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 271.34,
+          &quot;y&quot;: 456.75,
+          &quot;area&quot;: 1117
+        },
+        {
+          &quot;x&quot;: 303.9,
+          &quot;y&quot;: 482.32,
+          &quot;area&quot;: 139
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 390,
+      &quot;time&quot;: 6.6583,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 121,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 271.34,
+          &quot;y&quot;: 456.75,
+          &quot;area&quot;: 1117
+        },
+        {
+          &quot;x&quot;: 303.9,
+          &quot;y&quot;: 482.32,
+          &quot;area&quot;: 139
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 396,
+      &quot;time&quot;: 6.7607,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 120,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 270.7,
+          &quot;y&quot;: 457.55,
+          &quot;area&quot;: 1129
+        },
+        {
+          &quot;x&quot;: 300.08,
+          &quot;y&quot;: 466.98,
+          &quot;area&quot;: 129
+        },
+        {
+          &quot;x&quot;: 305.07,
+          &quot;y&quot;: 481.78,
+          &quot;area&quot;: 183
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 402,
+      &quot;time&quot;: 6.8632,
+      &quot;camera_x_estimate&quot;: 1.8,
+      &quot;flow_matches&quot;: 131,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 270.44,
+          &quot;y&quot;: 456.52,
+          &quot;area&quot;: 1121
+        },
+        {
+          &quot;x&quot;: 299.12,
+          &quot;y&quot;: 466.5,
+          &quot;area&quot;: 127
+        },
+        {
+          &quot;x&quot;: 304.42,
+          &quot;y&quot;: 481.43,
+          &quot;area&quot;: 194
+        },
+        {
+          &quot;x&quot;: 280.58,
+          &quot;y&quot;: 479.43,
+          &quot;area&quot;: 81
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 408,
+      &quot;time&quot;: 6.9656,
+      &quot;camera_x_estimate&quot;: 22.5,
+      &quot;flow_matches&quot;: 65,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 337.13,
+          &quot;y&quot;: 417.98,
+          &quot;area&quot;: 1813
+        },
+        {
+          &quot;x&quot;: 370.62,
+          &quot;y&quot;: 423.9,
+          &quot;area&quot;: 118
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 414,
+      &quot;time&quot;: 7.068,
+      &quot;camera_x_estimate&quot;: 79.51,
+      &quot;flow_matches&quot;: 12,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 360.48,
+          &quot;y&quot;: 366.64,
+          &quot;area&quot;: 1760
+        },
+        {
+          &quot;x&quot;: 391.49,
+          &quot;y&quot;: 381.95,
+          &quot;area&quot;: 156
+        },
+        {
+          &quot;x&quot;: 659.33,
+          &quot;y&quot;: 606.04,
+          &quot;area&quot;: 1560
+        },
+        {
+          &quot;x&quot;: 757.18,
+          &quot;y&quot;: 605.71,
+          &quot;area&quot;: 1345
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 420,
+      &quot;time&quot;: 7.1705,
+      &quot;camera_x_estimate&quot;: 162.93,
+      &quot;flow_matches&quot;: 13,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 351.55,
+          &quot;y&quot;: 339.87,
+          &quot;area&quot;: 1623
+        },
+        {
+          &quot;x&quot;: 380.37,
+          &quot;y&quot;: 355.29,
+          &quot;area&quot;: 141
+        },
+        {
+          &quot;x&quot;: 185.93,
+          &quot;y&quot;: 424.25,
+          &quot;area&quot;: 68
+        },
+        {
+          &quot;x&quot;: 560.88,
+          &quot;y&quot;: 603.34,
+          &quot;area&quot;: 1422
+        },
+        {
+          &quot;x&quot;: 655.45,
+          &quot;y&quot;: 603.13,
+          &quot;area&quot;: 1287
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 426,
+      &quot;time&quot;: 7.2729,
+      &quot;camera_x_estimate&quot;: 162.93,
+      &quot;flow_matches&quot;: 6,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 331.47,
+          &quot;y&quot;: 304.25,
+          &quot;area&quot;: 1384
+        },
+        {
+          &quot;x&quot;: 358.69,
+          &quot;y&quot;: 318.25,
+          &quot;area&quot;: 128
+        },
+        {
+          &quot;x&quot;: 46.63,
+          &quot;y&quot;: 432.67,
+          &quot;area&quot;: 90
+        },
+        {
+          &quot;x&quot;: 62.43,
+          &quot;y&quot;: 502.01,
+          &quot;area&quot;: 75
+        },
+        {
+          &quot;x&quot;: 400.05,
+          &quot;y&quot;: 599.28,
+          &quot;area&quot;: 1409
+        },
+        {
+          &quot;x&quot;: 487.74,
+          &quot;y&quot;: 598.14,
+          &quot;area&quot;: 1120
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 432,
+      &quot;time&quot;: 7.3753,
+      &quot;camera_x_estimate&quot;: 162.93,
+      &quot;flow_matches&quot;: 9,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 317.71,
+          &quot;y&quot;: 278.11,
+          &quot;area&quot;: 1263
+        },
+        {
+          &quot;x&quot;: 342.85,
+          &quot;y&quot;: 292.57,
+          &quot;area&quot;: 116
+        },
+        {
+          &quot;x&quot;: 260.19,
+          &quot;y&quot;: 596.17,
+          &quot;area&quot;: 1273
+        },
+        {
+          &quot;x&quot;: 343.44,
+          &quot;y&quot;: 595.33,
+          &quot;area&quot;: 1027
+        },
+        {
+          &quot;x&quot;: 286.09,
+          &quot;y&quot;: 607.54,
+          &quot;area&quot;: 87
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 438,
+      &quot;time&quot;: 7.4778,
+      &quot;camera_x_estimate&quot;: 199.01,
+      &quot;flow_matches&quot;: 16,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 315.95,
+          &quot;y&quot;: 267.39,
+          &quot;area&quot;: 1373
+        },
+        {
+          &quot;x&quot;: 187.46,
+          &quot;y&quot;: 595.19,
+          &quot;area&quot;: 1087
+        },
+        {
+          &quot;x&quot;: 270.02,
+          &quot;y&quot;: 595.26,
+          &quot;area&quot;: 989
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 444,
+      &quot;time&quot;: 7.5802,
+      &quot;camera_x_estimate&quot;: 181.3,
+      &quot;flow_matches&quot;: 30,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 312.74,
+          &quot;y&quot;: 245.94,
+          &quot;area&quot;: 1199
+        },
+        {
+          &quot;x&quot;: 337.1,
+          &quot;y&quot;: 260.06,
+          &quot;area&quot;: 103
+        },
+        {
+          &quot;x&quot;: 54.54,
+          &quot;y&quot;: 598.64,
+          &quot;area&quot;: 1062
+        },
+        {
+          &quot;x&quot;: 135.4,
+          &quot;y&quot;: 598.8,
+          &quot;area&quot;: 951
+        },
+        {
+          &quot;x&quot;: 1121.55,
+          &quot;y&quot;: 590.93,
+          &quot;area&quot;: 84
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 450,
+      &quot;time&quot;: 7.6826,
+      &quot;camera_x_estimate&quot;: 223.52,
+      &quot;flow_matches&quot;: 14,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 317.5,
+          &quot;y&quot;: 234.14,
+          &quot;area&quot;: 1221
+        },
+        {
+          &quot;x&quot;: 342.2,
+          &quot;y&quot;: 247.78,
+          &quot;area&quot;: 109
+        },
+        {
+          &quot;x&quot;: 36.99,
+          &quot;y&quot;: 604.92,
+          &quot;area&quot;: 958
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 456,
+      &quot;time&quot;: 7.7851,
+      &quot;camera_x_estimate&quot;: 270.29,
+      &quot;flow_matches&quot;: 20,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 332.06,
+          &quot;y&quot;: 225.06,
+          &quot;area&quot;: 1409
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 462,
+      &quot;time&quot;: 7.8875,
+      &quot;camera_x_estimate&quot;: 322.7,
+      &quot;flow_matches&quot;: 86,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 355.89,
+          &quot;y&quot;: 218.96,
+          &quot;area&quot;: 1296
+        },
+        {
+          &quot;x&quot;: 381.6,
+          &quot;y&quot;: 233.19,
+          &quot;area&quot;: 106
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 468,
+      &quot;time&quot;: 7.99,
+      &quot;camera_x_estimate&quot;: 373.52,
+      &quot;flow_matches&quot;: 103,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 404.75,
+          &quot;y&quot;: 217.68,
+          &quot;area&quot;: 1355
+        },
+        {
+          &quot;x&quot;: 430.62,
+          &quot;y&quot;: 231.62,
+          &quot;area&quot;: 119
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 474,
+      &quot;time&quot;: 8.0924,
+      &quot;camera_x_estimate&quot;: 412.9,
+      &quot;flow_matches&quot;: 87,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 468.67,
+          &quot;y&quot;: 221.43,
+          &quot;area&quot;: 1359
+        },
+        {
+          &quot;x&quot;: 494.59,
+          &quot;y&quot;: 235.59,
+          &quot;area&quot;: 126
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 480,
+      &quot;time&quot;: 8.1948,
+      &quot;camera_x_estimate&quot;: 443.88,
+      &quot;flow_matches&quot;: 116,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 546.61,
+          &quot;y&quot;: 231.61,
+          &quot;area&quot;: 1529
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 486,
+      &quot;time&quot;: 8.2973,
+      &quot;camera_x_estimate&quot;: 465.66,
+      &quot;flow_matches&quot;: 109,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 599.73,
+          &quot;y&quot;: 290.25,
+          &quot;area&quot;: 131
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 492,
+      &quot;time&quot;: 8.3997,
+      &quot;camera_x_estimate&quot;: 476.08,
+      &quot;flow_matches&quot;: 114,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 560.26,
+          &quot;y&quot;: 222.12,
+          &quot;area&quot;: 1517
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 498,
+      &quot;time&quot;: 8.5021,
+      &quot;camera_x_estimate&quot;: 483.39,
+      &quot;flow_matches&quot;: 114,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 581.01,
+          &quot;y&quot;: 203.04,
+          &quot;area&quot;: 158
+        },
+        {
+          &quot;x&quot;: 562.81,
+          &quot;y&quot;: 204.48,
+          &quot;area&quot;: 149
+        },
+        {
+          &quot;x&quot;: 540.41,
+          &quot;y&quot;: 234.07,
+          &quot;area&quot;: 660
+        },
+        {
+          &quot;x&quot;: 520.64,
+          &quot;y&quot;: 226.87,
+          &quot;area&quot;: 227
+        },
+        {
+          &quot;x&quot;: 589.79,
+          &quot;y&quot;: 253.24,
+          &quot;area&quot;: 364
+        },
+        {
+          &quot;x&quot;: 531.3,
+          &quot;y&quot;: 267.04,
+          &quot;area&quot;: 189
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 504,
+      &quot;time&quot;: 8.6046,
+      &quot;camera_x_estimate&quot;: 490.54,
+      &quot;flow_matches&quot;: 167,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 559.1,
+          &quot;y&quot;: 197.05,
+          &quot;area&quot;: 316
+        },
+        {
+          &quot;x&quot;: 530.83,
+          &quot;y&quot;: 234.28,
+          &quot;area&quot;: 923
+        },
+        {
+          &quot;x&quot;: 510.52,
+          &quot;y&quot;: 225.23,
+          &quot;area&quot;: 224
+        },
+        {
+          &quot;x&quot;: 521.08,
+          &quot;y&quot;: 266.43,
+          &quot;area&quot;: 202
+        },
+        {
+          &quot;x&quot;: 634.43,
+          &quot;y&quot;: 325.41,
+          &quot;area&quot;: 76
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 510,
+      &quot;time&quot;: 8.707,
+      &quot;camera_x_estimate&quot;: 495.71,
+      &quot;flow_matches&quot;: 180,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 536.0,
+          &quot;y&quot;: 208.11,
+          &quot;area&quot;: 1465
+        },
+        {
+          &quot;x&quot;: 512.99,
+          &quot;y&quot;: 259.52,
+          &quot;area&quot;: 476
+        },
+        {
+          &quot;x&quot;: 640.1,
+          &quot;y&quot;: 341.33,
+          &quot;area&quot;: 1064
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 516,
+      &quot;time&quot;: 8.8094,
+      &quot;camera_x_estimate&quot;: 498.35,
+      &quot;flow_matches&quot;: 172,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 531.93,
+          &quot;y&quot;: 205.93,
+          &quot;area&quot;: 1873
+        },
+        {
+          &quot;x&quot;: 507.48,
+          &quot;y&quot;: 263.28,
+          &quot;area&quot;: 416
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 522,
+      &quot;time&quot;: 8.9119,
+      &quot;camera_x_estimate&quot;: 500.17,
+      &quot;flow_matches&quot;: 191,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 515.67,
+          &quot;y&quot;: 202.05,
+          &quot;area&quot;: 982
+        },
+        {
+          &quot;x&quot;: 548.92,
+          &quot;y&quot;: 191.7,
+          &quot;area&quot;: 477
+        },
+        {
+          &quot;x&quot;: 538.77,
+          &quot;y&quot;: 236.12,
+          &quot;area&quot;: 130
+        },
+        {
+          &quot;x&quot;: 585.2,
+          &quot;y&quot;: 237.27,
+          &quot;area&quot;: 168
+        },
+        {
+          &quot;x&quot;: 495.75,
+          &quot;y&quot;: 262.13,
+          &quot;area&quot;: 153
+        },
+        {
+          &quot;x&quot;: 511.02,
+          &quot;y&quot;: 270.32,
+          &quot;area&quot;: 199
+        },
+        {
+          &quot;x&quot;: 671.15,
+          &quot;y&quot;: 313.26,
+          &quot;area&quot;: 351
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 528,
+      &quot;time&quot;: 9.0143,
+      &quot;camera_x_estimate&quot;: 497.55,
+      &quot;flow_matches&quot;: 156,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 507.9,
+          &quot;y&quot;: 187.15,
+          &quot;area&quot;: 442
+        },
+        {
+          &quot;x&quot;: 553.92,
+          &quot;y&quot;: 188.34,
+          &quot;area&quot;: 411
+        },
+        {
+          &quot;x&quot;: 515.57,
+          &quot;y&quot;: 209.31,
+          &quot;area&quot;: 263
+        },
+        {
+          &quot;x&quot;: 536.96,
+          &quot;y&quot;: 232.55,
+          &quot;area&quot;: 78
+        },
+        {
+          &quot;x&quot;: 511.34,
+          &quot;y&quot;: 274.85,
+          &quot;area&quot;: 266
+        },
+        {
+          &quot;x&quot;: 658.1,
+          &quot;y&quot;: 306.87,
+          &quot;area&quot;: 126
+        },
+        {
+          &quot;x&quot;: 608.95,
+          &quot;y&quot;: 321.99,
+          &quot;area&quot;: 1007
+        },
+        {
+          &quot;x&quot;: 676.14,
+          &quot;y&quot;: 318.6,
+          &quot;area&quot;: 77
+        },
+        {
+          &quot;x&quot;: 664.96,
+          &quot;y&quot;: 353.52,
+          &quot;area&quot;: 1352
+        },
+        {
+          &quot;x&quot;: 631.32,
+          &quot;y&quot;: 369.25,
+          &quot;area&quot;: 283
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 534,
+      &quot;time&quot;: 9.1167,
+      &quot;camera_x_estimate&quot;: 492.19,
+      &quot;flow_matches&quot;: 136,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 503.42,
+          &quot;y&quot;: 180.65,
+          &quot;area&quot;: 337
+        },
+        {
+          &quot;x&quot;: 556.64,
+          &quot;y&quot;: 180.21,
+          &quot;area&quot;: 315
+        },
+        {
+          &quot;x&quot;: 511.74,
+          &quot;y&quot;: 202.97,
+          &quot;area&quot;: 186
+        },
+        {
+          &quot;x&quot;: 587.89,
+          &quot;y&quot;: 240.94,
+          &quot;area&quot;: 342
+        },
+        {
+          &quot;x&quot;: 509.56,
+          &quot;y&quot;: 278.97,
+          &quot;area&quot;: 225
+        },
+        {
+          &quot;x&quot;: 596.18,
+          &quot;y&quot;: 312.39,
+          &quot;area&quot;: 595
+        },
+        {
+          &quot;x&quot;: 645.81,
+          &quot;y&quot;: 328.78,
+          &quot;area&quot;: 234
+        },
+        {
+          &quot;x&quot;: 682.65,
+          &quot;y&quot;: 321.71,
+          &quot;area&quot;: 147
+        },
+        {
+          &quot;x&quot;: 623.22,
+          &quot;y&quot;: 338.3,
+          &quot;area&quot;: 467
+        },
+        {
+          &quot;x&quot;: 679.58,
+          &quot;y&quot;: 354.73,
+          &quot;area&quot;: 1226
+        },
+        {
+          &quot;x&quot;: 629.1,
+          &quot;y&quot;: 376.3,
+          &quot;area&quot;: 172
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 540,
+      &quot;time&quot;: 9.2192,
+      &quot;camera_x_estimate&quot;: 487.0,
+      &quot;flow_matches&quot;: 109,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 499.66,
+          &quot;y&quot;: 174.14,
+          &quot;area&quot;: 234
+        },
+        {
+          &quot;x&quot;: 561.07,
+          &quot;y&quot;: 172.41,
+          &quot;area&quot;: 226
+        },
+        {
+          &quot;x&quot;: 507.95,
+          &quot;y&quot;: 196.83,
+          &quot;area&quot;: 111
+        },
+        {
+          &quot;x&quot;: 589.85,
+          &quot;y&quot;: 238.17,
+          &quot;area&quot;: 180
+        },
+        {
+          &quot;x&quot;: 507.42,
+          &quot;y&quot;: 283.27,
+          &quot;area&quot;: 223
+        },
+        {
+          &quot;x&quot;: 650.91,
+          &quot;y&quot;: 294.76,
+          &quot;area&quot;: 690
+        },
+        {
+          &quot;x&quot;: 600.92,
+          &quot;y&quot;: 307.18,
+          &quot;area&quot;: 902
+        },
+        {
+          &quot;x&quot;: 666.6,
+          &quot;y&quot;: 316.43,
+          &quot;area&quot;: 253
+        },
+        {
+          &quot;x&quot;: 626.9,
+          &quot;y&quot;: 338.0,
+          &quot;area&quot;: 308
+        },
+        {
+          &quot;x&quot;: 698.61,
+          &quot;y&quot;: 326.45,
+          &quot;area&quot;: 96
+        },
+        {
+          &quot;x&quot;: 689.65,
+          &quot;y&quot;: 357.61,
+          &quot;area&quot;: 1376
+        },
+        {
+          &quot;x&quot;: 626.22,
+          &quot;y&quot;: 378.91,
+          &quot;area&quot;: 185
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 546,
+      &quot;time&quot;: 9.3216,
+      &quot;camera_x_estimate&quot;: 484.72,
+      &quot;flow_matches&quot;: 94,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 659.06,
+          &quot;y&quot;: 286.62,
+          &quot;area&quot;: 516
+        },
+        {
+          &quot;x&quot;: 597.58,
+          &quot;y&quot;: 303.67,
+          &quot;area&quot;: 786
+        },
+        {
+          &quot;x&quot;: 646.43,
+          &quot;y&quot;: 319.88,
+          &quot;area&quot;: 1056
+        },
+        {
+          &quot;x&quot;: 702.29,
+          &quot;y&quot;: 365.25,
+          &quot;area&quot;: 1359
+        },
+        {
+          &quot;x&quot;: 626.34,
+          &quot;y&quot;: 385.92,
+          &quot;area&quot;: 102
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 552,
+      &quot;time&quot;: 9.424,
+      &quot;camera_x_estimate&quot;: 484.73,
+      &quot;flow_matches&quot;: 78,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 660.63,
+          &quot;y&quot;: 281.67,
+          &quot;area&quot;: 431
+        },
+        {
+          &quot;x&quot;: 593.71,
+          &quot;y&quot;: 299.57,
+          &quot;area&quot;: 752
+        },
+        {
+          &quot;x&quot;: 632.13,
+          &quot;y&quot;: 323.29,
+          &quot;area&quot;: 392
+        },
+        {
+          &quot;x&quot;: 670.19,
+          &quot;y&quot;: 313.32,
+          &quot;area&quot;: 367
+        },
+        {
+          &quot;x&quot;: 716.3,
+          &quot;y&quot;: 378.06,
+          &quot;area&quot;: 1375
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 558,
+      &quot;time&quot;: 9.5265,
+      &quot;camera_x_estimate&quot;: 484.75,
+      &quot;flow_matches&quot;: 66,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 663.57,
+          &quot;y&quot;: 273.1,
+          &quot;area&quot;: 311
+        },
+        {
+          &quot;x&quot;: 589.38,
+          &quot;y&quot;: 289.64,
+          &quot;area&quot;: 430
+        },
+        {
+          &quot;x&quot;: 673.71,
+          &quot;y&quot;: 309.83,
+          &quot;area&quot;: 379
+        },
+        {
+          &quot;x&quot;: 632.87,
+          &quot;y&quot;: 320.18,
+          &quot;area&quot;: 272
+        },
+        {
+          &quot;x&quot;: 734.42,
+          &quot;y&quot;: 392.7,
+          &quot;area&quot;: 1520
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 564,
+      &quot;time&quot;: 9.6289,
+      &quot;camera_x_estimate&quot;: 484.75,
+      &quot;flow_matches&quot;: 77,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 665.65,
+          &quot;y&quot;: 267.18,
+          &quot;area&quot;: 271
+        },
+        {
+          &quot;x&quot;: 584.12,
+          &quot;y&quot;: 284.29,
+          &quot;area&quot;: 320
+        },
+        {
+          &quot;x&quot;: 677.81,
+          &quot;y&quot;: 301.22,
+          &quot;area&quot;: 97
+        },
+        {
+          &quot;x&quot;: 633.55,
+          &quot;y&quot;: 317.31,
+          &quot;area&quot;: 190
+        },
+        {
+          &quot;x&quot;: 689.6,
+          &quot;y&quot;: 315.93,
+          &quot;area&quot;: 72
+        },
+        {
+          &quot;x&quot;: 747.29,
+          &quot;y&quot;: 381.32,
+          &quot;area&quot;: 110
+        },
+        {
+          &quot;x&quot;: 751.23,
+          &quot;y&quot;: 413.75,
+          &quot;area&quot;: 1378
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 570,
+      &quot;time&quot;: 9.7314,
+      &quot;camera_x_estimate&quot;: 484.76,
+      &quot;flow_matches&quot;: 95,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 668.58,
+          &quot;y&quot;: 260.64,
+          &quot;area&quot;: 260
+        },
+        {
+          &quot;x&quot;: 580.4,
+          &quot;y&quot;: 279.07,
+          &quot;area&quot;: 217
+        },
+        {
+          &quot;x&quot;: 633.78,
+          &quot;y&quot;: 314.47,
+          &quot;area&quot;: 134
+        },
+        {
+          &quot;x&quot;: 757.82,
+          &quot;y&quot;: 400.55,
+          &quot;area&quot;: 99
+        },
+        {
+          &quot;x&quot;: 766.26,
+          &quot;y&quot;: 432.09,
+          &quot;area&quot;: 1387
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 576,
+      &quot;time&quot;: 9.8338,
+      &quot;camera_x_estimate&quot;: 484.6,
+      &quot;flow_matches&quot;: 159,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 758.49,
+          &quot;y&quot;: 405.41,
+          &quot;area&quot;: 91
+        },
+        {
+          &quot;x&quot;: 769.22,
+          &quot;y&quot;: 435.51,
+          &quot;area&quot;: 1349
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 582,
+      &quot;time&quot;: 9.9362,
+      &quot;camera_x_estimate&quot;: 484.6,
+      &quot;flow_matches&quot;: 273,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 758.49,
+          &quot;y&quot;: 405.41,
+          &quot;area&quot;: 91
+        },
+        {
+          &quot;x&quot;: 769.22,
+          &quot;y&quot;: 435.5,
+          &quot;area&quot;: 1348
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 588,
+      &quot;time&quot;: 10.0387,
+      &quot;camera_x_estimate&quot;: 484.6,
+      &quot;flow_matches&quot;: 119,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 774.15,
+          &quot;y&quot;: 391.07,
+          &quot;area&quot;: 819
+        },
+        {
+          &quot;x&quot;: 789.63,
+          &quot;y&quot;: 421.27,
+          &quot;area&quot;: 991
+        },
+        {
+          &quot;x&quot;: 835.02,
+          &quot;y&quot;: 426.14,
+          &quot;area&quot;: 125
+        },
+        {
+          &quot;x&quot;: 789.05,
+          &quot;y&quot;: 475.72,
+          &quot;area&quot;: 1325
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 594,
+      &quot;time&quot;: 10.1411,
+      &quot;camera_x_estimate&quot;: 484.63,
+      &quot;flow_matches&quot;: 157,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 760.6,
+          &quot;y&quot;: 380.9,
+          &quot;area&quot;: 494
+        },
+        {
+          &quot;x&quot;: 781.05,
+          &quot;y&quot;: 421.14,
+          &quot;area&quot;: 198
+        },
+        {
+          &quot;x&quot;: 821.03,
+          &quot;y&quot;: 412.81,
+          &quot;area&quot;: 97
+        },
+        {
+          &quot;x&quot;: 842.24,
+          &quot;y&quot;: 445.82,
+          &quot;area&quot;: 102
+        },
+        {
+          &quot;x&quot;: 818.97,
+          &quot;y&quot;: 444.79,
+          &quot;area&quot;: 234
+        },
+        {
+          &quot;x&quot;: 739.63,
+          &quot;y&quot;: 444.56,
+          &quot;area&quot;: 84
+        },
+        {
+          &quot;x&quot;: 781.48,
+          &quot;y&quot;: 469.45,
+          &quot;area&quot;: 1636
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 600,
+      &quot;time&quot;: 10.2435,
+      &quot;camera_x_estimate&quot;: 484.64,
+      &quot;flow_matches&quot;: 227,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 754.9,
+          &quot;y&quot;: 381.77,
+          &quot;area&quot;: 477
+        },
+        {
+          &quot;x&quot;: 783.06,
+          &quot;y&quot;: 412.52,
+          &quot;area&quot;: 126
+        },
+        {
+          &quot;x&quot;: 820.83,
+          &quot;y&quot;: 412.89,
+          &quot;area&quot;: 99
+        },
+        {
+          &quot;x&quot;: 813.94,
+          &quot;y&quot;: 444.23,
+          &quot;area&quot;: 383
+        },
+        {
+          &quot;x&quot;: 739.82,
+          &quot;y&quot;: 446.29,
+          &quot;area&quot;: 151
+        },
+        {
+          &quot;x&quot;: 843.47,
+          &quot;y&quot;: 448.54,
+          &quot;area&quot;: 135
+        },
+        {
+          &quot;x&quot;: 780.55,
+          &quot;y&quot;: 470.95,
+          &quot;area&quot;: 1496
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 606,
+      &quot;time&quot;: 10.346,
+      &quot;camera_x_estimate&quot;: 484.64,
+      &quot;flow_matches&quot;: 173,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 751.13,
+          &quot;y&quot;: 383.48,
+          &quot;area&quot;: 495
+        },
+        {
+          &quot;x&quot;: 808.42,
+          &quot;y&quot;: 427.89,
+          &quot;area&quot;: 1336
+        },
+        {
+          &quot;x&quot;: 754.73,
+          &quot;y&quot;: 444.91,
+          &quot;area&quot;: 532
+        },
+        {
+          &quot;x&quot;: 784.0,
+          &quot;y&quot;: 471.84,
+          &quot;area&quot;: 1338
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 612,
+      &quot;time&quot;: 10.4484,
+      &quot;camera_x_estimate&quot;: 484.64,
+      &quot;flow_matches&quot;: 250,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 751.13,
+          &quot;y&quot;: 383.48,
+          &quot;area&quot;: 495
+        },
+        {
+          &quot;x&quot;: 808.44,
+          &quot;y&quot;: 427.9,
+          &quot;area&quot;: 1337
+        },
+        {
+          &quot;x&quot;: 754.73,
+          &quot;y&quot;: 444.91,
+          &quot;area&quot;: 532
+        },
+        {
+          &quot;x&quot;: 783.89,
+          &quot;y&quot;: 471.84,
+          &quot;area&quot;: 1334
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 618,
+      &quot;time&quot;: 10.5508,
+      &quot;camera_x_estimate&quot;: 484.64,
+      &quot;flow_matches&quot;: 250,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 751.13,
+          &quot;y&quot;: 383.48,
+          &quot;area&quot;: 495
+        },
+        {
+          &quot;x&quot;: 808.42,
+          &quot;y&quot;: 427.89,
+          &quot;area&quot;: 1336
+        },
+        {
+          &quot;x&quot;: 754.73,
+          &quot;y&quot;: 444.91,
+          &quot;area&quot;: 532
+        },
+        {
+          &quot;x&quot;: 783.87,
+          &quot;y&quot;: 471.85,
+          &quot;area&quot;: 1335
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 624,
+      &quot;time&quot;: 10.6533,
+      &quot;camera_x_estimate&quot;: 484.64,
+      &quot;flow_matches&quot;: 108,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 751.82,
+          &quot;y&quot;: 379.5,
+          &quot;area&quot;: 343
+        },
+        {
+          &quot;x&quot;: 805.28,
+          &quot;y&quot;: 395.38,
+          &quot;area&quot;: 322
+        },
+        {
+          &quot;x&quot;: 820.73,
+          &quot;y&quot;: 439.72,
+          &quot;area&quot;: 644
+        },
+        {
+          &quot;x&quot;: 745.24,
+          &quot;y&quot;: 446.15,
+          &quot;area&quot;: 666
+        },
+        {
+          &quot;x&quot;: 786.21,
+          &quot;y&quot;: 478.46,
+          &quot;area&quot;: 1412
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 630,
+      &quot;time&quot;: 10.7557,
+      &quot;camera_x_estimate&quot;: 484.46,
+      &quot;flow_matches&quot;: 200,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 751.34,
+          &quot;y&quot;: 375.51,
+          &quot;area&quot;: 247
+        },
+        {
+          &quot;x&quot;: 807.87,
+          &quot;y&quot;: 390.17,
+          &quot;area&quot;: 247
+        },
+        {
+          &quot;x&quot;: 824.2,
+          &quot;y&quot;: 439.34,
+          &quot;area&quot;: 561
+        },
+        {
+          &quot;x&quot;: 740.77,
+          &quot;y&quot;: 448.67,
+          &quot;area&quot;: 505
+        },
+        {
+          &quot;x&quot;: 787.0,
+          &quot;y&quot;: 478.7,
+          &quot;area&quot;: 1507
+        }
+      ]
+    },
+    {
+      &quot;frame&quot;: 636,
+      &quot;time&quot;: 10.8581,
+      &quot;camera_x_estimate&quot;: 484.46,
+      &quot;flow_matches&quot;: 190,
+      &quot;red_candidates&quot;: [
+        {
+          &quot;x&quot;: 749.14,
+          &quot;y&quot;: 370.08,
+          &quot;area&quot;: 157
+        },
+        {
+          &quot;x&quot;: 812.68,
+          &quot;y&quot;: 382.7,
+          &quot;area&quot;: 135
+        },
+        {
+          &quot;x&quot;: 783.67,
+          &quot;y&quot;: 424.34,
+          &quot;area&quot;: 90
+        },
+        {
+          &quot;x&quot;: 831.33,
+          &quot;y&quot;: 440.65,
+          &quot;area&quot;: 333
+        },
+        {
+          &quot;x&quot;: 732.81,
+          &quot;y&quot;: 451.73,
+          &quot;area&quot;: 300
+        },
+        {
+          &quot;x&quot;: 786.29,
+          &quot;y&quot;: 478.96,
+          &quot;area&quot;: 1544
+        }
+      ]
+    }
+  ],
+  &quot;events&quot;: [
+    {
+      &quot;time&quot;: 0,
+      &quot;event&quot;: &quot;Tower visible: wooden frame, inner blue supports, one green target.&quot;
+    },
+    {
+      &quot;time&quot;: 1.2,
+      &quot;event&quot;: &quot;Camera pans from the tower toward the launcher.&quot;
+    },
+    {
+      &quot;time&quot;: 4.4,
+      &quot;event&quot;: &quot;Loaded character pulled backward and downward.&quot;
+    },
+    {
+      &quot;time&quot;: 6.9,
+      &quot;event&quot;: &quot;Release followed by free flight; camera follows.&quot;
+    },
+    {
+      &quot;time&quot;: 8.25,
+      &quot;event&quot;: &quot;Impact near upper tower and target; structure starts breaking.&quot;
+    },
+    {
+      &quot;time&quot;: 8.3,
+      &quot;event&quot;: &quot;Green 5000-point popup visible; target no longer intact.&quot;
+    },
+    {
+      &quot;time&quot;: 9.4,
+      &quot;event&quot;: &quot;Tower continues rotating and collapsing.&quot;
+    },
+    {
+      &quot;time&quot;: 10.6,
+      &quot;event&quot;: &quot;Visible score reaches 9560; no end-of-level screen shown.&quot;
+    }
+  ]
+}</code></pre></div><div class="astra-panel" id="angry-birds-file-2" role="tabpanel" aria-labelledby="angry-birds-file-2-tab" hidden><div class="astra-file-tools"><span>evidence/action_latents.json · 1,133 bytes</span><a href="astra/angry-birds/evidence/action_latents.json" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>{
+  &quot;representation&quot;: [
+    &quot;phase&quot;,
+    &quot;pull_dx&quot;,
+    &quot;pull_dy&quot;
+  ],
+  &quot;phases&quot;: [
+    &quot;loaded&quot;,
+    &quot;pulling&quot;,
+    &quot;holding&quot;,
+    &quot;released&quot;,
+    &quot;passive_flight&quot;
+  ],
+  &quot;estimated_pull_in_crop_pixels&quot;: [
+    -156,
+    80
+  ],
+  &quot;estimated_launch_angle_degrees&quot;: 27,
+  &quot;source&quot;: &quot;Visual inspection and red-component centroids in the supplied recording; no original action labels.&quot;,
+  &quot;limitations&quot;: [
+    &quot;Pixel centroids are not exact sprite centers.&quot;,
+    &quot;Camera pan and zoom prevent a reliable world-space speed fit.&quot;,
+    &quot;Underlying input device and actual control values are not observed.&quot;,
+    &quot;Linear spring mapping is a reconstruction assumption.&quot;
+  ],
+  &quot;segments&quot;: [
+    {
+      &quot;start&quot;: 1.8,
+      &quot;end&quot;: 4.4,
+      &quot;phase&quot;: &quot;loaded&quot;
+    },
+    {
+      &quot;start&quot;: 4.4,
+      &quot;end&quot;: 4.8,
+      &quot;phase&quot;: &quot;pulling&quot;
+    },
+    {
+      &quot;start&quot;: 4.8,
+      &quot;end&quot;: 6.86,
+      &quot;phase&quot;: &quot;holding&quot;,
+      &quot;detail&quot;: &quot;Small pull adjustments are visible.&quot;
+    },
+    {
+      &quot;start&quot;: 6.86,
+      &quot;end&quot;: 6.97,
+      &quot;phase&quot;: &quot;released&quot;
+    },
+    {
+      &quot;start&quot;: 6.97,
+      &quot;end&quot;: 8.25,
+      &quot;phase&quot;: &quot;passive_flight&quot;
+    }
+  ]
+}</code></pre></div><div class="astra-panel" id="angry-birds-file-3" role="tabpanel" aria-labelledby="angry-birds-file-3-tab" hidden><div class="astra-file-tools"><span>analyze_video.py · 3,291 bytes</span><a href="astra/angry-birds/analyze_video.py" download>Download file ↓</a></div><pre class="astra-code" tabindex="0"><code>&quot;&quot;&quot;Extract evidence exclusively from the supplied recording, excluding browser chrome.
+Dependencies: numpy, opencv-python-headless. Camera correction is approximate.
+&quot;&quot;&quot;
+from pathlib import Path
+import cv2, numpy as np, json
+R=Path(__file__).resolve().parent
+SOURCE=R.parent/&#x27;Screen Recording 2026-09-10 at 10.12.32.mov&#x27;
+cap=cv2.VideoCapture(str(SOURCE));fps=cap.get(cv2.CAP_PROP_FPS)
+# Fixed gameplay viewport, measured visually in the recording.
+x0,y0,w,h=60,239,1248,697
+writer=cv2.VideoWriter(str(R/&#x27;reference.webm&#x27;),cv2.VideoWriter_fourcc(*&#x27;VP80&#x27;),fps/2,(960,536))
+trace=[];prev=None;cam_x=0;frame_index=0
+while True:
+ ok,raw=cap.read()
+ if not ok:break
+ crop=raw[y0:y0+h,x0:x0+w]
+ if frame_index%2==0:writer.write(cv2.resize(crop,(960,536)))
+ if frame_index%6==0:
+  gray=cv2.cvtColor(crop,cv2.COLOR_BGR2GRAY)
+  shift=0;matches=0
+  if prev is not None:
+   # Track static scenery above the grass. Median flow suppresses moving sprites.
+   mask=np.zeros_like(prev);mask[120:560,30:1190]=255
+   pts=cv2.goodFeaturesToTrack(prev,300,.01,10,mask=mask)
+   if pts is not None:
+    nxt,status,_=cv2.calcOpticalFlowPyrLK(prev,gray,pts,None)
+    if nxt is not None:
+     delta=(nxt-pts).reshape(-1,2)[status.ravel()==1];delta=delta[np.abs(delta[:,1])&lt;4]
+     matches=len(delta)
+     if matches&gt;=10:shift=float(np.median(delta[:,0]))
+  cam_x-=shift;prev=gray
+  hsv=cv2.cvtColor(crop,cv2.COLOR_BGR2HSV)
+  mask=(((hsv[:,:,0]&lt;12)|(hsv[:,:,0]&gt;170))&amp;(hsv[:,:,1]&gt;140)&amp;(hsv[:,:,2]&gt;90)).astype(&#x27;uint8&#x27;)
+  count,labels,stats,centers=cv2.connectedComponentsWithStats(mask)
+  candidates=[]
+  for k in range(1,count):
+   x,y,bw,bh,area=map(int,stats[k]);cx,cy=centers[k]
+   if 65&lt;area&lt;2500 and 9&lt;bw&lt;95 and 8&lt;bh&lt;95 and cy&lt;610:
+    candidates.append({&#x27;x&#x27;:round(float(cx),2),&#x27;y&#x27;:round(float(cy),2),&#x27;area&#x27;:area})
+  trace.append({&#x27;frame&#x27;:frame_index,&#x27;time&#x27;:round(frame_index/fps,4),&#x27;camera_x_estimate&#x27;:round(cam_x,2),&#x27;flow_matches&#x27;:matches,&#x27;red_candidates&#x27;:candidates})
+ frame_index+=1
+writer.release();cap.release()
+result={&#x27;source&#x27;:SOURCE.name,&#x27;crop&#x27;:[x0,y0,w,h],&#x27;fps&#x27;:fps,&#x27;frames&#x27;:frame_index,&#x27;duration&#x27;:frame_index/fps,&#x27;method&#x27;:&#x27;HSV red candidates and median optical-flow camera estimate. Candidates are not guaranteed identities.&#x27;,&#x27;samples&#x27;:trace,
+&#x27;events&#x27;:[{&#x27;time&#x27;:0,&#x27;event&#x27;:&#x27;Tower visible: wooden frame, inner blue supports, one green target.&#x27;},{&#x27;time&#x27;:1.2,&#x27;event&#x27;:&#x27;Camera pans from the tower toward the launcher.&#x27;},{&#x27;time&#x27;:4.4,&#x27;event&#x27;:&#x27;Loaded character pulled backward and downward.&#x27;},{&#x27;time&#x27;:6.9,&#x27;event&#x27;:&#x27;Release followed by free flight; camera follows.&#x27;},{&#x27;time&#x27;:8.25,&#x27;event&#x27;:&#x27;Impact near upper tower and target; structure starts breaking.&#x27;},{&#x27;time&#x27;:8.3,&#x27;event&#x27;:&#x27;Green 5000-point popup visible; target no longer intact.&#x27;},{&#x27;time&#x27;:9.4,&#x27;event&#x27;:&#x27;Tower continues rotating and collapsing.&#x27;},{&#x27;time&#x27;:10.6,&#x27;event&#x27;:&#x27;Visible score reaches 9560; no end-of-level screen shown.&#x27;}]}
+(R/&#x27;evidence/inferred.json&#x27;).write_text(json.dumps(result,indent=2))
+# Crop selected already-extracted frames for visual comparison.
+for name in [&#x27;frame_00000.png&#x27;,&#x27;frame_00276.png&#x27;,&#x27;frame_00449.png&#x27;,&#x27;frame_00483.png&#x27;,&#x27;frame_00621.png&#x27;]:
+ f=cv2.imread(str(R/&#x27;evidence&#x27;/name));cv2.imwrite(str(R/&#x27;evidence&#x27;/(&#x27;crop_&#x27;+name)),f[y0:y0+h,x0:x0+w])
+print(&#x27;Extracted&#x27;,len(trace),&#x27;motion samples and browser-playable cropped reference video.&#x27;)
+</code></pre></div></details>
+        <div class="astra-play"><div class="astra-play-head"><strong>OUTPUT / PLAY THE RECREATION</strong><div class="astra-play-links"><button class="astra-button astra-stop" data-stop-game hidden>Close game</button><a href="astra/angry-birds/index.html" target="_blank" rel="noopener">Open full game ↗</a><a href="astra/angry-birds/play.html" download>Download offline HTML ↓</a></div></div>
+          <div class="astra-launcher"><img src="astra/angry-birds/evidence/browser.png" alt="Screenshot of the recreated Angry Birds / Timber &amp; Flight game" loading="lazy"><div><p>Drag the red bird backward, then release. Or use the angle and strength sliders. “Try a sample shot” demonstrates the physics.</p><button class="astra-button" data-start-game>Play here →</button></div></div>
+          <iframe class="astra-game-frame" title="Playable Angry Birds / Timber &amp; Flight" data-src="astra/angry-birds/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        </div><p class="astra-status" role="status" aria-live="polite">Loads only when you choose Play here.</p><p class="astra-case-foot">Gravity, material durability, individual destruction rewards, and end conditions are tuned assumptions. The sample shot is not a source-trajectory replay.</p>
+      </div>
+    </article>
+  </section>
+<!-- ASTRA RESULTS END -->
+
   <footer>
     Method and commands: <code>cosmos/FINETUNE_ON_SPATIAL_MAP.md</code>
   </footer>
 
 </div>
+
+<script src="astra.js"></script>
+
+</html>

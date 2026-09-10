@@ -1,0 +1,2597 @@
+{
+  "source": "Screen Recording 2026-09-10 at 10.12.32.mov",
+  "crop": [
+    60,
+    239,
+    1248,
+    697
+  ],
+  "fps": 58.573551263001484,
+  "frames": 637,
+  "duration": 10.87521562658549,
+  "method": "HSV red candidates and median optical-flow camera estimate. Candidates are not guaranteed identities.",
+  "samples": [
+    {
+      "frame": 0,
+      "time": 0.0,
+      "camera_x_estimate": 0,
+      "flow_matches": 0,
+      "red_candidates": []
+    },
+    {
+      "frame": 6,
+      "time": 0.1024,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 119,
+      "red_candidates": []
+    },
+    {
+      "frame": 12,
+      "time": 0.2049,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 123,
+      "red_candidates": []
+    },
+    {
+      "frame": 18,
+      "time": 0.3073,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 122,
+      "red_candidates": []
+    },
+    {
+      "frame": 24,
+      "time": 0.4097,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 122,
+      "red_candidates": []
+    },
+    {
+      "frame": 30,
+      "time": 0.5122,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 126,
+      "red_candidates": []
+    },
+    {
+      "frame": 36,
+      "time": 0.6146,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 126,
+      "red_candidates": []
+    },
+    {
+      "frame": 42,
+      "time": 0.717,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 126,
+      "red_candidates": []
+    },
+    {
+      "frame": 48,
+      "time": 0.8195,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 126,
+      "red_candidates": []
+    },
+    {
+      "frame": 54,
+      "time": 0.9219,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 7,
+      "red_candidates": []
+    },
+    {
+      "frame": 60,
+      "time": 1.0244,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 4,
+      "red_candidates": []
+    },
+    {
+      "frame": 66,
+      "time": 1.1268,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 5,
+      "red_candidates": []
+    },
+    {
+      "frame": 72,
+      "time": 1.2292,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 5,
+      "red_candidates": []
+    },
+    {
+      "frame": 78,
+      "time": 1.3317,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 2,
+      "red_candidates": [
+        {
+          "x": 103.32,
+          "y": 397.65,
+          "area": 1097
+        },
+        {
+          "x": 126.41,
+          "y": 421.89,
+          "area": 140
+        }
+      ]
+    },
+    {
+      "frame": 84,
+      "time": 1.4341,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 2,
+      "red_candidates": [
+        {
+          "x": 317.47,
+          "y": 384.91,
+          "area": 1164
+        },
+        {
+          "x": 341.54,
+          "y": 407.19,
+          "area": 141
+        }
+      ]
+    },
+    {
+      "frame": 90,
+      "time": 1.5365,
+      "camera_x_estimate": 0.0,
+      "flow_matches": 5,
+      "red_candidates": [
+        {
+          "x": 431.29,
+          "y": 377.37,
+          "area": 1190
+        },
+        {
+          "x": 456.16,
+          "y": 402.81,
+          "area": 177
+        },
+        {
+          "x": 415.3,
+          "y": 503.44,
+          "area": 84
+        },
+        {
+          "x": 806.32,
+          "y": 600.67,
+          "area": 1733
+        },
+        {
+          "x": 910.39,
+          "y": 599.5,
+          "area": 1413
+        }
+      ]
+    },
+    {
+      "frame": 96,
+      "time": 1.639,
+      "camera_x_estimate": 0.6,
+      "flow_matches": 117,
+      "red_candidates": [
+        {
+          "x": 430.19,
+          "y": 377.56,
+          "area": 1201
+        },
+        {
+          "x": 454.59,
+          "y": 399.77,
+          "area": 154
+        },
+        {
+          "x": 414.1,
+          "y": 502.32,
+          "area": 114
+        },
+        {
+          "x": 909.41,
+          "y": 594.64,
+          "area": 1415
+        },
+        {
+          "x": 805.82,
+          "y": 604.09,
+          "area": 1953
+        }
+      ]
+    },
+    {
+      "frame": 102,
+      "time": 1.7414,
+      "camera_x_estimate": 1.02,
+      "flow_matches": 108,
+      "red_candidates": [
+        {
+          "x": 429.16,
+          "y": 377.51,
+          "area": 1207
+        },
+        {
+          "x": 454.19,
+          "y": 401.07,
+          "area": 166
+        },
+        {
+          "x": 805.25,
+          "y": 608.72,
+          "area": 1958
+        },
+        {
+          "x": 907.6,
+          "y": 609.3,
+          "area": 1512
+        }
+      ]
+    },
+    {
+      "frame": 108,
+      "time": 1.8438,
+      "camera_x_estimate": 1.19,
+      "flow_matches": 124,
+      "red_candidates": [
+        {
+          "x": 430.76,
+          "y": 378.93,
+          "area": 1344
+        },
+        {
+          "x": 454.11,
+          "y": 399.86,
+          "area": 185
+        }
+      ]
+    },
+    {
+      "frame": 114,
+      "time": 1.9463,
+      "camera_x_estimate": 1.38,
+      "flow_matches": 136,
+      "red_candidates": [
+        {
+          "x": 428.1,
+          "y": 377.41,
+          "area": 1230
+        },
+        {
+          "x": 453.01,
+          "y": 399.65,
+          "area": 142
+        }
+      ]
+    },
+    {
+      "frame": 120,
+      "time": 2.0487,
+      "camera_x_estimate": 1.5,
+      "flow_matches": 136,
+      "red_candidates": [
+        {
+          "x": 428.15,
+          "y": 377.55,
+          "area": 1223
+        },
+        {
+          "x": 452.61,
+          "y": 399.75,
+          "area": 147
+        }
+      ]
+    },
+    {
+      "frame": 126,
+      "time": 2.1511,
+      "camera_x_estimate": 1.57,
+      "flow_matches": 124,
+      "red_candidates": [
+        {
+          "x": 428.19,
+          "y": 377.58,
+          "area": 1217
+        },
+        {
+          "x": 452.36,
+          "y": 400.24,
+          "area": 152
+        }
+      ]
+    },
+    {
+      "frame": 132,
+      "time": 2.2536,
+      "camera_x_estimate": 1.63,
+      "flow_matches": 122,
+      "red_candidates": [
+        {
+          "x": 428.06,
+          "y": 377.54,
+          "area": 1221
+        },
+        {
+          "x": 452.36,
+          "y": 399.79,
+          "area": 154
+        }
+      ]
+    },
+    {
+      "frame": 138,
+      "time": 2.356,
+      "camera_x_estimate": 1.66,
+      "flow_matches": 125,
+      "red_candidates": [
+        {
+          "x": 428.04,
+          "y": 377.48,
+          "area": 1218
+        },
+        {
+          "x": 452.35,
+          "y": 401.42,
+          "area": 179
+        }
+      ]
+    },
+    {
+      "frame": 144,
+      "time": 2.4584,
+      "camera_x_estimate": 1.69,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 428.02,
+          "y": 377.42,
+          "area": 1208
+        },
+        {
+          "x": 452.59,
+          "y": 401.96,
+          "area": 191
+        }
+      ]
+    },
+    {
+      "frame": 150,
+      "time": 2.5609,
+      "camera_x_estimate": 1.69,
+      "flow_matches": 115,
+      "red_candidates": [
+        {
+          "x": 427.88,
+          "y": 377.44,
+          "area": 1222
+        },
+        {
+          "x": 452.72,
+          "y": 402.16,
+          "area": 194
+        }
+      ]
+    },
+    {
+      "frame": 156,
+      "time": 2.6633,
+      "camera_x_estimate": 1.69,
+      "flow_matches": 115,
+      "red_candidates": [
+        {
+          "x": 427.86,
+          "y": 377.49,
+          "area": 1223
+        },
+        {
+          "x": 452.72,
+          "y": 402.16,
+          "area": 194
+        }
+      ]
+    },
+    {
+      "frame": 162,
+      "time": 2.7658,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 114,
+      "red_candidates": [
+        {
+          "x": 427.43,
+          "y": 377.32,
+          "area": 1201
+        },
+        {
+          "x": 452.07,
+          "y": 399.52,
+          "area": 152
+        }
+      ]
+    },
+    {
+      "frame": 168,
+      "time": 2.8682,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 114,
+      "red_candidates": [
+        {
+          "x": 429.52,
+          "y": 378.99,
+          "area": 1365
+        },
+        {
+          "x": 453.12,
+          "y": 399.51,
+          "area": 179
+        }
+      ]
+    },
+    {
+      "frame": 174,
+      "time": 2.9706,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 120,
+      "red_candidates": [
+        {
+          "x": 429.46,
+          "y": 379.01,
+          "area": 1362
+        },
+        {
+          "x": 453.12,
+          "y": 399.51,
+          "area": 179
+        }
+      ]
+    },
+    {
+      "frame": 180,
+      "time": 3.0731,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 427.35,
+          "y": 377.45,
+          "area": 1198
+        },
+        {
+          "x": 452.05,
+          "y": 399.62,
+          "area": 152
+        },
+        {
+          "x": 802.77,
+          "y": 599.32,
+          "area": 1721
+        }
+      ]
+    },
+    {
+      "frame": 186,
+      "time": 3.1755,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 427.42,
+          "y": 377.44,
+          "area": 1201
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        },
+        {
+          "x": 802.49,
+          "y": 581.03,
+          "area": 1718
+        },
+        {
+          "x": 833.44,
+          "y": 599.66,
+          "area": 128
+        }
+      ]
+    },
+    {
+      "frame": 192,
+      "time": 3.2779,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 427.35,
+          "y": 377.45,
+          "area": 1198
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        },
+        {
+          "x": 802.2,
+          "y": 580.15,
+          "area": 1708
+        },
+        {
+          "x": 833.47,
+          "y": 598.53,
+          "area": 133
+        }
+      ]
+    },
+    {
+      "frame": 198,
+      "time": 3.3804,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 427.47,
+          "y": 377.43,
+          "area": 1202
+        },
+        {
+          "x": 452.07,
+          "y": 399.52,
+          "area": 152
+        },
+        {
+          "x": 802.43,
+          "y": 596.79,
+          "area": 1718
+        }
+      ]
+    },
+    {
+      "frame": 204,
+      "time": 3.4828,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 120,
+      "red_candidates": [
+        {
+          "x": 427.47,
+          "y": 377.43,
+          "area": 1202
+        },
+        {
+          "x": 452.07,
+          "y": 399.52,
+          "area": 152
+        },
+        {
+          "x": 802.32,
+          "y": 605.16,
+          "area": 1702
+        }
+      ]
+    },
+    {
+      "frame": 210,
+      "time": 3.5852,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 120,
+      "red_candidates": [
+        {
+          "x": 427.47,
+          "y": 377.43,
+          "area": 1202
+        },
+        {
+          "x": 452.07,
+          "y": 399.52,
+          "area": 152
+        },
+        {
+          "x": 802.24,
+          "y": 602.96,
+          "area": 1712
+        }
+      ]
+    },
+    {
+      "frame": 216,
+      "time": 3.6877,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 120,
+      "red_candidates": [
+        {
+          "x": 427.47,
+          "y": 377.43,
+          "area": 1202
+        },
+        {
+          "x": 452.07,
+          "y": 399.52,
+          "area": 152
+        }
+      ]
+    },
+    {
+      "frame": 222,
+      "time": 3.7901,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 429.49,
+          "y": 378.82,
+          "area": 1366
+        },
+        {
+          "x": 452.73,
+          "y": 400.34,
+          "area": 187
+        }
+      ]
+    },
+    {
+      "frame": 228,
+      "time": 3.8925,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 121,
+      "red_candidates": [
+        {
+          "x": 429.43,
+          "y": 378.81,
+          "area": 1363
+        },
+        {
+          "x": 452.78,
+          "y": 399.96,
+          "area": 183
+        }
+      ]
+    },
+    {
+      "frame": 234,
+      "time": 3.995,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 427.33,
+          "y": 377.41,
+          "area": 1197
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        }
+      ]
+    },
+    {
+      "frame": 240,
+      "time": 4.0974,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 118,
+      "red_candidates": [
+        {
+          "x": 427.46,
+          "y": 377.39,
+          "area": 1204
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        }
+      ]
+    },
+    {
+      "frame": 246,
+      "time": 4.1998,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 427.46,
+          "y": 377.39,
+          "area": 1204
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        }
+      ]
+    },
+    {
+      "frame": 252,
+      "time": 4.3023,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 427.47,
+          "y": 377.47,
+          "area": 1208
+        },
+        {
+          "x": 451.21,
+          "y": 400.31,
+          "area": 170
+        }
+      ]
+    },
+    {
+      "frame": 258,
+      "time": 4.4047,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 118,
+      "red_candidates": [
+        {
+          "x": 427.34,
+          "y": 377.42,
+          "area": 1192
+        },
+        {
+          "x": 452.05,
+          "y": 399.56,
+          "area": 153
+        }
+      ]
+    },
+    {
+      "frame": 264,
+      "time": 4.5072,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 97,
+      "red_candidates": [
+        {
+          "x": 264.79,
+          "y": 438.68,
+          "area": 1100
+        },
+        {
+          "x": 295.15,
+          "y": 464.73,
+          "area": 150
+        },
+        {
+          "x": 802.22,
+          "y": 603.77,
+          "area": 1702
+        }
+      ]
+    },
+    {
+      "frame": 270,
+      "time": 4.6096,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 94,
+      "red_candidates": [
+        {
+          "x": 266.66,
+          "y": 444.28,
+          "area": 1152
+        },
+        {
+          "x": 297.07,
+          "y": 470.8,
+          "area": 150
+        },
+        {
+          "x": 802.21,
+          "y": 584.03,
+          "area": 1698
+        },
+        {
+          "x": 833.07,
+          "y": 602.88,
+          "area": 134
+        }
+      ]
+    },
+    {
+      "frame": 276,
+      "time": 4.712,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 110,
+      "red_candidates": [
+        {
+          "x": 267.43,
+          "y": 447.02,
+          "area": 1135
+        },
+        {
+          "x": 298.95,
+          "y": 472.65,
+          "area": 151
+        },
+        {
+          "x": 802.27,
+          "y": 583.67,
+          "area": 1699
+        },
+        {
+          "x": 906.65,
+          "y": 589.77,
+          "area": 1434
+        },
+        {
+          "x": 833.07,
+          "y": 602.99,
+          "area": 130
+        }
+      ]
+    },
+    {
+      "frame": 282,
+      "time": 4.8145,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 108,
+      "red_candidates": [
+        {
+          "x": 268.29,
+          "y": 449.17,
+          "area": 1146
+        },
+        {
+          "x": 299.11,
+          "y": 475.82,
+          "area": 148
+        },
+        {
+          "x": 906.85,
+          "y": 595.9,
+          "area": 1426
+        },
+        {
+          "x": 802.33,
+          "y": 601.8,
+          "area": 1731
+        }
+      ]
+    },
+    {
+      "frame": 288,
+      "time": 4.9169,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 121,
+      "red_candidates": [
+        {
+          "x": 268.29,
+          "y": 449.17,
+          "area": 1146
+        },
+        {
+          "x": 299.11,
+          "y": 475.82,
+          "area": 148
+        },
+        {
+          "x": 802.25,
+          "y": 605.26,
+          "area": 1713
+        },
+        {
+          "x": 908.02,
+          "y": 608.21,
+          "area": 1617
+        }
+      ]
+    },
+    {
+      "frame": 294,
+      "time": 5.0193,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 84,
+      "red_candidates": [
+        {
+          "x": 272.35,
+          "y": 458.44,
+          "area": 1105
+        },
+        {
+          "x": 304.86,
+          "y": 484.06,
+          "area": 142
+        },
+        {
+          "x": 802.43,
+          "y": 606.52,
+          "area": 1719
+        }
+      ]
+    },
+    {
+      "frame": 300,
+      "time": 5.1218,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 391.17,
+          "y": 438.25,
+          "area": 155
+        },
+        {
+          "x": 273.48,
+          "y": 461.07,
+          "area": 1103
+        },
+        {
+          "x": 306.34,
+          "y": 486.48,
+          "area": 127
+        }
+      ]
+    },
+    {
+      "frame": 306,
+      "time": 5.2242,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 88,
+      "red_candidates": [
+        {
+          "x": 391.0,
+          "y": 437.41,
+          "area": 164
+        },
+        {
+          "x": 276.91,
+          "y": 467.21,
+          "area": 1123
+        },
+        {
+          "x": 309.64,
+          "y": 491.88,
+          "area": 149
+        }
+      ]
+    },
+    {
+      "frame": 312,
+      "time": 5.3266,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 122,
+      "red_candidates": [
+        {
+          "x": 390.77,
+          "y": 435.2,
+          "area": 182
+        },
+        {
+          "x": 276.91,
+          "y": 467.22,
+          "area": 1122
+        },
+        {
+          "x": 309.64,
+          "y": 491.88,
+          "area": 149
+        }
+      ]
+    },
+    {
+      "frame": 318,
+      "time": 5.4291,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 83,
+      "red_candidates": [
+        {
+          "x": 272.74,
+          "y": 459.33,
+          "area": 1135
+        },
+        {
+          "x": 304.86,
+          "y": 485.02,
+          "area": 154
+        }
+      ]
+    },
+    {
+      "frame": 324,
+      "time": 5.5315,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 113,
+      "red_candidates": [
+        {
+          "x": 390.72,
+          "y": 429.96,
+          "area": 132
+        },
+        {
+          "x": 270.87,
+          "y": 455.41,
+          "area": 1149
+        },
+        {
+          "x": 302.23,
+          "y": 481.3,
+          "area": 148
+        }
+      ]
+    },
+    {
+      "frame": 330,
+      "time": 5.6339,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 84,
+      "red_candidates": [
+        {
+          "x": 266.98,
+          "y": 447.96,
+          "area": 1156
+        },
+        {
+          "x": 295.55,
+          "y": 458.25,
+          "area": 100
+        },
+        {
+          "x": 300.22,
+          "y": 473.02,
+          "area": 196
+        },
+        {
+          "x": 275.25,
+          "y": 471.62,
+          "area": 72
+        },
+        {
+          "x": 917.26,
+          "y": 572.38,
+          "area": 135
+        },
+        {
+          "x": 902.79,
+          "y": 604.12,
+          "area": 1441
+        }
+      ]
+    },
+    {
+      "frame": 336,
+      "time": 5.7364,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 72,
+      "red_candidates": [
+        {
+          "x": 270.96,
+          "y": 455.06,
+          "area": 1133
+        },
+        {
+          "x": 302.2,
+          "y": 481.23,
+          "area": 147
+        },
+        {
+          "x": 887.96,
+          "y": 575.36,
+          "area": 141
+        },
+        {
+          "x": 918.31,
+          "y": 597.87,
+          "area": 1624
+        }
+      ]
+    },
+    {
+      "frame": 342,
+      "time": 5.8388,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 121,
+      "red_candidates": [
+        {
+          "x": 390.66,
+          "y": 432.76,
+          "area": 96
+        },
+        {
+          "x": 271.31,
+          "y": 456.82,
+          "area": 1111
+        },
+        {
+          "x": 303.16,
+          "y": 482.77,
+          "area": 146
+        },
+        {
+          "x": 923.39,
+          "y": 589.72,
+          "area": 1767
+        }
+      ]
+    },
+    {
+      "frame": 348,
+      "time": 5.9412,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 390.66,
+          "y": 432.76,
+          "area": 96
+        },
+        {
+          "x": 271.33,
+          "y": 456.81,
+          "area": 1112
+        },
+        {
+          "x": 303.16,
+          "y": 482.77,
+          "area": 146
+        },
+        {
+          "x": 913.21,
+          "y": 601.64,
+          "area": 1426
+        }
+      ]
+    },
+    {
+      "frame": 354,
+      "time": 6.0437,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 115,
+      "red_candidates": [
+        {
+          "x": 390.66,
+          "y": 432.76,
+          "area": 96
+        },
+        {
+          "x": 271.33,
+          "y": 456.81,
+          "area": 1112
+        },
+        {
+          "x": 303.16,
+          "y": 482.77,
+          "area": 146
+        },
+        {
+          "x": 906.32,
+          "y": 603.18,
+          "area": 1429
+        }
+      ]
+    },
+    {
+      "frame": 360,
+      "time": 6.1461,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 114,
+      "red_candidates": [
+        {
+          "x": 390.66,
+          "y": 432.76,
+          "area": 96
+        },
+        {
+          "x": 270.66,
+          "y": 457.61,
+          "area": 1124
+        },
+        {
+          "x": 300.02,
+          "y": 466.94,
+          "area": 140
+        },
+        {
+          "x": 305.42,
+          "y": 481.35,
+          "area": 177
+        },
+        {
+          "x": 280.9,
+          "y": 480.61,
+          "area": 72
+        },
+        {
+          "x": 906.14,
+          "y": 603.96,
+          "area": 1432
+        }
+      ]
+    },
+    {
+      "frame": 366,
+      "time": 6.2486,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 129,
+      "red_candidates": [
+        {
+          "x": 390.66,
+          "y": 432.76,
+          "area": 96
+        },
+        {
+          "x": 270.66,
+          "y": 457.61,
+          "area": 1124
+        },
+        {
+          "x": 300.02,
+          "y": 466.94,
+          "area": 140
+        },
+        {
+          "x": 305.42,
+          "y": 481.35,
+          "area": 177
+        },
+        {
+          "x": 280.9,
+          "y": 480.61,
+          "area": 72
+        }
+      ]
+    },
+    {
+      "frame": 372,
+      "time": 6.351,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 129,
+      "red_candidates": [
+        {
+          "x": 270.66,
+          "y": 457.63,
+          "area": 1121
+        },
+        {
+          "x": 300.05,
+          "y": 466.99,
+          "area": 138
+        },
+        {
+          "x": 305.23,
+          "y": 481.62,
+          "area": 182
+        },
+        {
+          "x": 280.86,
+          "y": 480.68,
+          "area": 71
+        }
+      ]
+    },
+    {
+      "frame": 378,
+      "time": 6.4534,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 128,
+      "red_candidates": [
+        {
+          "x": 271.34,
+          "y": 456.75,
+          "area": 1117
+        },
+        {
+          "x": 303.9,
+          "y": 482.32,
+          "area": 139
+        }
+      ]
+    },
+    {
+      "frame": 384,
+      "time": 6.5559,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 121,
+      "red_candidates": [
+        {
+          "x": 271.34,
+          "y": 456.75,
+          "area": 1117
+        },
+        {
+          "x": 303.9,
+          "y": 482.32,
+          "area": 139
+        }
+      ]
+    },
+    {
+      "frame": 390,
+      "time": 6.6583,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 121,
+      "red_candidates": [
+        {
+          "x": 271.34,
+          "y": 456.75,
+          "area": 1117
+        },
+        {
+          "x": 303.9,
+          "y": 482.32,
+          "area": 139
+        }
+      ]
+    },
+    {
+      "frame": 396,
+      "time": 6.7607,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 120,
+      "red_candidates": [
+        {
+          "x": 270.7,
+          "y": 457.55,
+          "area": 1129
+        },
+        {
+          "x": 300.08,
+          "y": 466.98,
+          "area": 129
+        },
+        {
+          "x": 305.07,
+          "y": 481.78,
+          "area": 183
+        }
+      ]
+    },
+    {
+      "frame": 402,
+      "time": 6.8632,
+      "camera_x_estimate": 1.8,
+      "flow_matches": 131,
+      "red_candidates": [
+        {
+          "x": 270.44,
+          "y": 456.52,
+          "area": 1121
+        },
+        {
+          "x": 299.12,
+          "y": 466.5,
+          "area": 127
+        },
+        {
+          "x": 304.42,
+          "y": 481.43,
+          "area": 194
+        },
+        {
+          "x": 280.58,
+          "y": 479.43,
+          "area": 81
+        }
+      ]
+    },
+    {
+      "frame": 408,
+      "time": 6.9656,
+      "camera_x_estimate": 22.5,
+      "flow_matches": 65,
+      "red_candidates": [
+        {
+          "x": 337.13,
+          "y": 417.98,
+          "area": 1813
+        },
+        {
+          "x": 370.62,
+          "y": 423.9,
+          "area": 118
+        }
+      ]
+    },
+    {
+      "frame": 414,
+      "time": 7.068,
+      "camera_x_estimate": 79.51,
+      "flow_matches": 12,
+      "red_candidates": [
+        {
+          "x": 360.48,
+          "y": 366.64,
+          "area": 1760
+        },
+        {
+          "x": 391.49,
+          "y": 381.95,
+          "area": 156
+        },
+        {
+          "x": 659.33,
+          "y": 606.04,
+          "area": 1560
+        },
+        {
+          "x": 757.18,
+          "y": 605.71,
+          "area": 1345
+        }
+      ]
+    },
+    {
+      "frame": 420,
+      "time": 7.1705,
+      "camera_x_estimate": 162.93,
+      "flow_matches": 13,
+      "red_candidates": [
+        {
+          "x": 351.55,
+          "y": 339.87,
+          "area": 1623
+        },
+        {
+          "x": 380.37,
+          "y": 355.29,
+          "area": 141
+        },
+        {
+          "x": 185.93,
+          "y": 424.25,
+          "area": 68
+        },
+        {
+          "x": 560.88,
+          "y": 603.34,
+          "area": 1422
+        },
+        {
+          "x": 655.45,
+          "y": 603.13,
+          "area": 1287
+        }
+      ]
+    },
+    {
+      "frame": 426,
+      "time": 7.2729,
+      "camera_x_estimate": 162.93,
+      "flow_matches": 6,
+      "red_candidates": [
+        {
+          "x": 331.47,
+          "y": 304.25,
+          "area": 1384
+        },
+        {
+          "x": 358.69,
+          "y": 318.25,
+          "area": 128
+        },
+        {
+          "x": 46.63,
+          "y": 432.67,
+          "area": 90
+        },
+        {
+          "x": 62.43,
+          "y": 502.01,
+          "area": 75
+        },
+        {
+          "x": 400.05,
+          "y": 599.28,
+          "area": 1409
+        },
+        {
+          "x": 487.74,
+          "y": 598.14,
+          "area": 1120
+        }
+      ]
+    },
+    {
+      "frame": 432,
+      "time": 7.3753,
+      "camera_x_estimate": 162.93,
+      "flow_matches": 9,
+      "red_candidates": [
+        {
+          "x": 317.71,
+          "y": 278.11,
+          "area": 1263
+        },
+        {
+          "x": 342.85,
+          "y": 292.57,
+          "area": 116
+        },
+        {
+          "x": 260.19,
+          "y": 596.17,
+          "area": 1273
+        },
+        {
+          "x": 343.44,
+          "y": 595.33,
+          "area": 1027
+        },
+        {
+          "x": 286.09,
+          "y": 607.54,
+          "area": 87
+        }
+      ]
+    },
+    {
+      "frame": 438,
+      "time": 7.4778,
+      "camera_x_estimate": 199.01,
+      "flow_matches": 16,
+      "red_candidates": [
+        {
+          "x": 315.95,
+          "y": 267.39,
+          "area": 1373
+        },
+        {
+          "x": 187.46,
+          "y": 595.19,
+          "area": 1087
+        },
+        {
+          "x": 270.02,
+          "y": 595.26,
+          "area": 989
+        }
+      ]
+    },
+    {
+      "frame": 444,
+      "time": 7.5802,
+      "camera_x_estimate": 181.3,
+      "flow_matches": 30,
+      "red_candidates": [
+        {
+          "x": 312.74,
+          "y": 245.94,
+          "area": 1199
+        },
+        {
+          "x": 337.1,
+          "y": 260.06,
+          "area": 103
+        },
+        {
+          "x": 54.54,
+          "y": 598.64,
+          "area": 1062
+        },
+        {
+          "x": 135.4,
+          "y": 598.8,
+          "area": 951
+        },
+        {
+          "x": 1121.55,
+          "y": 590.93,
+          "area": 84
+        }
+      ]
+    },
+    {
+      "frame": 450,
+      "time": 7.6826,
+      "camera_x_estimate": 223.52,
+      "flow_matches": 14,
+      "red_candidates": [
+        {
+          "x": 317.5,
+          "y": 234.14,
+          "area": 1221
+        },
+        {
+          "x": 342.2,
+          "y": 247.78,
+          "area": 109
+        },
+        {
+          "x": 36.99,
+          "y": 604.92,
+          "area": 958
+        }
+      ]
+    },
+    {
+      "frame": 456,
+      "time": 7.7851,
+      "camera_x_estimate": 270.29,
+      "flow_matches": 20,
+      "red_candidates": [
+        {
+          "x": 332.06,
+          "y": 225.06,
+          "area": 1409
+        }
+      ]
+    },
+    {
+      "frame": 462,
+      "time": 7.8875,
+      "camera_x_estimate": 322.7,
+      "flow_matches": 86,
+      "red_candidates": [
+        {
+          "x": 355.89,
+          "y": 218.96,
+          "area": 1296
+        },
+        {
+          "x": 381.6,
+          "y": 233.19,
+          "area": 106
+        }
+      ]
+    },
+    {
+      "frame": 468,
+      "time": 7.99,
+      "camera_x_estimate": 373.52,
+      "flow_matches": 103,
+      "red_candidates": [
+        {
+          "x": 404.75,
+          "y": 217.68,
+          "area": 1355
+        },
+        {
+          "x": 430.62,
+          "y": 231.62,
+          "area": 119
+        }
+      ]
+    },
+    {
+      "frame": 474,
+      "time": 8.0924,
+      "camera_x_estimate": 412.9,
+      "flow_matches": 87,
+      "red_candidates": [
+        {
+          "x": 468.67,
+          "y": 221.43,
+          "area": 1359
+        },
+        {
+          "x": 494.59,
+          "y": 235.59,
+          "area": 126
+        }
+      ]
+    },
+    {
+      "frame": 480,
+      "time": 8.1948,
+      "camera_x_estimate": 443.88,
+      "flow_matches": 116,
+      "red_candidates": [
+        {
+          "x": 546.61,
+          "y": 231.61,
+          "area": 1529
+        }
+      ]
+    },
+    {
+      "frame": 486,
+      "time": 8.2973,
+      "camera_x_estimate": 465.66,
+      "flow_matches": 109,
+      "red_candidates": [
+        {
+          "x": 599.73,
+          "y": 290.25,
+          "area": 131
+        }
+      ]
+    },
+    {
+      "frame": 492,
+      "time": 8.3997,
+      "camera_x_estimate": 476.08,
+      "flow_matches": 114,
+      "red_candidates": [
+        {
+          "x": 560.26,
+          "y": 222.12,
+          "area": 1517
+        }
+      ]
+    },
+    {
+      "frame": 498,
+      "time": 8.5021,
+      "camera_x_estimate": 483.39,
+      "flow_matches": 114,
+      "red_candidates": [
+        {
+          "x": 581.01,
+          "y": 203.04,
+          "area": 158
+        },
+        {
+          "x": 562.81,
+          "y": 204.48,
+          "area": 149
+        },
+        {
+          "x": 540.41,
+          "y": 234.07,
+          "area": 660
+        },
+        {
+          "x": 520.64,
+          "y": 226.87,
+          "area": 227
+        },
+        {
+          "x": 589.79,
+          "y": 253.24,
+          "area": 364
+        },
+        {
+          "x": 531.3,
+          "y": 267.04,
+          "area": 189
+        }
+      ]
+    },
+    {
+      "frame": 504,
+      "time": 8.6046,
+      "camera_x_estimate": 490.54,
+      "flow_matches": 167,
+      "red_candidates": [
+        {
+          "x": 559.1,
+          "y": 197.05,
+          "area": 316
+        },
+        {
+          "x": 530.83,
+          "y": 234.28,
+          "area": 923
+        },
+        {
+          "x": 510.52,
+          "y": 225.23,
+          "area": 224
+        },
+        {
+          "x": 521.08,
+          "y": 266.43,
+          "area": 202
+        },
+        {
+          "x": 634.43,
+          "y": 325.41,
+          "area": 76
+        }
+      ]
+    },
+    {
+      "frame": 510,
+      "time": 8.707,
+      "camera_x_estimate": 495.71,
+      "flow_matches": 180,
+      "red_candidates": [
+        {
+          "x": 536.0,
+          "y": 208.11,
+          "area": 1465
+        },
+        {
+          "x": 512.99,
+          "y": 259.52,
+          "area": 476
+        },
+        {
+          "x": 640.1,
+          "y": 341.33,
+          "area": 1064
+        }
+      ]
+    },
+    {
+      "frame": 516,
+      "time": 8.8094,
+      "camera_x_estimate": 498.35,
+      "flow_matches": 172,
+      "red_candidates": [
+        {
+          "x": 531.93,
+          "y": 205.93,
+          "area": 1873
+        },
+        {
+          "x": 507.48,
+          "y": 263.28,
+          "area": 416
+        }
+      ]
+    },
+    {
+      "frame": 522,
+      "time": 8.9119,
+      "camera_x_estimate": 500.17,
+      "flow_matches": 191,
+      "red_candidates": [
+        {
+          "x": 515.67,
+          "y": 202.05,
+          "area": 982
+        },
+        {
+          "x": 548.92,
+          "y": 191.7,
+          "area": 477
+        },
+        {
+          "x": 538.77,
+          "y": 236.12,
+          "area": 130
+        },
+        {
+          "x": 585.2,
+          "y": 237.27,
+          "area": 168
+        },
+        {
+          "x": 495.75,
+          "y": 262.13,
+          "area": 153
+        },
+        {
+          "x": 511.02,
+          "y": 270.32,
+          "area": 199
+        },
+        {
+          "x": 671.15,
+          "y": 313.26,
+          "area": 351
+        }
+      ]
+    },
+    {
+      "frame": 528,
+      "time": 9.0143,
+      "camera_x_estimate": 497.55,
+      "flow_matches": 156,
+      "red_candidates": [
+        {
+          "x": 507.9,
+          "y": 187.15,
+          "area": 442
+        },
+        {
+          "x": 553.92,
+          "y": 188.34,
+          "area": 411
+        },
+        {
+          "x": 515.57,
+          "y": 209.31,
+          "area": 263
+        },
+        {
+          "x": 536.96,
+          "y": 232.55,
+          "area": 78
+        },
+        {
+          "x": 511.34,
+          "y": 274.85,
+          "area": 266
+        },
+        {
+          "x": 658.1,
+          "y": 306.87,
+          "area": 126
+        },
+        {
+          "x": 608.95,
+          "y": 321.99,
+          "area": 1007
+        },
+        {
+          "x": 676.14,
+          "y": 318.6,
+          "area": 77
+        },
+        {
+          "x": 664.96,
+          "y": 353.52,
+          "area": 1352
+        },
+        {
+          "x": 631.32,
+          "y": 369.25,
+          "area": 283
+        }
+      ]
+    },
+    {
+      "frame": 534,
+      "time": 9.1167,
+      "camera_x_estimate": 492.19,
+      "flow_matches": 136,
+      "red_candidates": [
+        {
+          "x": 503.42,
+          "y": 180.65,
+          "area": 337
+        },
+        {
+          "x": 556.64,
+          "y": 180.21,
+          "area": 315
+        },
+        {
+          "x": 511.74,
+          "y": 202.97,
+          "area": 186
+        },
+        {
+          "x": 587.89,
+          "y": 240.94,
+          "area": 342
+        },
+        {
+          "x": 509.56,
+          "y": 278.97,
+          "area": 225
+        },
+        {
+          "x": 596.18,
+          "y": 312.39,
+          "area": 595
+        },
+        {
+          "x": 645.81,
+          "y": 328.78,
+          "area": 234
+        },
+        {
+          "x": 682.65,
+          "y": 321.71,
+          "area": 147
+        },
+        {
+          "x": 623.22,
+          "y": 338.3,
+          "area": 467
+        },
+        {
+          "x": 679.58,
+          "y": 354.73,
+          "area": 1226
+        },
+        {
+          "x": 629.1,
+          "y": 376.3,
+          "area": 172
+        }
+      ]
+    },
+    {
+      "frame": 540,
+      "time": 9.2192,
+      "camera_x_estimate": 487.0,
+      "flow_matches": 109,
+      "red_candidates": [
+        {
+          "x": 499.66,
+          "y": 174.14,
+          "area": 234
+        },
+        {
+          "x": 561.07,
+          "y": 172.41,
+          "area": 226
+        },
+        {
+          "x": 507.95,
+          "y": 196.83,
+          "area": 111
+        },
+        {
+          "x": 589.85,
+          "y": 238.17,
+          "area": 180
+        },
+        {
+          "x": 507.42,
+          "y": 283.27,
+          "area": 223
+        },
+        {
+          "x": 650.91,
+          "y": 294.76,
+          "area": 690
+        },
+        {
+          "x": 600.92,
+          "y": 307.18,
+          "area": 902
+        },
+        {
+          "x": 666.6,
+          "y": 316.43,
+          "area": 253
+        },
+        {
+          "x": 626.9,
+          "y": 338.0,
+          "area": 308
+        },
+        {
+          "x": 698.61,
+          "y": 326.45,
+          "area": 96
+        },
+        {
+          "x": 689.65,
+          "y": 357.61,
+          "area": 1376
+        },
+        {
+          "x": 626.22,
+          "y": 378.91,
+          "area": 185
+        }
+      ]
+    },
+    {
+      "frame": 546,
+      "time": 9.3216,
+      "camera_x_estimate": 484.72,
+      "flow_matches": 94,
+      "red_candidates": [
+        {
+          "x": 659.06,
+          "y": 286.62,
+          "area": 516
+        },
+        {
+          "x": 597.58,
+          "y": 303.67,
+          "area": 786
+        },
+        {
+          "x": 646.43,
+          "y": 319.88,
+          "area": 1056
+        },
+        {
+          "x": 702.29,
+          "y": 365.25,
+          "area": 1359
+        },
+        {
+          "x": 626.34,
+          "y": 385.92,
+          "area": 102
+        }
+      ]
+    },
+    {
+      "frame": 552,
+      "time": 9.424,
+      "camera_x_estimate": 484.73,
+      "flow_matches": 78,
+      "red_candidates": [
+        {
+          "x": 660.63,
+          "y": 281.67,
+          "area": 431
+        },
+        {
+          "x": 593.71,
+          "y": 299.57,
+          "area": 752
+        },
+        {
+          "x": 632.13,
+          "y": 323.29,
+          "area": 392
+        },
+        {
+          "x": 670.19,
+          "y": 313.32,
+          "area": 367
+        },
+        {
+          "x": 716.3,
+          "y": 378.06,
+          "area": 1375
+        }
+      ]
+    },
+    {
+      "frame": 558,
+      "time": 9.5265,
+      "camera_x_estimate": 484.75,
+      "flow_matches": 66,
+      "red_candidates": [
+        {
+          "x": 663.57,
+          "y": 273.1,
+          "area": 311
+        },
+        {
+          "x": 589.38,
+          "y": 289.64,
+          "area": 430
+        },
+        {
+          "x": 673.71,
+          "y": 309.83,
+          "area": 379
+        },
+        {
+          "x": 632.87,
+          "y": 320.18,
+          "area": 272
+        },
+        {
+          "x": 734.42,
+          "y": 392.7,
+          "area": 1520
+        }
+      ]
+    },
+    {
+      "frame": 564,
+      "time": 9.6289,
+      "camera_x_estimate": 484.75,
+      "flow_matches": 77,
+      "red_candidates": [
+        {
+          "x": 665.65,
+          "y": 267.18,
+          "area": 271
+        },
+        {
+          "x": 584.12,
+          "y": 284.29,
+          "area": 320
+        },
+        {
+          "x": 677.81,
+          "y": 301.22,
+          "area": 97
+        },
+        {
+          "x": 633.55,
+          "y": 317.31,
+          "area": 190
+        },
+        {
+          "x": 689.6,
+          "y": 315.93,
+          "area": 72
+        },
+        {
+          "x": 747.29,
+          "y": 381.32,
+          "area": 110
+        },
+        {
+          "x": 751.23,
+          "y": 413.75,
+          "area": 1378
+        }
+      ]
+    },
+    {
+      "frame": 570,
+      "time": 9.7314,
+      "camera_x_estimate": 484.76,
+      "flow_matches": 95,
+      "red_candidates": [
+        {
+          "x": 668.58,
+          "y": 260.64,
+          "area": 260
+        },
+        {
+          "x": 580.4,
+          "y": 279.07,
+          "area": 217
+        },
+        {
+          "x": 633.78,
+          "y": 314.47,
+          "area": 134
+        },
+        {
+          "x": 757.82,
+          "y": 400.55,
+          "area": 99
+        },
+        {
+          "x": 766.26,
+          "y": 432.09,
+          "area": 1387
+        }
+      ]
+    },
+    {
+      "frame": 576,
+      "time": 9.8338,
+      "camera_x_estimate": 484.6,
+      "flow_matches": 159,
+      "red_candidates": [
+        {
+          "x": 758.49,
+          "y": 405.41,
+          "area": 91
+        },
+        {
+          "x": 769.22,
+          "y": 435.51,
+          "area": 1349
+        }
+      ]
+    },
+    {
+      "frame": 582,
+      "time": 9.9362,
+      "camera_x_estimate": 484.6,
+      "flow_matches": 273,
+      "red_candidates": [
+        {
+          "x": 758.49,
+          "y": 405.41,
+          "area": 91
+        },
+        {
+          "x": 769.22,
+          "y": 435.5,
+          "area": 1348
+        }
+      ]
+    },
+    {
+      "frame": 588,
+      "time": 10.0387,
+      "camera_x_estimate": 484.6,
+      "flow_matches": 119,
+      "red_candidates": [
+        {
+          "x": 774.15,
+          "y": 391.07,
+          "area": 819
+        },
+        {
+          "x": 789.63,
+          "y": 421.27,
+          "area": 991
+        },
+        {
+          "x": 835.02,
+          "y": 426.14,
+          "area": 125
+        },
+        {
+          "x": 789.05,
+          "y": 475.72,
+          "area": 1325
+        }
+      ]
+    },
+    {
+      "frame": 594,
+      "time": 10.1411,
+      "camera_x_estimate": 484.63,
+      "flow_matches": 157,
+      "red_candidates": [
+        {
+          "x": 760.6,
+          "y": 380.9,
+          "area": 494
+        },
+        {
+          "x": 781.05,
+          "y": 421.14,
+          "area": 198
+        },
+        {
+          "x": 821.03,
+          "y": 412.81,
+          "area": 97
+        },
+        {
+          "x": 842.24,
+          "y": 445.82,
+          "area": 102
+        },
+        {
+          "x": 818.97,
+          "y": 444.79,
+          "area": 234
+        },
+        {
+          "x": 739.63,
+          "y": 444.56,
+          "area": 84
+        },
+        {
+          "x": 781.48,
+          "y": 469.45,
+          "area": 1636
+        }
+      ]
+    },
+    {
+      "frame": 600,
+      "time": 10.2435,
+      "camera_x_estimate": 484.64,
+      "flow_matches": 227,
+      "red_candidates": [
+        {
+          "x": 754.9,
+          "y": 381.77,
+          "area": 477
+        },
+        {
+          "x": 783.06,
+          "y": 412.52,
+          "area": 126
+        },
+        {
+          "x": 820.83,
+          "y": 412.89,
+          "area": 99
+        },
+        {
+          "x": 813.94,
+          "y": 444.23,
+          "area": 383
+        },
+        {
+          "x": 739.82,
+          "y": 446.29,
+          "area": 151
+        },
+        {
+          "x": 843.47,
+          "y": 448.54,
+          "area": 135
+        },
+        {
+          "x": 780.55,
+          "y": 470.95,
+          "area": 1496
+        }
+      ]
+    },
+    {
+      "frame": 606,
+      "time": 10.346,
+      "camera_x_estimate": 484.64,
+      "flow_matches": 173,
+      "red_candidates": [
+        {
+          "x": 751.13,
+          "y": 383.48,
+          "area": 495
+        },
+        {
+          "x": 808.42,
+          "y": 427.89,
+          "area": 1336
+        },
+        {
+          "x": 754.73,
+          "y": 444.91,
+          "area": 532
+        },
+        {
+          "x": 784.0,
+          "y": 471.84,
+          "area": 1338
+        }
+      ]
+    },
+    {
+      "frame": 612,
+      "time": 10.4484,
+      "camera_x_estimate": 484.64,
+      "flow_matches": 250,
+      "red_candidates": [
+        {
+          "x": 751.13,
+          "y": 383.48,
+          "area": 495
+        },
+        {
+          "x": 808.44,
+          "y": 427.9,
+          "area": 1337
+        },
+        {
+          "x": 754.73,
+          "y": 444.91,
+          "area": 532
+        },
+        {
+          "x": 783.89,
+          "y": 471.84,
+          "area": 1334
+        }
+      ]
+    },
+    {
+      "frame": 618,
+      "time": 10.5508,
+      "camera_x_estimate": 484.64,
+      "flow_matches": 250,
+      "red_candidates": [
+        {
+          "x": 751.13,
+          "y": 383.48,
+          "area": 495
+        },
+        {
+          "x": 808.42,
+          "y": 427.89,
+          "area": 1336
+        },
+        {
+          "x": 754.73,
+          "y": 444.91,
+          "area": 532
+        },
+        {
+          "x": 783.87,
+          "y": 471.85,
+          "area": 1335
+        }
+      ]
+    },
+    {
+      "frame": 624,
+      "time": 10.6533,
+      "camera_x_estimate": 484.64,
+      "flow_matches": 108,
+      "red_candidates": [
+        {
+          "x": 751.82,
+          "y": 379.5,
+          "area": 343
+        },
+        {
+          "x": 805.28,
+          "y": 395.38,
+          "area": 322
+        },
+        {
+          "x": 820.73,
+          "y": 439.72,
+          "area": 644
+        },
+        {
+          "x": 745.24,
+          "y": 446.15,
+          "area": 666
+        },
+        {
+          "x": 786.21,
+          "y": 478.46,
+          "area": 1412
+        }
+      ]
+    },
+    {
+      "frame": 630,
+      "time": 10.7557,
+      "camera_x_estimate": 484.46,
+      "flow_matches": 200,
+      "red_candidates": [
+        {
+          "x": 751.34,
+          "y": 375.51,
+          "area": 247
+        },
+        {
+          "x": 807.87,
+          "y": 390.17,
+          "area": 247
+        },
+        {
+          "x": 824.2,
+          "y": 439.34,
+          "area": 561
+        },
+        {
+          "x": 740.77,
+          "y": 448.67,
+          "area": 505
+        },
+        {
+          "x": 787.0,
+          "y": 478.7,
+          "area": 1507
+        }
+      ]
+    },
+    {
+      "frame": 636,
+      "time": 10.8581,
+      "camera_x_estimate": 484.46,
+      "flow_matches": 190,
+      "red_candidates": [
+        {
+          "x": 749.14,
+          "y": 370.08,
+          "area": 157
+        },
+        {
+          "x": 812.68,
+          "y": 382.7,
+          "area": 135
+        },
+        {
+          "x": 783.67,
+          "y": 424.34,
+          "area": 90
+        },
+        {
+          "x": 831.33,
+          "y": 440.65,
+          "area": 333
+        },
+        {
+          "x": 732.81,
+          "y": 451.73,
+          "area": 300
+        },
+        {
+          "x": 786.29,
+          "y": 478.96,
+          "area": 1544
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "time": 0,
+      "event": "Tower visible: wooden frame, inner blue supports, one green target."
+    },
+    {
+      "time": 1.2,
+      "event": "Camera pans from the tower toward the launcher."
+    },
+    {
+      "time": 4.4,
+      "event": "Loaded character pulled backward and downward."
+    },
+    {
+      "time": 6.9,
+      "event": "Release followed by free flight; camera follows."
+    },
+    {
+      "time": 8.25,
+      "event": "Impact near upper tower and target; structure starts breaking."
+    },
+    {
+      "time": 8.3,
+      "event": "Green 5000-point popup visible; target no longer intact."
+    },
+    {
+      "time": 9.4,
+      "event": "Tower continues rotating and collapsing."
+    },
+    {
+      "time": 10.6,
+      "event": "Visible score reaches 9560; no end-of-level screen shown."
+    }
+  ]
+}

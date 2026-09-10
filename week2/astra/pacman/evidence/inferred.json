@@ -1,0 +1,1317 @@
+{
+  "fps": 10.0,
+  "width": 832,
+  "height": 480,
+  "grid": {
+    "origin": [
+      92,
+      60
+    ],
+    "spacing": 36,
+    "cols": 19,
+    "rows": 11
+  },
+  "pellets": [
+    [
+      0,
+      0,
+      true
+    ],
+    [
+      18,
+      0,
+      true
+    ],
+    [
+      1,
+      0,
+      false
+    ],
+    [
+      3,
+      0,
+      false
+    ],
+    [
+      4,
+      0,
+      false
+    ],
+    [
+      5,
+      0,
+      false
+    ],
+    [
+      7,
+      0,
+      false
+    ],
+    [
+      8,
+      0,
+      false
+    ],
+    [
+      9,
+      0,
+      false
+    ],
+    [
+      10,
+      0,
+      false
+    ],
+    [
+      11,
+      0,
+      false
+    ],
+    [
+      12,
+      0,
+      false
+    ],
+    [
+      13,
+      0,
+      false
+    ],
+    [
+      15,
+      0,
+      false
+    ],
+    [
+      16,
+      0,
+      false
+    ],
+    [
+      17,
+      0,
+      false
+    ],
+    [
+      6,
+      1,
+      false
+    ],
+    [
+      12,
+      1,
+      false
+    ],
+    [
+      18,
+      1,
+      false
+    ],
+    [
+      0,
+      2,
+      false
+    ],
+    [
+      6,
+      2,
+      false
+    ],
+    [
+      12,
+      2,
+      false
+    ],
+    [
+      15,
+      2,
+      false
+    ],
+    [
+      18,
+      2,
+      false
+    ],
+    [
+      0,
+      3,
+      false
+    ],
+    [
+      1,
+      3,
+      false
+    ],
+    [
+      2,
+      3,
+      false
+    ],
+    [
+      4,
+      3,
+      false
+    ],
+    [
+      10,
+      3,
+      false
+    ],
+    [
+      12,
+      3,
+      false
+    ],
+    [
+      13,
+      3,
+      false
+    ],
+    [
+      14,
+      3,
+      false
+    ],
+    [
+      15,
+      3,
+      false
+    ],
+    [
+      16,
+      3,
+      false
+    ],
+    [
+      3,
+      4,
+      false
+    ],
+    [
+      9,
+      4,
+      false
+    ],
+    [
+      13,
+      4,
+      false
+    ],
+    [
+      15,
+      4,
+      false
+    ],
+    [
+      0,
+      5,
+      false
+    ],
+    [
+      1,
+      5,
+      false
+    ],
+    [
+      3,
+      5,
+      false
+    ],
+    [
+      7,
+      5,
+      false
+    ],
+    [
+      10,
+      5,
+      false
+    ],
+    [
+      13,
+      5,
+      false
+    ],
+    [
+      15,
+      5,
+      false
+    ],
+    [
+      16,
+      5,
+      false
+    ],
+    [
+      17,
+      5,
+      false
+    ],
+    [
+      18,
+      5,
+      false
+    ],
+    [
+      0,
+      6,
+      false
+    ],
+    [
+      3,
+      6,
+      false
+    ],
+    [
+      13,
+      6,
+      false
+    ],
+    [
+      15,
+      6,
+      false
+    ],
+    [
+      18,
+      6,
+      false
+    ],
+    [
+      1,
+      7,
+      false
+    ],
+    [
+      2,
+      7,
+      false
+    ],
+    [
+      3,
+      7,
+      false
+    ],
+    [
+      4,
+      7,
+      false
+    ],
+    [
+      5,
+      7,
+      false
+    ],
+    [
+      6,
+      7,
+      false
+    ],
+    [
+      8,
+      7,
+      false
+    ],
+    [
+      9,
+      7,
+      false
+    ],
+    [
+      12,
+      7,
+      false
+    ],
+    [
+      13,
+      7,
+      false
+    ],
+    [
+      16,
+      7,
+      false
+    ],
+    [
+      17,
+      7,
+      false
+    ],
+    [
+      18,
+      7,
+      false
+    ],
+    [
+      15,
+      8,
+      false
+    ],
+    [
+      18,
+      8,
+      false
+    ],
+    [
+      0,
+      9,
+      false
+    ],
+    [
+      3,
+      9,
+      false
+    ],
+    [
+      6,
+      9,
+      false
+    ],
+    [
+      12,
+      9,
+      false
+    ],
+    [
+      15,
+      9,
+      false
+    ],
+    [
+      0,
+      10,
+      true
+    ],
+    [
+      18,
+      10,
+      true
+    ],
+    [
+      1,
+      10,
+      false
+    ],
+    [
+      4,
+      10,
+      false
+    ],
+    [
+      5,
+      10,
+      false
+    ],
+    [
+      6,
+      10,
+      false
+    ],
+    [
+      7,
+      10,
+      false
+    ],
+    [
+      8,
+      10,
+      false
+    ],
+    [
+      9,
+      10,
+      false
+    ],
+    [
+      11,
+      10,
+      false
+    ],
+    [
+      12,
+      10,
+      false
+    ],
+    [
+      13,
+      10,
+      false
+    ],
+    [
+      14,
+      10,
+      false
+    ],
+    [
+      15,
+      10,
+      false
+    ],
+    [
+      16,
+      10,
+      false
+    ],
+    [
+      17,
+      10,
+      false
+    ]
+  ],
+  "trace": [
+    {
+      "frame": 0,
+      "t": 0.0,
+      "player": [
+        200,
+        348
+      ],
+      "other": [
+        164,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "stationary"
+    },
+    {
+      "frame": 1,
+      "t": 0.1,
+      "player": [
+        200,
+        348
+      ],
+      "other": [
+        176,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 2,
+      "t": 0.2,
+      "player": [
+        200,
+        336
+      ],
+      "other": [
+        188,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 3,
+      "t": 0.3,
+      "player": [
+        200,
+        324
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 4,
+      "t": 0.4,
+      "player": [
+        200,
+        312
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 5,
+      "t": 0.5,
+      "player": [
+        200,
+        300
+      ],
+      "other": [
+        212,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 6,
+      "t": 0.6,
+      "player": [
+        200,
+        288
+      ],
+      "other": [
+        224,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 7,
+      "t": 0.7,
+      "player": [
+        200,
+        276
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 8,
+      "t": 0.8,
+      "player": [
+        200,
+        264
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 9,
+      "t": 0.9,
+      "player": [
+        200,
+        252
+      ],
+      "other": [
+        248,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 10,
+      "t": 1.0,
+      "player": [
+        200,
+        240
+      ],
+      "other": [
+        260,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 11,
+      "t": 1.1,
+      "player": [
+        200,
+        228
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 12,
+      "t": 1.2,
+      "player": [
+        200,
+        216
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 13,
+      "t": 1.3,
+      "player": [
+        200,
+        204
+      ],
+      "other": [
+        284,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 14,
+      "t": 1.4,
+      "player": [
+        200,
+        192
+      ],
+      "other": [
+        296,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 15,
+      "t": 1.5,
+      "player": [
+        200,
+        180
+      ],
+      "other": [
+        308,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 16,
+      "t": 1.6,
+      "player": [
+        200,
+        168
+      ],
+      "other": [
+        308,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 17,
+      "t": 1.7,
+      "player": [
+        188,
+        168
+      ],
+      "other": [
+        296,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 18,
+      "t": 1.8,
+      "player": [
+        176,
+        168
+      ],
+      "other": [
+        284,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 19,
+      "t": 1.9,
+      "player": [
+        164,
+        168
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 20,
+      "t": 2.0,
+      "player": [
+        152,
+        168
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 21,
+      "t": 2.1,
+      "player": [
+        140,
+        168
+      ],
+      "other": [
+        260,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 22,
+      "t": 2.2,
+      "player": [
+        128,
+        168
+      ],
+      "other": [
+        248,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 23,
+      "t": 2.3,
+      "player": [
+        116,
+        168
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 24,
+      "t": 2.4,
+      "player": [
+        104,
+        168
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "left"
+    },
+    {
+      "frame": 25,
+      "t": 2.5,
+      "player": [
+        92,
+        168
+      ],
+      "other": [
+        224,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 26,
+      "t": 2.6,
+      "player": [
+        92,
+        156
+      ],
+      "other": [
+        212,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 27,
+      "t": 2.7,
+      "player": [
+        92,
+        144
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 28,
+      "t": 2.8,
+      "player": [
+        92,
+        132
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 29,
+      "t": 2.9,
+      "player": [
+        92,
+        120
+      ],
+      "other": [
+        188,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 30,
+      "t": 3.0,
+      "player": [
+        92,
+        108
+      ],
+      "other": [
+        176,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 31,
+      "t": 3.1,
+      "player": [
+        92,
+        96
+      ],
+      "other": [
+        164,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 32,
+      "t": 3.2,
+      "player": [
+        92,
+        84
+      ],
+      "other": [
+        164,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 33,
+      "t": 3.3,
+      "player": [
+        92,
+        72
+      ],
+      "other": [
+        152,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "up"
+    },
+    {
+      "frame": 34,
+      "t": 3.4,
+      "player": [
+        92,
+        60
+      ],
+      "other": [
+        188,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "down"
+    },
+    {
+      "frame": 35,
+      "t": 3.5,
+      "player": [
+        92,
+        72
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "down"
+    },
+    {
+      "frame": 36,
+      "t": 3.6,
+      "player": [
+        92,
+        84
+      ],
+      "other": [
+        200,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "down"
+    },
+    {
+      "frame": 37,
+      "t": 3.7,
+      "player": [
+        92,
+        96
+      ],
+      "other": [
+        212,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "up"
+    },
+    {
+      "frame": 38,
+      "t": 3.8,
+      "player": [
+        92,
+        84
+      ],
+      "other": [
+        224,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "up"
+    },
+    {
+      "frame": 39,
+      "t": 3.9,
+      "player": [
+        92,
+        72
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "up"
+    },
+    {
+      "frame": 40,
+      "t": 4.0,
+      "player": [
+        92,
+        60
+      ],
+      "other": [
+        236,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 41,
+      "t": 4.1,
+      "player": [
+        104,
+        60
+      ],
+      "other": [
+        248,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 42,
+      "t": 4.2,
+      "player": [
+        116,
+        60
+      ],
+      "other": [
+        260,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 43,
+      "t": 4.3,
+      "player": [
+        128,
+        60
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 44,
+      "t": 4.4,
+      "player": [
+        140,
+        60
+      ],
+      "other": [
+        272,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 45,
+      "t": 4.5,
+      "player": [
+        152,
+        60
+      ],
+      "other": [
+        284,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 46,
+      "t": 4.6,
+      "player": [
+        164,
+        60
+      ],
+      "other": [
+        296,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 47,
+      "t": 4.7,
+      "player": [
+        176,
+        60
+      ],
+      "other": [
+        308,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 48,
+      "t": 4.8,
+      "player": [
+        188,
+        60
+      ],
+      "other": [
+        308,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 49,
+      "t": 4.9,
+      "player": [
+        200,
+        60
+      ],
+      "other": [
+        320,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 50,
+      "t": 5.0,
+      "player": [
+        212,
+        60
+      ],
+      "other": [
+        332,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 51,
+      "t": 5.1,
+      "player": [
+        224,
+        60
+      ],
+      "other": [
+        344,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 52,
+      "t": 5.2,
+      "player": [
+        236,
+        60
+      ],
+      "other": [
+        344,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 53,
+      "t": 5.3,
+      "player": [
+        248,
+        60
+      ],
+      "other": [
+        356,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 54,
+      "t": 5.4,
+      "player": [
+        260,
+        60
+      ],
+      "other": [
+        368,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 55,
+      "t": 5.5,
+      "player": [
+        272,
+        60
+      ],
+      "other": [
+        380,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 56,
+      "t": 5.6,
+      "player": [
+        284,
+        60
+      ],
+      "other": [
+        380,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 57,
+      "t": 5.7,
+      "player": [
+        296,
+        60
+      ],
+      "other": [
+        392,
+        60
+      ],
+      "other_gray": 119,
+      "motion": "right"
+    },
+    {
+      "frame": 58,
+      "t": 5.8,
+      "player": [
+        308,
+        60
+      ],
+      "other": [
+        404,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "down"
+    },
+    {
+      "frame": 59,
+      "t": 5.9,
+      "player": [
+        308,
+        72
+      ],
+      "other": [
+        416,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "down"
+    },
+    {
+      "frame": 60,
+      "t": 6.0,
+      "player": [
+        308,
+        84
+      ],
+      "other": [
+        416,
+        60
+      ],
+      "other_gray": 235,
+      "motion": "stationary"
+    }
+  ]
+}
