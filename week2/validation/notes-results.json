@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Plus button opens section selector and composer",
+    "Saved cards remain beside their target without an open editor",
+    "Multiple cards do not overlap",
+    "Existing storage format and reload persistence",
+    "Edit, delete and undo",
+    "Draft recovery",
+    "Markdown and JSON export",
+    "Mobile cards appear next to the relevant section in normal flow",
+    "Safe literal text and storage failure fallback",
+    "No JavaScript errors"
+  ]
+}

@@ -40,3 +40,13 @@ This copies result assets into `astra/pacman/` and `astra/angry-birds/`, regener
 `validate_astra.py` checks local asset links, the original experiment-video count, both reports and source tab sets, reference decoding, keyboard control of embedded Pac-Man, an actual Angry Birds shot, iframe resizing and unloading, and mobile controls. It uses Playwright and Chrome with network access disabled.
 
 Results and screenshots are stored in `validation/`. These checks verify the presentation and embedded behavior, not fidelity to the original games.
+
+## Local meeting notes
+
+Click the round **+** at the bottom-right, choose a section or video under **Which part?**, write a note, and press **Place note**. The editor closes and a persistent speech-bubble card appears beside the selected area. Desktop cards occupy the right margin and scroll with the document. On narrower screens, cards appear directly after the corresponding heading or video in the page flow. Multiple cards are stacked without overlapping.
+
+Each card has **Edit** and **Delete** controls; the deletion message offers **Undo**. Markdown and JSON export buttons are available inside the + editor. Closing the editor retains the draft; Cancel clears it.
+
+Notes and drafts still use `week2-meeting-notes-v1` in localStorage, so notes from the previous sidebar version remain available. Storage is local to the current browser profile and origin. Local files, localhost, and GitHub Pages do not necessarily share notes. Other viewers cannot see them. Clearing browser/site data may remove them, so export after meetings. If storage is blocked or full, notes remain visible in memory and an explicit warning advises exporting before closing.
+
+`notes.js` and `notes.css` implement the feature without a server. `validate_notes.py` verifies card placement, persistence, editing, deletion/undo, draft restoration, exports, responsive layout, and unavailable-storage behavior. Results and screenshots are in `validation/notes-*`.
