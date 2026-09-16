@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent and Video Generation Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="week3.css">
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">CVPR 2027 / Week 3</p>
+  <h1>Agent and Video Generation Model</h1>
+</header>
+
+<!-- ==================================================================== -->
+<section id="pipeline">
+  <figure class="diagram">
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1120 190" role="img"
+           aria-label="Video clip, link 1, Agent, link 2, Video model, link 3, Result.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="20"  y="66" width="190" height="60" rx="2"/>
+          <rect x="316" y="66" width="190" height="60" rx="2"
+                stroke="var(--accent)" stroke-width="2"/>
+          <rect x="612" y="66" width="190" height="60" rx="2"/>
+          <rect x="908" y="66" width="190" height="60" rx="2"/>
+        </g>
+        <g font-size="15" text-anchor="middle" fill="currentColor">
+          <text x="115"  y="101">Video Clip</text>
+          <text x="411"  y="101" fill="var(--accent)" font-weight="500">Agent</text>
+          <text x="707"  y="101">Video Model</text>
+          <text x="1003" y="101">Result</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow)">
+          <line x1="210" y1="96" x2="306" y2="96" stroke="var(--accent)" stroke-width="2"/>
+          <line x1="506" y1="96" x2="602" y2="96"/>
+          <line x1="802" y1="96" x2="898" y2="96"/>
+        </g>
+        <g font-size="15" text-anchor="middle" font-weight="500">
+          <circle cx="258" cy="46" r="14" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+          <text x="258" y="51" fill="var(--accent)">1</text>
+          <circle cx="554" cy="46" r="14" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+          <text x="554" y="51" fill="var(--ink-3)">2</text>
+          <circle cx="850" cy="46" r="14" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
+          <text x="850" y="51" fill="var(--ink-3)">3</text>
+        </g>
+      </svg>
+    </div>
+  </figure>
+</section>
+
+<!-- ==================================================================== -->
+<section id="q1">
+  <div class="sec-head">
+    <span class="sec-num">Q1</span>
+    <h2>Can the agent self-evolve by watching the video result to improve its code?</h2>
+  </div>
+
+  <div class="verdict">
+    <p class="a">No, a human must point out which aspect needs improving.</p>
+  </div>
+
+  <h3>Angry Birds</h3>
+
+  <div class="ladder">
+
+    <figure class="prompt-band rung">
+      <span class="who">Prompt &rarr;</span>
+      <blockquote>&ldquo;Compare your current game code against the reference video.
+      Where do you think it needs improving?&rdquo;</blockquote>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">IMPROVEMENT 1</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/ab-v1-poster.jpg" alt="Angry Birds, improvement 1" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Angry Birds improvement 1"
+                data-src="games/ab-v1/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="connector"></div>
+
+    <figure class="prompt-band rung">
+      <span class="who">Prompt &rarr;</span>
+      <blockquote>&ldquo;Your appearance doesn't match the original video.&rdquo;</blockquote>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">IMPROVEMENT 2</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/ab-v2-poster.jpg" alt="Angry Birds, improvement 2" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Angry Birds improvement 2"
+                data-src="games/ab-v2/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <h3>Tennis</h3>
+
+  <div class="ladder">
+
+    <figure class="prompt-band rung">
+      <span class="who">Prompt &rarr;</span>
+      <blockquote>&ldquo;Compare your current game code against the reference video.
+      Where do you think it needs improving?&rdquo;</blockquote>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">IMPROVEMENT 1</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/tennis-v1-poster.jpg" alt="Tennis, improvement 1" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Tennis improvement 1"
+                data-src="games/tennis-v1/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="connector"></div>
+
+    <figure class="prompt-band rung">
+      <span class="who">Prompt &rarr;</span>
+      <blockquote>&ldquo;Your appearance doesn't match the original video.&rdquo;</blockquote>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">IMPROVEMENT 2</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/tennis-v2-poster.jpg" alt="Tennis, improvement 2" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Tennis improvement 2"
+                data-src="games/tennis-v2/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="connector"></div>
+
+    <figure class="prompt-band rung">
+      <span class="who">Prompt &rarr;</span>
+      <blockquote>&ldquo;Your motion isn't continuous, and swinging left and right
+      makes no difference.&rdquo;</blockquote>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">IMPROVEMENT 3</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/tennis-v3-poster.jpg" alt="Tennis, improvement 3" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Tennis improvement 3"
+                data-src="games/tennis-v3/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ==================================================================== -->
+<section id="q2">
+  <div class="sec-head">
+    <span class="sec-num">Q2</span>
+    <h2>Can the reference appearance be aligned, by the agent alone?</h2>
+  </div>
+
+  <div class="verdict">
+    <p class="a">It cannot be fully replicated, only imitated pixel by pixel or
+    copied in fragments.</p>
+  </div>
+
+  <h3>Angry Birds</h3>
+
+  <p class="row-label">Camera information does not match</p>
+  <div class="compare">
+    <figure>
+      <img src="figures/ab-reference.jpg" alt="Reference video, first frame" loading="lazy">
+      <figcaption><span class="cap-title ref">Reference video, first frame</span></figcaption>
+    </figure>
+    <figure>
+      <img src="figures/ab-game.jpg" alt="Game, first frame" loading="lazy">
+      <figcaption><span class="cap-title">Game, first frame</span></figcaption>
+    </figure>
+  </div>
+
+  <p class="row-label">Details do not match</p>
+  <div class="compare">
+    <figure>
+      <img src="figures/ab-reference.jpg" alt="Reference video, first frame" loading="lazy">
+      <figcaption><span class="cap-title ref">Reference video, first frame</span></figcaption>
+    </figure>
+    <figure>
+      <img src="figures/ab-game-tower.jpg" alt="Game, matched framing" loading="lazy">
+      <figcaption><span class="cap-title">Game, matched framing</span></figcaption>
+    </figure>
+  </div>
+
+  <h3>Tennis</h3>
+
+  <p class="row-label">The action is not learned. Each key press replays one recorded
+  clip from the video.</p>
+  <div class="compare">
+    <figure>
+      <img src="figures/tennis-swing-a.jpg" alt="Improvement 3, pressing A" loading="lazy">
+      <figcaption><span class="cap-title">Press A</span></figcaption>
+    </figure>
+    <figure>
+      <img src="figures/tennis-swing-d.jpg" alt="Improvement 3, pressing D" loading="lazy">
+      <figcaption><span class="cap-title">Press D</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<footer class="page">
+  <a href="../">All weeks</a>
+</footer>
+
+</div>
+
+<script src="week3.js"></script>
+</html>

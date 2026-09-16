@@ -1,0 +1,104 @@
+[
+ {
+  "iteration": "ab-v1",
+  "file": "game.js",
+  "source": "angrybird_selfimprovement/after/game.js",
+  "sha256": "772c072ca28fb91b9d8e57c1c99711cc99943d56ff568fc8fffb59a27f6a56f4"
+ },
+ {
+  "iteration": "ab-v1",
+  "file": "vendor/matter.min.js",
+  "source": "angrybird_selfimprovement/after/vendor/matter.min.js",
+  "sha256": "72d30be0f579eb02ce1e0b6f9d359a4f392e6837e5a26ba8be5dbee7f88e24ae"
+ },
+ {
+  "iteration": "ab-v1",
+  "file": "vendor/LICENSE-matter.txt",
+  "source": "angrybird_selfimprovement/after/vendor/LICENSE-matter.txt",
+  "sha256": "ed182087be5b26734aa6d4789743de3a97417950e8c1e3ff2e3d19c6462720d3"
+ },
+ {
+  "iteration": "ab-v2",
+  "file": "game.js",
+  "source": "angrybird_selfimprovement2/after/game.js",
+  "sha256": "e73c5fc099ce650defea4c562cefa906bdf2c2ce40216ab9cca7c5ccab351362"
+ },
+ {
+  "iteration": "ab-v2",
+  "file": "vendor/matter.min.js",
+  "source": "angrybird_selfimprovement2/after/vendor/matter.min.js",
+  "sha256": "72d30be0f579eb02ce1e0b6f9d359a4f392e6837e5a26ba8be5dbee7f88e24ae"
+ },
+ {
+  "iteration": "ab-v2",
+  "file": "vendor/LICENSE-matter.txt",
+  "source": "angrybird_selfimprovement2/after/vendor/LICENSE-matter.txt",
+  "sha256": "ed182087be5b26734aa6d4789743de3a97417950e8c1e3ff2e3d19c6462720d3"
+ },
+ {
+  "iteration": "tennis-v1",
+  "file": "game.js",
+  "source": "tennis_selfimprovement/after/game.js",
+  "sha256": "dacc7dd8c8598d277fc0e73818e2ca0489ccaab30644b3f40081a479ca2e7453"
+ },
+ {
+  "iteration": "tennis-v1",
+  "file": "data.js",
+  "source": "tennis_selfimprovement/after/data.js",
+  "sha256": "92a377093cfca42b5846a751bb4ea1343540f6b1ef2c72a81b8797481a505534"
+ },
+ {
+  "iteration": "tennis-v2",
+  "file": "game.js",
+  "source": "tennis_selfimprovement2/after/game.js",
+  "sha256": "fb97b6fe9bd96324f7d510e12d50b5c8b190bf12cdea7d9cccbb25bc76829123"
+ },
+ {
+  "iteration": "tennis-v2",
+  "file": "actors.js",
+  "source": "tennis_selfimprovement2/after/actors.js",
+  "sha256": "f3fb01e519c0a6a236d7af7de7c3e45f319a69b7ccffa6b4dc4a783aec915d08"
+ },
+ {
+  "iteration": "tennis-v2",
+  "file": "data.js",
+  "source": "tennis_selfimprovement2/after/data.js",
+  "sha256": "92a377093cfca42b5846a751bb4ea1343540f6b1ef2c72a81b8797481a505534"
+ },
+ {
+  "iteration": "tennis-v2",
+  "file": "motion_data.js",
+  "source": "tennis_selfimprovement2/after/motion_data.js",
+  "sha256": "3e6a84a35346d3508a74993152cb235b7522908ed4cd75ee28b50f2b5290e0e3"
+ },
+ {
+  "iteration": "tennis-v3",
+  "file": "game.js",
+  "source": "tennis_selfimprovement3/after/game.js",
+  "sha256": "5089b5102755b0a383b5b187d65be516fb6f624e2a8e2bfd88f9bd0c0956c5c5"
+ },
+ {
+  "iteration": "tennis-v3",
+  "file": "actors.js",
+  "source": "tennis_selfimprovement3/after/actors.js",
+  "sha256": "5cb3fe05919b18ce8d13295c3291ea5f9a07f2639fef504cfa0c67d74845bdc4"
+ },
+ {
+  "iteration": "tennis-v3",
+  "file": "background.js",
+  "source": "tennis_selfimprovement3/after/background.js",
+  "sha256": "ff7666091e50d228443b16d13001b905184506ecd00a6cc50a4e8f2474dd7cd5"
+ },
+ {
+  "iteration": "tennis-v3",
+  "file": "data.js",
+  "source": "tennis_selfimprovement3/after/data.js",
+  "sha256": "92a377093cfca42b5846a751bb4ea1343540f6b1ef2c72a81b8797481a505534"
+ },
+ {
+  "iteration": "tennis-v3",
+  "file": "motion_data.js",
+  "source": "tennis_selfimprovement3/after/motion_data.js",
+  "sha256": "3e6a84a35346d3508a74993152cb235b7522908ed4cd75ee28b50f2b5290e0e3"
+ }
+]
