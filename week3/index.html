@@ -30,6 +30,34 @@
 
   <div class="ladder">
 
+    <figure class="source-card rung">
+      <div class="it-head"><span class="it-label">SOURCE VIDEO</span></div>
+      <div class="source-body">
+        <video src="clips/ab-source.mp4" controls loop muted playsinline preload="metadata"></video>
+        <p class="cap-note">The reference clip, 960&times;536, 10.9&nbsp;s. This recording is the only thing the agent was given: no game source, no assets, no engine.</p>
+      </div>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">BASELINE &middot; NO IMPROVEMENT YET</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/ab-v0-poster.jpg" alt="Angry Birds, baseline" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Angry Birds baseline"
+                data-src="games/ab-v0/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="connector"></div>
+
     <figure class="prompt-band rung">
       <span class="who">Prompt &rarr;</span>
       <blockquote>&ldquo;Compare your current game code against the reference video.
@@ -84,6 +112,34 @@
   <h3>Tennis</h3>
 
   <div class="ladder">
+
+    <figure class="source-card rung">
+      <div class="it-head"><span class="it-label">SOURCE VIDEO</span></div>
+      <div class="source-body">
+        <video src="clips/tennis-source.mp4" controls loop muted playsinline preload="metadata"></video>
+        <p class="cap-note">Williams vs Gauff at the US Open, 1920&times;1080, 14.5&nbsp;s. Same rule: the agent sees this clip and nothing else.</p>
+      </div>
+    </figure>
+
+    <div class="connector"></div>
+
+    <article class="iteration rung">
+      <div class="it-head"><span class="it-label">BASELINE &middot; NO IMPROVEMENT YET</span></div>
+      <div class="play">
+        <div class="launcher">
+          <img src="figures/tennis-v0-poster.jpg" alt="Tennis, baseline" loading="lazy">
+          <div><button class="btn" data-start>Play &rarr;</button></div>
+        </div>
+        <iframe class="game-frame" title="Tennis baseline"
+                data-src="games/tennis-v0/embed.html" src="about:blank" allow="fullscreen" hidden></iframe>
+        <div class="play-foot">
+          <p class="status" role="status" aria-live="polite"></p>
+          <button class="btn ghost" data-stop hidden>Close game</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="connector"></div>
 
     <figure class="prompt-band rung">
       <span class="who">Prompt &rarr;</span>

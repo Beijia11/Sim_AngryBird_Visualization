@@ -1,5 +1,12 @@
 {
  "iterations": {
+  "ab-v0": {
+   "masthead_hidden": true,
+   "canvas_visible": true,
+   "iframe_height": 683,
+   "status": "Click inside the game to control it.",
+   "closed_to_blank": true
+  },
   "ab-v1": {
    "masthead_hidden": true,
    "canvas_visible": true,
@@ -11,6 +18,13 @@
    "masthead_hidden": true,
    "canvas_visible": true,
    "iframe_height": 683,
+   "status": "Click inside the game to control it.",
+   "closed_to_blank": true
+  },
+  "tennis-v0": {
+   "masthead_hidden": true,
+   "canvas_visible": true,
+   "iframe_height": 693,
    "status": "Click inside the game to control it.",
    "closed_to_blank": true
   },
@@ -39,12 +53,12 @@
  "page": {
   "title": "Agent and Video Generation Model",
   "sections": 4,
-  "iterations_on_page": 5,
+  "iterations_on_page": 7,
   "prompt_bands": 5,
   "comparison_figures": 14,
   "frames_start_blank": true,
   "images_loaded": true,
-  "image_count": 11
+  "image_count": 13
  },
  "page_errors": []
 }

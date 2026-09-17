@@ -20,10 +20,12 @@ SITE = ROOT.parent
 OUT = ROOT / "validation"
 CHROME = "/opt/google/chrome/chrome"
 
-ITERATIONS = ["ab-v1", "ab-v2", "tennis-v1", "tennis-v2", "tennis-v3"]
+ITERATIONS = ["ab-v0", "ab-v1", "ab-v2", "tennis-v0", "tennis-v1", "tennis-v2", "tennis-v3"]
 
 # Each embed draws "ready" differently. These probes run inside the iframe.
 READY = {
+    "ab-v0":     "typeof Matter !== 'undefined' && document.querySelector('canvas') !== null",
+    "tennis-v0": "document.querySelector('canvas') !== null",
     "ab-v1":     "typeof Matter !== 'undefined' && document.querySelector('canvas') !== null",
     "ab-v2":     "typeof Matter !== 'undefined' && document.querySelector('canvas') !== null",
     "tennis-v1": "document.querySelector('canvas') !== null",

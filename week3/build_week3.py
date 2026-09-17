@@ -27,6 +27,15 @@ FIGS = ROOT / "figures"
 # --------------------------------------------------------------------------
 ITERATIONS = [
     dict(
+        id="ab-v0", track="angry-birds", n=0,
+        source="angrybird_selfimprovement/before",
+        runtime=["game.js", "vendor/matter.min.js", "vendor/LICENSE-matter.txt"],
+        shared=[],
+        poster=("angrybird_selfimprovement/evidence/before_1.6s.png", "ab-v0-poster.jpg"),
+        look_for="The starting point: the tower's roof hangs in the air after its "
+                 "supports are destroyed.",
+    ),
+    dict(
         id="ab-v1", track="angry-birds", n=1,
         source="angrybird_selfimprovement/after",
         runtime=["game.js", "vendor/matter.min.js", "vendor/LICENSE-matter.txt"],
@@ -42,6 +51,15 @@ ITERATIONS = [
         poster=("angrybird_selfimprovement2/evidence/after_initial.png", "ab-v2-poster.jpg"),
         look_for="Repainted sky, trees, grass and characters, plus an "
                  "engine-accurate aim preview and an <em>Inspect tower</em> view.",
+    ),
+    dict(
+        id="tennis-v0", track="tennis", n=0,
+        source="tennis_selfimprovement/before",
+        runtime=["game.js"],
+        shared=[],
+        poster=("tennis_selfimprovement/evidence/before_initial.png", "tennis-v0-poster.jpg"),
+        look_for="The starting point: court geometry, ball depth and racket reach are "
+                 "all guessed, and both players are drawings.",
     ),
     dict(
         id="tennis-v1", track="tennis", n=1,
@@ -92,6 +110,9 @@ FIGURES = [
 CWM = WORK / "tennis_cwm_proxy" / "out" / "20260917-033836"
 ABM = WORK / "angrybird_cwm_proxy" / "out" / "opening124"
 CLIP_JOBS = [
+    # The reference clips the agent was given, shown at the top of each Q1 track.
+    (WORK / "angrybird_selfimprovement2/after/reference.webm", "ab-source.mp4", "scale=860:-2"),
+    (WORK / "tennis_selfimprovement3/after/reference.mp4", "tennis-source.mp4", "scale=860:-2"),
     (CWM / "game_render.mp4", "tennis-play.mp4", "scale=860:-2"),
     (CWM / "proxy_preview.mp4", "tennis-depth.mp4", "crop=336:192:0:192,scale=860:-2:flags=neighbor"),
     (CWM / "proxy_preview.mp4", "tennis-semantic.mp4", "crop=336:192:0:0,scale=860:-2:flags=neighbor"),

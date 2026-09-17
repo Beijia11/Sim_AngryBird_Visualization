@@ -183,6 +183,19 @@ h3 + .row-label { margin-top:18px; }
 }
 .cap-title.ref { color:var(--accent-2); }
 .cap-note { font-size:13.5px; color:var(--ink-3); }
+
+/* ---------- the reference clip at the head of a Q1 track ---------- */
+.source-card {
+  margin:0; border:1px solid var(--line); border-radius:6px;
+  background:var(--surface); overflow:hidden;
+}
+.source-body { padding:18px 22px 20px; }
+.source-body video {
+  display:block; width:100%; max-width:760px; height:auto; background:#000;
+  border:1px solid var(--line); border-radius:3px;
+}
+.source-body p { margin:10px 0 0; max-width:76ch; }
+@media (max-width:720px) { .source-body { padding:15px; } }
 .compare video {
   display:block; width:100%; height:auto; background:#000;
   border:1px solid var(--line); border-radius:2px;

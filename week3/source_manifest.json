@@ -1,5 +1,23 @@
 [
  {
+  "iteration": "ab-v0",
+  "file": "game.js",
+  "source": "angrybird_selfimprovement/before/game.js",
+  "sha256": "6f8427675b5778b38eafe49199ef0d3dd7ec3d9c59a65c6a0d289d8e75f76b50"
+ },
+ {
+  "iteration": "ab-v0",
+  "file": "vendor/matter.min.js",
+  "source": "angrybird_selfimprovement/before/vendor/matter.min.js",
+  "sha256": "72d30be0f579eb02ce1e0b6f9d359a4f392e6837e5a26ba8be5dbee7f88e24ae"
+ },
+ {
+  "iteration": "ab-v0",
+  "file": "vendor/LICENSE-matter.txt",
+  "source": "angrybird_selfimprovement/before/vendor/LICENSE-matter.txt",
+  "sha256": "ed182087be5b26734aa6d4789743de3a97417950e8c1e3ff2e3d19c6462720d3"
+ },
+ {
   "iteration": "ab-v1",
   "file": "game.js",
   "source": "angrybird_selfimprovement/after/game.js",
@@ -34,6 +52,12 @@
   "file": "vendor/LICENSE-matter.txt",
   "source": "angrybird_selfimprovement2/after/vendor/LICENSE-matter.txt",
   "sha256": "ed182087be5b26734aa6d4789743de3a97417950e8c1e3ff2e3d19c6462720d3"
+ },
+ {
+  "iteration": "tennis-v0",
+  "file": "game.js",
+  "source": "tennis_selfimprovement/before/game.js",
+  "sha256": "368bc33ff525a8e309b7048a9e85b8b905466149b44d4efd66b3f93fa4a18471"
  },
  {
   "iteration": "tennis-v1",
