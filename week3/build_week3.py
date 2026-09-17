@@ -83,6 +83,44 @@ FIGURES = [
 ]
 
 # --------------------------------------------------------------------------
+# Q3 clips: one recorded tennis rally at each stage of the pipeline.
+#
+# proxy_preview.mp4 is the Semantic-ID map stacked on top of the metric depth
+# map, 336x192 each, so the two conditions are cropped back out of it rather
+# than re-rendered: this keeps the builder on the standard library plus ffmpeg.
+# --------------------------------------------------------------------------
+CWM = WORK / "tennis_cwm_proxy" / "out" / "20260917-033836"
+ABM = WORK / "angrybird_cwm_proxy" / "out" / "opening124"
+CLIP_JOBS = [
+    (CWM / "game_render.mp4", "tennis-play.mp4", "scale=860:-2"),
+    (CWM / "proxy_preview.mp4", "tennis-depth.mp4", "crop=336:192:0:192,scale=860:-2:flags=neighbor"),
+    (CWM / "proxy_preview.mp4", "tennis-semantic.mp4", "crop=336:192:0:0,scale=860:-2:flags=neighbor"),
+    (CWM / "output.mp4", "tennis-generated.mp4", "scale=860:-2"),
+    (ABM / "game_render.mp4", "ab-play.mp4", "scale=860:-2"),
+    (ABM / "proxy_preview.mp4", "ab-depth.mp4", "crop=336:192:0:192,scale=860:-2:flags=neighbor"),
+    (ABM / "proxy_preview.mp4", "ab-semantic.mp4", "crop=336:192:0:0,scale=860:-2:flags=neighbor"),
+    (ABM / "output.mp4", "ab-generated.mp4", "scale=860:-2"),
+]
+CLIPS = ROOT / "clips"
+
+
+def build_clips():
+    """Re-encode the four pipeline stages as web-weight MP4s."""
+    CLIPS.mkdir(exist_ok=True)
+    for source, name, filters in CLIP_JOBS:
+        if not source.exists():
+            print(f"  SKIP {name}: missing {source}")
+            continue
+        subprocess.run(
+            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(source), "-vf", filters,
+             "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p",
+             "-movflags", "+faststart", "-an", str(CLIPS / name)],
+            check=True)
+        size = (CLIPS / name).stat().st_size
+        print(f"  {name:<24} {size / 1e6:.1f} MB")
+
+
+# --------------------------------------------------------------------------
 # Turning a result page into an embeddable game screen.
 #
 # Each `after/index.html` is a full magazine-style page: masthead, headline,
@@ -177,5 +215,6 @@ if __name__ == "__main__":
     print("week 3 build")
     copy_runtime()
     build_figures()
+    build_clips()
     manifest()
     print("done. index.html is maintained by hand; only assets are generated here.")

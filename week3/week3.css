@@ -182,6 +182,23 @@ h3 + .row-label { margin-top:18px; }
   color:var(--ink); margin-bottom:4px;
 }
 .cap-title.ref { color:var(--accent-2); }
+.cap-note { font-size:13.5px; color:var(--ink-3); }
+.compare video {
+  display:block; width:100%; height:auto; background:#000;
+  border:1px solid var(--line); border-radius:2px;
+}
+
+/* ---------- future work ---------- */
+.future { margin-top:26px; }
+.future > li {
+  list-style:none; margin:0 0 22px; padding:0 0 0 22px;
+  border-left:2px solid var(--line); max-width:80ch;
+}
+.future > li > b {
+  display:block; font-family:var(--mono); font-size:13px;
+  font-weight:500; color:var(--ink); margin-bottom:6px;
+}
+.future > li > p { margin:0; color:var(--ink-2); }
 
 footer.page {
   margin-top:56px; padding-top:22px; border-top:1px solid var(--line);

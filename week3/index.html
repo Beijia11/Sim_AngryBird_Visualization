@@ -16,49 +16,6 @@
 </header>
 
 <!-- ==================================================================== -->
-<section id="pipeline">
-  <figure class="diagram">
-    <div class="diagram-scroll">
-      <svg viewBox="0 0 1120 190" role="img"
-           aria-label="Video clip, link 1, Agent, link 2, Video model, link 3, Result.">
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
-                  markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
-          </marker>
-        </defs>
-        <g fill="none" stroke="currentColor" stroke-width="1.2">
-          <rect x="20"  y="66" width="190" height="60" rx="2"/>
-          <rect x="316" y="66" width="190" height="60" rx="2"
-                stroke="var(--accent)" stroke-width="2"/>
-          <rect x="612" y="66" width="190" height="60" rx="2"/>
-          <rect x="908" y="66" width="190" height="60" rx="2"/>
-        </g>
-        <g font-size="15" text-anchor="middle" fill="currentColor">
-          <text x="115"  y="101">Video Clip</text>
-          <text x="411"  y="101" fill="var(--accent)" font-weight="500">Agent</text>
-          <text x="707"  y="101">Video Model</text>
-          <text x="1003" y="101">Result</text>
-        </g>
-        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow)">
-          <line x1="210" y1="96" x2="306" y2="96" stroke="var(--accent)" stroke-width="2"/>
-          <line x1="506" y1="96" x2="602" y2="96"/>
-          <line x1="802" y1="96" x2="898" y2="96"/>
-        </g>
-        <g font-size="15" text-anchor="middle" font-weight="500">
-          <circle cx="258" cy="46" r="14" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
-          <text x="258" y="51" fill="var(--accent)">1</text>
-          <circle cx="554" cy="46" r="14" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
-          <text x="554" y="51" fill="var(--ink-3)">2</text>
-          <circle cx="850" cy="46" r="14" fill="none" stroke="var(--ink-3)" stroke-width="1.2"/>
-          <text x="850" y="51" fill="var(--ink-3)">3</text>
-        </g>
-      </svg>
-    </div>
-  </figure>
-</section>
-
-<!-- ==================================================================== -->
 <section id="q1">
   <div class="sec-head">
     <span class="sec-num">Q1</span>
@@ -258,6 +215,199 @@
       <figcaption><span class="cap-title">Press D</span></figcaption>
     </figure>
   </div>
+</section>
+
+<!-- ==================================================================== -->
+<section id="q3">
+  <div class="sec-head">
+    <span class="sec-num">Q3</span>
+    <h2>What does the whole pipeline look like?</h2>
+  </div>
+
+  <figure class="diagram">
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1260 150" role="img"
+           aria-label="Video, to GPT 6, to game rules as code, to play and record,
+                       to proxy of depth and semantic ID, to MiniMax H3.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="10"   y="44" width="170" height="64" rx="2"/>
+          <rect x="224"  y="44" width="170" height="64" rx="2"/>
+          <rect x="438"  y="44" width="170" height="64" rx="2"/>
+          <rect x="652"  y="44" width="170" height="64" rx="2"/>
+          <rect x="866"  y="44" width="170" height="64" rx="2"/>
+          <rect x="1080" y="44" width="170" height="64" rx="2"/>
+        </g>
+        <g font-size="15" text-anchor="middle" fill="currentColor">
+          <text x="95"   y="81">Video</text>
+          <text x="309"  y="81">GPT 6</text>
+          <text x="523"  y="72">Game rules<tspan x="523" dy="18" font-size="12">(code)</tspan></text>
+          <text x="737"  y="72">Play and<tspan x="737" dy="18" font-size="12">record</tspan></text>
+          <text x="951"  y="72">Proxy<tspan
+                x="951" dy="18" font-size="12">depth + semantic</tspan></text>
+          <text x="1165" y="81">MiniMax H3</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow)">
+          <line x1="180"  y1="76" x2="220"  y2="76"/>
+          <line x1="394"  y1="76" x2="434"  y2="76"/>
+          <line x1="608"  y1="76" x2="648"  y2="76"/>
+          <line x1="822"  y1="76" x2="862"  y2="76"/>
+          <line x1="1036" y1="76" x2="1076" y2="76"/>
+        </g>
+      </svg>
+    </div>
+    <figcaption>The model never sees the video. It sees one RGB anchor frame and a
+    per-frame Depth + Semantic-ID proxy rebuilt from the game&rsquo;s own state, so the
+    code carries the physics and the model carries only the pixels.</figcaption>
+  </figure>
+
+  <h3>Tennis, end to end</h3>
+
+  <p class="row-label">One rally I played, the two condition channels it was turned
+  into, and what the model generated from them. 574 frames, 23.9&nbsp;s, 24&nbsp;fps.</p>
+
+  <div class="compare">
+    <figure>
+      <video src="clips/tennis-play.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">1 &middot; What I played</span>
+        <span class="cap-note">The recorded game, with the aim ellipse, reach circle and
+        captions suppressed so no overlay can leak into the anchor.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/tennis-depth.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">2 &middot; Depth</span>
+        <span class="cap-note">Metric depth, 336&times;192 float32 in metres, brighter is
+        nearer. This scene spans about 20&nbsp;m to 63&nbsp;m.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/tennis-semantic.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">3 &middot; Semantic ID</span>
+        <span class="cap-note">Twelve classes, 336&times;192. Court, apron, walls, stands,
+        net and umpire chair are static; the two players and the ball are per frame.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/tennis-generated.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">4 &middot; Generated</span>
+        <span class="cap-note">MiniMax H3 Ref2VA with the CWM LoRA, 1344&times;768,
+        six windows stitched with Retake34 continuation.</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <h3>Angry Birds, end to end</h3>
+
+  <p class="row-label">The same four stages for a slingshot shot. 124 frames,
+  5.2&nbsp;s, 24&nbsp;fps. Here the game is a 2-D physics engine, so every actor is
+  already an exact rectangle or circle and the proxy is rebuilt from the bodies
+  themselves &mdash; no camera has to be recovered.</p>
+
+  <div class="compare">
+    <figure>
+      <video src="clips/ab-play.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">1 &middot; The recorded shot</span>
+        <span class="cap-note">The aim arc, flight trail, score popups, debris particles
+        and flight indicator are all suppressed.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/ab-depth.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">2 &middot; Depth</span>
+        <span class="cap-note">6.2&nbsp;m to 34&nbsp;m. A side-on game is nearly
+        fronto-parallel, so depth here separates figure from ground rather than
+        modelling relief; the sky is black because it has no valid depth.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/ab-semantic.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">3 &middot; Semantic ID</span>
+        <span class="cap-note">Timber and platform are <em>building</em>, bird and pig are
+        <em>animal</em>, the slingshot is <em>prop</em>. Beams vanish from the map as they
+        are destroyed.</span>
+      </figcaption>
+    </figure>
+    <figure>
+      <video src="clips/ab-generated.mp4" controls loop muted playsinline preload="metadata"></video>
+      <figcaption>
+        <span class="cap-title">4 &middot; Generated</span>
+        <span class="cap-note">The model invents the shattering debris at impact: it is
+        in neither the recorded frames nor the proxy, and is inferred from the timber
+        disappearing out of the Semantic-ID map.</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ==================================================================== -->
+<section id="future">
+  <div class="sec-head">
+    <span class="sec-num">&rarr;</span>
+    <h2>Future work</h2>
+  </div>
+
+  <figure class="diagram">
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 700 120" role="img" aria-label="GPT 6, to proxy, to Cosmos.">
+        <defs>
+          <marker id="arrow-future" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="10"  y="30" width="180" height="60" rx="2"/>
+          <rect x="260" y="30" width="180" height="60" rx="2"/>
+          <rect x="510" y="30" width="180" height="60" rx="2"/>
+        </g>
+        <g font-size="15" text-anchor="middle" fill="currentColor">
+          <text x="100" y="65">GPT 6</text>
+          <text x="350" y="65">Proxy</text>
+          <text x="600" y="65">Cosmos</text>
+        </g>
+        <g stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow-future)">
+          <line x1="190" y1="60" x2="256" y2="60"/>
+          <line x1="440" y1="60" x2="506" y2="60"/>
+        </g>
+      </svg>
+    </div>
+  </figure>
+
+  <ul class="future">
+    <li>
+      <b>Build the pipeline on Cosmos</b>
+      <p>Swap the renderer at the end of the chain, so the same proxy drives Cosmos
+      instead of MiniMax H3. The proxy is the interface, and it should not have to
+      change when the video model does.</p>
+    </li>
+    <li>
+      <b>How do we make GPT 6 infer the rules and the state well?</b>
+      <p>Today the agent needs a human to say which aspect is wrong (Q1), and its
+      appearance is imitated rather than learned (Q2). The open question is what it
+      takes for the agent to recover the governing rules and a complete state from
+      the video alone.</p>
+    </li>
+    <li>
+      <b>How should the proxy be designed?</b>
+      <p>Depth plus a twelve-class Semantic-ID map is what this particular model was
+      trained on, and it forces real choices: how much of a subject to encode, what
+      to leave to the anchor and the text, and how to represent a game that has no
+      depth buffer at all. A different split would give the model a different job.</p>
+    </li>
+  </ul>
 </section>
 
 <footer class="page">

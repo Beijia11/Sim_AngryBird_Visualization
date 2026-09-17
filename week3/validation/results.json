@@ -38,10 +38,10 @@
  },
  "page": {
   "title": "Agent and Video Generation Model",
-  "sections": 3,
+  "sections": 4,
   "iterations_on_page": 5,
   "prompt_bands": 5,
-  "comparison_figures": 6,
+  "comparison_figures": 14,
   "frames_start_blank": true,
   "images_loaded": true,
   "image_count": 11
