@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finetune with Pair Data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="week4.css">
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">CVPR 2027 / Week 4</p>
+  <h1>Finetune with Pair Data</h1>
+</header>
+
+<!-- ================================================================== -->
+<section id="recall">
+  <div class="sec-head"><span class="sec-num">0</span><h2>Recall</h2></div>
+
+  <ol class="points">
+    <li><b>The agent is hard to self-evolve.</b> It turns a gameplay video into a playable game, but
+    every round of improvement started from a human sentence naming a flaw. Watching its own result
+    was not enough. The tennis build below is improvement 3, after three such rounds.</li>
+    <li><b>The game was tested on Code World Model.</b> The played game becomes a depth and
+    Semantic-ID proxy, and the model renders that back into video.</li>
+  </ol>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · week 3</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/recall/reference.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Reference video</b></p></div>
+      <div class="cell"><video src="clips/recall/game.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Game, improvement 3</b></p></div>
+      <div class="cell"><video src="clips/recall/proxy.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Proxy</b></p></div>
+      <div class="cell"><video src="clips/recall/generated.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+    </div>
+  </div>
+
+  <p>Two questions follow.</p>
+  <ol class="points">
+    <li><b>A reproducible agent.</b> Can the same experiment run with any agent, instead of living in
+    one session in one workspace?</li>
+    <li><b>Pair data.</b> Can it raise what the video model can do?</li>
+  </ol>
+</section>
+
+<!-- ================================================================== -->
+<section id="harness">
+  <div class="sec-head"><span class="sec-num">1</span><h2>Harness</h2></div>
+
+  <p>Input: a gameplay video. Output: game code, including the actions the player can take.
+  A coding agent watches the video, writes a playable browser game, and then improves it over a few
+  rounds of short feedback. The harness fixes everything except the agent, so the same experiment can
+  be rerun with a different one.</p>
+
+  <svg class="diagram" viewBox="0 0 1120 260" role="img"
+       aria-label="Reference video into an agent sandbox, out as game code, then evaluation, with feedback rounds looping back">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+    <g class="d-box">
+      <rect x="8" y="58" width="196" height="96" rx="10"/>
+      <text class="d-title" x="106" y="96">reference video</text>
+      <text class="d-sub" x="106" y="120">one clip, SHA-256</text>
+      <text class="d-sub" x="106" y="138">checked every run</text>
+    </g>
+    <g class="d-box accent">
+      <rect x="268" y="40" width="268" height="132" rx="10"/>
+      <text class="d-title" x="402" y="76">agent in a sandbox</text>
+      <text class="d-sub" x="402" y="100">Docker, only /work visible</text>
+      <text class="d-sub" x="402" y="118">round 0 prompt + PROTOCOL.md</text>
+      <text class="d-sub" x="402" y="136">Claude Code, Codex, or your own</text>
+    </g>
+    <g class="d-box">
+      <rect x="600" y="58" width="220" height="96" rx="10"/>
+      <text class="d-title" x="710" y="96">game code</text>
+      <text class="d-sub" x="710" y="120">/work/game, play.html</text>
+      <text class="d-sub" x="710" y="138">mechanics, actions, appearance</text>
+    </g>
+    <g class="d-box">
+      <rect x="884" y="58" width="228" height="96" rx="10"/>
+      <text class="d-title" x="998" y="96">evaluation</text>
+      <text class="d-sub" x="998" y="120">loads, responds to input,</text>
+      <text class="d-sub" x="998" y="138">distinct inputs, appearance</text>
+    </g>
+    <g class="d-link">
+      <path d="M204,106 L262,106" marker-end="url(#arrow)"/>
+      <path d="M536,106 L594,106" marker-end="url(#arrow)"/>
+      <path d="M820,106 L878,106" marker-end="url(#arrow)"/>
+      <path d="M998,154 L998,212 L402,212 L402,178" marker-end="url(#arrow)"/>
+      <text class="d-edge" x="700" y="234">feedback round 1 to k: one short human message, same conversation</text>
+    </g>
+  </svg>
+
+  <table class="facts">
+    <tr><th>Fixed per run</th><td>the video, the round 0 prompt, <code>PROTOCOL.md</code>, the feedback messages and their order, the workspace conventions, the Docker image and the evaluation</td></tr>
+    <tr><th>Swapped</th><td>the agent and its model, through a one file adapter in <code>agents/</code></td></tr>
+    <tr><th>Tasks</th><td><code>angrybird</code>, 2 feedback rounds; <code>tennis</code>, 3 feedback rounds. The messages are the ones actually sent, for example "Your motion isn't continuous, and swinging left and right makes no difference."</td></tr>
+    <tr><th>Recorded per run</th><td>every prompt, the transcript, the game after each round, the evaluation, and the hash of every harness file</td></tr>
+    <tr><th>Reproducible means</th><td>same inputs, same sandbox, same evaluation, several runs per configuration, compared as distributions. Not identical code.</td></tr>
+  </table>
+
+</section>
+
+<!-- ================================================================== -->
+<section id="dataset">
+  <div class="sec-head"><span class="sec-num">2</span><h2>Dataset</h2></div>
+
+  <p>1,672 clips.</p>
+
+  <div class="triple">
+    <figure><video src="clips/dataset/tennis.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Tennis · match100</figcaption></figure>
+    <figure><video src="clips/dataset/tabletennis.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Table tennis · match10</figcaption></figure>
+    <figure><video src="clips/dataset/badminton.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Badminton · match100</figcaption></figure>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section id="curation">
+  <div class="sec-head"><span class="sec-num">3</span><h2>Pair Data Curation</h2></div>
+
+  <p>The real clip is the target. Player tracks, masks and joints are estimated with
+  Grounding DINO, SAM 2.1 and ViTPose, the players are cut out, and a small library of their own
+  poses is pasted back along the tracks they actually took. Two grades per clip.</p>
+
+  <table class="facts">
+    <tr><th>light</th><td>two fixed poses per player, one per stroke side, translated along the real track, hard cuts between them</td></tr>
+    <tr><th>medium</th><td>same routes and stroke intent, plus held frames, mismatched rhythm and short cross-fade ghosting</td></tr>
+  </table>
+
+  <div class="triple">
+    <figure><video src="clips/curation/original.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Original · tennis match100</figcaption></figure>
+    <figure><video src="clips/curation/light.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Light</figcaption></figure>
+    <figure><video src="clips/curation/medium.mp4" muted loop playsinline autoplay preload="metadata"></video><figcaption>Medium</figcaption></figure>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section id="training">
+  <div class="sec-head"><span class="sec-num">4</span><h2>Training strategy</h2></div>
+
+  <p>Finetune LoRA: the base model and the released Code World Model (H3) LoRA are frozen, and a rank 16 delta LoRA
+  is trained on the pairs.</p>
+
+  <div class="flow">
+    <figure>
+      <video src="clips/training/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video>
+      <figcaption>Rough data</figcaption>
+    </figure>
+    <div class="arrow">&rarr;</div>
+    <figure>
+      <div class="stack">
+        <video src="clips/training/proxy.mp4" muted loop playsinline autoplay preload="metadata"></video>
+        <img src="clips/training/anchor.png" alt="anchor frame">
+      </div>
+      <figcaption>Rough guidance + anchor</figcaption>
+    </figure>
+    <div class="arrow">&rarr;</div>
+    <figure>
+      <video src="clips/training/target.mp4" muted loop playsinline autoplay preload="metadata"></video>
+      <figcaption>Close to groundtruth</figcaption>
+    </figure>
+  </div>
+
+</section>
+
+<!-- ================================================================== -->
+<section id="result">
+  <div class="sec-head"><span class="sec-num">5</span><h2>Result</h2></div>
+
+<div class="prompt"><span class="prompt-label">text prompt, every run below</span><p>Use &lt;Picture 1&gt; as the reference for the scene and the appearance of each subject. Use &lt;Video 1&gt; as a coarse guide to how subjects and objects move over time.</p><p>Preserve the number of subjects, their movement paths, and the direction and approximate timing of actions and interactions indicated by the guide.</p><p>Generate coherent motion that is physically plausible for the depicted subjects and scene. Complete the intermediate motion, preparation, contact, and recovery where appropriate. Treat crude shapes, repeated poses, and abrupt pose switches as imperfect motion guidance rather than exact poses to reproduce. Preserve intentional pauses and changes of direction.</p><p>Maintain consistent appearance and a stable scene throughout the video.</p></div>
+
+  <h3>(1) on test set</h3>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">124 frames, 5.2 s, seed 1235</span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/test/tennis-match116-light/depth.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Depth</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match116-light/semantic.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Semantic</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match116-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough data</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match116-light/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match116-light/cwm.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+      <div class="cell key"><video src="clips/test/tennis-match116-light/ours.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Ours</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match131 · medium</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">124 frames, 5.2 s, seed 1236</span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/test/tennis-match131-medium/depth.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Depth</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match131-medium/semantic.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Semantic</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match131-medium/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough data</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match131-medium/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/test/tennis-match131-medium/cwm.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+      <div class="cell key"><video src="clips/test/tennis-match131-medium/ours.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Ours</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">badminton · match101 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">124 frames, 5.2 s, seed 1234</span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/test/badminton-match101-light/depth.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Depth</b></p></div>
+      <div class="cell"><video src="clips/test/badminton-match101-light/semantic.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Semantic</b></p></div>
+      <div class="cell"><video src="clips/test/badminton-match101-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough data</b></p></div>
+      <div class="cell"><video src="clips/test/badminton-match101-light/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/test/badminton-match101-light/cwm.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+      <div class="cell key"><video src="clips/test/badminton-match101-light/ours.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Ours</b></p></div>
+    </div>
+  </div>
+
+  <h3>(2) on game engine</h3>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis game</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">214 frames, 8.9 s, seed 1234</span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/game/game.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Game render</b></p></div>
+      <div class="cell"><video src="clips/game/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/game/cwm.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+      <div class="cell key"><video src="clips/game/ours.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Ours</b></p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================== -->
+<section id="small-model">
+  <div class="sec-head"><span class="sec-num">6</span><h2>on Cosmos Edge</h2></div>
+
+  <p>Code World Model (H3) is a large model. The same question on a small one: Cosmos-Edge,
+  fine-tuned in two stages on held-out matches, 121 frames at 25 fps, 480p. The control here is a
+  <span class="mono">seg</span> map rather than depth plus Semantic-ID, and the first frame is the
+  only thing that carries the static scene.</p>
+
+  <h3>(1) refined guidance</h3>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 83.10 &rarr; 39.47</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage1/tennis-match116/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Refined guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tennis-match116/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tennis-match116/base.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (base)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage1/tennis-match116/tuned.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1, 400 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">table tennis · match27</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 117.08 &rarr; 56.00</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage1/tabletennis-match27/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Refined guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tabletennis-match27/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tabletennis-match27/base.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (base)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage1/tabletennis-match27/tuned.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1, 400 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">badminton · match101</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 111.80 &rarr; 46.17</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage1/badminton-match101/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Refined guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/badminton-match101/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/badminton-match101/base.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (base)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage1/badminton-match101/tuned.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1, 400 steps)</b></p></div>
+    </div>
+  </div>
+
+  <h3>(2) rough guidance</h3>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 52.08 &rarr; 43.07</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/tennis-match116-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tennis-match116/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/tennis-match116-light/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/tennis-match116-light/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116 · medium</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 49.75 &rarr; 41.45</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/tennis-match116-medium/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tennis-match116/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/tennis-match116-medium/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/tennis-match116-medium/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">table tennis · match27 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 68.59 &rarr; 54.20</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/tabletennis-match27-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tabletennis-match27/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/tabletennis-match27-light/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/tabletennis-match27-light/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">table tennis · match27 · medium</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 65.69 &rarr; 55.42</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/tabletennis-match27-medium/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/tabletennis-match27/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/tabletennis-match27-medium/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/tabletennis-match27-medium/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">badminton · match101 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 56.87 &rarr; 54.28</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/badminton-match101-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/badminton-match101/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/badminton-match101-light/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/badminton-match101-light/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">badminton · match101 · medium</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 55.79 &rarr; 52.84</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/cosmos/stage2/badminton-match101-medium/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage1/badminton-match101/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/cosmos/stage2/badminton-match101-medium/stage1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 1)</b></p></div>
+      <div class="cell key"><video src="clips/cosmos/stage2/badminton-match101-medium/stage2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Cosmos-Edge (stage 2, 250 steps)</b></p></div>
+    </div>
+  </div>
+
+  <table class="facts">
+    <tr><th>Stage 1</th><td>seg estimated from the real clip as control, the real clip as target. Foreground MAE against groundtruth: tennis 83.10 &rarr; 39.47, table tennis 117.08 &rarr; 56.00, badminton 111.80 &rarr; 46.17</td></tr>
+    <tr><th>Stage 2</th><td>warm-started from stage 1, control rebuilt from the light and medium pasted poses, target still the real clip. Foreground MAE improves 4.5% to 21.0% across the six held-out conditions, 13.4% on average</td></tr>
+    <tr><th>Against it</th><td>full-frame MAE is worse than stage 1 on all six rough conditions, and on real seg control the foreground MAE is 6.3% worse, so stage 2 trades background and real-control accuracy for the pose correction</td></tr>
+  </table>
+</section>
+
+<footer>
+  <p>Clips regenerated by <span class="mono">build_week4.py</span>, with the SHA-256 of every source
+  and output in <span class="mono">source_manifest.json</span>. <a href="../">All weeks</a></p>
+</footer>
+
+</div>
+<script src="week4.js"></script>

@@ -1,0 +1,737 @@
+{
+  "clips": {
+    "recall/reference": {
+      "sha256": "efbc6d0b1ac8cb0d2648c54e4d98569430b060009433c72cf4d58b2f6f1b9de7",
+      "bytes": 206385,
+      "size": "672x384",
+      "frames": 348,
+      "seconds": 14.5
+    },
+    "recall/game": {
+      "sha256": "b26a1781d5946231aeed29ed7ba0b828024e97127d47558987c2dc45308184de",
+      "bytes": 232577,
+      "size": "672x384",
+      "frames": 574,
+      "seconds": 23.917
+    },
+    "recall/proxy": {
+      "sha256": "83e3ee814ffe830ccd2118028ae9a53f00d288a4fc298086c17eb8de30569f94",
+      "bytes": 138482,
+      "size": "672x384",
+      "frames": 574,
+      "seconds": 23.917
+    },
+    "recall/generated": {
+      "sha256": "685cb5cf4da4725172f039b73186adaef8f58add941a5d98f41332cf909397a4",
+      "bytes": 403959,
+      "size": "672x384",
+      "frames": 574,
+      "seconds": 23.917
+    },
+    "dataset/tennis": {
+      "sha256": "a6eea2fffc3f16d58aa6a35704fa3ef4bedd4183784adfc7ccb6f81719e79eaf",
+      "bytes": 273157,
+      "size": "672x384",
+      "frames": 240,
+      "seconds": 10.0
+    },
+    "dataset/tabletennis": {
+      "sha256": "608811dc8f72d192571fda0c8b734aff0efca453a6d72d7db56c9477ae24c1c9",
+      "bytes": 316913,
+      "size": "672x384",
+      "frames": 120,
+      "seconds": 5.0
+    },
+    "dataset/badminton": {
+      "sha256": "acaf6075830dbc75d90b8e35cbd8393ed40145cce6b6071440a8e35c85dac7e1",
+      "bytes": 316137,
+      "size": "672x384",
+      "frames": 239,
+      "seconds": 9.959
+    },
+    "curation/original": {
+      "sha256": "09c94fcf7fec4a98734c66491ef9558de0171db4d04365951247efa8b4fa378e",
+      "bytes": 263825,
+      "size": "672x384",
+      "frames": 240,
+      "seconds": 10.0
+    },
+    "curation/light": {
+      "sha256": "44e6ff252696599da0d0a01242ae8af4b0e6efce4298bf7c45c0bf5584428ea6",
+      "bytes": 213862,
+      "size": "672x384",
+      "frames": 240,
+      "seconds": 10.0
+    },
+    "curation/medium": {
+      "sha256": "33d92a57b9ea1d88267da4211490a95932482aee23aae2acb16ea8ec6201ec14",
+      "bytes": 243564,
+      "size": "672x384",
+      "frames": 240,
+      "seconds": 10.0
+    },
+    "training/guidance": {
+      "sha256": "e0a1fc4133f226135d74e5390d2d7e8abc182d008412de6e206eeb7f21de6991",
+      "bytes": 115096,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "training/proxy": {
+      "sha256": "e44f0a273776111fe7d40e1662869b3165caf2637cb97da8742784fb895c5ecc",
+      "bytes": 32784,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "training/target": {
+      "sha256": "b0040c29607ce76c508d2c2d74e46886f5327856ef893e43a3cb213eb914ee8c",
+      "bytes": 158275,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/gt": {
+      "sha256": "8ce6d13d2bf508068feb0c98919285c8b3563c83bb5e0cd87624d6c00a1dad11",
+      "bytes": 415150,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/guidance": {
+      "sha256": "dd409fbcff4f09cc665373fec4a948724ab0aad84ef36a4e1d1e6e3c480327b7",
+      "bytes": 334995,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/depth": {
+      "sha256": "7671dd9ac59fb892fcc355262c20097bb1ce03b6ba339d96b5ce3a705f993eac",
+      "bytes": 26354,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/semantic": {
+      "sha256": "46aedb5771d5727d8fe31ecaeac29273bf0544580600868f95b65f07610c69fe",
+      "bytes": 40459,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/cwm": {
+      "sha256": "f8f32e8a43d6185a65737926e766bdc7381c41d9fb49ea08a1d2ab04d4d79891",
+      "bytes": 265668,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match116-light/ours": {
+      "sha256": "2d85a2e720b8edbac07f2b0daca023fb8a2699c8897f6eb55311d6cc39d97c15",
+      "bytes": 188861,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/gt": {
+      "sha256": "7ce8ccc6cf89db8d439fe593a24aff211a1b807f9640784474f9fb8459b6e8af",
+      "bytes": 366394,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/guidance": {
+      "sha256": "9986a317febaaa137195ff295749de583cec9432233efd2c3a28054276e5412c",
+      "bytes": 290500,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/depth": {
+      "sha256": "d3663283a042da3ec55c9a9c8d2df7e94cc2ec4020a0dd1cb42bc79d3cf564e9",
+      "bytes": 21542,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/semantic": {
+      "sha256": "bde5c9f9589e9af65b430cb5ddf78c6281aefd42947dd4f67533bcfc8e8e14d4",
+      "bytes": 39748,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/cwm": {
+      "sha256": "d98573f8ec09c9961b7472d5f73d31d35006380ccca8b4dcd8e156608f3b7c00",
+      "bytes": 426304,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "tennis-match131-medium/ours": {
+      "sha256": "c722052891548dc28344622632369fb36a1edc4f6a4d984ff3027e9dfd86de81",
+      "bytes": 171353,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/gt": {
+      "sha256": "7035f76beca49c10e73daf0876a35eed6afd93e544bf506af98051e81ce1dfc9",
+      "bytes": 269239,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/guidance": {
+      "sha256": "69e7c522d4da2ea71887e154c7fdd712ecf3d1e129c9e5e0e2bfd8b04fe54bfa",
+      "bytes": 204786,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/depth": {
+      "sha256": "d64a2c67d3659187d6d645950a0732e199beab008818f43945c6586aa90f7984",
+      "bytes": 40746,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/semantic": {
+      "sha256": "2b864057c0db7aded965d7e95dc2c7cb2f535241ffa9566ee7b861cefbe30378",
+      "bytes": 66513,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/cwm": {
+      "sha256": "e779070a1a419fe1b5d26a4d6aa449ee721e8db81beb6456405c88899dd33685",
+      "bytes": 233156,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "badminton-match101-light/ours": {
+      "sha256": "43f1933d38dec4cf5e5b572f2c5f971b0f979a9091befcb5dff8610f7fe33db8",
+      "bytes": 232637,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "game/game": {
+      "sha256": "311d9ad970ed042624ba158b5732c64549f1e5fb24471f907dca01c7e3fbb8a3",
+      "bytes": 83459,
+      "size": "672x384",
+      "frames": 214,
+      "seconds": 8.917
+    },
+    "game/guidance": {
+      "sha256": "1ce4d1c7f4fd2d480de6e950569aff0cb96c62206812d41a99221645235cc91f",
+      "bytes": 43147,
+      "size": "672x384",
+      "frames": 214,
+      "seconds": 8.917
+    },
+    "game/cwm": {
+      "sha256": "2fe7a446853981539c21a0ff14aca57ad7a6a5ccadd3bd537b51995d147b85f3",
+      "bytes": 157612,
+      "size": "672x384",
+      "frames": 214,
+      "seconds": 8.917
+    },
+    "game/ours": {
+      "sha256": "c1eb5fe4123e79ef49989865d9a05bebd1703684298f7807f6202626acf745ad",
+      "bytes": 162252,
+      "size": "672x384",
+      "frames": 214,
+      "seconds": 8.917
+    },
+    "cosmos-stage1/tennis-match116/guidance": {
+      "sha256": "5e674842e4ab9ae22e174e8837e5ece324b9c34ae5e7b85b87f23bb62835e9e7",
+      "bytes": 46307,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tennis-match116/gt": {
+      "sha256": "1018a197b69ebf60d8276b1b22e407a31cfaee6e5848fa0bf684f369d7950ed1",
+      "bytes": 348454,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tennis-match116/base": {
+      "sha256": "5156281e0a63fb9990369c84e189e18eb04d711ff9fa968e3b40de9435fab09c",
+      "bytes": 174391,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tennis-match116/tuned": {
+      "sha256": "e3c920d5da995d7f8ba29368fe5bb34392b38d0cf94f4a3f52b055410c7c6602",
+      "bytes": 389807,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-light/guidance": {
+      "sha256": "51c92f625cb98acf24dce04bfd6e294ec3a54d67c411524dc5017736620aa388",
+      "bytes": 35504,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-light/stage1": {
+      "sha256": "da5d11a847da67a05692c608ef676987b8f0d0fffdce87c17b7bcff486eb1f87",
+      "bytes": 382798,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-light/stage2": {
+      "sha256": "db31c12e4144b30be9450bd5caa24338c1c18afa034549c7f764265c56f6f123",
+      "bytes": 369817,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-medium/guidance": {
+      "sha256": "5f136dc9333e12fdbf9ae815a7793c272b35c70309fb10fc9bf0608cff17d8b6",
+      "bytes": 37821,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-medium/stage1": {
+      "sha256": "ccc11b6835a9595f4496eda03dee938b10f07373117ca9968cf79d01b6d8511c",
+      "bytes": 386722,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tennis-match116-medium/stage2": {
+      "sha256": "798736610c62469b43b16ec65062949a88828b92e8dc96843c65876bf192107c",
+      "bytes": 354092,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tabletennis-match27/guidance": {
+      "sha256": "169b8fb76c5a4d92bfa255bd01b762b9a88ece1f629cb7ad40f0aa059144f1ea",
+      "bytes": 80101,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tabletennis-match27/gt": {
+      "sha256": "f1bca87ca1090955890517168c2f0effd8613a6551b88fe6a2acf045cf606b8c",
+      "bytes": 182120,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tabletennis-match27/base": {
+      "sha256": "9600668596dcf667f40b556268799ab55cb47a200e04e3a316a8787538b2442f",
+      "bytes": 119288,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/tabletennis-match27/tuned": {
+      "sha256": "dbc575dfa88b4c9986477c7e818bae3a6d519cb42f48349318c52e5b52814b44",
+      "bytes": 368985,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-light/guidance": {
+      "sha256": "fa910d74fd38ee74547cf737290473a77d6c7db737fdcc6daef951559db737f5",
+      "bytes": 45320,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-light/stage1": {
+      "sha256": "9587090caaff69d5d8fa2542966198d2e266bca0fae89c4b805ffe847aa2387d",
+      "bytes": 325140,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-light/stage2": {
+      "sha256": "e85e48b17bb1a072cf0941c0b0666df9209992390074d9e3f6fc2aa17d44286d",
+      "bytes": 342262,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-medium/guidance": {
+      "sha256": "f95f8903f95d17e2848398bcf68cc7613237974537baa65fd8a46b89ee392da5",
+      "bytes": 66310,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-medium/stage1": {
+      "sha256": "603ff11bfee2c6059c3f948636f3c3c52bd1857c37c9aebd6a08106a54327846",
+      "bytes": 342377,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/tabletennis-match27-medium/stage2": {
+      "sha256": "86830a7abe160151c6aee4e622a1685e4b9075dc1d6bdc3bbf5f06dc5c0fa292",
+      "bytes": 353103,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/badminton-match101/guidance": {
+      "sha256": "fc427edd749b09ee73a204c0361544caf48c2738e1358bfbddc2eb371f4b669c",
+      "bytes": 118801,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/badminton-match101/gt": {
+      "sha256": "b56dec06ed904efc728f96deb049309650ca1c0df70faca62d2251f55c8cb2fa",
+      "bytes": 246443,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/badminton-match101/base": {
+      "sha256": "94dcba69df6968efecc689b8b6f8bd729b2daca1dff6dcc5ad87c24af3a40474",
+      "bytes": 193565,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage1/badminton-match101/tuned": {
+      "sha256": "d4dc506194c69a7a8cfe1685b19e8664a0b0fc3f84332f39b0118dbe9f4ed438",
+      "bytes": 438784,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-light/guidance": {
+      "sha256": "496254093559eafbf34f94901bd8594393949c3d9df73622064d4268f24df176",
+      "bytes": 63240,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-light/stage1": {
+      "sha256": "842a06035646c51491d05a8add9d51edad3273ef590254b8bda01027c8da7284",
+      "bytes": 398881,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-light/stage2": {
+      "sha256": "9f79a33f37987bda3bc1b580cedfcf5bfa919806ee96420c64d0b9b2be038aef",
+      "bytes": 418682,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-medium/guidance": {
+      "sha256": "61396d35f4b2f5eb74106810e6b8cf26d4235e1d14a048c571bae30b8121320b",
+      "bytes": 97098,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-medium/stage1": {
+      "sha256": "c2842bd624cd7f68b40f93dd4211244c3c8808aa9f9aa5e77d3497934d83a30a",
+      "bytes": 433358,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "cosmos-stage2/badminton-match101-medium/stage2": {
+      "sha256": "d0f07084ec56ab9bbe79297a7c36bfcf7b3490fbf10c2a322ac8040df6dd37ff",
+      "bytes": 434225,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    }
+  },
+  "sources": {
+    "recall/reference": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week3/clips/tennis-source.mp4",
+      "sha256": "5b552ea5b37088d650e2bc8d7c70bef462aa0b35c09e4825e5396e686ace1489"
+    },
+    "recall/game": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week3/clips/tennis-play.mp4",
+      "sha256": "f78bf9e5e392fffb20a68b4701fc34f0c86a947de5da96da7bdb8660e67875ae"
+    },
+    "recall/proxy": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week3/clips/tennis-semantic.mp4",
+      "sha256": "f1fad4218a30a45c10f7da743cb9787f9f08ea427f78c85c80f3be2c16646528"
+    },
+    "recall/generated": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week3/clips/tennis-generated.mp4",
+      "sha256": "21642e55f55fcb1ea884c6465e3117430b883961561f4140e7f61052d2af3c44"
+    },
+    "dataset/tennis": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/tennis/videos/match100_000.mp4",
+      "sha256": "cf53915b63d6ec89f04b4f61513a0b07243dfe9e4eff5a0d17236b41218e561c"
+    },
+    "dataset/tabletennis": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/tabletennis/videos/match10_000.mp4",
+      "sha256": "e9b7a917f15b6a9ed71718e68b410be72d9d5f9b885d1a7e113f83eac82f0279"
+    },
+    "dataset/badminton": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/badminton/videos/match100_000.mp4",
+      "sha256": "5aa05a6d01c0b9086314275e851d1f1121059eeba0aba6fd30a0a02001b1d5af"
+    },
+    "curation/original": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match100_000/target.mp4",
+      "sha256": "dee5780fd4e6906a46fb73be342af3834025425fd3a879b021dab1cd3d7c47a5"
+    },
+    "curation/light": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match100_000/guidance_light.mp4",
+      "sha256": "d1891c675d947f6511bfa205647970cf807ae8493b0940dd7d597fa31d3a7c7b"
+    },
+    "curation/medium": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match100_000/guidance_medium.mp4",
+      "sha256": "06014f30716f939d11be965e47ed760dd1c5d9e6a67b635c410601ec153feefc"
+    },
+    "training/guidance": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match100_000/guidance_light.mp4",
+      "sha256": "d1891c675d947f6511bfa205647970cf807ae8493b0940dd7d597fa31d3a7c7b"
+    },
+    "training/proxy": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match100_000_light/proxy.mkv",
+      "sha256": "c5a4ad1e81de0567ba0c7e733b8baa9efa319987cd201e1bde43a40cdf56deab"
+    },
+    "training/target": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match100_000_light/tennis__match100_000_light.mp4",
+      "sha256": "192e84b20ffc524e733ea1e8dd97dfed7e8ff999e7db808de86178ae39713b17"
+    },
+    "training/anchor": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match100_000_light/anchor.png",
+      "sha256": "369ba9bd22cfa50f0033f1b3613ade372c3001ac3e842228fe965994d933cd81"
+    },
+    "tennis-match116-light/gt": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match116_000_light/tennis__match116_000_light.mp4",
+      "sha256": "56c6d808ddaf1b15c50a3bc9bdebb16137d27d15643ab8e83bcd3feb26adc1cd"
+    },
+    "tennis-match116-light/guidance": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match116_000/guidance_light.mp4",
+      "sha256": "055b77d25214d7c2fc4e558a9e34398f1fdf78c7130aa8e05b0f261ba60fdd5b"
+    },
+    "tennis-match116-light/depth": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/tennis__match116_000_light/condition_depth.mp4",
+      "sha256": "1edd4f0faf1543f6704288e69e05c363584792f268d06d8ba89ba05f4f3482a6"
+    },
+    "tennis-match116-light/semantic": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/tennis__match116_000_light/condition_semantic.mp4",
+      "sha256": "862420925d5f983fbe13f09051a3739f99f924c29ade750e160f626d06084e2c"
+    },
+    "tennis-match116-light/cwm": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/tennis__match116_000_light/generated_cwm.mp4",
+      "sha256": "9cd5ab11f0b17a91d810152bcd513d628af9bae8d230f55ed7e0f073cf96b0b8"
+    },
+    "tennis-match116-light/ours": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/tennis__match116_000_light/generated_step2750.mp4",
+      "sha256": "aba560efebd3a2cbb001bf3d77346aed38ce85cd9e5c825bc923bfb98bda21d5"
+    },
+    "tennis-match116-light/anchor": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match116_000_light/anchor.png",
+      "sha256": "ef9538bbed8bde76107a3ef75c7fae7304d1bf917e24ea82470d74225bb0c7a5"
+    },
+    "tennis-match131-medium/gt": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match131_000_medium/tennis__match131_000_medium.mp4",
+      "sha256": "bcd3038f7c13b1d0148f2ddb2a574949b9e9d754525f676d80dc49b769ce1e8b"
+    },
+    "tennis-match131-medium/guidance": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/tennis/clips/match131_000/guidance_medium.mp4",
+      "sha256": "7a33b44f26c872d3084da7dc8ec9b4e30db836fccec4ac7b8d0de467b122cb06"
+    },
+    "tennis-match131-medium/depth": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/tennis__match131_000_medium/condition_depth.mp4",
+      "sha256": "fbce52d2732a9f3aed243d444092862efc3fba1a87ca228db6bec217ec97961b"
+    },
+    "tennis-match131-medium/semantic": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/tennis__match131_000_medium/condition_semantic.mp4",
+      "sha256": "86af2b3b4f8ecb24e91527a5a4d0fd43945d2cb9787355fc55a1ba1818b8f469"
+    },
+    "tennis-match131-medium/cwm": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/tennis__match131_000_medium/generated_cwm.mp4",
+      "sha256": "2954f504101daf1aaa87d8b6e75d398539b5989a102c28427f55cef233ca6480"
+    },
+    "tennis-match131-medium/ours": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/tennis__match131_000_medium/generated_step2750.mp4",
+      "sha256": "c0effbe71fc5c8011cd1eedb64cf497a39b0eb542b049ee13bfc51c2b77c3b49"
+    },
+    "tennis-match131-medium/anchor": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/tennis__match131_000_medium/anchor.png",
+      "sha256": "33389945e9cd637378975f3eee7a0cdf157be46b804d3536d0d4e014371548b5"
+    },
+    "badminton-match101-light/gt": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/badminton__match101_000_light/badminton__match101_000_light.mp4",
+      "sha256": "c4aa0414aa78c15afac95582470ecfd8dbdda4a26621c5f3911e10f0d0c9ffd9"
+    },
+    "badminton-match101-light/guidance": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/full_v1/badminton/clips/match101_000/guidance_light.mp4",
+      "sha256": "8ae643b2ff6cc4b0f2226efe2b7b82df8e2cebecb778c7a165414f61ecf980bc"
+    },
+    "badminton-match101-light/depth": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/badminton__match101_000_light/condition_depth.mp4",
+      "sha256": "bb86d30d372ac5a4af3a0ddaab3fda773251fff8fcb6216aac0dbe57c74d5c46"
+    },
+    "badminton-match101-light/semantic": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750/validation/badminton__match101_000_light/condition_semantic.mp4",
+      "sha256": "59849f8950080b5e69e5f0f92c264c2643c849b6587fb6ce1e1abc9825322ee8"
+    },
+    "badminton-match101-light/cwm": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/badminton__match101_000_light/generated_cwm.mp4",
+      "sha256": "800abe408bd4c684018915bebb0ab5e6d39680df67e036bb82c6c22ecdd21092"
+    },
+    "badminton-match101-light/ours": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/inference_step2750_newprompt/validation/badminton__match101_000_light/generated_step2750.mp4",
+      "sha256": "aabfdd664a2e0aebc23ee192b6677e449cd678bea0da692030f916f699b4505c"
+    },
+    "badminton-match101-light/anchor": {
+      "path": "/shared/perception/personals/beijia/data_dynamic_pairs/cwm_train_full_v1/data/badminton__match101_000_light/anchor.png",
+      "sha256": "ec5aa7ba352d5042fe2c268ac691b8eb72554eb6fc665a87b60526a8670eeef5"
+    },
+    "game/game": {
+      "path": "/shared/perception/personals/beijia/selfevolve-agent/tennis_cwm_proxy/out/proxy2/game_render.mp4",
+      "sha256": "93d32e8c5e8bed7c163c3a60c457c648dab9cca81c6363e9bfd76200121ee874"
+    },
+    "game/guidance": {
+      "path": "/shared/perception/personals/beijia/selfevolve-agent/tennis_cwm_proxy/out/proxy2/proxy_video.mp4",
+      "sha256": "2b49843384878d49df7eb11c9f2650bd68a96e8e0f05730e185a97693237060a"
+    },
+    "game/cwm": {
+      "path": "/shared/perception/personals/beijia/selfevolve-agent/tennis_cwm_proxy/out/proxy2/output_newprompt.mp4",
+      "sha256": "2c221419512baef315a7c1b92c5d52a941dc2f1ecff2f2f3317c03e7f89e8ace"
+    },
+    "game/ours": {
+      "path": "/shared/perception/personals/beijia/selfevolve-agent/tennis_cwm_proxy/out/proxy2/generated_step2750_newprompt.mp4",
+      "sha256": "9b28659780d35826962a03e6847359408987ec3243f39c519e73fec3c9ae18cd"
+    },
+    "cosmos-stage1/tennis-match116/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/tennis__match116_000/real_seg.mp4",
+      "sha256": "99313954c059f0ecddd096d1e262ce7a342444bf750710259ff54b8ec6d05740"
+    },
+    "cosmos-stage1/tennis-match116/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/tennis__match116_000/real_gt.mp4",
+      "sha256": "c4f44ce56abede9a0e0d73fc4fd066f705255364d2515cb0e1edd3e4b5a6740d"
+    },
+    "cosmos-stage1/tennis-match116/base": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/base/tennis__match116_000/vision.mp4",
+      "sha256": "73a2932e675002c41b7bde6c26a7a943119326fa4b15af5895e5684371badf02"
+    },
+    "cosmos-stage1/tennis-match116/tuned": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/step400/tennis__match116_000/vision.mp4",
+      "sha256": "8462e99bafc2a2b443adc43aab9d3203c6b94a445789a228e0472495e120815d"
+    },
+    "cosmos-stage2/tennis-match116-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/tennis__match116_000_light/rough_seg.mp4",
+      "sha256": "5e283f75e5637e34489e4f3929b19cc71e5ae7af258089a4501851754bfc28aa"
+    },
+    "cosmos-stage2/tennis-match116-light/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/tennis__match116_000_light/vision.mp4",
+      "sha256": "8a1223288f4e5e4d63dbc1ed636d28ed435719abeaa1f5876bb3054db1acc6fc"
+    },
+    "cosmos-stage2/tennis-match116-light/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/tennis__match116_000_light/vision.mp4",
+      "sha256": "48b2ffd249f33fc0d4408792ca892f5245b2f34c46b192e1a37e8107bfb7f40a"
+    },
+    "cosmos-stage2/tennis-match116-medium/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/tennis__match116_000_medium/rough_seg.mp4",
+      "sha256": "03924b3eb1ac8a188e77fd7cec5177a45c03d25ec331bd9210ecea37c8a0033d"
+    },
+    "cosmos-stage2/tennis-match116-medium/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/tennis__match116_000_medium/vision.mp4",
+      "sha256": "77539294bd142ae6d54b81f91491f1e04700e5c0437fd1c148e8776d7a882f71"
+    },
+    "cosmos-stage2/tennis-match116-medium/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/tennis__match116_000_medium/vision.mp4",
+      "sha256": "cb76a030f2bf2b69c0f67881209b3ef819ed5372b00ccab2fd9644c2dc471255"
+    },
+    "cosmos-stage1/tabletennis-match27/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/tabletennis__match27_000/real_seg.mp4",
+      "sha256": "f67dd8b78f48b2960bb230ecc6e210582fd3482bbb4fd09d0d0c9c0404652f91"
+    },
+    "cosmos-stage1/tabletennis-match27/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/tabletennis__match27_000/real_gt.mp4",
+      "sha256": "7b3943740b9ad0e3cbd98cf3de5ab89f61326d58c5907e09c7fab861b982ef19"
+    },
+    "cosmos-stage1/tabletennis-match27/base": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/base/tabletennis__match27_000/vision.mp4",
+      "sha256": "d70b95dbbb4c57f1dabb94e9365e8087a38a26461210c4116c4c7a853c8fdc42"
+    },
+    "cosmos-stage1/tabletennis-match27/tuned": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/step400/tabletennis__match27_000/vision.mp4",
+      "sha256": "aef3d3f10dd964711d62bf828a4647a7514aa183e967a6db4eddead027238b79"
+    },
+    "cosmos-stage2/tabletennis-match27-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/tabletennis__match27_000_light/rough_seg.mp4",
+      "sha256": "d48dcf0a0a44c81228ab11b6ad51f5cd9888a13b4e295b043f3da5d9c228cc28"
+    },
+    "cosmos-stage2/tabletennis-match27-light/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "38c942805bd7a3cf65e9a4f0fa24ea6dd3ece231ce2f6018b8e483db90e7f6e3"
+    },
+    "cosmos-stage2/tabletennis-match27-light/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "68430171136839a6719b000b779d448d879917f75e8b320a6444e4b718a1566f"
+    },
+    "cosmos-stage2/tabletennis-match27-medium/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/tabletennis__match27_000_medium/rough_seg.mp4",
+      "sha256": "20fd5144320699feb1648ae5dec066ee273d7595b5772cd0a284046ad301ebef"
+    },
+    "cosmos-stage2/tabletennis-match27-medium/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/tabletennis__match27_000_medium/vision.mp4",
+      "sha256": "b6355105b10206b308ff73622dc1eee6d1926f07d62299d99576bc6db7080ba3"
+    },
+    "cosmos-stage2/tabletennis-match27-medium/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/tabletennis__match27_000_medium/vision.mp4",
+      "sha256": "a7d68d7a2d6d2f5b7e9e1b8ecac4195a5b5d63dac400bd984e017225df7a4844"
+    },
+    "cosmos-stage1/badminton-match101/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/badminton__match101_000/real_seg.mp4",
+      "sha256": "7142a5a9cd226cca1221b6d932bc6c18090eb10282edf08b6407965f57c72e62"
+    },
+    "cosmos-stage1/badminton-match101/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/validation/badminton__match101_000/real_gt.mp4",
+      "sha256": "c28f2bf068f3729dce59b487f0feb3e8a30c0ccc7c3b132f89f7cf535c35e0c0"
+    },
+    "cosmos-stage1/badminton-match101/base": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/base/badminton__match101_000/vision.mp4",
+      "sha256": "a144941b2571a340249ce869cabe71dbe358ccec8a54264bd468b55d17f1bbeb"
+    },
+    "cosmos-stage1/badminton-match101/tuned": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_real_stage1/evaluation/step400/badminton__match101_000/vision.mp4",
+      "sha256": "a0231c5de870461c273597b99f95b82d721e9ee8ef9d97ff8a0386125ef0054b"
+    },
+    "cosmos-stage2/badminton-match101-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/badminton__match101_000_light/rough_seg.mp4",
+      "sha256": "41c829cb735c8c7cd5e58946dce05d36ca0fa61f99c0f46c037f884e4acfd7aa"
+    },
+    "cosmos-stage2/badminton-match101-light/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/badminton__match101_000_light/vision.mp4",
+      "sha256": "f9f6ede182823f185e5935d6095919047d585eb19a9aeda52826c3f300890a41"
+    },
+    "cosmos-stage2/badminton-match101-light/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/badminton__match101_000_light/vision.mp4",
+      "sha256": "745c8b3136eecfe52462cf9eabc1b32e4490e82124f9146cdc7112dafc511367"
+    },
+    "cosmos-stage2/badminton-match101-medium/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/validation/badminton__match101_000_medium/rough_seg.mp4",
+      "sha256": "5be3e07da7666cff3e454998a3030b58369e65c5509292274f5fa2496b82ed38"
+    },
+    "cosmos-stage2/badminton-match101-medium/stage1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage1/badminton__match101_000_medium/vision.mp4",
+      "sha256": "a7b22d7d09107d03d9a792280060d6fd8c3e21ca0b4a32df0edd6ee3a8640373"
+    },
+    "cosmos-stage2/badminton-match101-medium/stage2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_rough_stage2/evaluation/stage2/badminton__match101_000_medium/vision.mp4",
+      "sha256": "5bc5d86fa6b9a1d31b7a901dbc9b67a76d906a2bf607899dcc3fb850fefbbe5e"
+    }
+  }
+}
