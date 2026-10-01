@@ -1,0 +1,410 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>game_pacman · Astra 6 (Codex)</title><style>
+:root{--bg:#f4f5f8;--panel:#fff;--ink:#141821;--ink2:#565d6b;--line:#dde1e8;--ok:#0f7a3d;--bad:#b3261e;--accent:#2a78d6;--up:#0f7a3d;--down:#b3261e;--add:#e6f6ea;--del:#fdecea}
+@media (prefers-color-scheme: dark){:root{--bg:#15171c;--panel:#1d2026;--ink:#f1f2f5;--ink2:#aab0bc;--line:#2f343d;--ok:#5cd67c;--bad:#ff7b72;--accent:#3987e5;--up:#5cd67c;--down:#ff7b72;--add:#17301f;--del:#3a1d1b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 system-ui,"PingFang SC","Noto Sans CJK SC",sans-serif}
+.wrap{max-width:1360px;margin:0 auto;padding:22px 16px 60px}h1{font-size:23px;margin:0 0 6px}h2{font-size:19px;margin:34px 0 8px;padding-top:16px;border-top:1px solid var(--line)}h3{font-size:15px;margin:16px 0 6px}
+.meta{color:var(--ink2);font-size:13.5px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel);margin:8px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}th{color:var(--ink2);font-weight:500}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.w{white-space:normal;min-width:260px}.ok{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}
+.up{color:var(--up)}.down{color:var(--down)}video{width:100%;background:#000;border:1px solid var(--line);border-radius:4px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}@media(max-width:900px){.g3{grid-template-columns:1fr}}
+pre{white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12.5px;margin:6px 0}
+.diff{font:12px/1.45 ui-monospace,Menlo,monospace;white-space:pre;overflow-x:auto;max-height:520px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px}
+.diff .a{background:var(--add)}.diff .d{background:var(--del)}.diff .h{color:var(--accent)}
+a.btn{display:inline-block;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;font-weight:600}a.btn:hover{background:var(--accent);color:#fff}
+details summary{cursor:pointer;color:var(--ink2)}img{max-width:100%;border:1px solid var(--line);border-radius:4px}.thumbs img{max-height:120px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}.legend i{display:inline-block;width:14px;height:3px;margin-right:5px;vertical-align:middle}
+.round{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:14px 0}
+</style></head><body><div class=wrap>
+<p class=meta><a href="../../../report.html">all runs</a></p>
+<h1>game_pacman · Astra 6 (Codex)</h1>
+<p class=meta>5 of 6 rounds · best round 2 · 32.9 min so far (generation 28.8, evaluation 4.1) · finished 2026-10-01T02:06:23 · budget 15.0 min per round · GPU 4</p>
+<h2 style="border:0;padding-top:0">Rounds</h2>
+<div class=tw><table><tr><th>round</th><th>focus</th><th>decision</th><th class=n>gen min</th><th class=n>eval min</th><th class=n>cum min</th><th class=n>overall</th><th class=n title='A_appearance'>A</th><th class=n title='B_mechanism'>B</th><th class=n title='C_naturalness'>C</th><th class=n title='D_free_play'>D</th><th class=n title='E_judge'>E</th><th>why</th></tr><tr><td class=n><a href='#r0'>0</a></td><td>build</td><td class=ok>accepted</td><td class=n>7.6</td><td class=n>1.3</td><td class=n>8.9</td><td class=n><b>0.86</b></td><td class=n>1.00</td><td class=n>0.90</td><td class=n>n/a</td><td class=n>0.67</td><td class=n>0.67</td><td class=w>initial build</td></tr><tr><td class=n><a href='#r1'>1</a></td><td>D_free_play</td><td class=bad>rejected</td><td class=n>7.8</td><td class=n>0.6</td><td class=n>17.3</td><td class=n><b>0.86</b></td><td class=n>1.00</td><td class=n>0.90</td><td class=n>n/a</td><td class=n>0.66</td><td class=n>0.67</td><td class=w>D_free_play 0.674 -&gt; 0.664, overall 0.859 -&gt; 0.856</td></tr><tr><td class=n><a href='#r2'>2</a></td><td>D_free_play</td><td class=ok>accepted</td><td class=n>6.2</td><td class=n>0.8</td><td class=n>24.3</td><td class=n><b>0.88</b></td><td class=n>1.00</td><td class=n>0.90</td><td class=n>n/a</td><td class=n>0.74</td><td class=n>0.67</td><td class=w>D_free_play 0.674 -&gt; 0.744</td></tr><tr><td class=n><a href='#r3'>3</a></td><td>D_free_play</td><td class=bad>rejected</td><td class=n>3.5</td><td class=n>0.8</td><td class=n>28.6</td><td class=n><b>0.84</b></td><td class=n>1.00</td><td class=n>0.90</td><td class=n>n/a</td><td class=n>0.61</td><td class=n>0.67</td><td class=w>D_free_play 0.744 -&gt; 0.613, overall 0.882 -&gt; 0.839</td></tr><tr><td class=n><a href='#r4'>4</a></td><td>D_free_play</td><td class=bad>rejected</td><td class=n>3.7</td><td class=n>0.6</td><td class=n>32.9</td><td class=n><b>0.89</b></td><td class=n>1.00</td><td class=n>0.90</td><td class=n>n/a</td><td class=n>0.75</td><td class=n>0.67</td><td class=w>D_free_play 0.744 -&gt; 0.752, overall 0.882 -&gt; 0.885</td></tr></table></div>
+<h2>Scores by round</h2><div class="legend"><span><i style="background:var(--ink)"></i>overall</span><span><i style="background:#2a78d6"></i>A_appearance</span><span><i style="background:#eb6834"></i>B_mechanism</span><span><i style="background:#1baf7a"></i>C_naturalness</span><span><i style="background:#a855f7"></i>D_free_play</span><span><i style="background:#8a91a0"></i>E_judge</span><span>hollow point = rejected round</span></div><svg viewBox="0 0 760 240" width="100%" role="img" aria-label="scores by round"><line x1="40" x2="650" y1="212.0" y2="212.0" stroke="var(--line)"/><text x="34" y="216.0" text-anchor="end" font-size="11" fill="var(--ink2)">0</text><line x1="40" x2="650" y1="162.0" y2="162.0" stroke="var(--line)"/><text x="34" y="166.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.25</text><line x1="40" x2="650" y1="112.0" y2="112.0" stroke="var(--line)"/><text x="34" y="116.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.5</text><line x1="40" x2="650" y1="62.0" y2="62.0" stroke="var(--line)"/><text x="34" y="66.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.75</text><line x1="40" x2="650" y1="12.0" y2="12.0" stroke="var(--line)"/><text x="34" y="16.0" text-anchor="end" font-size="11" fill="var(--ink2)">1</text><text x="40.0" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r0</text><text x="192.5" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r1</text><text x="345.0" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r2</text><text x="497.5" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r3</text><text x="650.0" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r4</text><polyline fill="none" stroke="var(--ink)" stroke-width="3" points="40.0,40.2 192.5,40.8 345.0,35.6 497.5,44.2 650.0,35.0"/><circle cx="40.0" cy="40.2" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="2"><title>r0 overall 0.859</title></circle><circle cx="192.5" cy="40.8" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"><title>r1 overall 0.856</title></circle><circle cx="345.0" cy="35.6" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="2"><title>r2 overall 0.882</title></circle><circle cx="497.5" cy="44.2" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"><title>r3 overall 0.839</title></circle><circle cx="650.0" cy="35.0" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"><title>r4 overall 0.885</title></circle><polyline fill="none" stroke="#2a78d6" stroke-width="2" points="40.0,12.0 192.5,12.0 345.0,12.0 497.5,12.0 650.0,12.0"/><circle cx="40.0" cy="12.0" r="4" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"><title>r0 A_appearance 1.000</title></circle><circle cx="192.5" cy="12.0" r="4" fill="var(--panel)" stroke="#2a78d6" stroke-width="2"><title>r1 A_appearance 1.000</title></circle><circle cx="345.0" cy="12.0" r="4" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"><title>r2 A_appearance 1.000</title></circle><circle cx="497.5" cy="12.0" r="4" fill="var(--panel)" stroke="#2a78d6" stroke-width="2"><title>r3 A_appearance 1.000</title></circle><circle cx="650.0" cy="12.0" r="4" fill="var(--panel)" stroke="#2a78d6" stroke-width="2"><title>r4 A_appearance 1.000</title></circle><polyline fill="none" stroke="#eb6834" stroke-width="2" points="40.0,31.4 192.5,31.4 345.0,31.4 497.5,31.4 650.0,31.4"/><circle cx="40.0" cy="31.4" r="4" fill="#eb6834" stroke="#eb6834" stroke-width="2"><title>r0 B_mechanism 0.903</title></circle><circle cx="192.5" cy="31.4" r="4" fill="var(--panel)" stroke="#eb6834" stroke-width="2"><title>r1 B_mechanism 0.903</title></circle><circle cx="345.0" cy="31.4" r="4" fill="#eb6834" stroke="#eb6834" stroke-width="2"><title>r2 B_mechanism 0.903</title></circle><circle cx="497.5" cy="31.4" r="4" fill="var(--panel)" stroke="#eb6834" stroke-width="2"><title>r3 B_mechanism 0.903</title></circle><circle cx="650.0" cy="31.4" r="4" fill="var(--panel)" stroke="#eb6834" stroke-width="2"><title>r4 B_mechanism 0.903</title></circle><polyline fill="none" stroke="#a855f7" stroke-width="2" points="40.0,77.2 192.5,79.2 345.0,63.2 497.5,89.4 650.0,61.6"/><circle cx="40.0" cy="77.2" r="4" fill="#a855f7" stroke="#a855f7" stroke-width="2"><title>r0 D_free_play 0.674</title></circle><circle cx="192.5" cy="79.2" r="4" fill="var(--panel)" stroke="#a855f7" stroke-width="2"><title>r1 D_free_play 0.664</title></circle><circle cx="345.0" cy="63.2" r="4" fill="#a855f7" stroke="#a855f7" stroke-width="2"><title>r2 D_free_play 0.744</title></circle><circle cx="497.5" cy="89.4" r="4" fill="var(--panel)" stroke="#a855f7" stroke-width="2"><title>r3 D_free_play 0.613</title></circle><circle cx="650.0" cy="61.6" r="4" fill="var(--panel)" stroke="#a855f7" stroke-width="2"><title>r4 D_free_play 0.752</title></circle><polyline fill="none" stroke="#8a91a0" stroke-width="2" stroke-dasharray="4 3" points="40.0,78.6 192.5,78.6 345.0,78.6 497.5,78.6 650.0,78.6"/><circle cx="40.0" cy="78.6" r="4" fill="#8a91a0" stroke="#8a91a0" stroke-width="2"><title>r0 E_judge 0.667</title></circle><circle cx="192.5" cy="78.6" r="4" fill="var(--panel)" stroke="#8a91a0" stroke-width="2"><title>r1 E_judge 0.667</title></circle><circle cx="345.0" cy="78.6" r="4" fill="#8a91a0" stroke="#8a91a0" stroke-width="2"><title>r2 E_judge 0.667</title></circle><circle cx="497.5" cy="78.6" r="4" fill="var(--panel)" stroke="#8a91a0" stroke-width="2"><title>r3 E_judge 0.667</title></circle><circle cx="650.0" cy="78.6" r="4" fill="var(--panel)" stroke="#8a91a0" stroke-width="2"><title>r4 E_judge 0.667</title></circle><text x="658.0" y="16.0" font-size="11" fill="#2a78d6">A 1.00</text><text x="658.0" y="35.4" font-size="11" fill="#eb6834">B 0.90</text><text x="658.0" y="48.4" font-size="11" fill="var(--ink)">overall 0.89</text><text x="658.0" y="65.6" font-size="11" fill="#a855f7">D 0.75</text><text x="658.0" y="82.6" font-size="11" fill="#8a91a0">E 0.67</text></svg>
+<h2>Every metric by round</h2><div class=tw><table><tr><th>group</th><th>metric</th><th class=n>r0</th><th class=n>r1 ✗</th><th class=n>r2</th><th class=n>r3 ✗</th><th class=n>r4 ✗</th></tr><tr><td>A</td><td>lpips</td><td class=n title='value 0.0024'>1.00</td><td class=n title='value 0.0024'>1.00</td><td class=n title='value 0.0024'>1.00</td><td class=n title='value 0.0024'>1.00</td><td class=n title='value 0.0024'>1.00</td></tr><tr><td>A</td><td>entity_dino</td><td class=n title='value 0.9564'>1.00</td><td class=n title='value 0.9564'>1.00</td><td class=n title='value 0.9565'>1.00</td><td class=n title='value 0.9565'>1.00</td><td class=n title='value 0.9565'>1.00</td></tr><tr><td>A</td><td>entity_color</td><td class=n title='value 1.0'>1.00</td><td class=n title='value 1.0'>1.00</td><td class=n title='value 1.0'>1.00</td><td class=n title='value 1.0'>1.00</td><td class=n title='value 1.0'>1.00</td></tr><tr><td>A</td><td>background_lpips</td><td class=n title='value 0.0018'>1.00</td><td class=n title='value 0.0018'>1.00</td><td class=n title='value 0.0018'>1.00</td><td class=n title='value 0.0018'>1.00</td><td class=n title='value 0.0018'>1.00</td></tr><tr><td>B</td><td>flow_epe</td><td class=n title='value 0.0118'>1.00</td><td class=n title='value 0.0118'>1.00</td><td class=n title='value 0.0118'>1.00</td><td class=n title='value 0.0118'>1.00</td><td class=n title='value 0.0118'>1.00</td></tr><tr><td>B</td><td>trajectory_ade</td><td class=n title='value 0.776'>0.81</td><td class=n title='value 0.776'>0.81</td><td class=n title='value 0.776'>0.81</td><td class=n title='value 0.776'>0.81</td><td class=n title='value 0.776'>0.81</td></tr><tr><td>B</td><td>event_f1</td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td></tr><tr><td>B</td><td>pose_dtw</td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td></tr><tr><td>D</td><td>entity_consistency</td><td class=n title='value 0.8808'>0.97</td><td class=n title='value 0.8855'>0.98 <span class=up>+0.01</span></td><td class=n title='value 0.869'>0.95 <span class=down>-0.02</span></td><td class=n title='value 0.8771'>0.96 <span class=up>+0.01</span></td><td class=n title='value 0.8692'>0.95</td></tr><tr><td>D</td><td>popping</td><td class=n title='value 0.0299'>0.70</td><td class=n title='value 0.0037'>0.96 <span class=up>+0.26</span></td><td class=n title='value 0.0382'>0.62 <span class=down>-0.08</span></td><td class=n title='value 0.0198'>0.80 <span class=up>+0.18</span></td><td class=n title='value 0.0346'>0.65 <span class=up>+0.04</span></td></tr><tr><td>D</td><td>physics</td><td class=n title='value 0.6149134022660443'>0.61</td><td class=n title='value 0.0817706525170766'>0.08 <span class=down>-0.53</span></td><td class=n title='value 0.8536579072548436'>0.85 <span class=up>+0.24</span></td><td class=n title='value 0.0'>0.00 <span class=down>-0.85</span></td><td class=n title='value 0.8549697295033054'>0.85</td></tr><tr><td>D</td><td>controllability</td><td class=n title='value 0.0303'>1.00</td><td class=n title='value 0.0305'>1.00</td><td class=n title='value 0.0322'>1.00</td><td class=n title='value 0.0322'>1.00</td><td class=n title='value 0.0321'>1.00</td></tr><tr><td>D</td><td>not_copied</td><td class=n title='value 0.1828'>0.09</td><td class=n title='value 0.1398'>0.30 <span class=up>+0.22</span></td><td class=n title='value 0.1398'>0.30 <span class=up>+0.22</span></td><td class=n title='value 0.1398'>0.30</td><td class=n title='value 0.1398'>0.30</td></tr><tr><td>E</td><td>spotted_rate</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td></tr></table></div><p class=meta>Scores 0 to 1 (hover a cell for the raw value). The change is against the previous accepted round. ✗ = rejected round.</p>
+<h2>Round by round</h2><div class=round id='r4'><h3 style='margin-top:0'>Round 4 · focus D_free_play · <span class=bad>rejected</span></h3><p class=meta>generation <b>3.7 min</b> (ok) · evaluation 0.6 min · overall <b>0.89</b> · A 1.00 · B 0.90 · C n/a · D 0.75 · E 0.67 · D_free_play 0.744 -&gt; 0.752, overall 0.882 -&gt; 0.885 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/4/game/play.html'>Play round 4</a> <a href='rounds/4/game/world.js'>world.js</a> · <a href='rounds/4/game/README.md'>README</a> · <a href='rounds/4/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Your last change was reverted (D_free_play 0.744 -&gt; 0.613, overall 0.882 -&gt; 0.839). The previous accepted build and conversation state are back; do not redo the reverted change as it was.
+Round 4. Focus: free play (new action sequences at the video&#x27;s action rates). Group score 0.744 (0 to 1). Overall 0.882.
+- not_copied: value 0.1398, score 0.30. fraction of free-play frames nearly identical to some video frame (20% = 0)
+- popping: value 0.0382, score 0.62. fraction of frame-to-frame entity appearance changes above the video&#x27;s 99th percentile (10% = 0)
+- physics: value 0.8536579072548436, score 0.85. small-object gravity in free play vs the video (same sign, within 3x)
+- entity_consistency: value 0.869, score 0.95. DINOv2 similarity of entities seen in free play to the video&#x27;s entities (0.3 -&gt; 0, 0.9 -&gt; 1)
+- controllability: value 0.0322, score 1.00. LPIPS between different free-play clips at the same time (3x the video&#x27;s frame-to-frame change = 1)
+Other groups: A_appearance 1.0, B_mechanism 0.903, C_naturalness None. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_4/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 4 replay</div><video src='rounds/4/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 2) replay</div><video src='rounds/2/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/4/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/4/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/4/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/4/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/4/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 2 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +14 −3 lines (130 → 141).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -116,13 +116,24 @@</span>
+<span class="">   const g=s.g, gx=g.x;</span>
+<span class="">   const gp=s.powered&gt;1e-7&amp;&amp;!(g.burst&gt;1e-7)?2:g.dir&lt;0?1:(s.clock&gt;3.4?3:0);</span>
+<span class="d">-  ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,Math.round(g.y)-20,40,40);</span>
+<span class="a">+  const drawGhost=()=&gt;ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,Math.round(g.y)-20,40,40);</span>
+<span class="a">+  if(s.dead&lt;=0)drawGhost();</span>
+<span class="">   {</span>
+<span class="d">-   const p=s.p;const phase=Math.floor((s.clock+1e-6)*10)%4;</span>
+<span class="a">+   const p=s.p;</span>
+<span class="a">+   // Contact interrupts chewing; hold that source pose while it fades out.</span>
+<span class="a">+   const poseTime=s.dead&gt;0?s.clock+s.dead-.8:s.clock;</span>
+<span class="a">+   const phase=Math.floor((poseTime+1e-6)*10)%4;</span>
+<span class="">    ctx.save();ctx.translate(Math.round(p.x),Math.round(p.y));</span>
+<span class="d">-   if(s.dead&gt;0){const visibility=Math.max(0,(s.dead-.15)/.65);ctx.globalAlpha=visibility;ctx.scale(Math.max(.05,visibility),Math.max(.05,visibility));}</span>
+<span class="a">+   if(s.dead&gt;0){</span>
+<span class="a">+    // Retain the measured body size throughout recovery. Shrinking created</span>
+<span class="a">+    // a spurious small moving object as the ghost crossed the dying player.</span>
+<span class="a">+    ctx.globalAlpha=Math.max(0,(s.dead-.15)/.65);</span>
+<span class="a">+   }</span>
+<span class="">    else if(s.respawn&gt;0)ctx.globalAlpha=1-s.respawn/.25;</span>
+<span class="">    ctx.rotate({up:0,right:Math.PI/2,down:Math.PI,left:-Math.PI/2}[p.face]);</span>
+<span class="">    ctx.drawImage(img.pac,phase*40,0,40,40,-20,-20,40,40);ctx.restore();</span>
+<span class="">   }</span>
+<span class="a">+  // The solid enemy occludes the disappearing player at contact; compositing</span>
+<span class="a">+  // the translucent player last incorrectly blended two different faces.</span>
+<span class="a">+  if(s.dead&gt;0)drawGhost();</span>
+<span class="">  },</span>
+<span class="">  replay:{duration:6.1,actions:[{t:.1,id:&#x27;up&#x27;},{t:1.6,id:&#x27;left&#x27;},{t:2.5,id:&#x27;up&#x27;},{t:3.4,id:&#x27;down&#x27;},{t:3.7,id:&#x27;up&#x27;},{t:4,id:&#x27;right&#x27;},{t:5.8,id:&#x27;down&#x27;}]}</span></div></details><p class=meta>assets: 5 files, 0.0 MB · added 0 · removed 0 · changed 0</p></div><div class=round id='r3'><h3 style='margin-top:0'>Round 3 · focus D_free_play · <span class=bad>rejected</span></h3><p class=meta>generation <b>3.5 min</b> (ok) · evaluation 0.8 min · overall <b>0.84</b> · A 1.00 · B 0.90 · C n/a · D 0.61 · E 0.67 · D_free_play 0.744 -&gt; 0.613, overall 0.882 -&gt; 0.839 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/3/game/play.html'>Play round 3</a> <a href='rounds/3/game/world.js'>world.js</a> · <a href='rounds/3/game/README.md'>README</a> · <a href='rounds/3/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Round 3. Focus: free play (new action sequences at the video&#x27;s action rates). Group score 0.744 (0 to 1). Overall 0.882.
+- not_copied: value 0.1398, score 0.30. fraction of free-play frames nearly identical to some video frame (20% = 0)
+- popping: value 0.0382, score 0.62. fraction of frame-to-frame entity appearance changes above the video&#x27;s 99th percentile (10% = 0)
+- physics: value 0.8536579072548436, score 0.85. small-object gravity in free play vs the video (same sign, within 3x)
+- entity_consistency: value 0.869, score 0.95. DINOv2 similarity of entities seen in free play to the video&#x27;s entities (0.3 -&gt; 0, 0.9 -&gt; 1)
+- controllability: value 0.0322, score 1.00. LPIPS between different free-play clips at the same time (3x the video&#x27;s frame-to-frame change = 1)
+Other groups: A_appearance 1.0, B_mechanism 0.903, C_naturalness None. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_3/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 3 replay</div><video src='rounds/3/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 2) replay</div><video src='rounds/2/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/3/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/3/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/3/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/3/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/3/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 2 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +6 −7 lines (130 → 129).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -95,9 +95,8 @@</span>
+<span class="">     const want=s.p.want;</span>
+<span class="">     s.p={x:200,y:348,dir:null,want,face:&#x27;left&#x27;};</span>
+<span class="d">-    s.respawn=.25;s.invulnerable=1;</span>
+<span class="a">+    s.respawn=.35;s.invulnerable=1;</span>
+<span class="">    }</span>
+<span class="">    return;</span>
+<span class="">   }</span>
+<span class="d">-  if(s.respawn&gt;0)return;</span>
+<span class="">   move(s.p,120*dt);</span>
+<span class="">   for(const p of s.pellets)if(p.alive&amp;&amp;Math.hypot(p.x-s.p.x,p.y-s.p.y)&lt;(p.power?12.01:1)){</span>
+<span class="h">@@ -105,7 +104,7 @@</span>
+<span class="">    if(p.power){s.powered=2.5;g.heading=opposite[g.heading];g.dir=dirs[g.heading][0]||g.dir;g.leg=2;g.burst=.1;}</span>
+<span class="">   }</span>
+<span class="d">-  if(s.invulnerable===0&amp;&amp;Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;22){</span>
+<span class="a">+  if(s.invulnerable===0&amp;&amp;Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;30){</span>
+<span class="">    if(s.powered&gt;0){g.heading=opposite[g.heading];g.dir=-g.dir;g.burst=.2;s.invulnerable=.7;s.score+=200;s.events.push({type:&#x27;ghost_eaten&#x27;});}</span>
+<span class="d">-   else {s.dead=.8;s.events.push({type:&#x27;caught&#x27;});}</span>
+<span class="a">+   else {s.dead=.8;s.deathPhase=Math.floor((s.clock+1e-6)*10)%4;s.events.push({type:&#x27;caught&#x27;});}</span>
+<span class="">   }</span>
+<span class="">  },</span>
+<span class="h">@@ -118,8 +117,8 @@</span>
+<span class="">   ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,Math.round(g.y)-20,40,40);</span>
+<span class="">   {</span>
+<span class="d">-   const p=s.p;const phase=Math.floor((s.clock+1e-6)*10)%4;</span>
+<span class="a">+   const p=s.p;const phase=s.dead&gt;0?s.deathPhase:Math.floor((s.clock+1e-6)*10)%4;</span>
+<span class="">    ctx.save();ctx.translate(Math.round(p.x),Math.round(p.y));</span>
+<span class="d">-   if(s.dead&gt;0){const visibility=Math.max(0,(s.dead-.15)/.65);ctx.globalAlpha=visibility;ctx.scale(Math.max(.05,visibility),Math.max(.05,visibility));}</span>
+<span class="d">-   else if(s.respawn&gt;0)ctx.globalAlpha=1-s.respawn/.25;</span>
+<span class="a">+   if(s.dead&gt;0){const visibility=Math.max(0,(s.dead-.15)/.65);ctx.globalAlpha=visibility;}</span>
+<span class="a">+   else if(s.respawn&gt;0)ctx.globalAlpha=1-s.respawn/.35;</span>
+<span class="">    ctx.rotate({up:0,right:Math.PI/2,down:Math.PI,left:-Math.PI/2}[p.face]);</span>
+<span class="">    ctx.drawImage(img.pac,phase*40,0,40,40,-20,-20,40,40);ctx.restore();</span></div></details><p class=meta>assets: 5 files, 0.0 MB · added 0 · removed 0 · changed 1</p><div class=thumbs><a href='rounds/3/game/assets/ghost.png' target=_blank><img src='rounds/3/game/assets/ghost.png' alt='ghost.png' loading=lazy title='ghost.png'></a> </div><p class=meta>new or changed: ghost.png</p></div><div class=round id='r2'><h3 style='margin-top:0'>Round 2 · focus D_free_play · <span class=ok>accepted</span></h3><p class=meta>generation <b>6.2 min</b> (ok) · evaluation 0.8 min · overall <b>0.88</b> · A 1.00 · B 0.90 · C n/a · D 0.74 · E 0.67 · D_free_play 0.674 -&gt; 0.744 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/2/game/play.html'>Play round 2</a> <a href='rounds/2/game/world.js'>world.js</a> · <a href='rounds/2/game/README.md'>README</a> · <a href='rounds/2/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Your last change was reverted (D_free_play 0.674 -&gt; 0.664, overall 0.859 -&gt; 0.856). The previous accepted build and conversation state are back; do not redo the reverted change as it was.
+Round 2. Focus: free play (new action sequences at the video&#x27;s action rates). Group score 0.674 (0 to 1). Overall 0.859.
+- not_copied: value 0.1828, score 0.09. fraction of free-play frames nearly identical to some video frame (20% = 0)
+- physics: value 0.6149134022660443, score 0.61. small-object gravity in free play vs the video (same sign, within 3x)
+- popping: value 0.0299, score 0.70. fraction of frame-to-frame entity appearance changes above the video&#x27;s 99th percentile (10% = 0)
+- entity_consistency: value 0.8808, score 0.97. DINOv2 similarity of entities seen in free play to the video&#x27;s entities (0.3 -&gt; 0, 0.9 -&gt; 1)
+- controllability: value 0.0303, score 1.00. LPIPS between different free-play clips at the same time (3x the video&#x27;s frame-to-frame change = 1)
+Other groups: A_appearance 1.0, B_mechanism 0.903, C_naturalness None. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_2/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 2 replay</div><video src='rounds/2/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 0) replay</div><video src='rounds/0/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/2/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/2/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/2/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/2/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/2/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 0 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +70 −16 lines (76 → 130).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -24,35 +24,87 @@</span>
+<span class="">  }</span>
+<span class=""> }</span>
+<span class="a">+// Graph distances make enemy decisions depend on the live player, including</span>
+<span class="a">+// counterfactual routes. Equal length routes favor the dominant approach axis.</span>
+<span class="a">+function ghostHeading(s){</span>
+<span class="a">+ const g=s.g, node=DATA.nodes[key(g.x,g.y)];</span>
+<span class="a">+ if(!node)return g.heading;</span>
+<span class="a">+ const choices=Object.keys(node[2]);</span>
+<span class="a">+ if(choices.length===1)return choices[0];</span>
+<span class="a">+ // During recovery the enemy keeps moving, rather than circling a vanished target.</span>
+<span class="a">+ if(s.dead&gt;0||s.respawn&gt;0){</span>
+<span class="a">+  if(node[2][g.heading])return g.heading;</span>
+<span class="a">+  return choices.find(d=&gt;d!==opposite[g.heading])||choices[0];</span>
+<span class="a">+ }</span>
+<span class="a">+ const target=key(s.p.x,s.p.y), distances={[target]:0}, queue=[target];</span>
+<span class="a">+ for(let i=0;i&lt;queue.length;i++){</span>
+<span class="a">+  const at=queue[i], n=DATA.nodes[at];if(!n)continue;</span>
+<span class="a">+  for(const next of Object.values(n[2]))if(distances[next]===undefined){distances[next]=distances[at]+1;queue.push(next);}</span>
+<span class="a">+ }</span>
+<span class="a">+ const dx=s.p.x-g.x,dy=s.p.y-g.y;</span>
+<span class="a">+ const horizontal=Math.abs(dx)+36&gt;=Math.abs(dy);</span>
+<span class="a">+ const preferred=horizontal?(dx&lt;0?&#x27;left&#x27;:&#x27;right&#x27;):(dy&lt;0?&#x27;up&#x27;:&#x27;down&#x27;);</span>
+<span class="a">+ if(s.powered&gt;0){</span>
+<span class="a">+  // Keep fleeing along the current lane until its next corner.</span>
+<span class="a">+  if(node[2][g.heading])return g.heading;</span>
+<span class="a">+  return choices.sort((a,b)=&gt;(distances[node[2][b]]||0)-(distances[node[2][a]]||0))[0];</span>
+<span class="a">+ }</span>
+<span class="a">+ return choices.sort((a,b)=&gt;{</span>
+<span class="a">+  const da=distances[node[2][a]]??1000,db=distances[node[2][b]]??1000;</span>
+<span class="a">+  return da-db || (a===preferred?-1:b===preferred?1:0) || (a===g.heading?-1:b===g.heading?1:0);</span>
+<span class="a">+ })[0];</span>
+<span class="a">+}</span>
+<span class="a">+function ghostAdvance(s,distance){</span>
+<span class="a">+ const g=s.g;</span>
+<span class="a">+ while(distance&gt;1e-7){</span>
+<span class="a">+  if(centered(g)){</span>
+<span class="a">+   const node=DATA.nodes[key(g.x,g.y)];</span>
+<span class="a">+   // Intercept an approaching player; pursue a stationary or receding one.</span>
+<span class="a">+   if(g.leg===0&amp;&amp;node?.[2].down&amp;&amp;s.p.y&gt;g.y+36&amp;&amp;s.p.dir!==&#x27;up&#x27;){</span>
+<span class="a">+    g.leg=1;g.heading=&#x27;down&#x27;;</span>
+<span class="a">+   }else if(g.leg!==0)g.heading=ghostHeading(s);</span>
+<span class="a">+  }</span>
+<span class="a">+  const d=dirs[g.heading];if(!d)return;</span>
+<span class="a">+  const coord=d[0]?g.x-92:g.y-60,sign=d[0]||d[1];</span>
+<span class="a">+  let rem=sign&gt;0?36-((coord%36+36)%36):((coord%36+36)%36);</span>
+<span class="a">+  if(rem&lt;1e-6)rem=36;</span>
+<span class="a">+  const n=Math.min(distance,rem);g.x+=d[0]*n;g.y+=d[1]*n;distance-=n;</span>
+<span class="a">+  if(d[0])g.dir=d[0];</span>
+<span class="a">+  if(g.leg===0&amp;&amp;g.x&gt;=308){g.x=308;g.leg=1;g.heading=ghostHeading(s);g.dir=dirs[g.heading][0]||g.dir;}</span>
+<span class="a">+ }</span>
+<span class="a">+}</span>
+<span class=""> window.World={</span>
+<span class="">  meta:{name:&#x27;Monochrome Maze&#x27;,source:[832,480],fps:10,dt:1/60},</span>
+<span class="">  actions:Object.keys(dirs).map(id=&gt;({id,kind:&#x27;hold&#x27;,keys:[{up:&#x27;ArrowUp&#x27;,down:&#x27;ArrowDown&#x27;,left:&#x27;ArrowLeft&#x27;,right:&#x27;ArrowRight&#x27;}[id],{up:&#x27;w&#x27;,down:&#x27;s&#x27;,left:&#x27;a&#x27;,right:&#x27;d&#x27;}[id]],description:&#x27;Move &#x27;+id})),</span>
+<span class="">  assets:{maze:&#x27;assets/maze.png&#x27;,dot:&#x27;assets/dot.png&#x27;,power:&#x27;assets/power.png&#x27;,pac:&#x27;assets/pac.png&#x27;,ghost:&#x27;assets/ghost.png&#x27;},</span>
+<span class="d">- init(){return {t:0,clock:0,p:{x:200,y:348,dir:null,want:null,face:&#x27;left&#x27;},g:{x:164,y:60,dir:1,leg:0,tick:0},pellets:DATA.pellets.map(p=&gt;({x:p[0],y:p[1],power:p[2],alive:true})),powered:0,score:0,dead:0,events:[]};},</span>
+<span class="a">+ init(){return {t:0,clock:0,p:{x:200,y:348,dir:null,want:null,face:&#x27;left&#x27;},g:{x:164,y:60,dir:1,heading:&#x27;right&#x27;,leg:0,tick:0},pellets:DATA.pellets.map(p=&gt;({x:p[0],y:p[1],power:p[2],alive:true})),powered:0,score:0,dead:0,respawn:0,invulnerable:0,events:[]};},</span>
+<span class="">  step(s,acts,dt){</span>
+<span class="">   s.clock+=dt;</span>
+<span class="">   for(const a of acts)if(dirs[a.id])s.p.want=a.id;</span>
+<span class="">   s.powered=Math.max(0,s.powered-dt);</span>
+<span class="d">-  if(s.dead&gt;0){s.dead-=dt;if(s.dead&lt;=0){s.p={x:200,y:348,dir:null,want:null,face:&#x27;left&#x27;};s.g={x:164,y:60,dir:1,leg:0,tick:Math.ceil(s.clock*7.5-1e-8)};}return;}</span>
+<span class="a">+  s.invulnerable=Math.max(0,s.invulnerable-dt);</span>
+<span class="a">+  s.respawn=Math.max(0,s.respawn-dt);</span>
+<span class="">   const g=s.g;</span>
+<span class="">   const tick=Math.ceil(s.clock*7.5-1e-8);</span>
+<span class="">   if(g.burst&gt;1e-8){</span>
+<span class="d">-   const used=Math.min(dt,g.burst);g.x+=g.dir*360*used;g.burst=Math.max(0,g.burst-dt);</span>
+<span class="d">-  }else {</span>
+<span class="d">-   for(let k=g.tick;k&lt;tick;k++){</span>
+<span class="d">-    g.x+=g.dir*12;</span>
+<span class="d">-    if(g.leg===0&amp;&amp;g.x&gt;=308){g.x=308;g.dir=-1;g.leg=1;}</span>
+<span class="d">-    else if(g.x&lt;92){g.x=184-g.x;g.dir=1;g.leg=2;}</span>
+<span class="d">-    else if(g.x&gt;740){g.x=1480-g.x;g.dir=-1;g.leg=2;}</span>
+<span class="a">+   const used=Math.min(dt,g.burst);ghostAdvance(s,360*used);g.burst=Math.max(0,g.burst-dt);</span>
+<span class="a">+  }else for(let k=g.tick;k&lt;tick;k++)ghostAdvance(s,12);</span>
+<span class="a">+  g.tick=tick;</span>
+<span class="a">+  if(s.dead&gt;0){</span>
+<span class="a">+   s.dead=Math.max(0,s.dead-dt);</span>
+<span class="a">+   if(s.dead===0){</span>
+<span class="a">+    const want=s.p.want;</span>
+<span class="a">+    s.p={x:200,y:348,dir:null,want,face:&#x27;left&#x27;};</span>
+<span class="a">+    s.respawn=.25;s.invulnerable=1;</span>
+<span class="">    }</span>
+<span class="a">+   return;</span>
+<span class="">   }</span>
+<span class="d">-  g.tick=tick;</span>
+<span class="d">-  g.x=Math.max(92,Math.min(740,g.x));</span>
+<span class="a">+  if(s.respawn&gt;0)return;</span>
+<span class="">   move(s.p,120*dt);</span>
+<span class="">   for(const p of s.pellets)if(p.alive&amp;&amp;Math.hypot(p.x-s.p.x,p.y-s.p.y)&lt;(p.power?12.01:1)){</span>
+<span class="">    p.alive=false;s.score+=p.power?50:10;s.events.push({type:p.power?&#x27;power&#x27;:&#x27;pellet&#x27;,x:p.x,y:p.y});</span>
+<span class="d">-   if(p.power){s.powered=2.5;g.dir=g.x&gt;=s.p.x?1:-1;g.leg=2;g.burst=.1;}</span>
+<span class="a">+   if(p.power){s.powered=2.5;g.heading=opposite[g.heading];g.dir=dirs[g.heading][0]||g.dir;g.leg=2;g.burst=.1;}</span>
+<span class="">   }</span>
+<span class="d">-  if(Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;22){</span>
+<span class="d">-   if(s.powered&gt;0){g.x=s.p.x&lt;416?704:128;g.dir=s.p.x&lt;416?-1:1;s.score+=200;s.events.push({type:&#x27;ghost_eaten&#x27;});}</span>
+<span class="a">+  if(s.invulnerable===0&amp;&amp;Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;22){</span>
+<span class="a">+   if(s.powered&gt;0){g.heading=opposite[g.heading];g.dir=-g.dir;g.burst=.2;s.invulnerable=.7;s.score+=200;s.events.push({type:&#x27;ghost_eaten&#x27;});}</span>
+<span class="">    else {s.dead=.8;s.events.push({type:&#x27;caught&#x27;});}</span>
+<span class="">   }</span>
+<span class="h">@@ -64,8 +116,10 @@</span>
+<span class="">   const g=s.g, gx=g.x;</span>
+<span class="">   const gp=s.powered&gt;1e-7&amp;&amp;!(g.burst&gt;1e-7)?2:g.dir&lt;0?1:(s.clock&gt;3.4?3:0);</span>
+<span class="d">-  ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,40,40,40);</span>
+<span class="d">-  if(s.dead&lt;=0||Math.floor(s.dead*12)%2){</span>
+<span class="a">+  ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,Math.round(g.y)-20,40,40);</span>
+<span class="a">+  {</span>
+<span class="">    const p=s.p;const phase=Math.floor((s.clock+1e-6)*10)%4;</span>
+<span class="">    ctx.save();ctx.translate(Math.round(p.x),Math.round(p.y));</span>
+<span class="a">+   if(s.dead&gt;0){const visibility=Math.max(0,(s.dead-.15)/.65);ctx.globalAlpha=visibility;ctx.scale(Math.max(.05,visibility),Math.max(.05,visibility));}</span>
+<span class="a">+   else if(s.respawn&gt;0)ctx.globalAlpha=1-s.respawn/.25;</span>
+<span class="">    ctx.rotate({up:0,right:Math.PI/2,down:Math.PI,left:-Math.PI/2}[p.face]);</span>
+<span class="">    ctx.drawImage(img.pac,phase*40,0,40,40,-20,-20,40,40);ctx.restore();</span></div></details><p class=meta>assets: 5 files, 0.0 MB · added 0 · removed 0 · changed 0</p></div><div class=round id='r1'><h3 style='margin-top:0'>Round 1 · focus D_free_play · <span class=bad>rejected</span></h3><p class=meta>generation <b>7.8 min</b> (ok) · evaluation 0.6 min · overall <b>0.86</b> · A 1.00 · B 0.90 · C n/a · D 0.66 · E 0.67 · D_free_play 0.674 -&gt; 0.664, overall 0.859 -&gt; 0.856 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/1/game/play.html'>Play round 1</a> <a href='rounds/1/game/world.js'>world.js</a> · <a href='rounds/1/game/README.md'>README</a> · <a href='rounds/1/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Round 1. Focus: free play (new action sequences at the video&#x27;s action rates). Group score 0.674 (0 to 1). Overall 0.859.
+- not_copied: value 0.1828, score 0.09. fraction of free-play frames nearly identical to some video frame (20% = 0)
+- physics: value 0.6149134022660443, score 0.61. small-object gravity in free play vs the video (same sign, within 3x)
+- popping: value 0.0299, score 0.70. fraction of frame-to-frame entity appearance changes above the video&#x27;s 99th percentile (10% = 0)
+- entity_consistency: value 0.8808, score 0.97. DINOv2 similarity of entities seen in free play to the video&#x27;s entities (0.3 -&gt; 0, 0.9 -&gt; 1)
+- controllability: value 0.0303, score 1.00. LPIPS between different free-play clips at the same time (3x the video&#x27;s frame-to-frame change = 1)
+Other groups: A_appearance 1.0, B_mechanism 0.903, C_naturalness None. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_1/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 1 replay</div><video src='rounds/1/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 0) replay</div><video src='rounds/0/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/1/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/1/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/1/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/1/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/1/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 0 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +90 −35 lines (76 → 131).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -4,56 +4,107 @@</span>
+<span class=""> const dirs={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};</span>
+<span class=""> const opposite={up:&#x27;down&#x27;,down:&#x27;up&#x27;,left:&#x27;right&#x27;,right:&#x27;left&#x27;};</span>
+<span class="a">+const angles={up:0,right:Math.PI/2,down:Math.PI,left:-Math.PI/2};</span>
+<span class=""> function key(x,y){return Math.round((x-92)/36)+&#x27;,&#x27;+Math.round((y-60)/36)}</span>
+<span class=""> function centered(p){return Math.abs((p.x-92)/36-Math.round((p.x-92)/36))&lt;.0001&amp;&amp;Math.abs((p.y-60)/36-Math.round((p.y-60)/36))&lt;.0001}</span>
+<span class="d">-function move(p,amount){</span>
+<span class="a">+function move(p,amount,choose){</span>
+<span class="a">+ let moved=0;</span>
+<span class="">  while(amount&gt;1e-7){</span>
+<span class="">   if(centered(p)){</span>
+<span class="">    const node=DATA.nodes[key(p.x,p.y)];</span>
+<span class="d">-   if(!node){p.dir=null;return;}</span>
+<span class="a">+   if(!node){p.dir=null;break;}</span>
+<span class="a">+   if(choose)p.want=choose(p,node);</span>
+<span class="">    if(p.want&amp;&amp;node[2][p.want])p.dir=p.want;</span>
+<span class="d">-   if(!p.dir||!node[2][p.dir]){p.dir=null;return;}</span>
+<span class="a">+   if(!p.dir||!node[2][p.dir]){p.dir=null;break;}</span>
+<span class="">   }else if(p.want===opposite[p.dir])p.dir=p.want;</span>
+<span class="d">-  const d=dirs[p.dir];if(!d)return;</span>
+<span class="a">+  const d=dirs[p.dir];if(!d)break;</span>
+<span class="">   p.face=p.dir;</span>
+<span class="">   const coord=d[0]?p.x-92:p.y-60,sign=d[0]||d[1];</span>
+<span class="">   let rem=sign&gt;0?36-((coord%36+36)%36):((coord%36+36)%36);</span>
+<span class="">   if(rem&lt;1e-6)rem=36;</span>
+<span class="d">-  const dist=Math.min(amount,rem);p.x+=d[0]*dist;p.y+=d[1]*dist;amount-=dist;</span>
+<span class="a">+  const dist=Math.min(amount,rem);p.x+=d[0]*dist;p.y+=d[1]*dist;amount-=dist;moved+=dist;</span>
+<span class="">   if(Math.abs(p.x-Math.round(p.x))&lt;1e-7)p.x=Math.round(p.x);</span>
+<span class="">   if(Math.abs(p.y-Math.round(p.y))&lt;1e-7)p.y=Math.round(p.y);</span>
+<span class="">  }</span>
+<span class="a">+ return moved;</span>
+<span class=""> }</span>
+<span class="a">+function distances(target){</span>
+<span class="a">+ const d={[target]:0},q=[target];</span>
+<span class="a">+ for(let i=0;i&lt;q.length;i++)for(const n of Object.values(DATA.nodes[q[i]][2]))if(d[n]===undefined){d[n]=d[q[i]]+1;q.push(n);}</span>
+<span class="a">+ return d;</span>
+<span class="a">+}</span>
+<span class="a">+function nearest(p){let best=null,dist=Infinity;for(const [id,n] of Object.entries(DATA.nodes)){const d=Math.hypot(n[0]-p.x,n[1]-p.y);if(d&lt;dist){best=id;dist=d;}}return best;}</span>
+<span class="a">+function chooseGhost(s,g,node){</span>
+<span class="a">+ // Initially inspect the top corridor. A retreating or stationary player in</span>
+<span class="a">+ // the unobstructed vertical corridor draws the sentry down that corridor.</span>
+<span class="a">+ if(g.mode===&#x27;patrol&#x27;){</span>
+<span class="a">+  if(g.x===200&amp;&amp;g.y===60&amp;&amp;Math.abs(s.p.x-200)&lt;1&amp;&amp;s.p.y&gt;60&amp;&amp;s.p.dir!==&#x27;up&#x27;)g.mode=&#x27;chase&#x27;;</span>
+<span class="a">+  else if(g.x===308&amp;&amp;g.y===60)g.mode=&#x27;chase&#x27;;</span>
+<span class="a">+  else return g.dir||&#x27;right&#x27;;</span>
+<span class="a">+ }</span>
+<span class="a">+ const predicted={...s.p};move(predicted,144);</span>
+<span class="a">+ const target=g.mode===&#x27;return&#x27;?&#x27;2,0&#x27;:nearest(s.powered&gt;0?s.p:predicted);</span>
+<span class="a">+ const ds=distances(target);</span>
+<span class="a">+ let options=Object.keys(node[2]);</span>
+<span class="a">+ // Keep moving through two-way corridors; reverse only at a dead end or at</span>
+<span class="a">+ // the first patrol destination, as in the reference.</span>
+<span class="a">+ const allowReverse=g.x===308&amp;&amp;g.y===60&amp;&amp;g.firstTurn;</span>
+<span class="a">+ if(options.length&gt;1&amp;&amp;!allowReverse)options=options.filter(d=&gt;d!==opposite[g.dir]);</span>
+<span class="a">+ g.firstTurn=false;</span>
+<span class="a">+ const fleeing=s.powered&gt;0&amp;&amp;g.mode!==&#x27;return&#x27;;</span>
+<span class="a">+ options.sort((a,b)=&gt;{</span>
+<span class="a">+  const va=ds[node[2][a]]??1000,vb=ds[node[2][b]]??1000;</span>
+<span class="a">+  return (fleeing?vb-va:va-vb)||((a===g.dir?-1:0)-(b===g.dir?-1:0));</span>
+<span class="a">+ });</span>
+<span class="a">+ return options[0]||opposite[g.dir];</span>
+<span class="a">+}</span>
+<span class="a">+function ghostStart(tick=0){return {x:164,y:60,dir:&#x27;right&#x27;,face:&#x27;right&#x27;,want:&#x27;right&#x27;,mode:&#x27;patrol&#x27;,firstTurn:true,tick,burst:0,returnBlend:0};}</span>
+<span class="a">+function playerStart(want=null){return {x:200,y:348,dir:null,want,face:&#x27;left&#x27;,anim:0};}</span>
+<span class=""> window.World={</span>
+<span class="">  meta:{name:&#x27;Monochrome Maze&#x27;,source:[832,480],fps:10,dt:1/60},</span>
+<span class="">  actions:Object.keys(dirs).map(id=&gt;({id,kind:&#x27;hold&#x27;,keys:[{up:&#x27;ArrowUp&#x27;,down:&#x27;ArrowDown&#x27;,left:&#x27;ArrowLeft&#x27;,right:&#x27;ArrowRight&#x27;}[id],{up:&#x27;w&#x27;,down:&#x27;s&#x27;,left:&#x27;a&#x27;,right:&#x27;d&#x27;}[id]],description:&#x27;Move &#x27;+id})),</span>
+<span class="d">- assets:{maze:&#x27;assets/maze.png&#x27;,dot:&#x27;assets/dot.png&#x27;,power:&#x27;assets/power.png&#x27;,pac:&#x27;assets/pac.png&#x27;,ghost:&#x27;assets/ghost.png&#x27;},</span>
+<span class="d">- init(){return {t:0,clock:0,p:{x:200,y:348,dir:null,want:null,face:&#x27;left&#x27;},g:{x:164,y:60,dir:1,leg:0,tick:0},pellets:DATA.pellets.map(p=&gt;({x:p[0],y:p[1],power:p[2],alive:true})),powered:0,score:0,dead:0,events:[]};},</span>
+<span class="a">+ assets:{maze:&#x27;assets/maze.png&#x27;,dot:&#x27;assets/dot.png&#x27;,power:&#x27;assets/power.png&#x27;,pac:&#x27;assets/pac.png&#x27;,ghost:&#x27;assets/ghost.png&#x27;,eyes:&#x27;assets/eyes.png&#x27;},</span>
+<span class="a">+ init(){return {t:0,clock:0,p:playerStart(),g:ghostStart(),pellets:DATA.pellets.map(p=&gt;({x:p[0],y:p[1],power:p[2],alive:true})),powered:0,score:0,death:0,invulnerable:0,events:[]};},</span>
+<span class="">  step(s,acts,dt){</span>
+<span class="">   s.clock+=dt;</span>
+<span class="">   for(const a of acts)if(dirs[a.id])s.p.want=a.id;</span>
+<span class="">   s.powered=Math.max(0,s.powered-dt);</span>
+<span class="d">-  if(s.dead&gt;0){s.dead-=dt;if(s.dead&lt;=0){s.p={x:200,y:348,dir:null,want:null,face:&#x27;left&#x27;};s.g={x:164,y:60,dir:1,leg:0,tick:Math.ceil(s.clock*7.5-1e-8)};}return;}</span>
+<span class="d">-  const g=s.g;</span>
+<span class="d">-  const tick=Math.ceil(s.clock*7.5-1e-8);</span>
+<span class="a">+  s.invulnerable=Math.max(0,s.invulnerable-dt);</span>
+<span class="a">+  const g=s.g,tick=Math.ceil(s.clock*7.5-1e-8);</span>
+<span class="">   if(g.burst&gt;1e-8){</span>
+<span class="d">-   const used=Math.min(dt,g.burst);g.x+=g.dir*360*used;g.burst=Math.max(0,g.burst-dt);</span>
+<span class="a">+   const used=Math.min(dt,g.burst);move(g,360*used);g.burst=Math.max(0,g.burst-dt);</span>
+<span class="a">+  }else if(g.mode===&#x27;return&#x27;){</span>
+<span class="a">+   move(g,150*dt,(p,n)=&gt;chooseGhost(s,p,n));</span>
+<span class="a">+   if(Math.hypot(g.x-164,g.y-60)&lt;2){g.mode=&#x27;chase&#x27;;g.returnBlend=1;}</span>
+<span class="">   }else {</span>
+<span class="d">-   for(let k=g.tick;k&lt;tick;k++){</span>
+<span class="d">-    g.x+=g.dir*12;</span>
+<span class="d">-    if(g.leg===0&amp;&amp;g.x&gt;=308){g.x=308;g.dir=-1;g.leg=1;}</span>
+<span class="d">-    else if(g.x&lt;92){g.x=184-g.x;g.dir=1;g.leg=2;}</span>
+<span class="d">-    else if(g.x&gt;740){g.x=1480-g.x;g.dir=-1;g.leg=2;}</span>
+<span class="a">+   for(let k=g.tick;k&lt;tick;k++)move(g,12,(p,n)=&gt;chooseGhost(s,p,n));</span>
+<span class="a">+  }</span>
+<span class="a">+  g.tick=tick;</span>
+<span class="a">+  if(g.mode===&#x27;patrol&#x27;&amp;&amp;g.x===308&amp;&amp;g.y===60){g.dir=chooseGhost(s,g,DATA.nodes[&#x27;6,0&#x27;]);g.want=g.dir;g.face=g.dir;}</span>
+<span class="a">+  g.returnBlend=Math.max(0,g.returnBlend-dt*3);</span>
+<span class="a">+  if(s.death&gt;0){</span>
+<span class="a">+   const before=s.death;s.death=Math.max(0,s.death-dt);</span>
+<span class="a">+   if(before&gt;.4&amp;&amp;s.death&lt;=.4){const want=s.p.want;s.p=playerStart(want);s.p.anim=.1;s.invulnerable=1.4;}</span>
+<span class="a">+   return;</span>
+<span class="a">+  }</span>
+<span class="a">+  const moved=move(s.p,120*dt);</span>
+<span class="a">+  // Advance chewing with actual travel, and let the initial mouth close/open</span>
+<span class="a">+  // settle for one tenth of a second. A blocked player no longer chews in place.</span>
+<span class="a">+  if(s.clock&lt;=.100001)s.p.anim=Math.min(.1,s.clock);</span>
+<span class="a">+  else s.p.anim+=moved/120;</span>
+<span class="a">+  for(const p of s.pellets)if(p.alive&amp;&amp;Math.hypot(p.x-s.p.x,p.y-s.p.y)&lt;(p.power?12.01:1)){</span>
+<span class="a">+   p.alive=false;s.score+=p.power?50:10;s.events.push({type:p.power?&#x27;power&#x27;:&#x27;pellet&#x27;,x:p.x,y:p.y});</span>
+<span class="a">+   if(p.power){</span>
+<span class="a">+    s.powered=2.5;</span>
+<span class="a">+    if(g.mode!==&#x27;return&#x27;){</span>
+<span class="a">+     g.mode=&#x27;chase&#x27;;g.firstTurn=false;</span>
+<span class="a">+     const dx=g.x-s.p.x,dy=g.y-s.p.y;</span>
+<span class="a">+     if(g.dir===&#x27;left&#x27;||g.dir===&#x27;right&#x27;)g.dir=dx&gt;=0?&#x27;right&#x27;:&#x27;left&#x27;;else g.dir=dy&gt;=0?&#x27;down&#x27;:&#x27;up&#x27;;</span>
+<span class="a">+     g.want=g.dir;g.face=g.dir;g.burst=.1;</span>
+<span class="a">+    }</span>
+<span class="">    }</span>
+<span class="">   }</span>
+<span class="d">-  g.tick=tick;</span>
+<span class="d">-  g.x=Math.max(92,Math.min(740,g.x));</span>
+<span class="d">-  move(s.p,120*dt);</span>
+<span class="d">-  for(const p of s.pellets)if(p.alive&amp;&amp;Math.hypot(p.x-s.p.x,p.y-s.p.y)&lt;(p.power?12.01:1)){</span>
+<span class="d">-   p.alive=false;s.score+=p.power?50:10;s.events.push({type:p.power?&#x27;power&#x27;:&#x27;pellet&#x27;,x:p.x,y:p.y});</span>
+<span class="d">-   if(p.power){s.powered=2.5;g.dir=g.x&gt;=s.p.x?1:-1;g.leg=2;g.burst=.1;}</span>
+<span class="d">-  }</span>
+<span class="d">-  if(Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;22){</span>
+<span class="d">-   if(s.powered&gt;0){g.x=s.p.x&lt;416?704:128;g.dir=s.p.x&lt;416?-1:1;s.score+=200;s.events.push({type:&#x27;ghost_eaten&#x27;});}</span>
+<span class="d">-   else {s.dead=.8;s.events.push({type:&#x27;caught&#x27;});}</span>
+<span class="a">+  if(s.invulnerable&lt;=0&amp;&amp;g.mode!==&#x27;return&#x27;&amp;&amp;Math.hypot(g.x-s.p.x,g.y-s.p.y)&lt;22){</span>
+<span class="a">+   if(s.powered&gt;0){g.mode=&#x27;return&#x27;;g.returnBlend=1;g.burst=0;s.score+=200;s.events.push({type:&#x27;ghost_eaten&#x27;});}</span>
+<span class="a">+   else {s.death=.9;s.events.push({type:&#x27;caught&#x27;});}</span>
+<span class="">   }</span>
+<span class="">  },</span>
+<span class="h">@@ -62,13 +113,17 @@</span>
+<span class="">   ctx.drawImage(img.maze,0,0);</span>
+<span class="">   for(const p of s.pellets)if(p.alive){const a=p.power?img.power:img.dot;ctx.drawImage(a,p.x-a.width/2+.5,p.y-a.height/2+.5);}</span>
+<span class="d">-  const g=s.g, gx=g.x;</span>
+<span class="d">-  const gp=s.powered&gt;1e-7&amp;&amp;!(g.burst&gt;1e-7)?2:g.dir&lt;0?1:(s.clock&gt;3.4?3:0);</span>
+<span class="d">-  ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(gx)-20,40,40,40);</span>
+<span class="d">-  if(s.dead&lt;=0||Math.floor(s.dead*12)%2){</span>
+<span class="d">-   const p=s.p;const phase=Math.floor((s.clock+1e-6)*10)%4;</span>
+<span class="d">-   ctx.save();ctx.translate(Math.round(p.x),Math.round(p.y));</span>
+<span class="d">-   ctx.rotate({up:0,right:Math.PI/2,down:Math.PI,left:-Math.PI/2}[p.face]);</span>
+<span class="d">-   ctx.drawImage(img.pac,phase*40,0,40,40,-20,-20,40,40);ctx.restore();</span>
+<span class="d">-  }</span>
+<span class="a">+  const g=s.g;</span>
+<span class="a">+  const gp=s.powered&gt;1e-7&amp;&amp;!(g.burst&gt;1e-7)?2:g.dir===&#x27;left&#x27;?1:(s.clock&gt;3.4?3:0);</span>
+<span class="a">+  // Captured ghosts travel home along the maze. Their body fades to eyes and</span>
+<span class="a">+  // reforms at home instead of jumping to the opposite edge of the screen.</span>
+<span class="a">+  const body=g.mode===&#x27;return&#x27;?g.returnBlend:1-g.returnBlend;</span>
+<span class="a">+  ctx.save();ctx.globalAlpha=body;ctx.drawImage(img.ghost,gp*40,0,40,40,Math.round(g.x)-20,Math.round(g.y)-20,40,40);ctx.restore();</span>
+<span class="a">+  if(body&lt;1){ctx.save();ctx.globalAlpha=1-body;ctx.drawImage(img.eyes,gp*40,0,40,40,Math.round(g.x)-20,Math.round(g.y)-20,40,40);ctx.restore();}</span>
+<span class="a">+  const p=s.p,phase=Math.floor((p.anim+1e-6)*10)%4;</span>
+<span class="a">+  let alpha=1,scale=1;</span>
+<span class="a">+  if(s.death&gt;.4){const u=(.9-s.death)/.5;alpha=1-u;scale=1-.65*u;}</span>
+<span class="a">+  else if(s.death&gt;0){alpha=1-s.death/.4;scale=.85+.15*alpha;}</span>
+<span class="a">+  ctx.save();ctx.globalAlpha=alpha;ctx.translate(Math.round(p.x),Math.round(p.y));ctx.rotate(angles[p.face]);ctx.scale(scale,scale);</span>
+<span class="a">+  ctx.drawImage(img.pac,phase*40,0,40,40,-20,-20,40,40);ctx.restore();</span>
+<span class="">  },</span>
+<span class="">  replay:{duration:6.1,actions:[{t:.1,id:&#x27;up&#x27;},{t:1.6,id:&#x27;left&#x27;},{t:2.5,id:&#x27;up&#x27;},{t:3.4,id:&#x27;down&#x27;},{t:3.7,id:&#x27;up&#x27;},{t:4,id:&#x27;right&#x27;},{t:5.8,id:&#x27;down&#x27;}]}</span></div></details><p class=meta>assets: 6 files, 0.0 MB · added 1 · removed 0 · changed 0</p><div class=thumbs><a href='rounds/1/game/assets/eyes.png' target=_blank><img src='rounds/1/game/assets/eyes.png' alt='eyes.png' loading=lazy title='eyes.png'></a> </div><p class=meta>new or changed: eyes.png</p></div><div class=round id='r0'><h3 style='margin-top:0'>Round 0 · focus build · <span class=ok>accepted</span></h3><p class=meta>generation <b>7.6 min</b> (ok) · evaluation 1.3 min · overall <b>0.86</b> · A 1.00 · B 0.90 · C n/a · D 0.67 · E 0.67 · initial build · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/0/game/play.html'>Play round 0</a> <a href='rounds/0/game/world.js'>world.js</a> · <a href='rounds/0/game/README.md'>README</a> · <a href='rounds/0/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Write a simulator of the video in /work/input/ whose rendered output looks like the video, in replay and in free play.
+Follow /work/PROTOCOL.md. You write /work/game/world.js and /work/game/assets/ (format: /work/WORLD.md). Measurements of the video are in /work/observations/.
+Budget: 15.0 minutes for this round; whatever is in /work/game when it ends is evaluated. Later rounds will give you the evaluator&#x27;s numbers.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 0 replay</div><video src='rounds/0/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div class=meta>no previous round</div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/0/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/0/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/0/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/0/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/0/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round -</h3><p class=meta>first build: world.js has 76 lines.</p><p class=meta>assets: 5 files, 0.0 MB · added 5 · removed 0 · changed 0</p><div class=thumbs><a href='rounds/0/game/assets/dot.png' target=_blank><img src='rounds/0/game/assets/dot.png' alt='dot.png' loading=lazy title='dot.png'></a> <a href='rounds/0/game/assets/ghost.png' target=_blank><img src='rounds/0/game/assets/ghost.png' alt='ghost.png' loading=lazy title='ghost.png'></a> <a href='rounds/0/game/assets/maze.png' target=_blank><img src='rounds/0/game/assets/maze.png' alt='maze.png' loading=lazy title='maze.png'></a> <a href='rounds/0/game/assets/pac.png' target=_blank><img src='rounds/0/game/assets/pac.png' alt='pac.png' loading=lazy title='pac.png'></a> <a href='rounds/0/game/assets/power.png' target=_blank><img src='rounds/0/game/assets/power.png' alt='power.png' loading=lazy title='power.png'></a> </div><p class=meta>new or changed: dot.png, ghost.png, maze.png, pac.png, power.png</p></div>
+</div></body></html>

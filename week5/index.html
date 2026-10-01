@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixing the Control, and Testing the Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="week5.css">
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">CVPR 2027 / Week 5</p>
+  <h1>Fixing the Control, and Testing the Agent</h1>
+  <p class="standfirst">Two parts. The Cosmos-Edge fine-tune was being measured through a broken
+  inference setting; this finds it and fixes it. Then the agent itself: one shot to a minimal-unit
+  simulator, and a closed loop that asks whether its program can stand in for the video model.</p>
+</header>
+
+<!-- ================================================================== -->
+<section id="recall">
+  <div class="sec-head"><span class="sec-num">0</span><h2>Recall</h2></div>
+
+  <ol class="points">
+    <li><b>Pair data.</b> 1,672 racket-sport clips. Players are cut out and a small library of their
+    own poses is pasted back along the tracks they really took, in two grades,
+    <span class="mono">light</span> and <span class="mono">medium</span>. The real clip stays the
+    target, so every pair is rough guidance &rarr; real video.</li>
+    <li><b>Two models trained on those pairs.</b> A rank-16 delta LoRA on Code World Model (H3), and
+    a two-stage fine-tune of Cosmos-Edge, a 2B model whose control is a <span class="mono">seg</span>
+    map.</li>
+    <li><b>The question.</b> Can rough, agent-producible guidance drive a video model as well as
+    guidance traced from the real clip?</li>
+  </ol>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116 · light · week 4</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Code World Model (H3), 124 frames</span>
+    </div>
+    <div class="quad">
+      <div class="cell"><video src="clips/recall/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough data</b> · pasted poses</p></div>
+      <div class="cell"><video src="clips/recall/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Groundtruth</b></p></div>
+      <div class="cell"><video src="clips/recall/cwm.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Code World Model (H3)</b></p></div>
+      <div class="cell key"><video src="clips/recall/ours.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Ours</b></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<section id="bug">
+  <div class="sec-head"><span class="sec-num">1</span><h2>Cosmos &mdash; the bug in the control</h2></div>
+
+  <p>Every clip the fine-tuned Cosmos-Edge generated went dark one frame after the anchor and stayed
+  dark. The players still followed the control, but the whole frame sat about 35 grey levels below
+  the groundtruth, so foreground MAE was measuring brightness, not motion.</p>
+
+  <p>The cause is one inference setting: <b>classifier-free guidance on the control branch</b>. At
+  <span class="mono">text_guidance&nbsp;3</span> and <span class="mono">control_guidance&nbsp;2</span>
+  the sampler extrapolates six times along "with control minus without control". Plain Edge answers a
+  <span class="mono">seg</span> control by copying the black control map, and a short fine-tune still
+  leans that way, so extrapolating drags the frame toward black. The fix is to sample at
+  <span class="mono">control_guidance&nbsp;1.0</span>. Training is unchanged: training never uses
+  guidance.</p>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">tennis · match116 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 50.4 &rarr; 23.7</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/bug/tennis-match116-light/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div>
+      <div class="cell"><video src="clips/bug/tennis-match116-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b> · the control</p></div>
+      <div class="cell"><video src="clips/bug/tennis-match116-light/c2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control wrong</b> · guidance 2</p></div>
+      <div class="cell key"><video src="clips/bug/tennis-match116-light/c1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control right</b> · guidance 1</p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">table tennis · match27 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 58.7 &rarr; 31.7</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/bug/tabletennis-match27-light/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div>
+      <div class="cell"><video src="clips/bug/tabletennis-match27-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b> · the control</p></div>
+      <div class="cell"><video src="clips/bug/tabletennis-match27-light/c2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control wrong</b> · guidance 2</p></div>
+      <div class="cell key"><video src="clips/bug/tabletennis-match27-light/c1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control right</b> · guidance 1</p></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="row-head">
+      <span class="id">badminton · match101 · light</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">121 frames, 4.8 s · foreground MAE 62.8 &rarr; 24.3</span>
+    </div>
+    <div class="quad cosmos">
+      <div class="cell"><video src="clips/bug/badminton-match101-light/gt.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div>
+      <div class="cell"><video src="clips/bug/badminton-match101-light/guidance.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Rough guidance</b> · the control</p></div>
+      <div class="cell"><video src="clips/bug/badminton-match101-light/c2.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control wrong</b> · guidance 2</p></div>
+      <div class="cell key"><video src="clips/bug/badminton-match101-light/c1.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Control right</b> · guidance 1</p></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================================================================== -->
+<section id="oneshot">
+  <div class="sec-head"><span class="sec-num">2</span><h2>Agent &mdash; one shot to the minimal unit</h2></div>
+
+  <p>Two things are expected of the agent. The first: given a video it has never seen, can it
+  write, in one pass, a simulator whose state draws as the minimal unit a video model can render?
+  The only requirement is that the mechanism is right. It does not have to look like anything.</p>
+
+  <p>Ten videos, two agents, no feedback round and no second chance: whatever
+  <span class="mono">world.js</span> holds when the time budget ends is the result.</p>
+
+  <h3>What it does, in order</h3>
+
+  <svg class="diagram" viewBox="0 0 1040 310" role="img"
+       aria-label="The agent reads the measurements, decides entities, actions, mechanism and poses, then writes world.js and the replay">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+    </defs>
+
+    <g class="d-box">
+      <rect x="8" y="105" width="200" height="90" rx="10"/>
+      <text class="d-step" x="20" y="126">1</text>
+      <text class="d-title" x="108" y="142">measurements</text>
+      <text class="d-sub" x="108" y="164">tracks, poses, events,</text>
+      <text class="d-sub" x="108" y="182">camera, sizes, timing</text>
+    </g>
+
+    <g class="d-box accent">
+      <rect x="238" y="18" width="340" height="272" rx="10"/>
+      <text class="d-step" x="250" y="40">2</text>
+      <text class="d-title" x="408" y="48">decide the model</text>
+      <text class="d-rt" x="258" y="100">entities</text>
+      <text class="d-rs" x="258" y="119">what moves, what is scenery</text>
+      <text class="d-rt" x="258" y="152">actions</text>
+      <text class="d-rs" x="258" y="171">what the player controls, as intent</text>
+      <text class="d-rt" x="258" y="204">mechanism</text>
+      <text class="d-rs" x="258" y="223">gravity, bounces, contacts, scoring</text>
+      <text class="d-rt" x="258" y="256">poses</text>
+      <text class="d-rs" x="258" y="275">real joints, taken from the video</text>
+    </g>
+
+    <g class="d-box">
+      <rect x="608" y="105" width="196" height="90" rx="10"/>
+      <text class="d-step" x="620" y="126">3</text>
+      <text class="d-title" x="706" y="142">write world.js</text>
+      <text class="d-sub" x="706" y="164">init, step, proxy</text>
+      <text class="d-sub" x="706" y="182">all in source pixels</text>
+    </g>
+
+    <g class="d-box">
+      <rect x="834" y="105" width="198" height="90" rx="10"/>
+      <text class="d-step" x="846" y="126">4</text>
+      <text class="d-title" x="933" y="142">write the replay</text>
+      <text class="d-sub" x="933" y="164">the inputs that reproduce</text>
+      <text class="d-sub" x="933" y="182">the clip from init</text>
+    </g>
+
+    <g class="d-link">
+      <path d="M208,150 L232,150" marker-end="url(#arrow)"/>
+      <path d="M578,150 L602,150" marker-end="url(#arrow)"/>
+      <path d="M804,150 L828,150" marker-end="url(#arrow)"/>
+    </g>
+  </svg>
+
+<!-- ONESHOT ROWS START -->
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_angrybird</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 2.4 min · Astra 3.5 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_angrybird/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_angrybird/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 2.4 min · <a href="play/simple/runs/game_angrybird/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_angrybird/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/game_angrybird/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.5 min · <a href="play/simple/runs/game_angrybird/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_angrybird/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_mario</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 2.3 min · Astra 3.7 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_mario/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_mario/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 2.3 min · <a href="play/simple/runs/game_mario/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_mario/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/game_mario/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.7 min · <a href="play/simple/runs/game_mario/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_mario/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_pacman</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 1.7 min · Astra 3.2 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_pacman/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_pacman/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 1.7 min · <a href="play/simple/runs/game_pacman/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_pacman/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/game_pacman/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.2 min · <a href="play/simple/runs/game_pacman/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_pacman/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_weapon</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 1.0 min · Astra 2.9 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_weapon/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_weapon/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 1.0 min · <a href="play/simple/runs/game_weapon/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_weapon/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/game_weapon/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 2.9 min · <a href="play/simple/runs/game_weapon/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/game_weapon/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_badminton</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 2.1 min · Astra 3.7 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_badminton/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_badminton/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 2.1 min · <a href="play/simple/runs/human_badminton/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_badminton/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/human_badminton/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.7 min · <a href="play/simple/runs/human_badminton/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_badminton/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_pingpong</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 1.6 min · Astra 4.5 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_pingpong/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_pingpong/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 1.6 min · <a href="play/simple/runs/human_pingpong/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_pingpong/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/human_pingpong/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 4.5 min · <a href="play/simple/runs/human_pingpong/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_pingpong/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_tennis</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 2.3 min · Astra 4.9 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_tennis/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_tennis/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 2.3 min · <a href="play/simple/runs/human_tennis/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_tennis/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/human_tennis/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 4.9 min · <a href="play/simple/runs/human_tennis/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/human_tennis/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">robot_arm</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 1.1 min · Astra 3.6 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/robot_arm/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/robot_arm/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 1.1 min · <a href="play/simple/runs/robot_arm/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/robot_arm/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/robot_arm/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.6 min · <a href="play/simple/runs/robot_arm/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/robot_arm/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">robot_humanoid</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 1.2 min · Astra 3.7 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/robot_humanoid/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/robot_humanoid/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 1.2 min · <a href="play/simple/runs/robot_humanoid/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/robot_humanoid/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/robot_humanoid/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.7 min · <a href="play/simple/runs/robot_humanoid/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/robot_humanoid/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">sim_smoke</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 0.9 min · Astra 3.3 min to write · 0 JS errors</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/sim_smoke/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/sim_smoke/simple_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · 0.9 min · <a href="play/simple/runs/sim_smoke/claude_code/v1/build/game/play.html">play</a> · <a href="play/simple/runs/sim_smoke/claude_code/v1/build/game/world.js">world.js</a></p></div><div class="cell key"><video src="clips/agent/sim_smoke/simple_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · 3.3 min · <a href="play/simple/runs/sim_smoke/codex/v1/build/game/play.html">play</a> · <a href="play/simple/runs/sim_smoke/codex/v1/build/game/world.js">world.js</a></p></div></div>
+  </div>
+<!-- ONESHOT ROWS END -->
+</section>
+
+<!-- ================================================================== -->
+<section id="loop">
+  <div class="sec-head"><span class="sec-num">3</span><h2>Agent &mdash; closed loop against the video model</h2></div>
+
+  <p>The second expectation: with the evaluation in the loop, can the agent's own program
+  <b>replace the video model</b>? That means all four at once &mdash; the <b>mechanism</b> right, the
+  <b>physics</b> right, the <b>appearance</b> matching, and the motion <b>natural</b>, in a replay of
+  the clip and in free play with inputs the video never contained.</p>
+
+  <p>Here the program renders its own pixels, no proxy. After the first build the evaluator scores
+  the rendered frames, the lowest-scoring group becomes the next round's focus, and the agent gets
+  up to five feedback rounds. A round is accepted only if its focus rises and no other group falls;
+  a rejected round is rolled back, and two rejections in a row end the run. Fifteen minutes per
+  round, at most six rounds.</p>
+
+  <h3>What is measured</h3>
+
+  <table class="metrics">
+    <tr><th>Group</th><th>Metric</th><th>On</th><th>What it catches</th></tr>
+    <tr><td rowspan="4" class="grp">A · appearance</td><td class="m">lpips</td><td class="on">replay</td><td>the frame as a whole does not look like the video</td></tr>
+    <tr><td class="m">entity_dino</td><td class="on">replay</td><td>an entity is not the thing it should be</td></tr>
+    <tr><td class="m">entity_color</td><td class="on">replay</td><td>right thing, wrong colours</td></tr>
+    <tr><td class="m">background_lpips</td><td class="on">replay</td><td>the scene behind the entities is wrong</td></tr>
+
+    <tr><td rowspan="4" class="grp">B · mechanism</td><td class="m">flow_epe</td><td class="on">replay</td><td>motion is in the wrong place from frame to frame</td></tr>
+    <tr><td class="m">trajectory_ade</td><td class="on">replay</td><td>entities do not take the paths they take in the video</td></tr>
+    <tr><td class="m">event_f1</td><td class="on">replay</td><td>contacts and velocity jumps happen at the wrong times, or not at all</td></tr>
+    <tr><td class="m">pose_dtw</td><td class="on">replay</td><td>bodies hold the wrong pose through the clip</td></tr>
+
+    <tr><td rowspan="5" class="grp">C · naturalness</td><td class="m">kinematics</td><td class="on">replay, free play</td><td>joints move at speeds and accelerations the video never shows</td></tr>
+    <tr><td class="m">transitions</td><td class="on">replay, free play</td><td>motion snaps between poses instead of passing through them</td></tr>
+    <tr><td class="m">bone_stability</td><td class="on">replay, free play</td><td>limbs change length</td></tr>
+    <tr><td class="m">foot_slide</td><td class="on">replay, free play</td><td>feet slide while they are planted</td></tr>
+    <tr><td class="m">joint_range</td><td class="on">replay, free play</td><td>elbows and knees bend past what the video does</td></tr>
+
+    <tr><td rowspan="5" class="grp">D · free play</td><td class="m">entity_consistency</td><td class="on">free play</td><td>entities stop being themselves once the inputs are new</td></tr>
+    <tr><td class="m">popping</td><td class="on">free play</td><td>appearance jumps from one frame to the next</td></tr>
+    <tr><td class="m">physics</td><td class="on">free play</td><td>gravity does not match the video&#39;s</td></tr>
+    <tr><td class="m">controllability</td><td class="on">free play</td><td>different inputs give the same clip: nothing is actually controlled</td></tr>
+    <tr><td class="m">not_copied</td><td class="on">free play</td><td>frames are near copies of the video: it is replaying, not simulating</td></tr>
+
+    <tr><td rowspan="1" class="grp">E · judge</td><td class="m">spotted_rate</td><td class="on">replay, free play</td><td>Qwen3-VL picks the re-creation out of a (real, rendered) pair. 0.5 means it cannot tell. Reported, not used to accept a round</td></tr>
+  </table>
+
+  <p class="note">Nothing here is specific to one video or one domain: every metric is computed from
+  entity boxes, tracks and human poses, which the measurement stage produces for any video. Pixel
+  metrics are calibrated per video, scoring 1 at the video against itself shifted by one frame and 0
+  at a frozen first frame.</p>
+
+  <p class="note">The time under each row is the whole closed loop: every agent round plus every
+  evaluation. <b>play</b> opens the best round, <b>rounds</b> opens its report with the per-round
+  times, metric changes, videos and code diffs.</p>
+
+<!-- LOOP ROWS START -->
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_angrybird</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 17 min, 4 rounds · Astra 43 min, 3 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_angrybird/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_angrybird/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 1 of 4 · overall 0.50 · <a href="play/surpass/runs/game_angrybird/claude_code/v1/rounds/1/game/play.html">play</a> · <a href="play/surpass/runs/game_angrybird/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/game_angrybird/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 0 of 3 · overall 0.60 · <a href="play/surpass/runs/game_angrybird/codex/v1/rounds/0/game/play.html">play</a> · <a href="play/surpass/runs/game_angrybird/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_mario</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 16 min, 4 rounds · Astra 91 min, 6 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_mario/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_mario/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 1 of 4 · overall 0.72 · <a href="play/surpass/runs/game_mario/claude_code/v1/rounds/1/game/play.html">play</a> · <a href="play/surpass/runs/game_mario/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/game_mario/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 3 of 6 · overall 0.87 · <a href="play/surpass/runs/game_mario/codex/v1/rounds/3/game/play.html">play</a> · <a href="play/surpass/runs/game_mario/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_pacman</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 15 min, 6 rounds · Astra 33 min, 5 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_pacman/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_pacman/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 3 of 6 · overall 0.83 · <a href="play/surpass/runs/game_pacman/claude_code/v1/rounds/3/game/play.html">play</a> · <a href="play/surpass/runs/game_pacman/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/game_pacman/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 2 of 5 · overall 0.88 · <a href="play/surpass/runs/game_pacman/codex/v1/rounds/2/game/play.html">play</a> · <a href="play/surpass/runs/game_pacman/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">game_weapon</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 14 min, 4 rounds · Astra 59 min, 4 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/game_weapon/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/game_weapon/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 1 of 4 · overall 0.58 · <a href="play/surpass/runs/game_weapon/claude_code/v1/rounds/1/game/play.html">play</a> · <a href="play/surpass/runs/game_weapon/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/game_weapon/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 1 of 4 · overall 0.76 · <a href="play/surpass/runs/game_weapon/codex/v1/rounds/1/game/play.html">play</a> · <a href="play/surpass/runs/game_weapon/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_badminton</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 22 min, 5 rounds · Astra 103 min, 6 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_badminton/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_badminton/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 2 of 5 · overall 0.62 · <a href="play/surpass/runs/human_badminton/claude_code/v1/rounds/2/game/play.html">play</a> · <a href="play/surpass/runs/human_badminton/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/human_badminton/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 5 of 6 · overall 0.83 · <a href="play/surpass/runs/human_badminton/codex/v1/rounds/5/game/play.html">play</a> · <a href="play/surpass/runs/human_badminton/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_pingpong</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 16 min, 5 rounds · Astra 52 min, 3 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_pingpong/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_pingpong/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 2 of 5 · overall 0.85 · <a href="play/surpass/runs/human_pingpong/claude_code/v1/rounds/2/game/play.html">play</a> · <a href="play/surpass/runs/human_pingpong/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/human_pingpong/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 0 of 3 · overall 0.69 · <a href="play/surpass/runs/human_pingpong/codex/v1/rounds/0/game/play.html">play</a> · <a href="play/surpass/runs/human_pingpong/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">human_tennis</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 16 min, 3 rounds · Astra 95 min, 6 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/human_tennis/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/human_tennis/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 0 of 3 · overall 0.38 · <a href="play/surpass/runs/human_tennis/claude_code/v1/rounds/0/game/play.html">play</a> · <a href="play/surpass/runs/human_tennis/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/human_tennis/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 4 of 6 · overall 0.81 · <a href="play/surpass/runs/human_tennis/codex/v1/rounds/4/game/play.html">play</a> · <a href="play/surpass/runs/human_tennis/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">robot_arm</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 36 min, 6 rounds · Astra 97 min, 5 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/robot_arm/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/robot_arm/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 5 of 6 · overall 0.68 · <a href="play/surpass/runs/robot_arm/claude_code/v1/rounds/5/game/play.html">play</a> · <a href="play/surpass/runs/robot_arm/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/robot_arm/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 2 of 5 · overall 0.73 · <a href="play/surpass/runs/robot_arm/codex/v1/rounds/2/game/play.html">play</a> · <a href="play/surpass/runs/robot_arm/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">robot_humanoid</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 36 min, 6 rounds · Astra 145 min, 6 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/robot_humanoid/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/robot_humanoid/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 3 of 6 · overall 0.72 · <a href="play/surpass/runs/robot_humanoid/claude_code/v1/rounds/3/game/play.html">play</a> · <a href="play/surpass/runs/robot_humanoid/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/robot_humanoid/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 3 of 6 · overall 0.81 · <a href="play/surpass/runs/robot_humanoid/codex/v1/rounds/3/game/play.html">play</a> · <a href="play/surpass/runs/robot_humanoid/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+  <div class="row">
+    <div class="row-head">
+      <span class="id">sim_smoke</span>
+      <span class="row-controls">
+        <button data-action="toggle">Pause</button>
+        <button data-action="restart">Restart</button>
+      </span>
+      <span class="meta">Claude 21 min, 4 rounds · Astra 94 min, 6 rounds</span>
+    </div>
+    <div class="trio"><div class="cell"><video src="clips/agent/sim_smoke/ref.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Video</b></p></div><div class="cell key"><video src="clips/agent/sim_smoke/loop_claude.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Claude</b> · best round 1 of 4 · overall 0.36 · <a href="play/surpass/runs/sim_smoke/claude_code/v1/rounds/1/game/play.html">play</a> · <a href="play/surpass/runs/sim_smoke/claude_code/v1/report.html">rounds</a></p></div><div class="cell key"><video src="clips/agent/sim_smoke/loop_astra.mp4" muted loop playsinline autoplay preload="metadata"></video><p class="label"><b>Astra</b> · best round 3 of 6 · overall 0.66 · <a href="play/surpass/runs/sim_smoke/codex/v1/rounds/3/game/play.html">play</a> · <a href="play/surpass/runs/sim_smoke/codex/v1/report.html">rounds</a></p></div></div>
+  </div>
+<!-- LOOP ROWS END -->
+</section>
+
+<footer>
+  <p>Clips built by <span class="mono">build_week5.py</span>, rows by
+  <span class="mono">make_agent_rows.py</span>, with the SHA-256 of every source and output in
+  <span class="mono">source_manifest.json</span>. <a href="../">All weeks</a></p>
+</footer>
+
+</div>
+<script src="week5.js"></script>

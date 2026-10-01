@@ -1,0 +1,492 @@
+[
+ {
+  "video": "game_angrybird",
+  "simple": {
+   "claude": {
+    "minutes": 2.4,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_angrybird/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/game_angrybird/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.5,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_angrybird/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/game_angrybird/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 16.9,
+    "rounds": 4,
+    "best_round": 1,
+    "overall": 0.496,
+    "groups": {
+     "A_appearance": 0.518,
+     "B_mechanism": 0.271,
+     "C_naturalness": null,
+     "D_free_play": 0.7,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_angrybird/claude_code/v1/rounds/1/game/play.html",
+    "report": "play/surpass/runs/game_angrybird/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 43.0,
+    "rounds": 3,
+    "best_round": 0,
+    "overall": 0.6,
+    "groups": {
+     "A_appearance": 0.676,
+     "B_mechanism": 0.232,
+     "C_naturalness": null,
+     "D_free_play": 0.891,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_angrybird/codex/v1/rounds/0/game/play.html",
+    "report": "play/surpass/runs/game_angrybird/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "game_mario",
+  "simple": {
+   "claude": {
+    "minutes": 2.3,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_mario/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/game_mario/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.7,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_mario/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/game_mario/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 15.8,
+    "rounds": 4,
+    "best_round": 1,
+    "overall": 0.721,
+    "groups": {
+     "A_appearance": 0.732,
+     "B_mechanism": 0.502,
+     "C_naturalness": null,
+     "D_free_play": 0.93,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_mario/claude_code/v1/rounds/1/game/play.html",
+    "report": "play/surpass/runs/game_mario/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 90.8,
+    "rounds": 6,
+    "best_round": 3,
+    "overall": 0.873,
+    "groups": {
+     "A_appearance": 0.989,
+     "B_mechanism": 0.718,
+     "C_naturalness": null,
+     "D_free_play": 0.911,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_mario/codex/v1/rounds/3/game/play.html",
+    "report": "play/surpass/runs/game_mario/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "game_pacman",
+  "simple": {
+   "claude": {
+    "minutes": 1.7,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_pacman/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/game_pacman/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.2,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_pacman/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/game_pacman/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 14.8,
+    "rounds": 6,
+    "best_round": 3,
+    "overall": 0.828,
+    "groups": {
+     "A_appearance": 0.91,
+     "B_mechanism": 0.83,
+     "C_naturalness": null,
+     "D_free_play": 0.745,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_pacman/claude_code/v1/rounds/3/game/play.html",
+    "report": "play/surpass/runs/game_pacman/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 32.9,
+    "rounds": 5,
+    "best_round": 2,
+    "overall": 0.882,
+    "groups": {
+     "A_appearance": 1.0,
+     "B_mechanism": 0.903,
+     "C_naturalness": null,
+     "D_free_play": 0.744,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_pacman/codex/v1/rounds/2/game/play.html",
+    "report": "play/surpass/runs/game_pacman/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "game_weapon",
+  "simple": {
+   "claude": {
+    "minutes": 1.0,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_weapon/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/game_weapon/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 2.9,
+    "js_errors": 0,
+    "play": "play/simple/runs/game_weapon/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/game_weapon/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 13.8,
+    "rounds": 4,
+    "best_round": 1,
+    "overall": 0.585,
+    "groups": {
+     "A_appearance": 0.575,
+     "B_mechanism": 0.263,
+     "C_naturalness": null,
+     "D_free_play": 0.916,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_weapon/claude_code/v1/rounds/1/game/play.html",
+    "report": "play/surpass/runs/game_weapon/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 59.1,
+    "rounds": 4,
+    "best_round": 1,
+    "overall": 0.759,
+    "groups": {
+     "A_appearance": 0.892,
+     "B_mechanism": 0.59,
+     "C_naturalness": null,
+     "D_free_play": 0.795,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/game_weapon/codex/v1/rounds/1/game/play.html",
+    "report": "play/surpass/runs/game_weapon/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "human_badminton",
+  "simple": {
+   "claude": {
+    "minutes": 2.1,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_badminton/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/human_badminton/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.7,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_badminton/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/human_badminton/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 22.1,
+    "rounds": 5,
+    "best_round": 2,
+    "overall": 0.625,
+    "groups": {
+     "A_appearance": 0.814,
+     "B_mechanism": 0.276,
+     "C_naturalness": 0.678,
+     "D_free_play": 0.733,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_badminton/claude_code/v1/rounds/2/game/play.html",
+    "report": "play/surpass/runs/human_badminton/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 102.7,
+    "rounds": 6,
+    "best_round": 5,
+    "overall": 0.829,
+    "groups": {
+     "A_appearance": 0.963,
+     "B_mechanism": 0.732,
+     "C_naturalness": 0.786,
+     "D_free_play": 0.837,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_badminton/codex/v1/rounds/5/game/play.html",
+    "report": "play/surpass/runs/human_badminton/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "human_pingpong",
+  "simple": {
+   "claude": {
+    "minutes": 1.6,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_pingpong/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/human_pingpong/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 4.5,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_pingpong/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/human_pingpong/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 16.2,
+    "rounds": 5,
+    "best_round": 2,
+    "overall": 0.848,
+    "groups": {
+     "A_appearance": 0.977,
+     "B_mechanism": 0.81,
+     "C_naturalness": 0.897,
+     "D_free_play": 0.707,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_pingpong/claude_code/v1/rounds/2/game/play.html",
+    "report": "play/surpass/runs/human_pingpong/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 51.8,
+    "rounds": 3,
+    "best_round": 0,
+    "overall": 0.687,
+    "groups": {
+     "A_appearance": 0.845,
+     "B_mechanism": 0.573,
+     "C_naturalness": 0.429,
+     "D_free_play": 0.902,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_pingpong/codex/v1/rounds/0/game/play.html",
+    "report": "play/surpass/runs/human_pingpong/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "human_tennis",
+  "simple": {
+   "claude": {
+    "minutes": 2.3,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_tennis/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/human_tennis/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 4.9,
+    "js_errors": 0,
+    "play": "play/simple/runs/human_tennis/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/human_tennis/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 15.6,
+    "rounds": 3,
+    "best_round": 0,
+    "overall": 0.38,
+    "groups": {
+     "A_appearance": 0.292,
+     "B_mechanism": 0.196,
+     "C_naturalness": 0.487,
+     "D_free_play": 0.546,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_tennis/claude_code/v1/rounds/0/game/play.html",
+    "report": "play/surpass/runs/human_tennis/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 94.8,
+    "rounds": 6,
+    "best_round": 4,
+    "overall": 0.81,
+    "groups": {
+     "A_appearance": 0.954,
+     "B_mechanism": 0.707,
+     "C_naturalness": 0.729,
+     "D_free_play": 0.851,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/human_tennis/codex/v1/rounds/4/game/play.html",
+    "report": "play/surpass/runs/human_tennis/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "robot_arm",
+  "simple": {
+   "claude": {
+    "minutes": 1.1,
+    "js_errors": 0,
+    "play": "play/simple/runs/robot_arm/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/robot_arm/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.6,
+    "js_errors": 0,
+    "play": "play/simple/runs/robot_arm/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/robot_arm/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 36.1,
+    "rounds": 6,
+    "best_round": 5,
+    "overall": 0.682,
+    "groups": {
+     "A_appearance": 0.648,
+     "B_mechanism": 0.534,
+     "C_naturalness": null,
+     "D_free_play": 0.863,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/robot_arm/claude_code/v1/rounds/5/game/play.html",
+    "report": "play/surpass/runs/robot_arm/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 97.3,
+    "rounds": 5,
+    "best_round": 2,
+    "overall": 0.729,
+    "groups": {
+     "A_appearance": 0.88,
+     "B_mechanism": 0.544,
+     "C_naturalness": null,
+     "D_free_play": 0.762,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/robot_arm/codex/v1/rounds/2/game/play.html",
+    "report": "play/surpass/runs/robot_arm/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "robot_humanoid",
+  "simple": {
+   "claude": {
+    "minutes": 1.2,
+    "js_errors": 0,
+    "play": "play/simple/runs/robot_humanoid/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/robot_humanoid/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.7,
+    "js_errors": 0,
+    "play": "play/simple/runs/robot_humanoid/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/robot_humanoid/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 36.1,
+    "rounds": 6,
+    "best_round": 3,
+    "overall": 0.722,
+    "groups": {
+     "A_appearance": 0.787,
+     "B_mechanism": 0.507,
+     "C_naturalness": 0.712,
+     "D_free_play": 0.88,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/robot_humanoid/claude_code/v1/rounds/3/game/play.html",
+    "report": "play/surpass/runs/robot_humanoid/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 145.4,
+    "rounds": 6,
+    "best_round": 3,
+    "overall": 0.805,
+    "groups": {
+     "A_appearance": 0.934,
+     "B_mechanism": 0.663,
+     "C_naturalness": 0.934,
+     "D_free_play": 0.689,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/robot_humanoid/codex/v1/rounds/3/game/play.html",
+    "report": "play/surpass/runs/robot_humanoid/codex/v1/report.html"
+   }
+  }
+ },
+ {
+  "video": "sim_smoke",
+  "simple": {
+   "claude": {
+    "minutes": 0.9,
+    "js_errors": 0,
+    "play": "play/simple/runs/sim_smoke/claude_code/v1/build/game/play.html",
+    "code": "play/simple/runs/sim_smoke/claude_code/v1/build/game/world.js"
+   },
+   "astra": {
+    "minutes": 3.3,
+    "js_errors": 0,
+    "play": "play/simple/runs/sim_smoke/codex/v1/build/game/play.html",
+    "code": "play/simple/runs/sim_smoke/codex/v1/build/game/world.js"
+   }
+  },
+  "loop": {
+   "claude": {
+    "minutes": 21.4,
+    "rounds": 4,
+    "best_round": 1,
+    "overall": 0.365,
+    "groups": {
+     "A_appearance": 0.286,
+     "B_mechanism": 0.047,
+     "C_naturalness": null,
+     "D_free_play": 0.762,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/sim_smoke/claude_code/v1/rounds/1/game/play.html",
+    "report": "play/surpass/runs/sim_smoke/claude_code/v1/report.html"
+   },
+   "astra": {
+    "minutes": 93.5,
+    "rounds": 6,
+    "best_round": 3,
+    "overall": 0.663,
+    "groups": {
+     "A_appearance": 0.486,
+     "B_mechanism": 0.555,
+     "C_naturalness": null,
+     "D_free_play": 0.949,
+     "E_judge": 0.667
+    },
+    "play": "play/surpass/runs/sim_smoke/codex/v1/rounds/3/game/play.html",
+    "report": "play/surpass/runs/sim_smoke/codex/v1/report.html"
+   }
+  }
+ }
+]

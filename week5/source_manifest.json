@@ -1,0 +1,1117 @@
+{
+  "clips": {
+    "recall/guidance": {
+      "sha256": "2e3f2b72e1edf7d997b831e4dba6d75466a774768c1219717558fab21780193c",
+      "bytes": 242156,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "recall/gt": {
+      "sha256": "558f27d2fb10bfc8ae53b0969e44677b719fb45edbc4575e44c20bdc6d78ee5f",
+      "bytes": 296228,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "recall/cwm": {
+      "sha256": "9cad2a6115312e00daaf0858c5aa8821fa77a2ed2fca8a19b1771e147c1649d3",
+      "bytes": 195161,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "recall/ours": {
+      "sha256": "60852b7ec3ec954a086cee8e7f12f5cb016731dc2a6fc95b146cfbe303add8f7",
+      "bytes": 145821,
+      "size": "672x384",
+      "frames": 124,
+      "seconds": 5.167
+    },
+    "bug/tennis-match116-light/gt": {
+      "sha256": "1018a197b69ebf60d8276b1b22e407a31cfaee6e5848fa0bf684f369d7950ed1",
+      "bytes": 348454,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tennis-match116-light/guidance": {
+      "sha256": "dac6addf89101fa18cc6bcdb24dbdbf7351ca2e70dde481091781c67a038fca5",
+      "bytes": 63805,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tennis-match116-light/c2": {
+      "sha256": "34d340c1724dcb4225cf2846153851ec5fa4e812ccd8c9f49c67e2a2161f6a09",
+      "bytes": 416557,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tennis-match116-light/c1": {
+      "sha256": "39c1b0eff73ac6bba57e458e89adb6894a2928707700be1c6ac37dc40b502f94",
+      "bytes": 355707,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tabletennis-match27-light/gt": {
+      "sha256": "f1bca87ca1090955890517168c2f0effd8613a6551b88fe6a2acf045cf606b8c",
+      "bytes": 182120,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tabletennis-match27-light/guidance": {
+      "sha256": "19edef239b116a0be02b7ff99dfd7fbb949d5bb6fa80b7f243d0e4daecf5522c",
+      "bytes": 82292,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tabletennis-match27-light/c2": {
+      "sha256": "b6a82443c0b9b934ca4d3766e2f1dd8fe41ef382d1e9bd256d86f030b4d23a40",
+      "bytes": 362479,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/tabletennis-match27-light/c1": {
+      "sha256": "f75d33717f28dd623d2cda864f01df956fa26e0766eea4fdb42fb3470e94daee",
+      "bytes": 295873,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/badminton-match101-light/gt": {
+      "sha256": "b56dec06ed904efc728f96deb049309650ca1c0df70faca62d2251f55c8cb2fa",
+      "bytes": 246443,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/badminton-match101-light/guidance": {
+      "sha256": "57182682a05fc09e6b1ce22d2ee7a2f5524ad8e2e430ba4f9f9d277c2efc34cd",
+      "bytes": 119573,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/badminton-match101-light/c2": {
+      "sha256": "c66dedbabfd193e9e08588383bcbb4da1c7fbabb25e7f679d06b6982ea5a2746",
+      "bytes": 434371,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "bug/badminton-match101-light/c1": {
+      "sha256": "f3162caafee5f86a2df917dbbcbeea58786f9b2fcee27f691a8edaa2324d73cf",
+      "bytes": 333484,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tennis-match116/control": {
+      "sha256": "51ebc5c7bf62d1325f5b9cf5843e76bb1b0f3d4020115e22022a0f8dd54b7cf5",
+      "bytes": 64948,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tennis-match116/gt": {
+      "sha256": "1018a197b69ebf60d8276b1b22e407a31cfaee6e5848fa0bf684f369d7950ed1",
+      "bytes": 348454,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tennis-match116/prev": {
+      "sha256": "e7152be70b0827c3bfbcf650429f7cbcdf5a7394e8ca881a3559636a9368212e",
+      "bytes": 327095,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tennis-match116/new": {
+      "sha256": "7a03003c8e896a3d1fee998d67f49209261ee16820b7b973e686e6d44030b9d9",
+      "bytes": 354497,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tabletennis-match27/control": {
+      "sha256": "ab4d3ec46f8a695e37e41eb09d3c07f41e4733d4d53e502d81f705afa2c449ef",
+      "bytes": 114666,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tabletennis-match27/gt": {
+      "sha256": "f1bca87ca1090955890517168c2f0effd8613a6551b88fe6a2acf045cf606b8c",
+      "bytes": 182120,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tabletennis-match27/prev": {
+      "sha256": "cf202c3ab64711c23d666151350ae8dc744c8df8ee5ea1b09e008aef2033e1bb",
+      "bytes": 281642,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/tabletennis-match27/new": {
+      "sha256": "d5d08e70a9e56b3ae17e787b31ee92d236937e2a5139037de729434d9ca62c57",
+      "bytes": 281888,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/badminton-match101/control": {
+      "sha256": "d5085812dabd7a96ac5e122319f634e26c526c96cba6767d45ece26bb295fdd8",
+      "bytes": 165103,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/badminton-match101/gt": {
+      "sha256": "b56dec06ed904efc728f96deb049309650ca1c0df70faca62d2251f55c8cb2fa",
+      "bytes": 246443,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/badminton-match101/prev": {
+      "sha256": "6a1a237906c8cd8aa5af98b85ce7d45f36eacf0be5d866c4b4ac6fb0bfa41646",
+      "bytes": 320648,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "real/badminton-match101/new": {
+      "sha256": "442d38d0ed815520bfa296c2d3b993da32557180d00833a1c017ec95716d0e60",
+      "bytes": 310893,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-light/control": {
+      "sha256": "dac6addf89101fa18cc6bcdb24dbdbf7351ca2e70dde481091781c67a038fca5",
+      "bytes": 63805,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-light/prev": {
+      "sha256": "a3c74a92c7041923a59b65b91bb84a004b4eae0f5872719846bca4459336e326",
+      "bytes": 334757,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-light/new": {
+      "sha256": "c217f992d95f918e583cb47786b3c1a4ef2bf7285df8846cd595f0d7ccefd8c1",
+      "bytes": 422352,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-medium/control": {
+      "sha256": "75b81f940df1a6578c32527f0ac7c6c774556511b98f6ef52dbac54e5fe44cf6",
+      "bytes": 60926,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-medium/prev": {
+      "sha256": "3f88e4395207fd388d0677816a443d82a95a3d68cbb6f70b90e2481824863bae",
+      "bytes": 327191,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tennis-match116-medium/new": {
+      "sha256": "1ddf2802310415c9dfe5ad808d217bf6717a4aa65e22f360c9c326e90604013d",
+      "bytes": 379008,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-light/control": {
+      "sha256": "19edef239b116a0be02b7ff99dfd7fbb949d5bb6fa80b7f243d0e4daecf5522c",
+      "bytes": 82292,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-light/prev": {
+      "sha256": "47df1e8ebd0d05b48f9a4a1896fdbdf19dde9ae3192d902955f2286a08f5f00a",
+      "bytes": 271792,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-light/new": {
+      "sha256": "b4c30f4e1d66719e67de90c6015452449274c92f99544c82429994b3055cbabe",
+      "bytes": 258182,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-medium/control": {
+      "sha256": "c82c8bf453d3ab10741cd9730b40a165554a71b23244edde3c5eb43252e77bc4",
+      "bytes": 109719,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-medium/prev": {
+      "sha256": "39954064752c8d3950bff81c6907b3ef3b639596d2be902b978b3410e99a352b",
+      "bytes": 276096,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/tabletennis-match27-medium/new": {
+      "sha256": "a6357c70a5626565be03f496b1a4ee51576a16ed110ccc2e0153a576ca0606c4",
+      "bytes": 286688,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-light/control": {
+      "sha256": "57182682a05fc09e6b1ce22d2ee7a2f5524ad8e2e430ba4f9f9d277c2efc34cd",
+      "bytes": 119573,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-light/prev": {
+      "sha256": "b9c6131147ddc8510ae5aaa72e86115df147ee65c512441ff975a68ede215ef4",
+      "bytes": 333679,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-light/new": {
+      "sha256": "8218fd7d398010c223c02d281f380811a72cf556fd0701475c864833cc734f57",
+      "bytes": 292468,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-medium/control": {
+      "sha256": "603b5760ac9cfa1ce2a6f7ba93403bbb4d13b946bc03a20a01827a2f9701847e",
+      "bytes": 161952,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-medium/prev": {
+      "sha256": "99e2b7ecc5af4cd058946e2e069cd82c52b5882b12177f7b7aa02ffbda1fead0",
+      "bytes": 332125,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "rough/badminton-match101-medium/new": {
+      "sha256": "0237682c61f03c2d11edc3c5b1b150a2e3523e7f29f3569e87b723f2ccfb6ff9",
+      "bytes": 319801,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "ckpt/stage1_200": {
+      "sha256": "6226922a69a7971aad3da9ee193a182d537ceb680f2456d95241fafc37270ac6",
+      "bytes": 384425,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "ckpt/stage1_400": {
+      "sha256": "bd721b9f176c69b7337d0a9d8bf0648beeb088d9358740766869092aff069c00",
+      "bytes": 375644,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "ckpt/stage1_600": {
+      "sha256": "7a03003c8e896a3d1fee998d67f49209261ee16820b7b973e686e6d44030b9d9",
+      "bytes": 354497,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "ckpt/stage2_200": {
+      "sha256": "8f952020ab6315c0e045070070cef5eafd36b99235cb0736f7fc2824daf25e96",
+      "bytes": 384666,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "ckpt/stage2_400": {
+      "sha256": "7fa6346d6e8abb38a6b4d74e23f763dee504b02c5549b6e07d91354be24ecaad",
+      "bytes": 422847,
+      "size": "672x388",
+      "frames": 121,
+      "seconds": 4.84
+    },
+    "agent/game_angrybird/ref": {
+      "sha256": "0731badb741e43a4f1250058e3f33502966b88f9a014ceb560470d35efa2eec3",
+      "bytes": 338838,
+      "size": "480x268",
+      "frames": 319,
+      "seconds": 10.893
+    },
+    "agent/game_angrybird/simple_claude": {
+      "sha256": "6689d020245beb26c739130462498413c6c210ad7a353ff90a328571838a0771",
+      "bytes": 87404,
+      "size": "480x268",
+      "frames": 318,
+      "seconds": 10.966
+    },
+    "agent/game_angrybird/loop_claude": {
+      "sha256": "c0d2e45d837b61480ac29ed3f07db567d0c46a7ee7cef53acc096adda3e0098a",
+      "bytes": 208141,
+      "size": "480x268",
+      "frames": 318,
+      "seconds": 10.966
+    },
+    "agent/game_angrybird/simple_astra": {
+      "sha256": "37ad98eb233b41ab67e3293edc0e7b7f3ed03894b407bb525dcacddd28f7b426",
+      "bytes": 275673,
+      "size": "480x268",
+      "frames": 318,
+      "seconds": 10.966
+    },
+    "agent/game_angrybird/loop_astra": {
+      "sha256": "fdb88dbd66ddd9670d7f63ba8ab180f31652d670ce3866fb2090796cfafdc01b",
+      "bytes": 229421,
+      "size": "480x268",
+      "frames": 319,
+      "seconds": 11.0
+    },
+    "agent/game_mario/ref": {
+      "sha256": "90921a71991cf8d0c4fd3ff25d43dc028ff8bf76a7fbf8f3459882bb100e64a4",
+      "bytes": 417134,
+      "size": "480x270",
+      "frames": 612,
+      "seconds": 10.211
+    },
+    "agent/game_mario/simple_claude": {
+      "sha256": "96d8684be389c487c3c818e485738ff36b10aa343717b8188ff94840fa6475ec",
+      "bytes": 77800,
+      "size": "480x270",
+      "frames": 307,
+      "seconds": 10.234
+    },
+    "agent/game_mario/loop_claude": {
+      "sha256": "1fa9c96bdc06bca6d5a0d47453f48915d3c311e70fda8ca321e37b083f1bbb92",
+      "bytes": 210463,
+      "size": "480x270",
+      "frames": 614,
+      "seconds": 10.234
+    },
+    "agent/game_mario/simple_astra": {
+      "sha256": "10a306fda759869e214457c702086a4741d7be61b5c8151ac45e186921fd7e84",
+      "bytes": 141799,
+      "size": "480x270",
+      "frames": 307,
+      "seconds": 10.234
+    },
+    "agent/game_mario/loop_astra": {
+      "sha256": "04928a7e6a71f64a5cd8c4cac630b9b28ed589c8828308d785a5ba08926d5014",
+      "bytes": 312269,
+      "size": "480x270",
+      "frames": 614,
+      "seconds": 10.234
+    },
+    "agent/game_pacman/ref": {
+      "sha256": "4c1fbab9fc32a204218f3466e806bfda180118e85efc4c0fc5975299b37ecdf3",
+      "bytes": 21345,
+      "size": "480x276",
+      "frames": 61,
+      "seconds": 6.1
+    },
+    "agent/game_pacman/simple_claude": {
+      "sha256": "1784879b2cae46a23d3164932344f12b39684fc575418dd8b381a922ecb558ca",
+      "bytes": 23869,
+      "size": "480x276",
+      "frames": 62,
+      "seconds": 6.2
+    },
+    "agent/game_pacman/loop_claude": {
+      "sha256": "b57a3b0593e2806a21cf3550a344b8151e8d9f4671f8fd8f5f31c0f6c406b08f",
+      "bytes": 19763,
+      "size": "480x276",
+      "frames": 62,
+      "seconds": 6.2
+    },
+    "agent/game_pacman/simple_astra": {
+      "sha256": "b693f1298d85b651be45d202e23e31658f5564005d27b049d3642bbc1415628f",
+      "bytes": 28588,
+      "size": "480x276",
+      "frames": 62,
+      "seconds": 6.2
+    },
+    "agent/game_pacman/loop_astra": {
+      "sha256": "32bf9c9a986e7026ea59fcdca1add33cdc31a22f6209ca33c51943ede588c1b9",
+      "bytes": 20606,
+      "size": "480x276",
+      "frames": 62,
+      "seconds": 6.2
+    },
+    "agent/game_weapon/ref": {
+      "sha256": "48738e6b771a24f84784feef25cf5b3d7d8723c38696b342cb7df4346e1a23a6",
+      "bytes": 315635,
+      "size": "480x330",
+      "frames": 81,
+      "seconds": 5.063
+    },
+    "agent/game_weapon/simple_claude": {
+      "sha256": "0e81378ff7af3b7d0268f235a9513f0349699b507ec4cd4d6b9f2b50b7e96f45",
+      "bytes": 64947,
+      "size": "480x330",
+      "frames": 82,
+      "seconds": 5.125
+    },
+    "agent/game_weapon/loop_claude": {
+      "sha256": "89373ea4d307f3819a8a29dcebafc3a44ebf73b24e5302a6b6b08e36a28e7c54",
+      "bytes": 126070,
+      "size": "480x330",
+      "frames": 82,
+      "seconds": 5.125
+    },
+    "agent/game_weapon/simple_astra": {
+      "sha256": "c1ff93436cf5e4fa6132d787bd40bec190ef99c5c74fa66d2a9271648e374740",
+      "bytes": 361458,
+      "size": "480x330",
+      "frames": 82,
+      "seconds": 5.125
+    },
+    "agent/game_weapon/loop_astra": {
+      "sha256": "517d5aedc46a854e4f11bd6d01d2879b0872f8109f74911ae9250ba37de19dbb",
+      "bytes": 195675,
+      "size": "480x330",
+      "frames": 82,
+      "seconds": 5.125
+    },
+    "agent/human_badminton/ref": {
+      "sha256": "338f260a0a9c624dfb7e0423ea9ae1cc724322043bef5fd6f042b886aa857e25",
+      "bytes": 178795,
+      "size": "480x270",
+      "frames": 250,
+      "seconds": 10.0
+    },
+    "agent/human_badminton/simple_claude": {
+      "sha256": "da1832d0a2c9942a4cc13e6936f261f1c66105658aaf39e2a7686cb7f91d01cf",
+      "bytes": 66078,
+      "size": "480x270",
+      "frames": 253,
+      "seconds": 10.12
+    },
+    "agent/human_badminton/loop_claude": {
+      "sha256": "7a2183bcc5edebba4c2190980928a72926257a3e9784dd40fa2f58a0053bb791",
+      "bytes": 127654,
+      "size": "480x270",
+      "frames": 253,
+      "seconds": 10.12
+    },
+    "agent/human_badminton/simple_astra": {
+      "sha256": "1d37b9fa8b72f4ef0c9b02d392b26b247e8b24308ad08a816115a4868952aedc",
+      "bytes": 140704,
+      "size": "480x270",
+      "frames": 253,
+      "seconds": 10.12
+    },
+    "agent/human_badminton/loop_astra": {
+      "sha256": "58c720370bc368814f0f781bba7ef8a7bb227447cdd234ec060824c3de6a6244",
+      "bytes": 160649,
+      "size": "480x270",
+      "frames": 253,
+      "seconds": 10.12
+    },
+    "agent/human_pingpong/ref": {
+      "sha256": "a56f7e32c7bba2c21239240d5fed662e79a338aa303ed648de38a29296f6beb7",
+      "bytes": 124414,
+      "size": "480x270",
+      "frames": 124,
+      "seconds": 4.96
+    },
+    "agent/human_pingpong/simple_claude": {
+      "sha256": "5136c868a3afd616bd5ec9c0b48eca9f5501b77cd465c10e571ab84d167f5943",
+      "bytes": 94688,
+      "size": "480x270",
+      "frames": 127,
+      "seconds": 5.08
+    },
+    "agent/human_pingpong/loop_claude": {
+      "sha256": "6face53ac79913cf916b7ec3f7fcf0b2f192888b6362809efc5d9eddc6542e6d",
+      "bytes": 106024,
+      "size": "480x270",
+      "frames": 125,
+      "seconds": 5.0
+    },
+    "agent/human_pingpong/simple_astra": {
+      "sha256": "9b4feb6a1cef64287d05c45232bf0c417ff79ba5cd8d8d6bfa130e2a10f7ffcc",
+      "bytes": 96650,
+      "size": "480x270",
+      "frames": 127,
+      "seconds": 5.08
+    },
+    "agent/human_pingpong/loop_astra": {
+      "sha256": "ca086eb6bca22bfe71dc7a59f035c2a2494b23c239f51e43f612fffc3c42d996",
+      "bytes": 109551,
+      "size": "480x270",
+      "frames": 127,
+      "seconds": 5.08
+    },
+    "agent/human_tennis/ref": {
+      "sha256": "7a24d0cafc956ecf98a7420a31aa083f7e094e686e85650e92b8c6091ab76ae4",
+      "bytes": 159487,
+      "size": "480x270",
+      "frames": 434,
+      "seconds": 14.482
+    },
+    "agent/human_tennis/simple_claude": {
+      "sha256": "9452af39e2f4d6526aecda8d3e208f4e46180a7c836470e078999c924b92fcfa",
+      "bytes": 100488,
+      "size": "480x270",
+      "frames": 435,
+      "seconds": 14.5
+    },
+    "agent/human_tennis/loop_claude": {
+      "sha256": "11188960e3c36e01b90f4a7db61e0a46ce63698a78a6696c874cb2906e0c67df",
+      "bytes": 83584,
+      "size": "480x270",
+      "frames": 435,
+      "seconds": 14.5
+    },
+    "agent/human_tennis/simple_astra": {
+      "sha256": "051262cfa9f704d026638839c3d8f42f4c98ab2c386504171796629f33003fd2",
+      "bytes": 167180,
+      "size": "480x270",
+      "frames": 435,
+      "seconds": 14.5
+    },
+    "agent/human_tennis/loop_astra": {
+      "sha256": "912b37d5110b4c85ef2ddf1b5ddc8e41e16f8696d101c1c2cda4bbe91facbcd1",
+      "bytes": 148811,
+      "size": "480x270",
+      "frames": 435,
+      "seconds": 14.5
+    },
+    "agent/robot_arm/ref": {
+      "sha256": "ec97b971b240643e216fdefdc7874bc22ee6d06d96c2530badadfad24b492a8a",
+      "bytes": 433991,
+      "size": "480x270",
+      "frames": 536,
+      "seconds": 9.517
+    },
+    "agent/robot_arm/simple_claude": {
+      "sha256": "135b4c8695d95f029713ab4ea7f1f7c09c641b9327cfe915a36b76d598d40aab",
+      "bytes": 96011,
+      "size": "480x270",
+      "frames": 286,
+      "seconds": 9.534
+    },
+    "agent/robot_arm/loop_claude": {
+      "sha256": "63ab03137d4b67b899a938fb4c6167751e4024577d97345f13d37ff9f052892f",
+      "bytes": 303323,
+      "size": "480x270",
+      "frames": 536,
+      "seconds": 9.572
+    },
+    "agent/robot_arm/simple_astra": {
+      "sha256": "1cbe2a6e061bb0033b702bcbc04059114162a2ab447aac3de6d2d8d8c8819657",
+      "bytes": 159367,
+      "size": "480x270",
+      "frames": 286,
+      "seconds": 9.534
+    },
+    "agent/robot_arm/loop_astra": {
+      "sha256": "809353b2ce020963ef24d37da0b0f1691f1d2bdd308dadbc42d15a9f251cb2f1",
+      "bytes": 326005,
+      "size": "480x270",
+      "frames": 536,
+      "seconds": 9.572
+    },
+    "agent/robot_humanoid/ref": {
+      "sha256": "91f64a758b47cfb68e0d3d9a1b6f44ebfae07f8fe0ee455b272129e8237eab35",
+      "bytes": 337313,
+      "size": "480x270",
+      "frames": 475,
+      "seconds": 9.5
+    },
+    "agent/robot_humanoid/simple_claude": {
+      "sha256": "8ba69673eeaa895e2590d34fe1f23175ec19ac91ee19b43c624eb50598e0e574",
+      "bytes": 83719,
+      "size": "480x270",
+      "frames": 286,
+      "seconds": 9.534
+    },
+    "agent/robot_humanoid/loop_claude": {
+      "sha256": "a117a5e37cb8ee559eadd684b5d6c95db9835e3ede835295c8d73011b5c87c53",
+      "bytes": 303455,
+      "size": "480x270",
+      "frames": 478,
+      "seconds": 9.56
+    },
+    "agent/robot_humanoid/simple_astra": {
+      "sha256": "7653df47063ca5fa7d781a39dcddf83bcae22db39b62cc55e595f4e72a4b2166",
+      "bytes": 185868,
+      "size": "480x270",
+      "frames": 286,
+      "seconds": 9.534
+    },
+    "agent/robot_humanoid/loop_astra": {
+      "sha256": "2cd5bbd2217aae29ff5aec3c2bfa4b1a6bc007d051027fff440295845e07fc26",
+      "bytes": 296749,
+      "size": "480x270",
+      "frames": 476,
+      "seconds": 9.52
+    },
+    "agent/sim_smoke/ref": {
+      "sha256": "557b6fa59ed42182860b83f3187eb520841197ac771d9d4e4c1f10556c549c02",
+      "bytes": 75484,
+      "size": "480x270",
+      "frames": 225,
+      "seconds": 9.0
+    },
+    "agent/sim_smoke/simple_claude": {
+      "sha256": "39f2739ecc85527466b811cd071be3252cefbab8884dc9466b43e18b5cbb5be8",
+      "bytes": 26860,
+      "size": "480x270",
+      "frames": 228,
+      "seconds": 9.12
+    },
+    "agent/sim_smoke/loop_claude": {
+      "sha256": "09ea5e37122003b28b3856ae084e345b52ad768357d2e9f1f6fe69931c73f304",
+      "bytes": 97042,
+      "size": "480x270",
+      "frames": 228,
+      "seconds": 9.12
+    },
+    "agent/sim_smoke/simple_astra": {
+      "sha256": "92ccaa7778afd5e684acc10a37481d8884a9643e26f7dd9d3d6493cd8d8f081c",
+      "bytes": 28864,
+      "size": "480x270",
+      "frames": 228,
+      "seconds": 9.12
+    },
+    "agent/sim_smoke/loop_astra": {
+      "sha256": "816bf2c99fc9d06dea974d88fa720e4d2e6c338aa2233a8ed4617d7a949b6a17",
+      "bytes": 46824,
+      "size": "480x270",
+      "frames": 228,
+      "seconds": 9.12
+    }
+  },
+  "sources": {
+    "recall/guidance": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week4/clips/test/tennis-match116-light/guidance.mp4",
+      "sha256": "dd409fbcff4f09cc665373fec4a948724ab0aad84ef36a4e1d1e6e3c480327b7"
+    },
+    "recall/gt": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week4/clips/test/tennis-match116-light/gt.mp4",
+      "sha256": "8ce6d13d2bf508068feb0c98919285c8b3563c83bb5e0cd87624d6c00a1dad11"
+    },
+    "recall/cwm": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week4/clips/test/tennis-match116-light/cwm.mp4",
+      "sha256": "f8f32e8a43d6185a65737926e766bdc7381c41d9fb49ea08a1d2ab04d4d79891"
+    },
+    "recall/ours": {
+      "path": "/shared/perception/personals/beijia/Sim_AngryBird_Visualization/week4/clips/test/tennis-match116-light/ours.mp4",
+      "sha256": "2d85a2e720b8edbac07f2b0daca023fb8a2699c8897f6eb55311d6cc39d97c15"
+    },
+    "bug/tennis-match116-light/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000/real_gt.mp4",
+      "sha256": "c4f44ce56abede9a0e0d73fc4fd066f705255364d2515cb0e1edd3e4b5a6740d"
+    },
+    "bug/tennis-match116-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000_light/rough_seg.mp4",
+      "sha256": "5e283f75e5637e34489e4f3929b19cc71e5ae7af258089a4501851754bfc28aa"
+    },
+    "bug/tennis-match116-light/c2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation_c2_superseded/stage2_304/tennis__match116_000_light/vision.mp4",
+      "sha256": "2d6c26d24c96f8f9dbb52397d888f07e591349d4398dafe0e196509c78a26495"
+    },
+    "bug/tennis-match116-light/c1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation/stage2_304/tennis__match116_000_light/vision.mp4",
+      "sha256": "7ea6ceac9251b3777cf0ebc29ce9cf3d78271bcd9e9e4c174229e4c53e5e4535"
+    },
+    "bug/tabletennis-match27-light/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000/real_gt.mp4",
+      "sha256": "7b3943740b9ad0e3cbd98cf3de5ab89f61326d58c5907e09c7fab861b982ef19"
+    },
+    "bug/tabletennis-match27-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000_light/rough_seg.mp4",
+      "sha256": "d48dcf0a0a44c81228ab11b6ad51f5cd9888a13b4e295b043f3da5d9c228cc28"
+    },
+    "bug/tabletennis-match27-light/c2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation_c2_superseded/stage2_304/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "1ff01bca8ac7e23c7c2ade1701419435220ee3dfbfe5a6454ad6a19f374fe06c"
+    },
+    "bug/tabletennis-match27-light/c1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation/stage2_304/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "560b2ffb2d30d83789ad2499feecb90d1270c969496abc55535e26d9928109d1"
+    },
+    "bug/badminton-match101-light/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000/real_gt.mp4",
+      "sha256": "c28f2bf068f3729dce59b487f0feb3e8a30c0ccc7c3b132f89f7cf535c35e0c0"
+    },
+    "bug/badminton-match101-light/guidance": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000_light/rough_seg.mp4",
+      "sha256": "41c829cb735c8c7cd5e58946dce05d36ca0fa61f99c0f46c037f884e4acfd7aa"
+    },
+    "bug/badminton-match101-light/c2": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation_c2_superseded/stage2_304/badminton__match101_000_light/vision.mp4",
+      "sha256": "5c7b692b840d2784fde5cfb92d4cfeaf7f827a4ae2c5ba64084fe87afdc40878"
+    },
+    "bug/badminton-match101-light/c1": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/evaluation/stage2_304/badminton__match101_000_light/vision.mp4",
+      "sha256": "1b6eb210025581b0d1a03eda796a4d05639bf52745b4a6c132f0fcab6a0aba3e"
+    },
+    "real/tennis-match116/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000/real_seg.mp4",
+      "sha256": "99313954c059f0ecddd096d1e262ce7a342444bf750710259ff54b8ec6d05740"
+    },
+    "real/tennis-match116/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000/real_gt.mp4",
+      "sha256": "c4f44ce56abede9a0e0d73fc4fd066f705255364d2515cb0e1edd3e4b5a6740d"
+    },
+    "real/tennis-match116/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tennis__match116_000/vision.mp4",
+      "sha256": "410842fb0bd94a0eaabc1c450841d37dfaeaf8d54f91c572ca4ab0254b00099b"
+    },
+    "real/tennis-match116/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tennis__match116_000/vision.mp4",
+      "sha256": "67ad02beb4bb1608f62d2c46a846c876afcbf2ff13f3f8be78b4366c317ccd28"
+    },
+    "real/tabletennis-match27/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000/real_seg.mp4",
+      "sha256": "f67dd8b78f48b2960bb230ecc6e210582fd3482bbb4fd09d0d0c9c0404652f91"
+    },
+    "real/tabletennis-match27/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000/real_gt.mp4",
+      "sha256": "7b3943740b9ad0e3cbd98cf3de5ab89f61326d58c5907e09c7fab861b982ef19"
+    },
+    "real/tabletennis-match27/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tabletennis__match27_000/vision.mp4",
+      "sha256": "ebac455c0a229aef1bc5f9de5f15c6d73d71ec0e8218e4e2b8f0e0bc144689cf"
+    },
+    "real/tabletennis-match27/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tabletennis__match27_000/vision.mp4",
+      "sha256": "f694278345fb68c94017cb10ade50f88047e66868799b5681b7b404f61e18707"
+    },
+    "real/badminton-match101/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000/real_seg.mp4",
+      "sha256": "7142a5a9cd226cca1221b6d932bc6c18090eb10282edf08b6407965f57c72e62"
+    },
+    "real/badminton-match101/gt": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000/real_gt.mp4",
+      "sha256": "c28f2bf068f3729dce59b487f0feb3e8a30c0ccc7c3b132f89f7cf535c35e0c0"
+    },
+    "real/badminton-match101/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/badminton__match101_000/vision.mp4",
+      "sha256": "848d59a8aa0f52b5d6bc0985f9fa6c1ff6ac892e367ac9ddb953376d9bf0c92e"
+    },
+    "real/badminton-match101/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/badminton__match101_000/vision.mp4",
+      "sha256": "e33b0b3fcd46d7b8d7f44a408dcab415ec1fe506f29de47a68a118de1ce75997"
+    },
+    "rough/tennis-match116-light/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000_light/rough_seg.mp4",
+      "sha256": "5e283f75e5637e34489e4f3929b19cc71e5ae7af258089a4501851754bfc28aa"
+    },
+    "rough/tennis-match116-light/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tennis__match116_000_light/vision.mp4",
+      "sha256": "e9705bf55684acc4a83fba50db2dfc466ff998d118e59345b09668ce04a94002"
+    },
+    "rough/tennis-match116-light/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tennis__match116_000_light/vision.mp4",
+      "sha256": "b062204e27172447143b9ca1496453b585ebb6f46187948e99f9cb11d46be94e"
+    },
+    "rough/tennis-match116-medium/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tennis__match116_000_medium/rough_seg.mp4",
+      "sha256": "03924b3eb1ac8a188e77fd7cec5177a45c03d25ec331bd9210ecea37c8a0033d"
+    },
+    "rough/tennis-match116-medium/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tennis__match116_000_medium/vision.mp4",
+      "sha256": "05593e1c7759e624b8707e366b21a76b6ea1c9e7323742ae19efc7e44a819b79"
+    },
+    "rough/tennis-match116-medium/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tennis__match116_000_medium/vision.mp4",
+      "sha256": "6d0be59c0fa7791d48b47222976120375764106de638a43d92acba751a709b8e"
+    },
+    "rough/tabletennis-match27-light/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000_light/rough_seg.mp4",
+      "sha256": "d48dcf0a0a44c81228ab11b6ad51f5cd9888a13b4e295b043f3da5d9c228cc28"
+    },
+    "rough/tabletennis-match27-light/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "12ee7f90a225db298c6d8285fa36f629b66797939afd8eead53a55f171b1441f"
+    },
+    "rough/tabletennis-match27-light/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tabletennis__match27_000_light/vision.mp4",
+      "sha256": "6eb653ac3b4f497017b2cfabb498fb03ebde468a0250d3777dbbb476ca579225"
+    },
+    "rough/tabletennis-match27-medium/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/tabletennis__match27_000_medium/rough_seg.mp4",
+      "sha256": "20fd5144320699feb1648ae5dec066ee273d7595b5772cd0a284046ad301ebef"
+    },
+    "rough/tabletennis-match27-medium/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/tabletennis__match27_000_medium/vision.mp4",
+      "sha256": "71ed9d19c6ca1734f73a9b53ffd56120fc804dae6658fe1eb1b4d073faa1cd3d"
+    },
+    "rough/tabletennis-match27-medium/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tabletennis__match27_000_medium/vision.mp4",
+      "sha256": "bc0fecf1d62db297d6d349a8a8e58849de37cce82300a4d32df9e094323b72dd"
+    },
+    "rough/badminton-match101-light/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000_light/rough_seg.mp4",
+      "sha256": "41c829cb735c8c7cd5e58946dce05d36ca0fa61f99c0f46c037f884e4acfd7aa"
+    },
+    "rough/badminton-match101-light/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/badminton__match101_000_light/vision.mp4",
+      "sha256": "3749ca6360af682d984f6efa4e8a58e77e502eeffe22ee194e8e66d4a30f3d52"
+    },
+    "rough/badminton-match101-light/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/badminton__match101_000_light/vision.mp4",
+      "sha256": "1a0f81c9816c892f56a9a5da0745d52f4a5b8a449daa02129f65ba8a4c3e1944"
+    },
+    "rough/badminton-match101-medium/control": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/validation/badminton__match101_000_medium/rough_seg.mp4",
+      "sha256": "5be3e07da7666cff3e454998a3030b58369e65c5509292274f5fa2496b82ed38"
+    },
+    "rough/badminton-match101-medium/prev": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_batch24_two_stage/older_ckpt_c1/evaluation/stage2_fresh500_b4/badminton__match101_000_medium/vision.mp4",
+      "sha256": "5b9698e48d97e036f03bba35ce11736453d5693d6fe2c7d07600a07b21259dee"
+    },
+    "rough/badminton-match101-medium/new": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/badminton__match101_000_medium/vision.mp4",
+      "sha256": "ef0b52521475b2c3d27e755986a8883c79fa7171e754db758c9e30d70d7dc2bb"
+    },
+    "ckpt/stage1_200": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_200/tennis__match116_000/vision.mp4",
+      "sha256": "869f54e38e59ced1125abc4df97597a597cb9d1d20f92dd97ad9794e6101549a"
+    },
+    "ckpt/stage1_400": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_400/tennis__match116_000/vision.mp4",
+      "sha256": "bad7f3ef0b6ff6a84c35093a6fca4cd7454d932560a4c399ae9436febf7d7669"
+    },
+    "ckpt/stage1_600": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage1_600/tennis__match116_000/vision.mp4",
+      "sha256": "67ad02beb4bb1608f62d2c46a846c876afcbf2ff13f3f8be78b4366c317ccd28"
+    },
+    "ckpt/stage2_200": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage2_200/tennis__match116_000/vision.mp4",
+      "sha256": "2dce32a6d53004fd754e4d4f8d5dd9d5e5f4af68b908142f96f18efbd5dd5813"
+    },
+    "ckpt/stage2_400": {
+      "path": "/shared/perception/personals/beijia/cosmos/experiments/racket_b6_two_stage_g45/evaluation/stage2_400/tennis__match116_000/vision.mp4",
+      "sha256": "5ead740139dd57a09d7faf7389b1e4dcd09a9047b67434daab79c6db49b5d4cf"
+    },
+    "agent/game_angrybird/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_angrybird/claude_code/v1/reference.mp4",
+      "sha256": "f23b0b0c756998d359990633baa2aca21826e890b0b3f2de4fe48a521c8c9522"
+    },
+    "agent/game_angrybird/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_angrybird/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "fadee21208b907b7fd4ec83b09b600f332f2da23b16a7ccfa2c417481bf89c50"
+    },
+    "agent/game_angrybird/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_angrybird/claude_code/v1/rounds/1/eval/render/replay.mp4",
+      "sha256": "91fb8226e7da97f7e6f3cf5f8324c376549fedbe0bea97a7d4e5a36d50a6a85e"
+    },
+    "agent/game_angrybird/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_angrybird/codex/v1/build/eval/proxy.mp4",
+      "sha256": "4415c4d2c153e903b37e63a29fb2417d1ccf2dbc7d21c07c5418b67973d33595"
+    },
+    "agent/game_angrybird/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_angrybird/codex/v1/rounds/0/eval/render/replay.mp4",
+      "sha256": "876b454eb133e5484b750d9ea3a3595c734a60b4027458842cacd61b5baf9c69"
+    },
+    "agent/game_mario/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_mario/claude_code/v1/reference.mp4",
+      "sha256": "c917304adc3b7a04dac5b2143324bee1af7dd0eaa61de44b6653f28b84c88606"
+    },
+    "agent/game_mario/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_mario/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "58871d3e9785478895d3e80ac2ecbb867d0b46fd6017ad3a8d768400ce480340"
+    },
+    "agent/game_mario/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_mario/claude_code/v1/rounds/1/eval/render/replay.mp4",
+      "sha256": "acd550ef0dcc2457bd77ca35916ac0679676cbcfdd0711f2574dcc09af3bea78"
+    },
+    "agent/game_mario/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_mario/codex/v1/build/eval/proxy.mp4",
+      "sha256": "e8d9ad8ec0cff5fb2b9fa65df084ab9befc618d308046b6dfd532229e67a9d99"
+    },
+    "agent/game_mario/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_mario/codex/v1/rounds/3/eval/render/replay.mp4",
+      "sha256": "b3645ef72c2a58129f8ab56b4fac08051b8cdfbe22baa3296bfb85b34bd43633"
+    },
+    "agent/game_pacman/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_pacman/claude_code/v1/reference.mp4",
+      "sha256": "67c966b597577ea142694efd2d06f94eb174c0498b18afedea4ff951269eb3a7"
+    },
+    "agent/game_pacman/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_pacman/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "0c85e260a1c8792ae7f9384e863d618a283dea36c425270f8f6dd800be484ebf"
+    },
+    "agent/game_pacman/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_pacman/claude_code/v1/rounds/3/eval/render/replay.mp4",
+      "sha256": "c11e45e1c0c9c88d4a36fc03f3726d10e3893a79761e88aa4ac04c08893f6846"
+    },
+    "agent/game_pacman/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_pacman/codex/v1/build/eval/proxy.mp4",
+      "sha256": "5e61bd7ea0bdcdbfd5b4a2603e8ce4f68e98d1f771b204e32fecf33e3e7763fb"
+    },
+    "agent/game_pacman/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_pacman/codex/v1/rounds/2/eval/render/replay.mp4",
+      "sha256": "bf1cb5278d16fa3e69631ef5404df5b23a7c8e2a70690421553da96c78b94acc"
+    },
+    "agent/game_weapon/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_weapon/claude_code/v1/reference.mp4",
+      "sha256": "e50a583db1fc85d6d4701130e8a0debb9ceed4b4f3550561376887a87777b57e"
+    },
+    "agent/game_weapon/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_weapon/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "7ee5ddf38809ab122b61e934e1441683a438cd19e0c67e2343937adee1ff28b1"
+    },
+    "agent/game_weapon/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_weapon/claude_code/v1/rounds/1/eval/render/replay.mp4",
+      "sha256": "052701d320f67755d2a623831c36f546081c5100a037401d6d971c4297ad7bf5"
+    },
+    "agent/game_weapon/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/game_weapon/codex/v1/build/eval/proxy.mp4",
+      "sha256": "dcef9b447dbe659282b3e51a752f239778f5fe6decdd1e66975198cc696dc3b7"
+    },
+    "agent/game_weapon/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/game_weapon/codex/v1/rounds/1/eval/render/replay.mp4",
+      "sha256": "8c523a4e5b809f876b687af6f92cf2341dd2d69e6375cef0e8388a44bccf3658"
+    },
+    "agent/human_badminton/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_badminton/claude_code/v1/reference.mp4",
+      "sha256": "3e90422df1731a8c195e8fb7981a74fe741404e7edf17f166dbd4f572c681f5b"
+    },
+    "agent/human_badminton/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_badminton/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "aedcc1713043b20ef15779b93e53c63050437ebbf2f4166cb4eaa4ff69582ccd"
+    },
+    "agent/human_badminton/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_badminton/claude_code/v1/rounds/2/eval/render/replay.mp4",
+      "sha256": "552a9d726cbb5960df19680a7c52bafbc3273f7c8dd28266d39d052bc110d765"
+    },
+    "agent/human_badminton/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_badminton/codex/v1/build/eval/proxy.mp4",
+      "sha256": "037d2274a5586a68d56dd50b717f0903c8c8ed9deaada8f59ac6d0f6ab7df3ee"
+    },
+    "agent/human_badminton/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_badminton/codex/v1/rounds/5/eval/render/replay.mp4",
+      "sha256": "52f04644683b450972729792b460278d2fba55b15f82ed90173faf0ae638016b"
+    },
+    "agent/human_pingpong/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_pingpong/claude_code/v1/reference.mp4",
+      "sha256": "441142e6b63d65a921fa5a586e7a82a93175829e09369368b2bc95bd41422f5e"
+    },
+    "agent/human_pingpong/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_pingpong/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "a1efa5e4811955650a83e1e8e7233b349ff06638afe088ca96c4cfba025bfce5"
+    },
+    "agent/human_pingpong/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_pingpong/claude_code/v1/rounds/2/eval/render/replay.mp4",
+      "sha256": "c59c4eb6eec74131e09bcb4cd9ea5a337bc3ee2724cb6be43d0dcd762ef0bab7"
+    },
+    "agent/human_pingpong/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_pingpong/codex/v1/build/eval/proxy.mp4",
+      "sha256": "2f66dc73334c65ef6da39ef67cb6ee5f4331c72aa65de05b883266ab3c8b13d3"
+    },
+    "agent/human_pingpong/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_pingpong/codex/v1/rounds/0/eval/render/replay.mp4",
+      "sha256": "f7ae63b2c4f31096ddbca8ca4f6fcb4c6138ac0b09be9093899c6214ffc87470"
+    },
+    "agent/human_tennis/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_tennis/claude_code/v1/reference.mp4",
+      "sha256": "8a1087951b273a6191d6d7753856524399a7b853f799d997d502e6e875bef09f"
+    },
+    "agent/human_tennis/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_tennis/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "cbf233cb53c941dd51b084c0a12cc23df2209cb43393ab56278b523a8be68a55"
+    },
+    "agent/human_tennis/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_tennis/claude_code/v1/rounds/0/eval/render/replay.mp4",
+      "sha256": "6cfe6b74057be68c2d996f7f379576cc10fff992f9ae98cbf78b59df26082861"
+    },
+    "agent/human_tennis/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/human_tennis/codex/v1/build/eval/proxy.mp4",
+      "sha256": "742c6fdab6f47032ba93974af2ad52d98e6bb2440b6719763de8e22db706db79"
+    },
+    "agent/human_tennis/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/human_tennis/codex/v1/rounds/4/eval/render/replay.mp4",
+      "sha256": "24d93521a8712816f50d533cf0f30f86ce2c20e35e87445634390df92cbb169b"
+    },
+    "agent/robot_arm/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_arm/claude_code/v1/reference.mp4",
+      "sha256": "74e3d5a0e912dbf1547ba1a399f0a01565f1c0a6e1821ff2804f5019de6125f0"
+    },
+    "agent/robot_arm/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_arm/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "284c3f7aea0108ce1e45fc861d0804c1ce57e15e689ed2f03c77da30e5f00d30"
+    },
+    "agent/robot_arm/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/robot_arm/claude_code/v1/rounds/5/eval/render/replay.mp4",
+      "sha256": "48ff1bb862a3f8536dd53956795c9582974419c9ec39c4b967a6e2f4860b941d"
+    },
+    "agent/robot_arm/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_arm/codex/v1/build/eval/proxy.mp4",
+      "sha256": "ab02b043d32745675acde4f13a13c28934ace992a65c1c2119f6ede5d17bdb60"
+    },
+    "agent/robot_arm/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/robot_arm/codex/v1/rounds/2/eval/render/replay.mp4",
+      "sha256": "fafb3c82bd966dd4e6b6267a7fcdfb10c8d5c3e4bc5892c164cff376fe7c62f6"
+    },
+    "agent/robot_humanoid/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_humanoid/claude_code/v1/reference.mp4",
+      "sha256": "d1af735db5e2bc71622db1b107b26bf530be235b5a25ee9576416e04dc77df3c"
+    },
+    "agent/robot_humanoid/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_humanoid/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "1f1d9dc2772ecce0a577877519e85bad5be40f8672634ec9b4cc079896628bae"
+    },
+    "agent/robot_humanoid/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/robot_humanoid/claude_code/v1/rounds/3/eval/render/replay.mp4",
+      "sha256": "dc6a60a431f3f6f6da9201f0d02d3f06e256af10826fe3096d46d662d6dee19e"
+    },
+    "agent/robot_humanoid/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/robot_humanoid/codex/v1/build/eval/proxy.mp4",
+      "sha256": "b892ed29e2ac8ee19d7b80a765a973e20037f0a88cedf302f7c9afc083ed3f5a"
+    },
+    "agent/robot_humanoid/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/robot_humanoid/codex/v1/rounds/3/eval/render/replay.mp4",
+      "sha256": "7080a5cbdbf3018f4c595a9117af0e8761a05c73a784ce2eda9c8a1aa8a56e57"
+    },
+    "agent/sim_smoke/ref": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/sim_smoke/claude_code/v1/reference.mp4",
+      "sha256": "54a4e7232f653cfbb097ee95fc039f7764048579df85f9474de95247523dca9b"
+    },
+    "agent/sim_smoke/simple_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/sim_smoke/claude_code/v1/build/eval/proxy.mp4",
+      "sha256": "7428f29f57ccc70558d587217df64ae3abc35e18e70213186518c44964c9ffb9"
+    },
+    "agent/sim_smoke/loop_claude": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/sim_smoke/claude_code/v1/rounds/1/eval/render/replay.mp4",
+      "sha256": "ae8c0dc34d77de382bb22d184a16013434f85efcb549b2c25cd790ea301a5f42"
+    },
+    "agent/sim_smoke/simple_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/simple/runs/sim_smoke/codex/v1/build/eval/proxy.mp4",
+      "sha256": "8b036e98530c91afd4693eadbca241c062d4d6c4cb79ec874d6c0339e8c85191"
+    },
+    "agent/sim_smoke/loop_astra": {
+      "path": "/shared/perception/personals/beijia/new_harness/surpass/runs/sim_smoke/codex/v1/rounds/3/eval/render/replay.mp4",
+      "sha256": "2d768f3664412ff43f2bf5d143929034e2f93ad865a252c823af84766326b2c1"
+    }
+  }
+}

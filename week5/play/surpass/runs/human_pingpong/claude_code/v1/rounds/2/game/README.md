@@ -1,0 +1,4 @@
+# Table tennis rally simulator
+Static overhead camera on a table tennis match (1280x720, 25 fps, 4.96 s). The background plate is a median of the clip. The two players are drawn from sprite sheets of masked per-frame cutouts (assets/near.png, assets/far.png), indexed by an animation clock. The step is 1/25 s, one sprite frame per video frame. A swing (and the end of the clip) cuts to the frame whose pose and pose velocity best match the next frame; there is no crossfade, so no ghosting. The ball follows a parabolic flight between the two rackets and bounces.
+Controls: Left/Right (A/D) move the near player; Space swings and returns the ball if it is close. The far player follows the ball and returns it automatically.
+Known gaps: the ball path does not match the video's measured ball track; the swing segments are fixed frame ranges, not detected strokes; lateral movement slides the sprite with no stepping animation; players cast no separate shadows.

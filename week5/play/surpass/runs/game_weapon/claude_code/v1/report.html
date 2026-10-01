@@ -1,0 +1,221 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>game_weapon · Opus 5.5 (Claude Code)</title><style>
+:root{--bg:#f4f5f8;--panel:#fff;--ink:#141821;--ink2:#565d6b;--line:#dde1e8;--ok:#0f7a3d;--bad:#b3261e;--accent:#2a78d6;--up:#0f7a3d;--down:#b3261e;--add:#e6f6ea;--del:#fdecea}
+@media (prefers-color-scheme: dark){:root{--bg:#15171c;--panel:#1d2026;--ink:#f1f2f5;--ink2:#aab0bc;--line:#2f343d;--ok:#5cd67c;--bad:#ff7b72;--accent:#3987e5;--up:#5cd67c;--down:#ff7b72;--add:#17301f;--del:#3a1d1b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 system-ui,"PingFang SC","Noto Sans CJK SC",sans-serif}
+.wrap{max-width:1360px;margin:0 auto;padding:22px 16px 60px}h1{font-size:23px;margin:0 0 6px}h2{font-size:19px;margin:34px 0 8px;padding-top:16px;border-top:1px solid var(--line)}h3{font-size:15px;margin:16px 0 6px}
+.meta{color:var(--ink2);font-size:13.5px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel);margin:8px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}th{color:var(--ink2);font-weight:500}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.w{white-space:normal;min-width:260px}.ok{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}
+.up{color:var(--up)}.down{color:var(--down)}video{width:100%;background:#000;border:1px solid var(--line);border-radius:4px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}@media(max-width:900px){.g3{grid-template-columns:1fr}}
+pre{white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:12.5px;margin:6px 0}
+.diff{font:12px/1.45 ui-monospace,Menlo,monospace;white-space:pre;overflow-x:auto;max-height:520px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px}
+.diff .a{background:var(--add)}.diff .d{background:var(--del)}.diff .h{color:var(--accent)}
+a.btn{display:inline-block;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;font-weight:600}a.btn:hover{background:var(--accent);color:#fff}
+details summary{cursor:pointer;color:var(--ink2)}img{max-width:100%;border:1px solid var(--line);border-radius:4px}.thumbs img{max-height:120px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}.legend i{display:inline-block;width:14px;height:3px;margin-right:5px;vertical-align:middle}
+.round{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:14px 0}
+</style></head><body><div class=wrap>
+<p class=meta><a href="../../../report.html">all runs</a></p>
+<h1>game_weapon · Opus 5.5 (Claude Code)</h1>
+<p class=meta>4 of 6 rounds · best round 1 · 13.8 min so far (generation 8.1, evaluation 5.7) · finished 2026-10-01T01:44:56 · budget 15.0 min per round · GPU 5</p>
+<h2 style="border:0;padding-top:0">Rounds</h2>
+<div class=tw><table><tr><th>round</th><th>focus</th><th>decision</th><th class=n>gen min</th><th class=n>eval min</th><th class=n>cum min</th><th class=n>overall</th><th class=n title='A_appearance'>A</th><th class=n title='B_mechanism'>B</th><th class=n title='C_naturalness'>C</th><th class=n title='D_free_play'>D</th><th class=n title='E_judge'>E</th><th>why</th></tr><tr><td class=n><a href='#r0'>0</a></td><td>build</td><td class=ok>accepted</td><td class=n>1.9</td><td class=n>0.7</td><td class=n>2.6</td><td class=n><b>0.42</b></td><td class=n>0.52</td><td class=n>0.15</td><td class=n>n/a</td><td class=n>0.60</td><td class=n>0.67</td><td class=w>initial build</td></tr><tr><td class=n><a href='#r1'>1</a></td><td>B_mechanism</td><td class=ok>accepted</td><td class=n>1.5</td><td class=n>1.8</td><td class=n>5.9</td><td class=n><b>0.58</b></td><td class=n>0.57</td><td class=n>0.26</td><td class=n>n/a</td><td class=n>0.92</td><td class=n>0.67</td><td class=w>B_mechanism 0.151 -&gt; 0.263</td></tr><tr><td class=n><a href='#r2'>2</a></td><td>B_mechanism</td><td class=bad>rejected</td><td class=n>2.2</td><td class=n>1.6</td><td class=n>9.7</td><td class=n><b>0.62</b></td><td class=n>0.52</td><td class=n>0.61</td><td class=n>n/a</td><td class=n>0.73</td><td class=n>0.67</td><td class=w>regressed: A_appearance 0.575 -&gt; 0.519; D_free_play 0.916 -&gt; 0.731</td></tr><tr><td class=n><a href='#r3'>3</a></td><td>B_mechanism</td><td class=bad>rejected</td><td class=n>2.5</td><td class=n>1.6</td><td class=n>13.8</td><td class=n><b>0.62</b></td><td class=n>0.58</td><td class=n>0.55</td><td class=n>n/a</td><td class=n>0.73</td><td class=n>0.67</td><td class=w>regressed: D_free_play 0.916 -&gt; 0.732</td></tr></table></div>
+<h2>Scores by round</h2><div class="legend"><span><i style="background:var(--ink)"></i>overall</span><span><i style="background:#2a78d6"></i>A_appearance</span><span><i style="background:#eb6834"></i>B_mechanism</span><span><i style="background:#1baf7a"></i>C_naturalness</span><span><i style="background:#a855f7"></i>D_free_play</span><span><i style="background:#8a91a0"></i>E_judge</span><span>hollow point = rejected round</span></div><svg viewBox="0 0 760 240" width="100%" role="img" aria-label="scores by round"><line x1="40" x2="650" y1="212.0" y2="212.0" stroke="var(--line)"/><text x="34" y="216.0" text-anchor="end" font-size="11" fill="var(--ink2)">0</text><line x1="40" x2="650" y1="162.0" y2="162.0" stroke="var(--line)"/><text x="34" y="166.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.25</text><line x1="40" x2="650" y1="112.0" y2="112.0" stroke="var(--line)"/><text x="34" y="116.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.5</text><line x1="40" x2="650" y1="62.0" y2="62.0" stroke="var(--line)"/><text x="34" y="66.0" text-anchor="end" font-size="11" fill="var(--ink2)">0.75</text><line x1="40" x2="650" y1="12.0" y2="12.0" stroke="var(--line)"/><text x="34" y="16.0" text-anchor="end" font-size="11" fill="var(--ink2)">1</text><text x="40.0" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r0</text><text x="243.3" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r1</text><text x="446.7" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r2</text><text x="650.0" y="230" text-anchor="middle" font-size="11" fill="var(--ink2)">r3</text><polyline fill="none" stroke="var(--ink)" stroke-width="3" points="40.0,127.0 243.3,95.0 446.7,88.0 650.0,88.2"/><circle cx="40.0" cy="127.0" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="2"><title>r0 overall 0.425</title></circle><circle cx="243.3" cy="95.0" r="4" fill="var(--ink)" stroke="var(--ink)" stroke-width="2"><title>r1 overall 0.585</title></circle><circle cx="446.7" cy="88.0" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"><title>r2 overall 0.620</title></circle><circle cx="650.0" cy="88.2" r="4" fill="var(--panel)" stroke="var(--ink)" stroke-width="2"><title>r3 overall 0.619</title></circle><polyline fill="none" stroke="#2a78d6" stroke-width="2" points="40.0,107.6 243.3,97.0 446.7,108.2 650.0,95.8"/><circle cx="40.0" cy="107.6" r="4" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"><title>r0 A_appearance 0.522</title></circle><circle cx="243.3" cy="97.0" r="4" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"><title>r1 A_appearance 0.575</title></circle><circle cx="446.7" cy="108.2" r="4" fill="var(--panel)" stroke="#2a78d6" stroke-width="2"><title>r2 A_appearance 0.519</title></circle><circle cx="650.0" cy="95.8" r="4" fill="var(--panel)" stroke="#2a78d6" stroke-width="2"><title>r3 A_appearance 0.581</title></circle><polyline fill="none" stroke="#eb6834" stroke-width="2" points="40.0,181.8 243.3,159.4 446.7,89.8 650.0,103.0"/><circle cx="40.0" cy="181.8" r="4" fill="#eb6834" stroke="#eb6834" stroke-width="2"><title>r0 B_mechanism 0.151</title></circle><circle cx="243.3" cy="159.4" r="4" fill="#eb6834" stroke="#eb6834" stroke-width="2"><title>r1 B_mechanism 0.263</title></circle><circle cx="446.7" cy="89.8" r="4" fill="var(--panel)" stroke="#eb6834" stroke-width="2"><title>r2 B_mechanism 0.611</title></circle><circle cx="650.0" cy="103.0" r="4" fill="var(--panel)" stroke="#eb6834" stroke-width="2"><title>r3 B_mechanism 0.545</title></circle><polyline fill="none" stroke="#a855f7" stroke-width="2" points="40.0,91.6 243.3,28.8 446.7,65.8 650.0,65.6"/><circle cx="40.0" cy="91.6" r="4" fill="#a855f7" stroke="#a855f7" stroke-width="2"><title>r0 D_free_play 0.602</title></circle><circle cx="243.3" cy="28.8" r="4" fill="#a855f7" stroke="#a855f7" stroke-width="2"><title>r1 D_free_play 0.916</title></circle><circle cx="446.7" cy="65.8" r="4" fill="var(--panel)" stroke="#a855f7" stroke-width="2"><title>r2 D_free_play 0.731</title></circle><circle cx="650.0" cy="65.6" r="4" fill="var(--panel)" stroke="#a855f7" stroke-width="2"><title>r3 D_free_play 0.732</title></circle><polyline fill="none" stroke="#8a91a0" stroke-width="2" stroke-dasharray="4 3" points="40.0,78.6 243.3,78.6 446.7,78.6 650.0,78.6"/><circle cx="40.0" cy="78.6" r="4" fill="#8a91a0" stroke="#8a91a0" stroke-width="2"><title>r0 E_judge 0.667</title></circle><circle cx="243.3" cy="78.6" r="4" fill="#8a91a0" stroke="#8a91a0" stroke-width="2"><title>r1 E_judge 0.667</title></circle><circle cx="446.7" cy="78.6" r="4" fill="var(--panel)" stroke="#8a91a0" stroke-width="2"><title>r2 E_judge 0.667</title></circle><circle cx="650.0" cy="78.6" r="4" fill="var(--panel)" stroke="#8a91a0" stroke-width="2"><title>r3 E_judge 0.667</title></circle><text x="658.0" y="69.6" font-size="11" fill="#a855f7">D 0.73</text><text x="658.0" y="82.6" font-size="11" fill="#8a91a0">E 0.67</text><text x="658.0" y="95.6" font-size="11" fill="var(--ink)">overall 0.62</text><text x="658.0" y="108.6" font-size="11" fill="#2a78d6">A 0.58</text><text x="658.0" y="121.6" font-size="11" fill="#eb6834">B 0.55</text></svg>
+<h2>Every metric by round</h2><div class=tw><table><tr><th>group</th><th>metric</th><th class=n>r0</th><th class=n>r1</th><th class=n>r2 ✗</th><th class=n>r3 ✗</th></tr><tr><td>A</td><td>lpips</td><td class=n title='value 0.3915'>0.44</td><td class=n title='value 0.3559'>0.53 <span class=up>+0.09</span></td><td class=n title='value 0.3874'>0.45 <span class=down>-0.08</span></td><td class=n title='value 0.3574'>0.52</td></tr><tr><td>A</td><td>entity_dino</td><td class=n title='value 0.6943'>0.66</td><td class=n title='value 0.6999'>0.67 <span class=up>+0.01</span></td><td class=n title='value 0.6861'>0.64 <span class=down>-0.02</span></td><td class=n title='value 0.6968'>0.66 <span class=down>-0.01</span></td></tr><tr><td>A</td><td>entity_color</td><td class=n title='value 0.444'>0.44</td><td class=n title='value 0.4879'>0.49 <span class=up>+0.04</span></td><td class=n title='value 0.4377'>0.44 <span class=down>-0.05</span></td><td class=n title='value 0.533'>0.53 <span class=up>+0.05</span></td></tr><tr><td>A</td><td>background_lpips</td><td class=n title='value 0.3345'>0.55</td><td class=n title='value 0.3025'>0.62 <span class=up>+0.07</span></td><td class=n title='value 0.335'>0.55 <span class=down>-0.07</span></td><td class=n title='value 0.3075'>0.61 <span class=down>-0.01</span></td></tr><tr><td>B</td><td>flow_epe</td><td class=n title='value 7.3504'>0.00</td><td class=n title='value 6.9887'>0.00</td><td class=n title='value 5.4587'>1.00 <span class=up>+1.00</span></td><td class=n title='value 5.7405'>1.00 <span class=up>+1.00</span></td></tr><tr><td>B</td><td>trajectory_ade</td><td class=n title='value 3.905'>0.02</td><td class=n title='value 3.334'>0.17 <span class=up>+0.14</span></td><td class=n title='value 3.134'>0.22 <span class=up>+0.05</span></td><td class=n title='value 3.494'>0.13 <span class=down>-0.04</span></td></tr><tr><td>B</td><td>event_f1</td><td class=n title='value 0.429'>0.43</td><td class=n title='value 0.623'>0.62 <span class=up>+0.19</span></td><td class=n title='value 0.615'>0.62 <span class=down>-0.01</span></td><td class=n title='value 0.508'>0.51 <span class=down>-0.11</span></td></tr><tr><td>B</td><td>pose_dtw</td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value '></td></tr><tr><td>D</td><td>entity_consistency</td><td class=n title='value 0.7371'>0.73</td><td class=n title='value 0.706'>0.68 <span class=down>-0.05</span></td><td class=n title='value 0.7024'>0.67 <span class=down>-0.01</span></td><td class=n title='value 0.7055'>0.68</td></tr><tr><td>D</td><td>popping</td><td class=n title='value 0.0'>1.00</td><td class=n title='value 0.0011'>0.99 <span class=down>-0.01</span></td><td class=n title='value 0.0015'>0.98</td><td class=n title='value 0.0016'>0.98 <span class=down>-0.01</span></td></tr><tr><td>D</td><td>physics</td><td class=n title='value '></td><td class=n title='value '></td><td class=n title='value 0.0'>0.00</td><td class=n title='value 0.0'>0.00</td></tr><tr><td>D</td><td>controllability</td><td class=n title='value 0.3608'>0.68</td><td class=n title='value 0.6076'>1.00 <span class=up>+0.32</span></td><td class=n title='value 0.6711'>1.00</td><td class=n title='value 0.6036'>1.00</td></tr><tr><td>D</td><td>not_copied</td><td class=n title='value 0.439'>0.00</td><td class=n title='value 0.0'>1.00 <span class=up>+1.00</span></td><td class=n title='value 0.0'>1.00</td><td class=n title='value 0.0'>1.00</td></tr><tr><td>E</td><td>spotted_rate</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td><td class=n title='value 0.667'>0.67</td></tr></table></div><p class=meta>Scores 0 to 1 (hover a cell for the raw value). The change is against the previous accepted round. ✗ = rejected round.</p>
+<h2>Round by round</h2><div class=round id='r3'><h3 style='margin-top:0'>Round 3 · focus B_mechanism · <span class=bad>rejected</span></h3><p class=meta>generation <b>2.5 min</b> (ok) · evaluation 1.6 min · overall <b>0.62</b> · A 0.58 · B 0.55 · C n/a · D 0.73 · E 0.67 · regressed: D_free_play 0.916 -&gt; 0.732 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/3/game/play.html'>Play round 3</a> <a href='rounds/3/game/world.js'>world.js</a> · <a href='rounds/3/game/README.md'>README</a> · <a href='rounds/3/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Your last change was reverted (regressed: A_appearance 0.575 -&gt; 0.519; D_free_play 0.916 -&gt; 0.731). The previous accepted build and conversation state are back; do not redo the reverted change as it was.
+Round 3. Focus: mechanism (motion field, trajectories, event timing, poses of the replay). Group score 0.263 (0 to 1). Overall 0.585.
+- flow_epe: value 6.9887, score 0.00. end-point error between the replay&#x27;s and the video&#x27;s optical flow (DIS, 320 px wide)
+- trajectory_ade: value 3.334, score 0.17. mean distance between video tracks and matched replay tracks, in entity sizes (4 = 0)
+- event_f1: value 0.623, score 0.62. contacts and velocity jumps matched within 0.2 s
+Other groups: A_appearance 0.575, C_naturalness None, D_free_play 0.916. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_3/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 3 replay</div><video src='rounds/3/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 1) replay</div><video src='rounds/1/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/3/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/3/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/3/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/3/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/3/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 1 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +19 −9 lines (113 → 123).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -12,4 +12,5 @@</span>
+<span class="">       { id: &quot;up&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowUp&quot;, &quot;w&quot;], description: &quot;look up&quot; },</span>
+<span class="">       { id: &quot;down&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowDown&quot;, &quot;s&quot;], description: &quot;look down&quot; },</span>
+<span class="a">+      { id: &quot;pan&quot;, kind: &quot;continuous&quot;, keys: [&quot;j&quot;, &quot;l&quot;], min: -1, max: 1, description: &quot;fine look left/right (analog)&quot; },</span>
+<span class="">       { id: &quot;tilt&quot;, kind: &quot;continuous&quot;, keys: [&quot;q&quot;, &quot;e&quot;], min: -1, max: 1, description: &quot;fine look up/down (analog)&quot; },</span>
+<span class="">     ],</span>
+<span class="h">@@ -28,11 +29,12 @@</span>
+<span class="">       s.aim = Math.min(1.02, Math.max(-0.4, s.aim));</span>
+<span class="">       const sens = lerp(260, 80, s.aim);</span>
+<span class="d">-      const ty = (has(&quot;right&quot;) ? 1 : 0) - (has(&quot;left&quot;) ? 1 : 0);</span>
+<span class="a">+      let ty = (has(&quot;right&quot;) ? 1 : 0) - (has(&quot;left&quot;) ? 1 : 0);</span>
+<span class="a">+      acts.forEach((x) =&gt; { if (x.id === &quot;pan&quot;) ty += x.value || 0; });</span>
+<span class="">       let tp = (has(&quot;down&quot;) ? 1 : 0) - (has(&quot;up&quot;) ? 1 : 0);</span>
+<span class="">       acts.forEach((x) =&gt; { if (x.id === &quot;tilt&quot;) tp += x.value || 0; });</span>
+<span class="d">-      const k = 1 - Math.exp(-dt * 10);</span>
+<span class="a">+      const k = 1 - Math.exp(-dt * 18);</span>
+<span class="">       s.vyaw += (ty * sens - s.vyaw) * k;</span>
+<span class="">       s.vpitch += (tp * sens - s.vpitch) * k;</span>
+<span class="d">-      s.yaw = Math.max(-300, Math.min(300, s.yaw + s.vyaw * dt));</span>
+<span class="a">+      s.yaw = Math.max(-700, Math.min(700, s.yaw + s.vyaw * dt));</span>
+<span class="">       s.pitch = Math.max(-50, Math.min(50, s.pitch + s.vpitch * dt));</span>
+<span class="">       s.t += 0; s.sway += dt;</span>
+<span class="h">@@ -103,10 +105,18 @@</span>
+<span class="">     },</span>
+<span class="">     replay: { duration: 5.06, actions: [</span>
+<span class="d">-      { t: 0.84, id: &quot;aim&quot;, until: 3.6 },</span>
+<span class="d">-      { t: 1.94, id: &quot;tilt&quot;, value: 0.67, until: 2.125 },</span>
+<span class="d">-      { t: 2.25, id: &quot;tilt&quot;, value: -1.0, until: 2.375 },</span>
+<span class="d">-      { t: 2.44, id: &quot;tilt&quot;, value: -0.9, until: 2.5 },</span>
+<span class="d">-      { t: 2.56, id: &quot;tilt&quot;, value: 0.8, until: 2.625 },</span>
+<span class="d">-      { t: 2.69, id: &quot;tilt&quot;, value: 2.0, until: 2.81 },</span>
+<span class="a">+      { t: 0, id: &quot;pan&quot;, value: -3.0, until: 0.06 }, { t: 0.06, id: &quot;pan&quot;, value: -1.8, until: 0.1 },</span>
+<span class="a">+      { t: 0.1, id: &quot;pan&quot;, value: -1.0, until: 0.16 },</span>
+<span class="a">+      { t: 0.16, id: &quot;pan&quot;, value: -0.2, until: 0.2 },</span>
+<span class="a">+      { t: 0.78, id: &quot;aim&quot;, until: 3.55 },</span>
+<span class="a">+      { t: 1.7, id: &quot;tilt&quot;, value: -2.2, until: 1.78 },</span>
+<span class="a">+      { t: 1.78, id: &quot;tilt&quot;, value: -1.2, until: 1.84 },</span>
+<span class="a">+      { t: 1.9, id: &quot;tilt&quot;, value: 0.4, until: 2.0 },</span>
+<span class="a">+      { t: 2.0, id: &quot;tilt&quot;, value: 1.1, until: 2.08 },</span>
+<span class="a">+      { t: 2.08, id: &quot;tilt&quot;, value: 0.5, until: 2.32 },</span>
+<span class="a">+      { t: 3.78, id: &quot;pan&quot;, value: 2.0, until: 3.98 },</span>
+<span class="a">+      { t: 3.98, id: &quot;pan&quot;, value: 2.45, until: 4.66 },</span>
+<span class="a">+      { t: 4.66, id: &quot;pan&quot;, value: 1.2, until: 4.74 },</span>
+<span class="a">+      { t: 4.74, id: &quot;pan&quot;, value: 0.6, until: 4.8 },</span>
+<span class="a">+      { t: 4.8, id: &quot;pan&quot;, value: 0.2, until: 4.84 },</span>
+<span class="">     ] },</span>
+<span class="">   };</span></div></details><p class=meta>assets: 4 files, 0.4 MB · added 0 · removed 0 · changed 0</p></div><div class=round id='r2'><h3 style='margin-top:0'>Round 2 · focus B_mechanism · <span class=bad>rejected</span></h3><p class=meta>generation <b>2.2 min</b> (ok) · evaluation 1.6 min · overall <b>0.62</b> · A 0.52 · B 0.61 · C n/a · D 0.73 · E 0.67 · regressed: A_appearance 0.575 -&gt; 0.519; D_free_play 0.916 -&gt; 0.731 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/2/game/play.html'>Play round 2</a> <a href='rounds/2/game/world.js'>world.js</a> · <a href='rounds/2/game/README.md'>README</a> · <a href='rounds/2/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Round 2. Focus: mechanism (motion field, trajectories, event timing, poses of the replay). Group score 0.263 (0 to 1). Overall 0.585.
+- flow_epe: value 6.9887, score 0.00. end-point error between the replay&#x27;s and the video&#x27;s optical flow (DIS, 320 px wide)
+- trajectory_ade: value 3.334, score 0.17. mean distance between video tracks and matched replay tracks, in entity sizes (4 = 0)
+- event_f1: value 0.623, score 0.62. contacts and velocity jumps matched within 0.2 s
+Other groups: A_appearance 0.575, C_naturalness None, D_free_play 0.916. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_2/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 2 replay</div><video src='rounds/2/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 1) replay</div><video src='rounds/1/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/2/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/2/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/2/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/2/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/2/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 1 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +13 −6 lines (113 → 120).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -7,5 +7,5 @@</span>
+<span class="">     meta: { name: &quot;scoped rifle ADS&quot;, source: [W, H], fps: 16, dt: 1 / 60 },</span>
+<span class="">     actions: [</span>
+<span class="d">-      { id: &quot;aim&quot;, kind: &quot;hold&quot;, keys: [&quot;Shift&quot;, &quot;z&quot;, &quot;x&quot;], description: &quot;aim down sights (hold)&quot; },</span>
+<span class="a">+      { id: &quot;aim&quot;, kind: &quot;hold&quot;, keys: [&quot;Shift&quot;, &quot;x&quot;], description: &quot;aim down sights (hold)&quot; },</span>
+<span class="">       { id: &quot;left&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowLeft&quot;, &quot;a&quot;], description: &quot;look left&quot; },</span>
+<span class="">       { id: &quot;right&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowRight&quot;, &quot;d&quot;], description: &quot;look right&quot; },</span>
+<span class="h">@@ -13,8 +13,9 @@</span>
+<span class="">       { id: &quot;down&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowDown&quot;, &quot;s&quot;], description: &quot;look down&quot; },</span>
+<span class="">       { id: &quot;tilt&quot;, kind: &quot;continuous&quot;, keys: [&quot;q&quot;, &quot;e&quot;], min: -1, max: 1, description: &quot;fine look up/down (analog)&quot; },</span>
+<span class="a">+      { id: &quot;turn&quot;, kind: &quot;continuous&quot;, keys: [&quot;z&quot;, &quot;c&quot;], min: -1, max: 1, description: &quot;analog turn left/right&quot; },</span>
+<span class="">     ],</span>
+<span class="">     assets: { plate: &quot;assets/plate.jpg&quot;, gun: &quot;assets/gun.png&quot;, scope: &quot;assets/scope.png&quot;, scopeview: &quot;assets/scopeview.jpg&quot; },</span>
+<span class="">     init(rng) {</span>
+<span class="d">-      return { t: 0, aim: 0, aimV: 0, yaw: 0, pitch: 0, vyaw: 0, vpitch: 0, sway: 0, yaw0: 0, pitch0: 0, events: [], aiming: false };</span>
+<span class="a">+      return { t: 0, aim: 0, aimV: 0, yaw: 70, pitch: 0, vyaw: -300, vpitch: 0, sway: 0, yaw0: 0, pitch0: 0, events: [], aiming: false };</span>
+<span class="">     },</span>
+<span class="">     step(s, acts, dt, rng) {</span>
+<span class="h">@@ -27,6 +28,7 @@</span>
+<span class="">       s.aim += s.aimV * dt;</span>
+<span class="">       s.aim = Math.min(1.02, Math.max(-0.4, s.aim));</span>
+<span class="d">-      const sens = lerp(260, 80, s.aim);</span>
+<span class="d">-      const ty = (has(&quot;right&quot;) ? 1 : 0) - (has(&quot;left&quot;) ? 1 : 0);</span>
+<span class="a">+      const sens = lerp(300, 80, Math.max(0, s.aim));</span>
+<span class="a">+      let ty = (has(&quot;right&quot;) ? 1 : 0) - (has(&quot;left&quot;) ? 1 : 0);</span>
+<span class="a">+      acts.forEach((x) =&gt; { if (x.id === &quot;turn&quot;) ty += x.value || 0; });</span>
+<span class="">       let tp = (has(&quot;down&quot;) ? 1 : 0) - (has(&quot;up&quot;) ? 1 : 0);</span>
+<span class="">       acts.forEach((x) =&gt; { if (x.id === &quot;tilt&quot;) tp += x.value || 0; });</span>
+<span class="h">@@ -34,5 +36,6 @@</span>
+<span class="">       s.vyaw += (ty * sens - s.vyaw) * k;</span>
+<span class="">       s.vpitch += (tp * sens - s.vpitch) * k;</span>
+<span class="d">-      s.yaw = Math.max(-300, Math.min(300, s.yaw + s.vyaw * dt));</span>
+<span class="a">+      s.yaw = Math.max(-600, Math.min(600, s.yaw + s.vyaw * dt));</span>
+<span class="a">+      if (s.aim &lt; 0.8) { s.yaw0 = s.yaw; s.pitch0 = s.pitch; }</span>
+<span class="">       s.pitch = Math.max(-50, Math.min(50, s.pitch + s.vpitch * dt));</span>
+<span class="">       s.t += 0; s.sway += dt;</span>
+<span class="h">@@ -47,5 +50,5 @@</span>
+<span class="">       ctx.translate(W / 2, H / 2);</span>
+<span class="">       ctx.scale(zoom, zoom);</span>
+<span class="d">-      const ox = -cx - s.yaw * 0.6 / 1 + (cx - W / 2) * (1 - sm(0.15, 0.85, a));</span>
+<span class="a">+      const ox = -cx - s.yaw * 1.0 + (cx - W / 2) * (1 - sm(0.15, 0.85, a));</span>
+<span class="">       const oy = -cy - s.pitch * 0.6 + (cy - H / 2) * (1 - sm(0.15, 0.85, a));</span>
+<span class="">       // tile horizontally by mirroring so large yaw never reveals edges</span>
+<span class="h">@@ -104,4 +107,8 @@</span>
+<span class="">     replay: { duration: 5.06, actions: [</span>
+<span class="">       { t: 0.84, id: &quot;aim&quot;, until: 3.6 },</span>
+<span class="a">+      { t: 0, id: &quot;turn&quot;, value: -0.7, until: 0.13 },</span>
+<span class="a">+      { t: 0.75, id: &quot;turn&quot;, value: 1.0, until: 1.06 },</span>
+<span class="a">+      { t: 3.45, id: &quot;turn&quot;, value: -1.0, until: 3.56 },</span>
+<span class="a">+      { t: 3.72, id: &quot;turn&quot;, value: 1.35, until: 4.62 },</span>
+<span class="">       { t: 1.94, id: &quot;tilt&quot;, value: 0.67, until: 2.125 },</span>
+<span class="">       { t: 2.25, id: &quot;tilt&quot;, value: -1.0, until: 2.375 },</span></div></details><p class=meta>assets: 4 files, 0.4 MB · added 0 · removed 0 · changed 0</p></div><div class=round id='r1'><h3 style='margin-top:0'>Round 1 · focus B_mechanism · <span class=ok>accepted</span></h3><p class=meta>generation <b>1.5 min</b> (ok) · evaluation 1.8 min · overall <b>0.58</b> · A 0.57 · B 0.26 · C n/a · D 0.92 · E 0.67 · B_mechanism 0.151 -&gt; 0.263 · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/1/game/play.html'>Play round 1</a> <a href='rounds/1/game/world.js'>world.js</a> · <a href='rounds/1/game/README.md'>README</a> · <a href='rounds/1/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Round 1. Focus: mechanism (motion field, trajectories, event timing, poses of the replay). Group score 0.151 (0 to 1). Overall 0.425.
+- flow_epe: value 7.3504, score 0.00. end-point error between the replay&#x27;s and the video&#x27;s optical flow (DIS, 320 px wide)
+- trajectory_ade: value 3.905, score 0.02. mean distance between video tracks and matched replay tracks, in entity sizes (4 = 0)
+- event_f1: value 0.429, score 0.43. contacts and velocity jumps matched within 0.2 s
+Other groups: A_appearance 0.522, C_naturalness None, D_free_play 0.602. The judge (Qwen3-VL) spotted the re-creation in 0.667 of pairs.
+Evidence: /work/feedback/round_1/ (scorecard.json, A_worst_frame.jpg, A_worst_entity.jpg, replay.mp4, free_*.mp4 with free_*.json schedules).
+Improve the focus without making the other groups worse. Budget: 15.0 minutes; whatever is in /work/game when it ends is evaluated.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 1 replay</div><video src='rounds/1/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>previous accepted (round 0) replay</div><video src='rounds/0/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/1/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/1/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/1/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/1/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/1/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round 0 (the last accepted round, which this round started from)</h3><p class=meta>world.js: +19 −11 lines (105 → 113).</p><details><summary>show the world.js diff</summary><div class=diff><span class="d">--- previous/world.js</span>
+<span class="a">+++ this/world.js</span>
+<span class="h">@@ -12,21 +12,23 @@</span>
+<span class="">       { id: &quot;up&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowUp&quot;, &quot;w&quot;], description: &quot;look up&quot; },</span>
+<span class="">       { id: &quot;down&quot;, kind: &quot;hold&quot;, keys: [&quot;ArrowDown&quot;, &quot;s&quot;], description: &quot;look down&quot; },</span>
+<span class="a">+      { id: &quot;tilt&quot;, kind: &quot;continuous&quot;, keys: [&quot;q&quot;, &quot;e&quot;], min: -1, max: 1, description: &quot;fine look up/down (analog)&quot; },</span>
+<span class="">     ],</span>
+<span class="">     assets: { plate: &quot;assets/plate.jpg&quot;, gun: &quot;assets/gun.png&quot;, scope: &quot;assets/scope.png&quot;, scopeview: &quot;assets/scopeview.jpg&quot; },</span>
+<span class="">     init(rng) {</span>
+<span class="d">-      return { t: 0, aim: 0, aimV: 0, yaw: 0, pitch: 0, vyaw: 0, vpitch: 0, sway: 0, events: [], aiming: false };</span>
+<span class="a">+      return { t: 0, aim: 0, aimV: 0, yaw: 0, pitch: 0, vyaw: 0, vpitch: 0, sway: 0, yaw0: 0, pitch0: 0, events: [], aiming: false };</span>
+<span class="">     },</span>
+<span class="">     step(s, acts, dt, rng) {</span>
+<span class="">       const has = (id) =&gt; acts.some((a) =&gt; a.id === id);</span>
+<span class="">       const want = has(&quot;aim&quot;);</span>
+<span class="d">-      if (want !== s.aiming) { s.events.push({ type: want ? &quot;aim_start&quot; : &quot;aim_end&quot;, t: s.t }); s.aiming = want; }</span>
+<span class="a">+      if (want !== s.aiming) { if (want) { s.yaw0 = s.yaw; s.pitch0 = s.pitch; } s.events.push({ type: want ? &quot;aim_start&quot; : &quot;aim_end&quot;, t: s.t }); s.aiming = want; }</span>
+<span class="">       // critically damped spring toward target aim (~0.35 s transition as in clip)</span>
+<span class="d">-      const target = want ? 1 : 0, w = 10;</span>
+<span class="d">-      s.aimV += (w * w * (target - s.aim) - 2 * w * s.aimV) * dt;</span>
+<span class="a">+      const target = want ? 1 : 0, w = want ? 16 : 20, z = want ? 1 : 0.55;</span>
+<span class="a">+      s.aimV += (w * w * (target - s.aim) - 2 * z * w * s.aimV) * dt;</span>
+<span class="">       s.aim += s.aimV * dt;</span>
+<span class="d">-      s.aim = Math.min(1.02, Math.max(-0.02, s.aim));</span>
+<span class="a">+      s.aim = Math.min(1.02, Math.max(-0.4, s.aim));</span>
+<span class="">       const sens = lerp(260, 80, s.aim);</span>
+<span class="">       const ty = (has(&quot;right&quot;) ? 1 : 0) - (has(&quot;left&quot;) ? 1 : 0);</span>
+<span class="d">-      const tp = (has(&quot;down&quot;) ? 1 : 0) - (has(&quot;up&quot;) ? 1 : 0);</span>
+<span class="a">+      let tp = (has(&quot;down&quot;) ? 1 : 0) - (has(&quot;up&quot;) ? 1 : 0);</span>
+<span class="a">+      acts.forEach((x) =&gt; { if (x.id === &quot;tilt&quot;) tp += x.value || 0; });</span>
+<span class="">       const k = 1 - Math.exp(-dt * 10);</span>
+<span class="">       s.vyaw += (ty * sens - s.vyaw) * k;</span>
+<span class="h">@@ -37,5 +39,5 @@</span>
+<span class="">     },</span>
+<span class="">     render(ctx, s, img) {</span>
+<span class="d">-      const a = Math.min(1, Math.max(0, s.aim));</span>
+<span class="a">+      const a = Math.min(1, Math.max(0, s.aim)), drop = Math.max(0, -s.aim) * 420;</span>
+<span class="">       const zoom = lerp(1.08, 4.2, sm(0.15, 0.85, a));</span>
+<span class="">       const cx = 360, cy = 290; // aim point in plate</span>
+<span class="h">@@ -71,5 +73,5 @@</span>
+<span class="">       if (g &gt; 0) {</span>
+<span class="">         const sc = lerp(1, 2.2, sm(0, 0.7, a));</span>
+<span class="d">-        const bob = Math.sin(s.sway * 2.4) * 2 + s.vpitch * 0.02;</span>
+<span class="a">+        const bob = Math.sin(s.sway * 2.4) * 2 + s.vpitch * 0.02 + drop;</span>
+<span class="">         const gx = lerp(371, 120, sm(0, 0.7, a)) + swx - s.vyaw * 0.03, gy = lerp(246, 120, sm(0, 0.7, a)) + bob;</span>
+<span class="">         ctx.save(); ctx.globalAlpha = g;</span>
+<span class="h">@@ -79,6 +81,7 @@</span>
+<span class="">       if (k &gt; 0) {</span>
+<span class="">         ctx.save(); ctx.globalAlpha = sm(0.6, 1, a);</span>
+<span class="d">-        const vx = -s.yaw * 0.6 * 4 % W, vy = -s.pitch * 0.6 * 2;</span>
+<span class="d">-        ctx.drawImage(img.scopeview, -40 + swx + vx * 0 , -20 + swy + vy * 0.3, W + 80, H + 40);</span>
+<span class="a">+        const vx = Math.max(-70, Math.min(70, -(s.yaw - s.yaw0) * 1.2)), vy = Math.max(-70, Math.min(70, -(s.pitch - s.pitch0) * 1.2));</span>
+<span class="a">+        ctx.drawImage(img.scopeview, -80 + swx + vx, -80 + swy + vy, W + 160, H + 160);</span>
+<span class="a">+        ctx.drawImage(img.scopeview, swx + vx, swy + vy, W, H);</span>
+<span class="">         ctx.restore();</span>
+<span class="">         const sc = lerp(1.8, 1, k);</span>
+<span class="h">@@ -100,5 +103,10 @@</span>
+<span class="">     },</span>
+<span class="">     replay: { duration: 5.06, actions: [</span>
+<span class="d">-      { t: 0.8, id: &quot;aim&quot;, until: 3.55 },</span>
+<span class="a">+      { t: 0.84, id: &quot;aim&quot;, until: 3.6 },</span>
+<span class="a">+      { t: 1.94, id: &quot;tilt&quot;, value: 0.67, until: 2.125 },</span>
+<span class="a">+      { t: 2.25, id: &quot;tilt&quot;, value: -1.0, until: 2.375 },</span>
+<span class="a">+      { t: 2.44, id: &quot;tilt&quot;, value: -0.9, until: 2.5 },</span>
+<span class="a">+      { t: 2.56, id: &quot;tilt&quot;, value: 0.8, until: 2.625 },</span>
+<span class="a">+      { t: 2.69, id: &quot;tilt&quot;, value: 2.0, until: 2.81 },</span>
+<span class="">     ] },</span>
+<span class="">   };</span></div></details><p class=meta>assets: 4 files, 0.4 MB · added 0 · removed 0 · changed 0</p></div><div class=round id='r0'><h3 style='margin-top:0'>Round 0 · focus build · <span class=ok>accepted</span></h3><p class=meta>generation <b>1.9 min</b> (ok) · evaluation 0.7 min · overall <b>0.42</b> · A 0.52 · B 0.15 · C n/a · D 0.60 · E 0.67 · initial build · judge spotted the re-creation in 0.667 of pairs</p><p><a class=btn href='rounds/0/game/play.html'>Play round 0</a> <a href='rounds/0/game/world.js'>world.js</a> · <a href='rounds/0/game/README.md'>README</a> · <a href='rounds/0/transcript.jsonl'>transcript</a></p><details><summary>message sent to the agent</summary><pre>Write a simulator of the video in /work/input/ whose rendered output looks like the video, in replay and in free play.
+Follow /work/PROTOCOL.md. You write /work/game/world.js and /work/game/assets/ (format: /work/WORLD.md). Measurements of the video are in /work/observations/.
+Budget: 15.0 minutes for this round; whatever is in /work/game when it ends is evaluated. Later rounds will give you the evaluator&#x27;s numbers.
+</pre></details><h3>Video</h3><div class=g3><div><div class=meta>video</div><video src='reference.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>round 0 replay</div><video src='rounds/0/eval/render/replay.mp4' controls muted loop playsinline preload=metadata></video></div><div class=meta>no previous round</div></div><div class=g4 style='margin-top:8px'><div><div class=meta>free play 0</div><video src='rounds/0/eval/render/free_0.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 1</div><video src='rounds/0/eval/render/free_1.mp4' controls muted loop playsinline preload=metadata></video></div><div><div class=meta>free play 2</div><video src='rounds/0/eval/render/free_2.mp4' controls muted loop playsinline preload=metadata></video></div></div><div class=g4 style='margin-top:8px'><div><div class=meta>A_worst_frame.jpg</div><img src='rounds/0/eval/A_worst_frame.jpg' loading=lazy alt='A_worst_frame.jpg'></div><div><div class=meta>A_worst_entity.jpg</div><img src='rounds/0/eval/A_worst_entity.jpg' loading=lazy alt='A_worst_entity.jpg'></div></div><h3>Code and asset changes vs round -</h3><p class=meta>first build: world.js has 105 lines.</p><p class=meta>assets: 4 files, 0.4 MB · added 4 · removed 0 · changed 0</p><div class=thumbs><a href='rounds/0/game/assets/gun.png' target=_blank><img src='rounds/0/game/assets/gun.png' alt='gun.png' loading=lazy title='gun.png'></a> <a href='rounds/0/game/assets/plate.jpg' target=_blank><img src='rounds/0/game/assets/plate.jpg' alt='plate.jpg' loading=lazy title='plate.jpg'></a> <a href='rounds/0/game/assets/scope.png' target=_blank><img src='rounds/0/game/assets/scope.png' alt='scope.png' loading=lazy title='scope.png'></a> <a href='rounds/0/game/assets/scopeview.jpg' target=_blank><img src='rounds/0/game/assets/scopeview.jpg' alt='scopeview.jpg' loading=lazy title='scopeview.jpg'></a> </div><p class=meta>new or changed: gun.png, plate.jpg, scope.png, scopeview.jpg</p></div>
+</div></body></html>
