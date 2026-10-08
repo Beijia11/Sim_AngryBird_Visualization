@@ -1,0 +1,36 @@
+{
+  "gravity": [
+    0,
+    -9.81,
+    0
+  ],
+  "feedDelay": 1.5,
+  "ballRadius": 0.033,
+  "ballMass": 0.057,
+  "restitution": 0.73,
+  "racketRestitution": 0.82,
+  "transition": 0.065,
+  "stride": 285,
+  "depthAmplitude": 0.48,
+  "maxRacketSpeed": 28,
+  "maxRacketAngularSpeed": 32,
+  "coordinateConvention": "SI physics: X right, Y up, Z toward near baseline; projected people in source pixels",
+  "calibration": "Inferred 10.97 x 23.77 metre court; projective map through original four corners; vertical pixels/metre equals horizontal local scale. Not measured video calibration.",
+  "contactAssumptions": "中性固定来球；当前状态预测、参考相位与有界局部手臂修正；固定正面法向与局部深度仍为假设。",
+  "feedPosition": [
+    -2.64654968,
+    2,
+    7.57606565
+  ],
+  "feedVelocity": [
+    0,
+    2.6959337,
+    4.375
+  ],
+  "requestBuffer": 0.6,
+  "minPhaseRate": 0.65,
+  "maxPhaseRate": 1.6,
+  "commitLead": 0.1,
+  "armLimit": 70,
+  "strikeSpeed": 3
+}

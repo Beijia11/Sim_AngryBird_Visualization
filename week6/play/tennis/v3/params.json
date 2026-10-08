@@ -1,0 +1,21 @@
+{
+  "gravity": [
+    0,
+    -9.81,
+    0
+  ],
+  "feedDelay": 1.5,
+  "feedHeight": 2,
+  "feedSpeed": 3.8,
+  "ballRadius": 0.033,
+  "ballMass": 0.057,
+  "restitution": 0.73,
+  "racketRestitution": 0.82,
+  "transition": 0.065,
+  "stride": 285,
+  "depthAmplitude": 0.48,
+  "maxRacketSpeed": 28,
+  "maxRacketAngularSpeed": 32,
+  "coordinateConvention": "SI physics: X right, Y up, Z toward near baseline; projected people in source pixels",
+  "calibration": "Inferred 10.97 x 23.77 metre court; projective map through original four corners; vertical pixels/metre equals horizontal local scale. Not measured video calibration."
+}

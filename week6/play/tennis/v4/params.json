@@ -1,0 +1,24 @@
+{
+  "gravity": [
+    0,
+    -9.81,
+    0
+  ],
+  "feedDelay": 1.5,
+  "feedHeight": 2,
+  "ballRadius": 0.033,
+  "ballMass": 0.057,
+  "restitution": 0.73,
+  "racketRestitution": 0.82,
+  "transition": 0.065,
+  "stride": 285,
+  "depthAmplitude": 0.48,
+  "maxRacketSpeed": 28,
+  "maxRacketAngularSpeed": 32,
+  "coordinateConvention": "SI physics: X right, Y up, Z toward near baseline; projected people in source pixels",
+  "calibration": "Inferred 10.97 x 23.77 metre court; projective map through original four corners; vertical pixels/metre equals horizontal local scale. Not measured video calibration.",
+  "feedFlight": 0.8,
+  "feedSwingTime": 2,
+  "feedContactPhase": 0.3,
+  "contactAssumptions": "固定正面法向；深度为有界引拍/前挥/恢复；仅初始化预览原正手，固定练习来球。"
+}

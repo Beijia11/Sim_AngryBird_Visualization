@@ -1,0 +1,79 @@
+{
+  "simple": {
+    "source": "newnew_harness/evaluation/case_studies/tennis_fullbody_ik_failure/simple_baseline",
+    "sha256": {
+      "play.html": "1f417ce92bf729c4bee4065985e55d8bdcbabc0b4747021b20eb79889c44d84c",
+      "proxy.js": "7cf122e60cdede632614a987d58df91e7601b467b1e55b8320fff533b74466e2",
+      "simkit.js": "cdfcb844bc7b15e5bcbe33a4ad31de94c3c30ce7f307b216e487718120afe4ed",
+      "world.js": "8539b1222b3d707553373540572df7cedbad246b66862fd979b70b99f90030b1"
+    }
+  },
+  "v2": {
+    "source": "newnew_harness/evaluation/case_studies/tennis_fullbody_ik_failure/program",
+    "sha256": {
+      "params.json": "00038b6459753522376fcf45841c21f1ef78508593dca40710964dac327de603",
+      "play.html": "91642cdff9bd7de97d7930a9b289dd99efb3badbd9ee06ae944232d1f0f255bc",
+      "proxy.js": "7cf122e60cdede632614a987d58df91e7601b467b1e55b8320fff533b74466e2",
+      "runtime.js": "14447fd149140f3840a88f5644f5935eb1ef541247687d9c6c10b3f34a0f6207",
+      "runtime_tools.js": "b0277021cae476ff084e830fecde5995a0f6ae6f9fdfc2d47289f6300e5c9011",
+      "simkit.js": "9a61ccd96b222d38af69f6a2fa9cc83324b50be32ffe36468ba08651a6bd87bf",
+      "tool_loader.js": "2a4b1d9e92b72b9fed4b03e6f0d9f3f8b7d0996fadaaf57d524407b354dcebde",
+      "vendor/FIK-LICENSE": "551f06ddc3dc36b56610aa23db680826ba9d9a02e8f89f7bec05d7fa27401a2b",
+      "vendor/RAPIER-LICENSE": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "vendor/fik.js": "5f9de86a5bcb7ebc2690ab4667bef2b6a1af9c75d87521aa11106c7cda3d7ed2",
+      "vendor/rapier.mjs": "02dc6a4e2fffc013bab08fbb44fa68f501d8303615e9afe4c7d89ad4eedda0d0",
+      "world.js": "0d9bdee067339f814aed34721749c25167abdd9cef72144ca6062436b53fa187"
+    }
+  },
+  "v3": {
+    "source": "newnew_harness/evaluation/case_studies/tennis_preserve_simple_v3/program",
+    "sha256": {
+      "params.json": "cc6b509bf5acba651bbe6add7fd5a8461e9c098695d774b52911f0a7b31cc192",
+      "play.html": "dd405c03102be3de662f97723a495be24f255367ec28bb1e2e01e2fd7c1cd8db",
+      "proxy.js": "7cf122e60cdede632614a987d58df91e7601b467b1e55b8320fff533b74466e2",
+      "reference_motion.js": "c642fd232ccf48798ccfda2a97b00f2f3d9393ef302f0f8c4430d91beba52172",
+      "runtime.js": "14447fd149140f3840a88f5644f5935eb1ef541247687d9c6c10b3f34a0f6207",
+      "runtime_tools.js": "b0277021cae476ff084e830fecde5995a0f6ae6f9fdfc2d47289f6300e5c9011",
+      "simkit.js": "9a61ccd96b222d38af69f6a2fa9cc83324b50be32ffe36468ba08651a6bd87bf",
+      "tool_loader.js": "bffc1a8339561c7e48c99fe3d7cf885311b529b98bc6893c5409e49f6fea6e32",
+      "vendor/RAPIER-LICENSE": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "vendor/rapier.mjs": "02dc6a4e2fffc013bab08fbb44fa68f501d8303615e9afe4c7d89ad4eedda0d0",
+      "world.js": "554c36affd0b7ccc76c42f55a1ba38f46f9be45f91a9d12e267c5727ff350d9d"
+    }
+  },
+  "v4": {
+    "source": "newnew_harness/evaluation/case_studies/tennis_contact_v4/program",
+    "sha256": {
+      "contact_geometry.js": "98124c85ca6d986701db92eed2eac9251f381c91bdbb1d07e14cecb9710d1ef2",
+      "params.json": "7572e66f03ebfe5b9d05ee6e23bfe853d84e410020c6587dedc25d10252e09c1",
+      "play.html": "faab68a68305c3805fe639917489b34ae4be89d8f56a69f7dee478c6fa817515",
+      "proxy.js": "7cf122e60cdede632614a987d58df91e7601b467b1e55b8320fff533b74466e2",
+      "reference_motion.js": "c642fd232ccf48798ccfda2a97b00f2f3d9393ef302f0f8c4430d91beba52172",
+      "runtime.js": "14447fd149140f3840a88f5644f5935eb1ef541247687d9c6c10b3f34a0f6207",
+      "runtime_tools.js": "1d92c3565ff09ea9c8f0faf5b0d01dfdc2a95a53a0c684a691b1a3d0362ed82a",
+      "simkit.js": "9a61ccd96b222d38af69f6a2fa9cc83324b50be32ffe36468ba08651a6bd87bf",
+      "tool_loader.js": "3c662b1fe55dcd215e424a29911c59303d183185eea5f9cb9a58dade3dc87a8e",
+      "vendor/RAPIER-LICENSE": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "vendor/rapier.mjs": "02dc6a4e2fffc013bab08fbb44fa68f501d8303615e9afe4c7d89ad4eedda0d0",
+      "world.js": "6aa964d2bb0874e274a38e2f6289e7b74c44a580442e39a98c36830f287476e3"
+    }
+  },
+  "v5": {
+    "source": "newnew_harness/evaluation/runs/clip_006/generations/adaptive_contact_v5/attempts/generate/20261008T152605-4b2563f2/program",
+    "sha256": {
+      "contact_geometry.js": "98124c85ca6d986701db92eed2eac9251f381c91bdbb1d07e14cecb9710d1ef2",
+      "intercept_motion.js": "afd66ff5a94a3ae441dbdab0b0b66cddae6f502b45e6b99cb0a7534c0bfabffa",
+      "params.json": "52c1072f9a52f582d16f1ddcb89cd07ea8af61b9a785c0d8fedb45517f1a5c27",
+      "play.html": "faab68a68305c3805fe639917489b34ae4be89d8f56a69f7dee478c6fa817515",
+      "proxy.js": "7cf122e60cdede632614a987d58df91e7601b467b1e55b8320fff533b74466e2",
+      "reference_motion.js": "c642fd232ccf48798ccfda2a97b00f2f3d9393ef302f0f8c4430d91beba52172",
+      "runtime.js": "14447fd149140f3840a88f5644f5935eb1ef541247687d9c6c10b3f34a0f6207",
+      "runtime_tools.js": "1d92c3565ff09ea9c8f0faf5b0d01dfdc2a95a53a0c684a691b1a3d0362ed82a",
+      "simkit.js": "9a61ccd96b222d38af69f6a2fa9cc83324b50be32ffe36468ba08651a6bd87bf",
+      "tool_loader.js": "ae4cb4802b4716714b1c33ee37dfd033737ed245afae5c2cbef86ecdaf85361c",
+      "vendor/RAPIER-LICENSE": "4c05555705e3efde601fb1252ae48f1d63992af8a8fb8947745b7fa834e8f519",
+      "vendor/rapier.mjs": "02dc6a4e2fffc013bab08fbb44fa68f501d8303615e9afe4c7d89ad4eedda0d0",
+      "world.js": "84f6cd26f0c6d5bdc63869b522693dad525148413ec255f236e04cb5c9c97fcc"
+    }
+  }
+}

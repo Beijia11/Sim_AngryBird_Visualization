@@ -1,0 +1,417 @@
+/* Fixed-camera tennis rally. Source coordinates are 1920 x 1080.
+   Measured short pose clips are local to each player's feet. Inputs drive
+   player roots; Rapier integrates the ball and source-posed racket contacts. */
+(function () {
+  'use strict';
+  const CLIPS = {"idle":{"nose":[0.8,-165.2],"left_eye":[3.2,-167.1],"right_eye":[1.8,-166.6],"left_ear":[-6.5,-163.2],"right_ear":[8.0,-163.2],"left_shoulder":[-18.8,-140.8],"right_shoulder":[23.6,-142.3],"left_elbow":[-25.0,-110.6],"right_elbow":[34.4,-113.0],"left_wrist":[-11.5,-120.3],"right_wrist":[17.4,-113.5],"left_hip":[-5.5,-85.3],"right_hip":[19.8,-84.8],"left_knee":[-22.1,-39.9],"right_knee":[26.5,-40.4],"left_ankle":[-34.4,-2.4],"right_ankle":[34.4,0.0]},"runR":[[0.0,{"nose":[5.1,-171.4],"left_eye":[6.6,-174.5],"right_eye":[9.8,-173.5],"left_ear":[-6.2,-169.9],"right_ear":[11.8,-169.9],"left_shoulder":[-20.1,-150.4],"right_shoulder":[23.1,-147.8],"left_elbow":[-24.7,-120.6],"right_elbow":[30.8,-113.4],"left_wrist":[-3.1,-118.6],"right_wrist":[8.8,-112.4],"left_hip":[-18.0,-90.8],"right_hip":[7.1,-87.8],"left_knee":[-10.2,-55.9],"right_knee":[30.2,-49.3],"left_ankle":[-22.6,-12.3],"right_ankle":[22.5,0.0]}],[0.0667,{"nose":[-2.4,-171.5],"left_eye":[-1.9,-174.6],"right_eye":[0.8,-173.6],"left_ear":[-11.8,-171.0],"right_ear":[5.5,-169.4],"left_shoulder":[-26.2,-150.7],"right_shoulder":[14.2,-147.1],"left_elbow":[-26.9,-126.8],"right_elbow":[19.5,-110.7],"left_wrist":[-7.5,-117.5],"right_wrist":[3.4,-109.7],"left_hip":[-23.6,-89.9],"right_hip":[2.2,-87.3],"left_knee":[-17.4,-53.5],"right_knee":[26.8,-51.4],"left_ankle":[-26.2,-7.8],"right_ankle":[26.2,0.0]}],[0.1335,{"nose":[-5.4,-169.5],"left_eye":[-6.9,-173.0],"right_eye":[-1.8,-171.0],"left_ear":[-14.4,-167.9],"right_ear":[3.2,-166.4],"left_shoulder":[-26.1,-148.6],"right_shoulder":[10.4,-143.1],"left_elbow":[-32.8,-151.2],"right_elbow":[11.0,-108.0],"left_wrist":[-11.9,-110.1],"right_wrist":[2.2,-106.0],"left_hip":[-30.8,-83.7],"right_hip":[-1.8,-84.2],"left_knee":[-25.1,-50.7],"right_knee":[28.1,-51.2],"left_ankle":[-38.4,-5.5],"right_ankle":[38.4,0.0]}],[0.2002,{"nose":[4.0,-165.9],"left_eye":[5.0,-169.9],"right_eye":[5.5,-167.4],"left_ear":[-4.0,-164.4],"right_ear":[10.9,-162.0],"left_shoulder":[-16.3,-145.6],"right_shoulder":[15.4,-139.7],"left_elbow":[-18.3,-120.3],"right_elbow":[15.4,-107.5],"left_wrist":[16.8,-114.9],"right_wrist":[38.6,-118.9],"left_hip":[-23.3,-83.7],"right_hip":[1.5,-82.2],"left_knee":[-31.2,-48.5],"right_knee":[42.6,-52.0],"left_ankle":[-49.5,-8.9],"right_ankle":[49.5,0.0]}],[0.2669,{"nose":[22.6,-168.1],"left_eye":[22.6,-171.5],"right_eye":[24.5,-169.5],"left_ear":[12.1,-167.1],"right_ear":[29.5,-164.6],"left_shoulder":[6.2,-146.8],"right_shoulder":[32.4,-142.9],"left_elbow":[7.1,-134.5],"right_elbow":[33.4,-113.7],"left_wrist":[29.0,-121.6],"right_wrist":[51.1,-117.2],"left_hip":[-8.1,-86.5],"right_hip":[14.6,-84.1],"left_knee":[-25.9,-45.0],"right_knee":[61.1,-54.4],"left_ankle":[-52.6,-16.8],"right_ankle":[52.6,0.0]}],[0.3337,{"nose":[47.0,-160.3],"left_eye":[48.0,-164.3],"right_eye":[43.5,-162.8],"left_ear":[39.1,-160.8],"right_ear":[46.5,-158.4],"left_shoulder":[27.8,-145.1],"right_shoulder":[52.9,-134.7],"left_elbow":[30.7,-119.5],"right_elbow":[56.3,-106.2],"left_wrist":[54.4,-110.6],"right_wrist":[72.1,-109.7],"left_hip":[4.7,-86.5],"right_hip":[26.3,-78.7],"left_knee":[-8.6,-49.6],"right_knee":[69.1,-44.2],"left_ankle":[-44.5,-22.6],"right_ankle":[44.5,0.0]}],[0.4004,{"nose":[61.8,-151.7],"left_eye":[63.6,-156.5],"right_eye":[60.8,-155.1],"left_ear":[50.3,-153.7],"right_ear":[60.8,-147.9],"left_shoulder":[38.8,-139.3],"right_shoulder":[59.8,-123.6],"left_elbow":[26.9,-149.8],"right_elbow":[73.2,-95.9],"left_wrist":[43.1,-104.5],"right_wrist":[84.6,-99.7],"left_hip":[9.8,-88.8],"right_hip":[30.2,-77.8],"left_knee":[17.4,-50.1],"right_knee":[54.1,-34.4],"left_ankle":[-22.7,-31.5],"right_ankle":[22.6,0.0]}],[0.4671,{"nose":[67.9,-138.5],"left_eye":[70.2,-142.2],"right_eye":[70.2,-140.8],"left_ear":[54.5,-141.7],"right_ear":[67.9,-135.8],"left_shoulder":[37.5,-132.1],"right_shoulder":[65.6,-113.7],"left_elbow":[19.6,-122.4],"right_elbow":[88.1,-88.4],"left_wrist":[24.2,-102.2],"right_wrist":[104.7,-98.5],"left_hip":[9.0,-76.4],"right_hip":[24.6,-66.7],"left_knee":[44.4,-45.1],"right_knee":[36.6,-22.1],"left_ankle":[0.7,-20.7],"right_ankle":[-0.7,0.0]}],[0.5339,{"nose":[64.9,-137.3],"left_eye":[65.9,-138.4],"right_eye":[64.4,-138.4],"left_ear":[53.0,-137.3],"right_ear":[63.9,-134.1],"left_shoulder":[38.5,-130.3],"right_shoulder":[67.0,-112.5],"left_elbow":[12.1,-132.4],"right_elbow":[88.0,-87.2],"left_wrist":[6.1,-119.0],"right_wrist":[105.2,-88.3],"left_hip":[23.4,-73.2],"right_hip":[13.1,-68.4],"left_knee":[57.9,-41.4],"right_knee":[9.4,-19.9],"left_ankle":[33.1,-17.2],"right_ankle":[-33.1,0.0]}],[0.6006,{"nose":[60.2,-140.0],"left_eye":[60.8,-142.3],"right_eye":[60.2,-141.7],"left_ear":[46.4,-141.2],"right_ear":[60.2,-138.3],"left_shoulder":[31.9,-132.5],"right_shoulder":[62.5,-117.5],"left_elbow":[4.3,-127.9],"right_elbow":[80.9,-88.7],"left_wrist":[8.3,-106.6],"right_wrist":[95.3,-81.8],"left_hip":[14.1,-72.6],"right_hip":[15.8,-69.1],"left_knee":[61.9,-45.5],"right_knee":[-12.4,-31.1],"left_ankle":[55.0,0.0],"right_ankle":[-55.1,-4.6]}],[0.6673,{"nose":[66.9,-152.0],"left_eye":[69.2,-154.4],"right_eye":[66.9,-153.8],"left_ear":[54.0,-153.2],"right_ear":[66.2,-149.7],"left_shoulder":[35.6,-143.2],"right_shoulder":[65.8,-127.3],"left_elbow":[14.5,-124.9],"right_elbow":[76.4,-93.1],"left_wrist":[25.6,-104.9],"right_wrist":[96.9,-83.1],"left_hip":[13.2,-83.1],"right_hip":[25.1,-79.0],"left_knee":[59.2,-50.7],"right_knee":[1.5,-36.6],"left_ankle":[49.8,0.0],"right_ankle":[-49.8,-30.1]}]],"runL":[[0.0,{"nose":[-5.0,-168.6],"left_eye":[-2.5,-171.5],"right_eye":[-6.8,-170.6],"left_ear":[-13.2,-165.7],"right_ear":[3.0,-167.1],"left_shoulder":[-26.5,-141.6],"right_shoulder":[13.8,-147.5],"left_elbow":[-37.2,-108.8],"right_elbow":[9.9,-118.1],"left_wrist":[-49.0,-124.0],"right_wrist":[-12.2,-109.3],"left_hip":[-5.8,-86.3],"right_hip":[23.0,-88.7],"left_knee":[-36.2,-48.0],"right_knee":[28.0,-52.4],"left_ankle":[-51.5,0.0],"right_ankle":[51.5,-15.7]}],[0.0667,{"nose":[-12.4,-171.8],"left_eye":[-12.4,-173.8],"right_eye":[-12.8,-173.8],"left_ear":[-20.7,-169.8],"right_ear":[-4.0,-169.8],"left_shoulder":[-34.6,-147.6],"right_shoulder":[6.9,-148.1],"left_elbow":[-42.0,-114.1],"right_elbow":[10.8,-117.0],"left_wrist":[-23.7,-110.1],"right_wrist":[-16.3,-110.6],"left_hip":[-15.8,-88.4],"right_hip":[13.3,-88.4],"left_knee":[-45.9,-52.8],"right_knee":[17.8,-53.3],"left_ankle":[-46.9,0.0],"right_ankle":[46.9,-17.3]}],[0.1335,{"nose":[-7.8,-169.3],"left_eye":[-7.3,-171.3],"right_eye":[-9.3,-171.8],"left_ear":[-16.5,-166.7],"right_ear":[1.8,-167.2],"left_shoulder":[-29.6,-144.4],"right_shoulder":[13.0,-145.9],"left_elbow":[-34.6,-109.0],"right_elbow":[17.5,-114.5],"left_wrist":[-17.5,-110.5],"right_wrist":[-9.8,-109.0],"left_hip":[-9.8,-86.7],"right_hip":[19.5,-86.2],"left_knee":[-43.8,-52.7],"right_knee":[16.0,-52.2],"left_ankle":[-37.2,0.0],"right_ankle":[37.2,-9.7]}],[0.2002,{"nose":[0.8,-168.2],"left_eye":[4.8,-170.2],"right_eye":[2.8,-170.7],"left_ear":[-9.8,-165.2],"right_ear":[7.8,-167.2],"left_shoulder":[-21.8,-142.1],"right_shoulder":[23.9,-147.1],"left_elbow":[-27.3,-106.9],"right_elbow":[25.9,-116.0],"left_wrist":[-8.3,-104.4],"right_wrist":[2.8,-106.9],"left_hip":[-0.2,-82.8],"right_hip":[29.4,-82.8],"left_knee":[-35.9,-51.7],"right_knee":[22.4,-51.7],"left_ankle":[-32.9,0.0],"right_ankle":[32.9,-6.0]}],[0.2669,{"nose":[4.2,-173.2],"left_eye":[5.2,-175.2],"right_eye":[3.7,-175.8],"left_ear":[-5.2,-169.5],"right_ear":[14.1,-172.6],"left_shoulder":[-14.5,-144.6],"right_shoulder":[29.1,-152.9],"left_elbow":[-19.2,-110.8],"right_elbow":[34.9,-119.6],"left_wrist":[-9.9,-123.8],"right_wrist":[6.3,-114.9],"left_hip":[3.7,-85.8],"right_hip":[35.4,-88.4],"left_knee":[-31.2,-55.1],"right_knee":[32.8,-48.9],"left_ankle":[-42.1,-2.6],"right_ankle":[42.1,0.0]}],[0.3337,{"nose":[-4.9,-170.7],"left_eye":[1.8,-173.3],"right_eye":[-5.4,-173.3],"left_ear":[-13.6,-167.1],"right_ear":[1.8,-170.7],"left_shoulder":[-24.4,-141.4],"right_shoulder":[18.3,-152.7],"left_elbow":[-22.9,-110.0],"right_elbow":[29.0,-119.8],"left_wrist":[-11.6,-104.4],"right_wrist":[2.3,-113.6],"left_hip":[-2.3,-87.9],"right_hip":[27.5,-90.5],"left_knee":[-40.9,-56.6],"right_knee":[36.2,-46.3],"left_ankle":[-56.3,-4.6],"right_ankle":[56.3,0.0]}],[0.4004,{"nose":[-26.7,-166.1],"left_eye":[-25.0,-167.8],"right_eye":[-26.7,-167.3],"left_ear":[-35.0,-161.4],"right_ear":[-16.8,-162.6],"left_shoulder":[-47.2,-137.3],"right_shoulder":[-2.1,-147.3],"left_elbow":[-53.7,-111.5],"right_elbow":[1.4,-125.0],"left_wrist":[-28.5,-106.2],"right_wrist":[-22.0,-110.9],"left_hip":[-15.6,-83.9],"right_hip":[10.8,-86.3],"left_knee":[-59.0,-52.8],"right_knee":[32.0,-39.3],"left_ankle":[-65.5,0.0],"right_ankle":[65.4,-1.2]}],[0.4671,{"nose":[-55.1,-162.9],"left_eye":[-57.8,-165.1],"right_eye":[-57.2,-165.7],"left_ear":[-58.9,-159.1],"right_ear":[-43.7,-161.8],"left_shoulder":[-64.9,-136.2],"right_shoulder":[-29.5,-149.9],"left_elbow":[-80.2,-110.1],"right_elbow":[-34.4,-125.9],"left_wrist":[-77.4,-139.5],"right_wrist":[-62.2,-111.7],"left_hip":[-27.2,-82.3],"right_hip":[-2.8,-91.0],"left_knee":[-66.5,-49.6],"right_knee":[16.3,-44.7],"left_ankle":[-55.1,0.0],"right_ankle":[55.0,-15.3]}],[0.5339,{"nose":[-66.0,-156.9],"left_eye":[-66.9,-159.8],"right_eye":[-63.6,-159.3],"left_ear":[-69.8,-153.5],"right_ear":[-52.5,-157.8],"left_shoulder":[-78.0,-126.6],"right_shoulder":[-37.7,-148.2],"left_elbow":[-74.6,-109.9],"right_elbow":[-35.3,-127.1],"left_wrist":[-62.1,-120.9],"right_wrist":[-56.4,-110.3],"left_hip":[-28.5,-78.7],"right_hip":[-6.9,-87.3],"left_knee":[-57.3,-41.2],"right_knee":[-13.2,-49.9],"left_ankle":[-30.5,0.0],"right_ankle":[30.5,-25.9]}],[0.6006,{"nose":[-68.2,-151.5],"left_eye":[-66.8,-154.3],"right_eye":[-66.8,-155.7],"left_ear":[-71.0,-150.5],"right_ear":[-57.0,-154.3],"left_shoulder":[-77.6,-127.6],"right_shoulder":[-40.5,-139.3],"left_elbow":[-76.2,-112.6],"right_elbow":[-36.3,-121.5],"left_wrist":[-82.3,-131.3],"right_wrist":[-61.6,-131.8],"left_hip":[-30.2,-76.0],"right_hip":[-11.5,-82.1],"left_knee":[-42.9,-30.5],"right_knee":[-24.1,-40.4],"left_ankle":[-2.6,0.0],"right_ankle":[2.6,-21.1]}],[0.6673,{"nose":[-52.1,-155.0],"left_eye":[-54.0,-157.8],"right_eye":[-53.5,-157.4],"left_ear":[-56.8,-153.1],"right_ear":[-42.2,-155.5],"left_shoulder":[-66.7,-131.0],"right_shoulder":[-29.0,-139.5],"left_elbow":[-70.9,-105.5],"right_elbow":[-27.6,-121.6],"left_wrist":[-55.8,-113.5],"right_wrist":[-42.2,-111.2],"left_hip":[-21.0,-70.7],"right_hip":[-5.4,-77.7],"left_knee":[-10.6,-24.5],"right_knee":[-54.0,-57.5],"left_ankle":[33.7,0.0],"right_ankle":[-33.7,-17.9]}]],"first":[[0.0,{"nose":[24.8,-156.7],"left_eye":[25.6,-159.4],"right_eye":[26.9,-158.9],"left_ear":[12.1,-158.0],"right_ear":[22.9,-155.8],"left_shoulder":[2.8,-142.3],"right_shoulder":[19.4,-137.4],"left_elbow":[15.2,-125.2],"right_elbow":[6.4,-127.0],"left_wrist":[31.0,-149.0],"right_wrist":[22.0,-146.3],"left_hip":[-9.4,-84.8],"right_hip":[8.5,-81.7],"left_knee":[-9.4,-55.2],"right_knee":[40.4,-48.5],"left_ankle":[-36.4,-18.9],"right_ankle":[36.4,0.0]}],[0.0667,{"nose":[21.1,-152.5],"left_eye":[20.8,-155.6],"right_eye":[22.0,-154.3],"left_ear":[8.6,-152.9],"right_ear":[22.0,-150.7],"left_shoulder":[-2.5,-135.1],"right_shoulder":[18.4,-126.6],"left_elbow":[-7.4,-113.7],"right_elbow":[6.9,-115.9],"left_wrist":[0.6,-93.2],"right_wrist":[7.3,-94.1],"left_hip":[-11.0,-75.8],"right_hip":[8.2,-74.9],"left_knee":[-10.1,-50.4],"right_knee":[41.6,-47.3],"left_ankle":[-37.7,-18.7],"right_ankle":[37.6,0.0]}],[0.1335,{"nose":[15.0,-150.7],"left_eye":[15.0,-154.4],"right_eye":[14.0,-153.5],"left_ear":[0.9,-152.6],"right_ear":[10.9,-150.3],"left_shoulder":[-6.9,-131.3],"right_shoulder":[2.8,-125.4],"left_elbow":[-10.0,-106.4],"right_elbow":[5.9,-100.0],"left_wrist":[3.6,-82.8],"right_wrist":[14.5,-80.1],"left_hip":[-17.6,-77.4],"right_hip":[2.8,-77.0],"left_knee":[-14.5,-50.7],"right_knee":[38.0,-46.6],"left_ankle":[-38.9,-16.3],"right_ankle":[39.0,0.0]}],[0.2002,{"nose":[-2.4,-160.9],"left_eye":[-1.5,-162.3],"right_eye":[-0.5,-161.4],"left_ear":[-9.0,-161.4],"right_ear":[1.4,-159.0],"left_shoulder":[-20.9,-150.0],"right_shoulder":[6.1,-133.5],"left_elbow":[-34.1,-137.3],"right_elbow":[13.8,-108.9],"left_wrist":[-17.1,-139.2],"right_wrist":[37.9,-101.3],"left_hip":[-15.1,-90.9],"right_hip":[6.1,-89.0],"left_knee":[-21.2,-56.8],"right_knee":[27.9,-51.1],"left_ankle":[-39.8,-21.3],"right_ankle":[39.8,0.0]}],[0.2669,{"nose":[-13.2,-165.4],"left_eye":[-11.2,-164.9],"right_eye":[-12.8,-164.0],"left_ear":[-22.8,-162.5],"right_ear":[-5.0,-163.5],"left_shoulder":[-31.4,-146.7],"right_shoulder":[5.0,-145.8],"left_elbow":[-38.6,-130.4],"right_elbow":[27.0,-130.4],"left_wrist":[-27.6,-145.3],"right_wrist":[53.5,-141.0],"left_hip":[-17.5,-100.2],"right_hip":[7.9,-102.1],"left_knee":[-27.6,-59.0],"right_knee":[25.6,-48.9],"left_ankle":[-39.1,-19.7],"right_ankle":[39.0,0.0]}],[0.3337,{"nose":[-16.5,-159.1],"left_eye":[-18.5,-157.6],"right_eye":[-14.9,-159.1],"left_ear":[-22.5,-156.1],"right_ear":[-6.9,-158.6],"left_shoulder":[-29.6,-136.4],"right_shoulder":[5.8,-147.5],"left_elbow":[-44.2,-118.2],"right_elbow":[18.9,-150.5],"left_wrist":[-45.8,-134.3],"right_wrist":[7.3,-169.2],"left_hip":[-11.9,-88.9],"right_hip":[14.9,-89.9],"left_knee":[-27.6,-55.5],"right_knee":[29.0,-42.9],"left_ankle":[-40.2,-22.2],"right_ankle":[40.1,0.0]}],[0.4004,{"nose":[-21.9,-154.2],"left_eye":[-25.1,-156.8],"right_eye":[-22.9,-157.4],"left_ear":[-24.5,-153.7],"right_ear":[-9.7,-161.1],"left_shoulder":[-25.1,-133.6],"right_shoulder":[6.6,-158.4],"left_elbow":[-38.3,-107.2],"right_elbow":[-5.5,-171.6],"left_wrist":[-56.2,-122.0],"right_wrist":[-36.1,-180.1],"left_hip":[-5.0,-89.8],"right_hip":[21.9,-94.0],"left_knee":[-26.6,-54.4],"right_knee":[33.0,-44.4],"left_ankle":[-45.7,-13.2],"right_ankle":[45.7,0.0]}],[0.4671,{"nose":[-27.4,-150.0],"left_eye":[-26.9,-152.0],"right_eye":[-26.9,-151.5],"left_ear":[-21.0,-149.0],"right_ear":[-15.7,-154.4],"left_shoulder":[-26.4,-129.0],"right_shoulder":[1.9,-149.0],"left_elbow":[-24.5,-100.2],"right_elbow":[-22.0,-157.8],"left_wrist":[-49.4,-96.8],"right_wrist":[-45.9,-155.4],"left_hip":[-7.8,-87.0],"right_hip":[15.6,-92.9],"left_knee":[-31.3,-46.9],"right_knee":[29.8,-45.0],"left_ankle":[-50.3,-6.9],"right_ankle":[50.3,0.0]}],[0.5339,{"nose":[-27.4,-146.3],"left_eye":[-25.5,-149.2],"right_eye":[-27.4,-148.7],"left_ear":[-30.3,-145.9],"right_ear":[-21.2,-147.8],"left_shoulder":[-41.2,-125.4],"right_shoulder":[-5.0,-135.4],"left_elbow":[-33.6,-108.2],"right_elbow":[0.7,-109.1],"left_wrist":[-38.4,-117.7],"right_wrist":[-38.4,-115.3],"left_hip":[-19.8,-76.7],"right_hip":[5.0,-78.1],"left_knee":[-40.3,-44.3],"right_knee":[26.0,-37.1],"left_ankle":[-54.1,-2.8],"right_ankle":[54.1,0.0]}],[0.6006,{"nose":[-30.4,-140.9],"left_eye":[-29.9,-143.2],"right_eye":[-30.9,-143.7],"left_ear":[-28.6,-141.3],"right_ear":[-17.9,-143.2],"left_shoulder":[-30.9,-120.0],"right_shoulder":[-4.0,-130.2],"left_elbow":[-28.1,-100.6],"right_elbow":[-20.7,-111.2],"left_wrist":[-25.8,-54.2],"right_wrist":[-40.1,-100.1],"left_hip":[-16.5,-69.0],"right_hip":[5.8,-69.5],"left_knee":[-40.6,-39.4],"right_knee":[23.4,-33.3],"left_ankle":[-53.1,0.0],"right_ankle":[53.0,-6.5]}],[0.6673,{"nose":[-22.2,-141.7],"left_eye":[-22.7,-143.5],"right_eye":[-24.1,-142.6],"left_ear":[-25.5,-140.3],"right_ear":[-10.6,-141.7],"left_shoulder":[-27.8,-117.5],"right_shoulder":[2.4,-128.2],"left_elbow":[-20.4,-88.7],"right_elbow":[1.5,-100.8],"left_wrist":[-18.5,-56.2],"right_wrist":[-26.9,-86.8],"left_hip":[-8.3,-68.7],"right_hip":[14.5,-71.5],"left_knee":[-33.9,-41.8],"right_knee":[27.9,-38.1],"left_ankle":[-49.2,0.0],"right_ankle":[49.2,-7.9]}],[0.7341,{"nose":[-8.7,-141.1],"left_eye":[-11.9,-141.6],"right_eye":[-10.1,-142.1],"left_ear":[-15.2,-137.9],"right_ear":[2.0,-141.1],"left_shoulder":[-18.9,-117.9],"right_shoulder":[18.8,-126.7],"left_elbow":[-12.9,-86.2],"right_elbow":[30.9,-105.7],"left_wrist":[-14.3,-59.6],"right_wrist":[12.3,-101.1],"left_hip":[-3.5,-67.5],"right_hip":[23.5,-71.7],"left_knee":[-26.4,-35.9],"right_knee":[33.7,-44.2],"left_ankle":[-43.6,0.0],"right_ankle":[43.5,-1.9]}],[0.8008,{"nose":[3.1,-144.0],"left_eye":[4.0,-144.9],"right_eye":[0.9,-144.9],"left_ear":[-4.0,-140.9],"right_ear":[9.4,-144.0],"left_shoulder":[-9.0,-115.3],"right_shoulder":[29.2,-132.4],"left_elbow":[-13.9,-84.8],"right_elbow":[47.6,-113.5],"left_wrist":[-25.6,-70.0],"right_wrist":[26.5,-108.6],"left_hip":[9.4,-69.6],"right_hip":[34.6,-72.7],"left_knee":[-16.6,-34.6],"right_knee":[34.6,-43.1],"left_ankle":[-39.0,0.0],"right_ankle":[39.0,-0.9]}]],"backhand":[[0.0,{"nose":[-3.6,-160.9],"left_eye":[-3.6,-162.9],"right_eye":[-5.2,-162.9],"left_ear":[-10.6,-157.1],"right_ear":[4.4,-160.0],"left_shoulder":[-18.6,-132.9],"right_shoulder":[13.9,-144.2],"left_elbow":[-18.1,-100.0],"right_elbow":[8.1,-120.0],"left_wrist":[-40.2,-102.5],"right_wrist":[-5.2,-108.4],"left_hip":[7.2,-81.7],"right_hip":[34.4,-87.1],"left_knee":[-29.4,-44.6],"right_knee":[25.2,-62.9],"left_ankle":[-46.9,0.0],"right_ankle":[46.9,-37.1]}],[0.0667,{"nose":[-6.6,-166.1],"left_eye":[-7.9,-167.8],"right_eye":[-7.5,-168.2],"left_ear":[-12.2,-162.7],"right_ear":[1.9,-164.4],"left_shoulder":[-17.3,-137.5],"right_shoulder":[12.6,-146.0],"left_elbow":[-13.9,-108.0],"right_elbow":[5.3,-121.7],"left_wrist":[-35.2,-102.1],"right_wrist":[-22.8,-111.0],"left_hip":[6.2,-84.1],"right_hip":[31.8,-87.1],"left_knee":[-29.7,-48.2],"right_knee":[23.3,-64.5],"left_ankle":[-39.5,0.0],"right_ankle":[39.5,-31.6]}],[0.1335,{"nose":[-11.6,-177.3],"left_eye":[-12.5,-177.7],"right_eye":[-12.1,-177.7],"left_ear":[-17.6,-174.5],"right_ear":[-2.9,-175.9],"left_shoulder":[-19.4,-150.3],"right_shoulder":[8.5,-158.5],"left_elbow":[-10.2,-120.1],"right_elbow":[3.0,-132.5],"left_wrist":[-29.0,-103.2],"right_wrist":[-24.9,-115.1],"left_hip":[2.1,-93.6],"right_hip":[28.1,-97.3],"left_knee":[-24.0,-48.4],"right_knee":[24.0,-72.2],"left_ankle":[-37.7,0.0],"right_ankle":[37.7,-30.1]}],[0.2002,{"nose":[-18.6,-178.4],"left_eye":[-20.9,-180.3],"right_eye":[-18.9,-180.8],"left_ear":[-23.8,-175.6],"right_ear":[-7.1,-179.4],"left_shoulder":[-24.6,-151.9],"right_shoulder":[6.6,-164.7],"left_elbow":[-16.1,-121.5],"right_elbow":[8.0,-133.3],"left_wrist":[-25.6,-100.1],"right_wrist":[-12.9,-116.2],"left_hip":[-3.4,-94.9],"right_hip":[23.8,-99.2],"left_knee":[-19.4,-46.5],"right_knee":[25.1,-66.4],"left_ankle":[-37.1,0.0],"right_ankle":[37.0,-21.8]}],[0.2669,{"nose":[-24.9,-177.9],"left_eye":[-26.8,-178.8],"right_eye":[-25.4,-179.8],"left_ear":[-24.9,-174.4],"right_ear":[-7.2,-178.3],"left_shoulder":[-29.3,-151.8],"right_shoulder":[9.5,-164.6],"left_elbow":[-28.3,-121.9],"right_elbow":[19.3,-149.9],"left_wrist":[-11.1,-126.3],"right_wrist":[0.2,-144.0],"left_hip":[-7.2,-96.8],"right_hip":[19.3,-98.3],"left_knee":[-19.5,-44.7],"right_knee":[22.8,-58.5],"left_ankle":[-28.8,0.0],"right_ankle":[28.8,-16.2]}],[0.3337,{"nose":[-21.9,-180.7],"left_eye":[-28.2,-180.7],"right_eye":[-12.9,-183.8],"left_ear":[-27.2,-175.9],"right_ear":[-7.1,-182.8],"left_shoulder":[-30.4,-153.2],"right_shoulder":[6.5,-170.6],"left_elbow":[-21.4,-138.9],"right_elbow":[27.8,-168.5],"left_wrist":[-10.9,-166.4],"right_wrist":[5.5,-175.9],"left_hip":[-8.2,-96.6],"right_hip":[17.1,-99.3],"left_knee":[-12.4,-48.6],"right_knee":[16.6,-59.1],"left_ankle":[-16.6,0.0],"right_ankle":[16.6,-15.8]}],[0.4004,{"nose":[-17.6,-174.7],"left_eye":[-23.0,-176.3],"right_eye":[-14.4,-177.4],"left_ear":[-28.5,-169.8],"right_ear":[-10.6,-174.1],"left_shoulder":[-29.5,-148.7],"right_shoulder":[4.1,-160.0],"left_elbow":[-12.2,-160.0],"right_elbow":[28.5,-166.6],"left_wrist":[-0.8,-177.4],"right_wrist":[14.9,-181.7],"left_hip":[-8.9,-93.9],"right_hip":[16.0,-96.6],"left_knee":[-8.4,-46.1],"right_knee":[12.8,-48.3],"left_ankle":[-9.5,0.0],"right_ankle":[9.5,-8.2]}],[0.4671,{"nose":[-11.9,-168.3],"left_eye":[-15.5,-171.3],"right_eye":[-10.7,-169.5],"left_ear":[-20.3,-164.1],"right_ear":[-8.2,-166.5],"left_shoulder":[-24.0,-145.9],"right_shoulder":[6.9,-152.0],"left_elbow":[-4.6,-163.5],"right_elbow":[31.8,-155.6],"left_wrist":[9.9,-184.1],"right_wrist":[22.6,-178.6],"left_hip":[-4.6,-92.1],"right_hip":[19.6,-94.5],"left_knee":[-6.4,-44.2],"right_knee":[18.4,-46.0],"left_ankle":[-13.1,0.0],"right_ankle":[13.0,-6.1]}],[0.5339,{"nose":[-13.6,-164.0],"left_eye":[-15.7,-164.0],"right_eye":[-12.6,-166.6],"left_ear":[-21.3,-158.9],"right_ear":[-5.9,-163.5],"left_shoulder":[-19.8,-137.9],"right_shoulder":[12.0,-146.6],"left_elbow":[-0.2,-146.6],"right_elbow":[38.1,-144.6],"left_wrist":[5.3,-163.5],"right_wrist":[28.4,-167.6],"left_hip":[3.8,-86.1],"right_hip":[28.4,-88.2],"left_knee":[-3.4,-40.5],"right_knee":[24.3,-42.6],"left_ankle":[-17.2,0.0],"right_ankle":[17.1,-3.1]}],[0.6006,{"nose":[-12.6,-162.3],"left_eye":[-15.0,-161.9],"right_eye":[-12.6,-163.8],"left_ear":[-17.8,-159.0],"right_ear":[-1.2,-163.3],"left_shoulder":[-17.8,-135.3],"right_shoulder":[18.7,-149.5],"left_elbow":[-13.1,-112.0],"right_elbow":[41.5,-139.1],"left_wrist":[1.6,-129.1],"right_wrist":[25.4,-132.9],"left_hip":[6.4,-83.1],"right_hip":[31.5,-87.3],"left_knee":[-4.5,-39.9],"right_knee":[28.7,-46.0],"left_ankle":[-19.7,0.0],"right_ankle":[19.7,-3.8]}],[0.6673,{"nose":[-8.3,-170.9],"left_eye":[-10.2,-170.9],"right_eye":[-8.8,-170.9],"left_ear":[-15.2,-167.2],"right_ear":[1.8,-170.4],"left_shoulder":[-18.9,-146.9],"right_shoulder":[21.2,-155.7],"left_elbow":[-14.8,-125.3],"right_elbow":[42.8,-138.2],"left_wrist":[-8.8,-114.2],"right_wrist":[26.8,-129.9],"left_hip":[3.8,-89.8],"right_hip":[29.0,-94.0],"left_knee":[-10.2,-43.3],"right_knee":[33.6,-63.1],"left_ankle":[-24.0,0.0],"right_ankle":[23.9,-18.9]}],[0.7341,{"nose":[-6.9,-171.5],"left_eye":[-9.1,-171.5],"right_eye":[-6.0,-172.0],"left_ear":[-13.6,-167.9],"right_ear":[2.8,-170.6],"left_shoulder":[-21.4,-147.9],"right_shoulder":[19.5,-154.2],"left_elbow":[-18.1,-126.9],"right_elbow":[39.5,-129.7],"left_wrist":[-7.2,-126.5],"right_wrist":[20.5,-123.7],"left_hip":[0.0,-88.7],"right_hip":[26.4,-93.7],"left_knee":[-15.4,-43.2],"right_knee":[33.6,-65.5],"left_ankle":[-29.1,0.0],"right_ankle":[29.1,-22.3]}],[0.8008,{"nose":[-6.8,-170.0],"left_eye":[-8.5,-170.9],"right_eye":[-6.8,-171.4],"left_ear":[-13.6,-166.7],"right_ear":[2.1,-169.5],"left_shoulder":[-21.5,-142.7],"right_shoulder":[19.6,-152.4],"left_elbow":[-18.8,-114.9],"right_elbow":[37.2,-124.1],"left_wrist":[-1.6,-121.8],"right_wrist":[17.0,-118.6],"left_hip":[1.1,-88.5],"right_hip":[27.6,-94.0],"left_knee":[-17.3,-41.7],"right_knee":[32.1,-60.7],"left_ankle":[-35.4,0.0],"right_ankle":[35.5,-14.8]}]],"wide":[[0.0,{"nose":[70.3,-166.2],"left_eye":[71.8,-169.8],"right_eye":[69.8,-169.8],"left_ear":[62.1,-169.3],"right_ear":[63.6,-165.2],"left_shoulder":[42.1,-162.1],"right_shoulder":[54.4,-143.1],"left_elbow":[30.8,-130.8],"right_elbow":[31.3,-120.5],"left_wrist":[41.0,-115.4],"right_wrist":[40.0,-110.8],"left_hip":[6.7,-107.2],"right_hip":[25.1,-97.5],"left_knee":[-3.6,-77.4],"right_knee":[62.1,-56.4],"left_ankle":[-53.4,-84.1],"right_ankle":[53.4,0.0]}],[0.0667,{"nose":[76.5,-160.3],"left_eye":[78.9,-164.8],"right_eye":[77.5,-162.8],"left_ear":[65.5,-165.8],"right_ear":[75.0,-159.3],"left_shoulder":[46.7,-160.3],"right_shoulder":[56.1,-135.0],"left_elbow":[18.4,-163.3],"right_elbow":[48.2,-106.2],"left_wrist":[29.3,-162.8],"right_wrist":[50.2,-84.9],"left_hip":[10.4,-103.7],"right_hip":[27.8,-90.3],"left_knee":[20.9,-66.0],"right_knee":[53.1,-45.1],"left_ankle":[-24.3,-67.0],"right_ankle":[24.3,0.0]}],[0.1335,{"nose":[78.6,-161.7],"left_eye":[81.1,-165.7],"right_eye":[78.1,-164.7],"left_ear":[70.5,-166.8],"right_ear":[77.1,-161.2],"left_shoulder":[48.7,-161.7],"right_shoulder":[61.3,-138.9],"left_elbow":[25.8,-155.6],"right_elbow":[60.8,-104.4],"left_wrist":[-1.5,-150.0],"right_wrist":[77.6,-74.0],"left_hip":[15.2,-101.9],"right_hip":[26.9,-96.3],"left_knee":[34.5,-58.8],"right_knee":[38.0,-40.5],"left_ankle":[1.5,-36.5],"right_ankle":[-1.5,0.0]}],[0.2002,{"nose":[59.0,-165.9],"left_eye":[60.1,-170.6],"right_eye":[61.1,-168.5],"left_ear":[47.5,-172.7],"right_ear":[59.6,-164.9],"left_shoulder":[21.8,-166.4],"right_shoulder":[52.2,-140.2],"left_elbow":[-6.6,-153.3],"right_elbow":[57.5,-106.6],"left_wrist":[-24.4,-155.9],"right_wrist":[82.7,-88.2],"left_hip":[-4.5,-103.4],"right_hip":[16.5,-95.0],"left_knee":[38.0,-66.2],"right_knee":[1.3,-38.9],"left_ankle":[40.7,-20.0],"right_ankle":[-40.7,0.0]}],[0.2669,{"nose":[42.9,-144.4],"left_eye":[45.3,-149.2],"right_eye":[38.8,-151.0],"left_ear":[47.8,-146.2],"right_ear":[32.8,-150.4],"left_shoulder":[47.8,-130.1],"right_shoulder":[8.9,-139.0],"left_elbow":[57.8,-116.3],"right_elbow":[-17.4,-130.1],"left_wrist":[84.1,-130.7],"right_wrist":[-21.5,-154.5],"left_hip":[13.8,-78.2],"right_hip":[-0.7,-79.9],"left_knee":[-17.4,-23.9],"right_knee":[43.5,-46.5],"left_ankle":[-65.7,0.0],"right_ankle":[65.6,-4.8]}],[0.3337,{"nose":[36.4,-148.6],"left_eye":[37.6,-151.0],"right_eye":[33.3,-151.7],"left_ear":[38.8,-149.2],"right_ear":[24.8,-148.6],"left_shoulder":[40.1,-132.7],"right_shoulder":[0.3,-133.3],"left_elbow":[48.6,-131.5],"right_elbow":[-28.4,-128.4],"left_wrist":[-19.9,-149.8],"right_wrist":[-22.3,-150.4],"left_hip":[-0.3,-72.2],"right_hip":[3.4,-74.0],"left_knee":[-19.3,-19.0],"right_knee":[44.3,-39.8],"left_ankle":[-68.8,-19.6],"right_ankle":[68.8,0.0]}],[0.4004,{"nose":[21.9,-149.5],"left_eye":[23.0,-152.8],"right_eye":[18.6,-151.2],"left_ear":[11.6,-147.4],"right_ear":[18.6,-144.7],"left_shoulder":[-7.9,-130.6],"right_shoulder":[24.6,-123.5],"left_elbow":[-38.8,-126.8],"right_elbow":[34.9,-124.6],"left_wrist":[-32.2,-144.1],"right_wrist":[15.4,-181.5],"left_hip":[-12.8,-67.7],"right_hip":[5.1,-67.2],"left_knee":[-12.2,-11.9],"right_knee":[42.5,-45.5],"left_ankle":[-52.9,-30.9],"right_ankle":[52.8,0.0]}],[0.4671,{"nose":[-5.0,-140.9],"left_eye":[-3.0,-145.2],"right_eye":[-10.3,-145.2],"left_ear":[-2.6,-143.8],"right_ear":[-18.0,-144.3],"left_shoulder":[0.2,-126.5],"right_shoulder":[-34.8,-124.5],"left_elbow":[16.2,-151.5],"right_elbow":[-56.5,-112.5],"left_wrist":[-9.3,-166.4],"right_wrist":[-53.1,-130.8],"left_hip":[-18.5,-68.3],"right_hip":[-42.0,-69.3],"left_knee":[-15.1,-15.4],"right_knee":[9.0,-47.6],"left_ankle":[-0.2,-7.7],"right_ankle":[0.2,0.0]}],[0.5339,{"nose":[13.5,-149.2],"left_eye":[11.6,-155.0],"right_eye":[12.1,-153.1],"left_ear":[-2.9,-155.0],"right_ear":[8.2,-151.7],"left_shoulder":[-21.7,-137.6],"right_shoulder":[4.3,-134.7],"left_elbow":[-26.6,-138.6],"right_elbow":[37.2,-138.1],"left_wrist":[-1.5,-151.7],"right_wrist":[25.1,-162.3],"left_hip":[-35.3,-79.2],"right_hip":[-13.5,-75.4],"left_knee":[6.3,-51.7],"right_knee":[24.6,-32.9],"left_ankle":[-3.4,-16.9],"right_ankle":[3.4,0.0]}],[0.6006,{"nose":[-10.5,-163.5],"left_eye":[-10.5,-167.1],"right_eye":[-11.0,-167.6],"left_ear":[-26.4,-167.1],"right_ear":[-13.6,-164.5],"left_shoulder":[-42.8,-152.7],"right_shoulder":[-8.0,-140.9],"left_elbow":[-18.7,-134.3],"right_elbow":[24.3,-130.7],"left_wrist":[-14.6,-154.8],"right_wrist":[33.0,-153.8],"left_hip":[-55.6,-92.8],"right_hip":[-27.9,-88.2],"left_knee":[-22.3,-73.3],"right_knee":[13.0,-52.3],"left_ankle":[-35.6,-37.4],"right_ankle":[35.6,0.0]}],[0.6673,{"nose":[-22.3,-161.9],"left_eye":[-19.9,-163.9],"right_eye":[-23.8,-161.9],"left_ear":[-32.0,-160.5],"right_ear":[-11.2,-159.5],"left_shoulder":[-49.0,-142.0],"right_shoulder":[-9.7,-136.7],"left_elbow":[-46.6,-115.9],"right_elbow":[10.2,-107.6],"left_wrist":[-21.8,-108.1],"right_wrist":[43.1,-109.1],"left_hip":[-57.2,-80.0],"right_hip":[-25.7,-78.5],"left_knee":[-39.8,-62.5],"right_knee":[13.6,-38.8],"left_ankle":[-47.5,-31.5],"right_ankle":[47.5,0.0]}],[0.7341,{"nose":[-18.4,-156.7],"left_eye":[-16.0,-158.1],"right_eye":[-19.2,-156.7],"left_ear":[-27.8,-153.8],"right_ear":[-7.1,-153.4],"left_shoulder":[-46.6,-135.5],"right_shoulder":[-5.7,-132.7],"left_elbow":[-44.7,-106.3],"right_elbow":[10.8,-93.6],"left_wrist":[-15.6,-103.0],"right_wrist":[47.9,-80.0],"left_hip":[-48.5,-74.8],"right_hip":[-18.8,-73.9],"left_knee":[-44.2,-54.1],"right_knee":[17.4,-41.0],"left_ankle":[-49.0,-29.7],"right_ankle":[48.9,0.0]}],[0.8008,{"nose":[-13.8,-153.8],"left_eye":[-11.9,-155.6],"right_eye":[-13.2,-154.2],"left_ear":[-24.9,-151.4],"right_ear":[-3.1,-150.0],"left_shoulder":[-43.0,-133.3],"right_shoulder":[1.6,-127.3],"left_elbow":[-52.2,-98.0],"right_elbow":[16.9,-88.7],"left_wrist":[-31.9,-100.3],"right_wrist":[39.2,-67.8],"left_hip":[-44.0,-74.3],"right_hip":[-14.7,-73.4],"left_knee":[-45.4,-46.0],"right_knee":[18.8,-39.9],"left_ankle":[-50.0,-28.3],"right_ankle":[49.9,0.0]}]],"reach":[[0.0,{"nose":[-35.1,-148.8],"left_eye":[-32.2,-152.5],"right_eye":[-33.2,-152.5],"left_ear":[-25.4,-145.6],"right_ear":[-22.2,-148.8],"left_shoulder":[-19.9,-123.5],"right_shoulder":[-7.9,-129.5],"left_elbow":[10.1,-96.8],"right_elbow":[4.6,-100.0],"left_wrist":[-12.5,-70.5],"right_wrist":[-24.0,-75.1],"left_hip":[6.9,-68.2],"right_hip":[26.2,-76.9],"left_knee":[-45.7,-47.0],"right_knee":[14.2,-41.0],"left_ankle":[-45.7,0.0],"right_ankle":[45.6,-13.3]}],[0.0667,{"nose":[-29.6,-149.7],"left_eye":[-27.8,-153.4],"right_eye":[-27.8,-152.8],"left_ear":[-21.1,-147.3],"right_ear":[-13.7,-149.7],"left_shoulder":[-18.0,-124.1],"right_shoulder":[-3.4,-133.2],"left_elbow":[14.4,-100.8],"right_elbow":[5.8,-105.1],"left_wrist":[0.9,-69.7],"right_wrist":[-11.9,-80.0],"left_hip":[5.2,-68.4],"right_hip":[28.4,-77.6],"left_knee":[-41.9,-42.8],"right_knee":[32.7,-55.6],"left_ankle":[-71.2,0.0],"right_ankle":[71.2,-35.4]}],[0.1335,{"nose":[-29.0,-151.6],"left_eye":[-27.0,-155.2],"right_eye":[-22.9,-155.8],"left_ear":[-20.4,-152.8],"right_ear":[-9.5,-152.8],"left_shoulder":[-21.0,-129.0],"right_shoulder":[-1.0,-135.7],"left_elbow":[-23.5,-95.0],"right_elbow":[-16.8,-109.0],"left_wrist":[-19.1,-67.0],"right_wrist":[-25.2,-91.3],"left_hip":[-2.1,-69.4],"right_hip":[24.0,-83.4],"left_knee":[-44.1,-46.3],"right_knee":[33.1,-70.0],"left_ankle":[-68.5,0.0],"right_ankle":[68.5,-55.4]}],[0.2002,{"nose":[-28.6,-143.5],"left_eye":[-27.7,-147.7],"right_eye":[-27.2,-148.2],"left_ear":[-21.7,-144.9],"right_ear":[-8.3,-146.3],"left_shoulder":[-19.4,-124.1],"right_shoulder":[3.2,-130.1],"left_elbow":[-25.4,-90.5],"right_elbow":[6.0,-97.4],"left_wrist":[-45.7,-74.8],"right_wrist":[-19.4,-84.0],"left_hip":[7.4,-63.7],"right_hip":[31.4,-73.4],"left_knee":[-38.8,-53.1],"right_knee":[-30.9,-57.2],"left_ankle":[-36.0,0.0],"right_ankle":[36.0,-49.8]}],[0.2669,{"nose":[-18.5,-140.2],"left_eye":[-15.2,-144.7],"right_eye":[-18.0,-144.7],"left_ear":[-3.5,-142.9],"right_ear":[7.5,-145.2],"left_shoulder":[-12.1,-122.0],"right_shoulder":[19.8,-131.5],"left_elbow":[-44.4,-105.6],"right_elbow":[18.8,-105.1],"left_wrist":[-42.6,-110.1],"right_wrist":[3.8,-101.9],"left_hip":[20.2,-61.9],"right_hip":[44.3,-70.5],"left_knee":[-21.2,-44.6],"right_knee":[3.8,-47.8],"left_ankle":[-1.2,0.0],"right_ankle":[1.1,-1.3]}],[0.3337,{"nose":[-2.1,-141.7],"left_eye":[-2.1,-144.3],"right_eye":[4.1,-144.8],"left_ear":[3.8,-140.4],"right_ear":[17.4,-143.0],"left_shoulder":[-0.2,-121.8],"right_shoulder":[31.0,-130.2],"left_elbow":[-18.4,-123.6],"right_elbow":[19.6,-138.6],"left_wrist":[-7.8,-146.5],"right_wrist":[13.4,-162.0],"left_hip":[27.1,-54.7],"right_hip":[50.5,-66.2],"left_knee":[-6.9,-30.0],"right_knee":[-2.9,-37.1],"left_ankle":[24.9,0.0],"right_ankle":[-25.0,-22.1]}],[0.4004,{"nose":[3.0,-150.8],"left_eye":[0.3,-153.0],"right_eye":[6.4,-153.0],"left_ear":[5.2,-148.0],"right_ear":[22.4,-149.1],"left_shoulder":[-3.6,-130.8],"right_shoulder":[35.2,-135.3],"left_elbow":[15.8,-151.9],"right_elbow":[39.1,-160.2],"left_wrist":[17.4,-163.0],"right_wrist":[41.3,-166.3],"left_hip":[30.2,-60.4],"right_hip":[56.3,-64.8],"left_knee":[-5.3,-32.1],"right_knee":[-3.6,-40.4],"left_ankle":[36.3,0.0],"right_ankle":[-36.3,-0.5]}],[0.4671,{"nose":[1.8,-152.0],"left_eye":[5.8,-156.5],"right_eye":[6.8,-157.5],"left_ear":[14.8,-151.5],"right_ear":[22.2,-153.0],"left_shoulder":[1.8,-134.0],"right_shoulder":[41.6,-137.0],"left_elbow":[6.8,-145.5],"right_elbow":[42.6,-140.5],"left_wrist":[37.6,-143.5],"right_wrist":[43.1,-139.5],"left_hip":[36.1,-67.8],"right_hip":[14.8,-76.7],"left_knee":[-11.1,-31.4],"right_knee":[-20.1,-46.3],"left_ankle":[31.1,-2.5],"right_ankle":[-31.1,0.0]}],[0.5339,{"nose":[5.0,-160.8],"left_eye":[22.9,-164.4],"right_eye":[11.8,-164.4],"left_ear":[23.4,-156.6],"right_ear":[23.4,-159.2],"left_shoulder":[41.8,-139.2],"right_shoulder":[3.4,-147.6],"left_elbow":[38.6,-155.5],"right_elbow":[40.6,-159.2],"left_wrist":[38.1,-168.1],"right_wrist":[39.6,-168.1],"left_hip":[39.6,-72.5],"right_hip":[16.0,-84.6],"left_knee":[-23.9,-43.1],"right_knee":[-21.9,-66.2],"left_ankle":[12.4,0.0],"right_ankle":[-12.4,-13.6]}],[0.6006,{"nose":[18.5,-175.4],"left_eye":[17.4,-179.1],"right_eye":[27.6,-181.3],"left_ear":[20.1,-173.7],"right_ear":[39.9,-177.0],"left_shoulder":[16.9,-155.5],"right_shoulder":[49.6,-160.3],"left_elbow":[-2.4,-167.3],"right_elbow":[51.7,-178.6],"left_wrist":[14.7,-186.1],"right_wrist":[36.7,-188.2],"left_hip":[41.0,-86.4],"right_hip":[60.3,-93.9],"left_knee":[-15.3,-61.2],"right_knee":[2.9,-91.7],"left_ankle":[-7.2,0.0],"right_ankle":[7.2,-38.6]}],[0.6673,{"nose":[29.1,-185.1],"left_eye":[24.9,-187.2],"right_eye":[27.0,-188.8],"left_ear":[24.3,-181.4],"right_ear":[45.0,-185.1],"left_shoulder":[24.3,-159.7],"right_shoulder":[62.4,-171.9],"left_elbow":[-1.6,-162.4],"right_elbow":[49.7,-171.9],"left_wrist":[9.0,-187.8],"right_wrist":[31.2,-114.3],"left_hip":[43.9,-93.1],"right_hip":[72.5,-96.8],"left_knee":[2.1,-54.5],"right_knee":[27.0,-96.8],"left_ankle":[-21.7,0.0],"right_ankle":[21.7,-51.3]}],[0.7341,{"nose":[26.7,-178.8],"left_eye":[22.7,-179.8],"right_eye":[26.2,-180.3],"left_ear":[17.7,-174.3],"right_ear":[37.2,-177.8],"left_shoulder":[12.7,-152.3],"right_shoulder":[50.2,-162.8],"left_elbow":[-17.3,-144.8],"right_elbow":[23.7,-154.8],"left_wrist":[-18.2,-166.8],"right_wrist":[-3.3,-164.3],"left_hip":[35.2,-85.9],"right_hip":[66.7,-87.9],"left_knee":[-6.8,-49.4],"right_knee":[25.7,-73.9],"left_ankle":[-27.7,0.0],"right_ankle":[27.7,-48.4]}],[0.8008,{"nose":[17.3,-173.3],"left_eye":[16.8,-174.8],"right_eye":[16.8,-175.8],"left_ear":[10.0,-169.9],"right_ear":[29.0,-173.3],"left_shoulder":[4.7,-140.7],"right_shoulder":[47.5,-153.9],"left_elbow":[-20.2,-121.3],"right_elbow":[24.6,-129.5],"left_wrist":[-39.2,-132.5],"right_wrist":[6.1,-131.0],"left_hip":[34.8,-84.3],"right_hip":[63.1,-84.3],"left_knee":[-11.9,-50.2],"right_knee":[31.4,-64.8],"left_ankle":[-31.4,0.0],"right_ankle":[31.4,-47.3]}]],"last":[[0.0,{"nose":[24.8,-161.0],"left_eye":[26.9,-164.7],"right_eye":[24.2,-163.7],"left_ear":[16.3,-164.2],"right_ear":[24.8,-162.1],"left_shoulder":[-2.2,-156.3],"right_shoulder":[14.2,-141.0],"left_elbow":[-3.8,-123.0],"right_elbow":[13.1,-109.3],"left_wrist":[21.0,-101.9],"right_wrist":[33.2,-98.7],"left_hip":[-35.4,-90.8],"right_hip":[-9.0,-86.6],"left_knee":[-32.8,-37.5],"right_knee":[30.0,-54.9],"left_ankle":[-54.4,0.0],"right_ankle":[54.3,-16.9]}],[0.0667,{"nose":[33.3,-145.7],"left_eye":[37.3,-150.2],"right_eye":[28.4,-148.2],"left_ear":[35.3,-155.1],"right_ear":[23.4,-147.7],"left_shoulder":[8.6,-145.2],"right_shoulder":[22.5,-122.5],"left_elbow":[3.2,-111.2],"right_elbow":[22.5,-97.8],"left_wrist":[32.8,-93.4],"right_wrist":[42.7,-89.9],"left_hip":[-23.5,-85.0],"right_hip":[2.2,-80.0],"left_knee":[-24.0,-32.6],"right_knee":[39.3,-51.9],"left_ankle":[-55.1,0.0],"right_ankle":[55.1,-8.4]}],[0.1335,{"nose":[43.0,-154.0],"left_eye":[47.0,-156.5],"right_eye":[42.5,-154.5],"left_ear":[34.8,-155.5],"right_ear":[47.0,-149.1],"left_shoulder":[14.2,-146.2],"right_shoulder":[35.2,-129.1],"left_elbow":[2.0,-147.7],"right_elbow":[28.8,-105.1],"left_wrist":[-16.2,-156.5],"right_wrist":[41.0,-71.9],"left_hip":[-15.7,-80.2],"right_hip":[9.3,-76.7],"left_knee":[-18.0,-27.8],"right_knee":[45.5,-56.7],"left_ankle":[-47.5,0.0],"right_ankle":[47.5,-1.4]}],[0.2002,{"nose":[48.6,-160.0],"left_eye":[51.2,-164.6],"right_eye":[49.6,-161.0],"left_ear":[41.0,-164.6],"right_ear":[53.2,-155.4],"left_shoulder":[18.6,-157.9],"right_shoulder":[45.0,-132.0],"left_elbow":[-3.9,-154.9],"right_elbow":[41.5,-99.4],"left_wrist":[-36.0,-149.3],"right_wrist":[57.3,-68.3],"left_hip":[-9.5,-89.7],"right_hip":[16.0,-85.1],"left_knee":[-13.5,-39.7],"right_knee":[46.6,-55.5],"left_ankle":[-40.5,-6.1],"right_ankle":[40.5,0.0]}],[0.2669,{"nose":[45.5,-174.6],"left_eye":[48.8,-178.3],"right_eye":[47.7,-174.6],"left_ear":[36.4,-176.7],"right_ear":[52.5,-169.2],"left_shoulder":[11.0,-170.3],"right_shoulder":[52.5,-150.3],"left_elbow":[-19.7,-154.6],"right_elbow":[53.6,-111.0],"left_wrist":[-40.7,-146.0],"right_wrist":[55.8,-107.2],"left_hip":[-5.1,-102.9],"right_hip":[25.6,-99.1],"left_knee":[-18.1,-50.1],"right_knee":[35.3,-51.2],"left_ankle":[-34.8,-8.6],"right_ankle":[34.8,0.0]}],[0.3337,{"nose":[38.5,-173.6],"left_eye":[41.5,-176.7],"right_eye":[43.6,-174.6],"left_ear":[27.5,-175.7],"right_ear":[44.8,-169.4],"left_shoulder":[2.6,-164.2],"right_shoulder":[42.6,-151.2],"left_elbow":[-24.5,-145.5],"right_elbow":[45.2,-127.9],"left_wrist":[-33.8,-153.8],"right_wrist":[47.8,-150.7],"left_hip":[-5.2,-102.4],"right_hip":[20.8,-100.3],"left_knee":[-27.5,-59.8],"right_knee":[27.5,-47.8],"left_ankle":[-32.2,-9.4],"right_ankle":[32.2,0.0]}],[0.4004,{"nose":[27.2,-171.3],"left_eye":[24.5,-174.0],"right_eye":[27.7,-172.4],"left_ear":[19.7,-169.7],"right_ear":[35.2,-166.5],"left_shoulder":[-1.5,-149.0],"right_shoulder":[35.2,-148.4],"left_elbow":[-28.2,-136.7],"right_elbow":[39.4,-139.4],"left_wrist":[-29.8,-161.7],"right_wrist":[8.0,-154.3],"left_hip":[-10.6,-91.0],"right_hip":[17.1,-89.4],"left_knee":[-42.5,-67.5],"right_knee":[20.8,-44.7],"left_ankle":[-38.8,-14.9],"right_ankle":[38.9,0.0]}],[0.4671,{"nose":[16.0,-160.8],"left_eye":[17.1,-163.5],"right_eye":[16.6,-162.4],"left_ear":[10.0,-158.6],"right_ear":[27.5,-157.5],"left_shoulder":[-1.9,-135.1],"right_shoulder":[32.4,-142.2],"left_elbow":[-28.7,-119.9],"right_elbow":[16.0,-162.9],"left_wrist":[-22.1,-145.0],"right_wrist":[-0.9,-181.5],"left_hip":[-9.0,-83.4],"right_hip":[18.2,-82.3],"left_knee":[-51.0,-64.3],"right_knee":[22.0,-35.9],"left_ankle":[-48.8,-13.0],"right_ankle":[48.8,0.0]}],[0.5339,{"nose":[17.9,-150.1],"left_eye":[20.7,-152.0],"right_eye":[15.5,-152.0],"left_ear":[8.5,-150.1],"right_ear":[24.5,-149.2],"left_shoulder":[-1.9,-129.9],"right_shoulder":[32.9,-136.0],"left_elbow":[-21.2,-102.1],"right_elbow":[17.4,-125.2],"left_wrist":[-20.7,-134.6],"right_wrist":[-6.1,-124.2],"left_hip":[-2.4,-75.8],"right_hip":[24.5,-75.3],"left_knee":[-48.9,-64.0],"right_knee":[31.1,-38.6],"left_ankle":[-54.6,-9.4],"right_ankle":[54.6,0.0]}],[0.6006,{"nose":[9.3,-141.3],"left_eye":[11.6,-143.6],"right_eye":[8.0,-145.4],"left_ear":[5.2,-139.9],"right_ear":[17.6,-141.8],"left_shoulder":[-2.2,-116.5],"right_shoulder":[27.8,-131.6],"left_elbow":[-16.0,-91.6],"right_elbow":[24.5,-154.2],"left_wrist":[-22.0,-120.6],"right_wrist":[-10.4,-143.6],"left_hip":[6.1,-71.4],"right_hip":[33.8,-75.5],"left_knee":[-47.2,-57.1],"right_knee":[30.5,-41.0],"left_ankle":[-55.5,-5.5],"right_ankle":[55.5,0.0]}],[0.6673,{"nose":[-7.5,-138.8],"left_eye":[-7.9,-142.3],"right_eye":[-6.2,-142.8],"left_ear":[-14.9,-137.9],"right_ear":[4.4,-141.4],"left_shoulder":[-25.5,-117.7],"right_shoulder":[16.7,-125.2],"left_elbow":[-22.0,-84.3],"right_elbow":[31.2,-101.5],"left_wrist":[-35.2,-112.0],"right_wrist":[15.8,-94.0],"left_hip":[-4.0,-68.9],"right_hip":[20.6,-72.0],"left_knee":[-53.6,-51.8],"right_knee":[21.5,-43.0],"left_ankle":[-50.1,0.0],"right_ankle":[50.1,-6.1]}],[0.7341,{"nose":[-12.4,-139.0],"left_eye":[-12.8,-140.8],"right_eye":[-15.0,-141.2],"left_ear":[-20.2,-137.3],"right_ear":[2.4,-141.2],"left_shoulder":[-32.4,-124.2],"right_shoulder":[8.5,-129.9],"left_elbow":[-18.5,-75.8],"right_elbow":[31.6,-100.2],"left_wrist":[-35.1,-99.8],"right_wrist":[-14.6,-92.8],"left_hip":[-10.2,-68.0],"right_hip":[15.9,-70.6],"left_knee":[-53.8,-51.4],"right_knee":[17.3,-42.7],"left_ankle":[-48.1,0.0],"right_ankle":[48.2,-6.1]}],[0.8008,{"nose":[-24.8,-134.5],"left_eye":[-23.1,-137.5],"right_eye":[-26.1,-138.4],"left_ear":[-17.9,-134.5],"right_ear":[-20.5,-140.5],"left_shoulder":[-10.5,-104.0],"right_shoulder":[-6.6,-137.5],"left_elbow":[-4.8,-71.4],"right_elbow":[-38.8,-124.5],"left_wrist":[-34.8,-79.2],"right_wrist":[-51.8,-104.0],"left_hip":[-10.9,-68.8],"right_hip":[14.8,-74.4],"left_knee":[-55.7,-51.4],"right_knee":[17.4,-41.4],"left_ankle":[-49.2,0.0],"right_ankle":[49.1,-3.1]}]],"farIdle":{"nose":[21.2,-62.9],"left_eye":[23.2,-65.0],"right_eye":[19.5,-64.8],"left_ear":[25.9,-63.3],"right_ear":[16.6,-63.1],"left_shoulder":[28.1,-53.9],"right_shoulder":[10.8,-53.3],"left_elbow":[29.8,-42.7],"right_elbow":[5.5,-41.8],"left_wrist":[23.6,-35.6],"right_wrist":[9.5,-33.5],"left_hip":[19.8,-32.0],"right_hip":[7.6,-32.2],"left_knee":[31.0,-15.4],"right_knee":[-4.2,-13.0],"left_ankle":[21.5,-3.2],"right_ankle":[-21.6,0.0]},"farRun":[[0.0,{"nose":[8.4,-69.4],"left_eye":[10.2,-71.3],"right_eye":[7.2,-71.1],"left_ear":[12.9,-69.8],"right_ear":[4.4,-69.8],"left_shoulder":[17.2,-60.0],"right_shoulder":[-0.9,-60.9],"left_elbow":[18.8,-48.7],"right_elbow":[-4.8,-50.0],"left_wrist":[12.9,-41.7],"right_wrist":[-2.8,-41.7],"left_hip":[12.5,-37.2],"right_hip":[1.2,-37.6],"left_knee":[15.5,-17.6],"right_knee":[-9.6,-20.2],"left_ankle":[20.6,0.0],"right_ankle":[-20.6,-3.6]}],[0.0667,{"nose":[3.4,-65.5],"left_eye":[5.2,-67.5],"right_eye":[1.9,-67.3],"left_ear":[7.6,-66.2],"right_ear":[-1.1,-66.2],"left_shoulder":[12.1,-57.5],"right_shoulder":[-5.6,-57.9],"left_elbow":[12.9,-45.5],"right_elbow":[-7.1,-46.6],"left_wrist":[7.1,-38.8],"right_wrist":[-5.1,-39.9],"left_hip":[9.8,-35.1],"right_hip":[-2.6,-35.5],"left_knee":[16.4,-16.6],"right_knee":[-16.6,-20.5],"left_ankle":[26.4,0.0],"right_ankle":[-26.4,-4.4]}],[0.1335,{"nose":[-5.9,-66.1],"left_eye":[-3.6,-67.6],"right_eye":[-6.6,-67.6],"left_ear":[-0.4,-67.4],"right_ear":[-8.6,-67.6],"left_shoulder":[4.6,-57.4],"right_shoulder":[-12.6,-59.1],"left_elbow":[3.4,-43.6],"right_elbow":[-14.9,-46.9],"left_wrist":[-1.4,-35.6],"right_wrist":[-15.7,-40.4],"left_hip":[3.1,-34.6],"right_hip":[-9.4,-34.8],"left_knee":[13.6,-13.8],"right_knee":[-23.4,-19.3],"left_ankle":[30.9,0.0],"right_ankle":[-30.9,-0.5]}],[0.2002,{"nose":[-13.7,-65.3],"left_eye":[-11.0,-66.9],"right_eye":[-14.2,-66.5],"left_ear":[-5.3,-66.0],"right_ear":[-14.9,-67.6],"left_shoulder":[-1.6,-59.4],"right_shoulder":[-14.4,-60.8],"left_elbow":[-3.2,-46.5],"right_elbow":[-19.3,-49.5],"left_wrist":[-8.0,-45.4],"right_wrist":[-21.1,-48.6],"left_hip":[-3.2,-33.3],"right_hip":[-11.5,-33.5],"left_knee":[6.4,-11.0],"right_knee":[-26.1,-19.5],"left_ankle":[27.0,-4.1],"right_ankle":[-27.0,0.0]}],[0.2669,{"nose":[-11.2,-66.0],"left_eye":[-9.4,-67.8],"right_eye":[-12.6,-67.2],"left_ear":[-5.1,-65.0],"right_ear":[-14.0,-66.2],"left_shoulder":[-1.3,-57.3],"right_shoulder":[-13.6,-58.7],"left_elbow":[-7.2,-46.9],"right_elbow":[-20.6,-51.5],"left_wrist":[-18.6,-50.7],"right_wrist":[-20.4,-52.7],"left_hip":[-0.9,-33.0],"right_hip":[-9.0,-34.0],"left_knee":[-2.9,-12.1],"right_knee":[-21.4,-20.1],"left_ankle":[17.2,-6.3],"right_ankle":[-17.2,0.0]}],[0.3337,{"nose":[-6.6,-60.3],"left_eye":[-4.6,-61.9],"right_eye":[-7.2,-61.4],"left_ear":[0.3,-60.1],"right_ear":[-8.1,-60.3],"left_shoulder":[4.8,-51.5],"right_shoulder":[-8.5,-53.0],"left_elbow":[7.4,-38.1],"right_elbow":[-10.3,-40.1],"left_wrist":[-2.7,-29.3],"right_wrist":[-10.9,-31.2],"left_hip":[5.7,-29.9],"right_hip":[-2.5,-31.0],"left_knee":[-6.8,-19.4],"right_knee":[-13.9,-19.6],"left_ankle":[5.9,0.0],"right_ankle":[-5.9,-0.2]}],[0.4004,{"nose":[0.4,-57.9],"left_eye":[2.0,-59.9],"right_eye":[-0.6,-59.9],"left_ear":[6.5,-58.5],"right_ear":[-1.4,-58.9],"left_shoulder":[11.4,-49.4],"right_shoulder":[1.0,-51.2],"left_elbow":[16.0,-35.8],"right_elbow":[1.6,-38.6],"left_wrist":[14.8,-26.6],"right_wrist":[-0.6,-30.7],"left_hip":[12.8,-28.9],"right_hip":[7.5,-30.9],"left_knee":[-5.1,-17.9],"right_knee":[-7.5,-18.7],"left_ankle":[0.2,0.0],"right_ankle":[-0.2,-1.2]}],[0.4671,{"nose":[2.5,-65.1],"left_eye":[2.7,-67.2],"right_eye":[0.7,-66.8],"left_ear":[8.4,-65.1],"right_ear":[2.7,-65.7],"left_shoulder":[8.4,-57.8],"right_shoulder":[7.4,-58.4],"left_elbow":[-7.9,-61.0],"right_elbow":[-9.1,-63.9],"left_wrist":[-20.0,-67.8],"right_wrist":[-21.2,-69.0],"left_hip":[11.3,-31.6],"right_hip":[9.7,-32.2],"left_knee":[-6.7,-22.2],"right_knee":[-7.7,-22.8],"left_ankle":[0.1,0.0],"right_ankle":[-0.1,-2.8]}],[0.5339,{"nose":[-3.4,-69.1],"left_eye":[-5.5,-72.2],"right_eye":[-3.4,-71.4],"left_ear":[2.0,-68.7],"right_ear":[-1.7,-70.8],"left_shoulder":[8.0,-60.2],"right_shoulder":[2.6,-65.6],"left_elbow":[-5.9,-53.2],"right_elbow":[-10.2,-69.3],"left_wrist":[-19.5,-53.4],"right_wrist":[-20.6,-56.9],"left_hip":[13.4,-33.1],"right_hip":[8.6,-35.2],"left_knee":[-5.1,-20.1],"right_knee":[-8.2,-25.2],"left_ankle":[8.6,0.0],"right_ankle":[-8.6,-5.2]}],[0.6006,{"nose":[-9.9,-70.5],"left_eye":[-9.4,-73.6],"right_eye":[-10.8,-72.9],"left_ear":[-4.1,-70.8],"right_ear":[-6.7,-71.2],"left_shoulder":[6.0,-59.5],"right_shoulder":[-1.0,-62.1],"left_elbow":[-7.9,-51.1],"right_elbow":[-11.8,-55.4],"left_wrist":[-19.7,-51.8],"right_wrist":[-19.9,-53.7],"left_hip":[14.1,-32.1],"right_hip":[8.4,-34.0],"left_knee":[-2.7,-16.5],"right_knee":[-7.5,-24.7],"left_ankle":[14.1,0.0],"right_ankle":[-14.2,-11.2]}],[0.6673,{"nose":[-8.4,-77.6],"left_eye":[-7.6,-79.8],"right_eye":[-8.6,-79.3],"left_ear":[-2.6,-77.9],"right_ear":[-7.1,-77.1],"left_shoulder":[0.9,-63.7],"right_shoulder":[4.6,-66.9],"left_elbow":[-6.1,-50.9],"right_elbow":[-7.4,-54.1],"left_wrist":[-16.6,-47.3],"right_wrist":[-17.4,-48.5],"left_hip":[10.8,-32.8],"right_hip":[7.9,-34.3],"left_knee":[-3.0,-11.8],"right_knee":[-9.1,-21.1],"left_ankle":[17.4,0.0],"right_ankle":[-17.4,-7.1]}],[0.7341,{"nose":[-9.0,-67.0],"left_eye":[-7.2,-68.5],"right_eye":[-9.4,-68.9],"left_ear":[-1.2,-67.0],"right_ear":[-7.2,-68.5],"left_shoulder":[2.2,-54.9],"right_shoulder":[3.8,-57.1],"left_elbow":[-11.8,-45.0],"right_elbow":[-12.9,-47.2],"left_wrist":[-24.8,-37.7],"right_wrist":[-23.4,-38.6],"left_hip":[7.5,-29.7],"right_hip":[2.2,-31.2],"left_knee":[-0.7,-6.0],"right_knee":[-15.2,-20.2],"left_ankle":[18.8,0.0],"right_ankle":[-18.9,-4.0]}]],"farHit":[[0.0,{"nose":[9.7,-59.4],"left_eye":[10.4,-61.1],"right_eye":[7.8,-61.3],"left_ear":[9.1,-60.8],"right_ear":[3.5,-60.6],"left_shoulder":[-4.0,-53.3],"right_shoulder":[0.5,-52.3],"left_elbow":[10.8,-41.5],"right_elbow":[11.6,-40.5],"left_wrist":[10.8,-43.3],"right_wrist":[14.6,-46.3],"left_hip":[-1.8,-30.2],"right_hip":[-6.0,-28.5],"left_knee":[11.7,-20.5],"right_knee":[3.7,-9.4],"left_ankle":[16.1,-4.5],"right_ankle":[-16.0,0.0]}],[0.0667,{"nose":[15.8,-59.8],"left_eye":[16.2,-61.5],"right_eye":[14.0,-61.5],"left_ear":[14.9,-61.5],"right_ear":[10.0,-61.1],"left_shoulder":[1.5,-53.0],"right_shoulder":[8.4,-52.1],"left_elbow":[-4.6,-41.9],"right_elbow":[12.2,-39.1],"left_wrist":[-6.3,-30.8],"right_wrist":[-0.8,-27.7],"left_hip":[5.8,-30.9],"right_hip":[1.2,-29.6],"left_knee":[20.9,-22.1],"right_knee":[4.5,-7.5],"left_ankle":[16.5,-4.5],"right_ankle":[-16.5,0.0]}],[0.1335,{"nose":[21.4,-62.6],"left_eye":[22.0,-64.4],"right_eye":[20.0,-64.6],"left_ear":[21.0,-63.6],"right_ear":[15.0,-63.4],"left_shoulder":[13.4,-54.1],"right_shoulder":[9.9,-53.5],"left_elbow":[15.0,-44.1],"right_elbow":[3.9,-41.7],"left_wrist":[17.4,-35.7],"right_wrist":[19.6,-32.9],"left_hip":[12.6,-32.9],"right_hip":[5.9,-32.1],"left_knee":[26.8,-21.7],"right_knee":[4.5,-11.8],"left_ankle":[16.6,-4.8],"right_ankle":[-16.5,0.0]}],[0.2002,{"nose":[21.5,-64.5],"left_eye":[22.3,-66.8],"right_eye":[19.7,-67.0],"left_ear":[22.5,-66.4],"right_ear":[14.5,-66.4],"left_shoulder":[21.8,-56.4],"right_shoulder":[9.3,-56.8],"left_elbow":[23.0,-50.0],"right_elbow":[17.0,-48.4],"left_wrist":[26.8,-47.3],"right_wrist":[25.7,-46.7],"left_hip":[16.8,-37.0],"right_hip":[5.8,-36.2],"left_knee":[29.8,-21.7],"right_knee":[-1.7,-16.9],"left_ankle":[16.2,-6.8],"right_ankle":[-16.2,0.0]}],[0.2669,{"nose":[15.8,-63.0],"left_eye":[16.6,-65.3],"right_eye":[13.3,-64.9],"left_ear":[17.7,-64.9],"right_ear":[8.6,-63.9],"left_shoulder":[20.6,-59.5],"right_shoulder":[5.2,-55.6],"left_elbow":[26.4,-53.1],"right_elbow":[12.9,-44.1],"left_wrist":[32.0,-47.9],"right_wrist":[28.1,-45.0],"left_hip":[15.6,-36.9],"right_hip":[3.4,-36.5],"left_knee":[29.9,-21.3],"right_knee":[-6.6,-17.8],"left_ankle":[18.1,-8.7],"right_ankle":[-18.2,0.0]}],[0.3337,{"nose":[9.8,-60.3],"left_eye":[10.0,-62.2],"right_eye":[7.2,-61.6],"left_ear":[11.3,-61.8],"right_ear":[1.9,-59.9],"left_shoulder":[15.1,-55.9],"right_shoulder":[-1.2,-52.1],"left_elbow":[21.8,-49.5],"right_elbow":[4.3,-40.4],"left_wrist":[23.3,-44.6],"right_wrist":[18.2,-42.7],"left_hip":[9.4,-33.6],"right_hip":[-2.9,-33.6],"left_knee":[21.8,-17.3],"right_knee":[-11.8,-17.1],"left_ankle":[24.6,-2.5],"right_ankle":[-24.7,0.0]}],[0.4004,{"nose":[6.9,-57.2],"left_eye":[7.6,-59.3],"right_eye":[4.1,-58.6],"left_ear":[8.5,-58.4],"right_ear":[-1.3,-57.7],"left_shoulder":[10.6,-51.9],"right_shoulder":[-4.6,-52.1],"left_elbow":[11.6,-44.4],"right_elbow":[-6.4,-40.9],"left_wrist":[5.3,-40.6],"right_wrist":[-6.4,-32.2],"left_hip":[4.8,-32.2],"right_hip":[-6.0,-32.9],"left_knee":[15.5,-16.3],"right_knee":[-15.5,-15.9],"left_ankle":[27.9,-1.6],"right_ankle":[-27.9,0.0]}],[0.4671,{"nose":[9.0,-60.4],"left_eye":[10.9,-62.5],"right_eye":[7.1,-61.8],"left_ear":[13.2,-62.0],"right_ear":[3.2,-60.8],"left_shoulder":[15.5,-55.0],"right_shoulder":[-1.7,-53.8],"left_elbow":[15.1,-47.1],"right_elbow":[-4.3,-43.1],"left_wrist":[13.4,-37.7],"right_wrist":[-5.9,-32.1],"left_hip":[9.2,-35.6],"right_hip":[-2.7,-36.1],"left_knee":[18.8,-20.0],"right_knee":[-12.7,-17.2],"left_ankle":[27.4,-6.3],"right_ankle":[-27.4,0.0]}],[0.5339,{"nose":[8.3,-56.7],"left_eye":[10.1,-58.7],"right_eye":[6.5,-58.5],"left_ear":[12.1,-58.3],"right_ear":[2.7,-57.8],"left_shoulder":[15.0,-51.1],"right_shoulder":[-2.0,-50.9],"left_elbow":[13.9,-41.2],"right_elbow":[-4.5,-39.7],"left_wrist":[12.8,-33.4],"right_wrist":[-5.4,-30.2],"left_hip":[9.2,-32.9],"right_hip":[-2.7,-33.4],"left_knee":[18.4,-16.8],"right_knee":[-12.7,-15.7],"left_ankle":[26.7,-3.1],"right_ankle":[-26.6,0.0]}],[0.6006,{"nose":[7.0,-59.3],"left_eye":[8.8,-61.8],"right_eye":[5.5,-61.1],"left_ear":[11.3,-60.9],"right_ear":[1.5,-60.2],"left_shoulder":[14.0,-53.5],"right_shoulder":[-4.0,-51.9],"left_elbow":[15.0,-43.8],"right_elbow":[-6.5,-41.3],"left_wrist":[11.8,-35.2],"right_wrist":[-6.7,-31.2],"left_hip":[8.7,-33.6],"right_hip":[-3.0,-34.1],"left_knee":[18.0,-17.2],"right_knee":[-11.8,-16.5],"left_ankle":[26.2,-3.0],"right_ankle":[-26.2,0.0]}],[0.6673,{"nose":[3.6,-58.6],"left_eye":[5.6,-60.5],"right_eye":[1.7,-60.3],"left_ear":[8.8,-59.9],"right_ear":[-1.3,-59.7],"left_shoulder":[11.8,-52.8],"right_shoulder":[-6.0,-52.8],"left_elbow":[11.8,-43.6],"right_elbow":[-9.4,-43.4],"left_wrist":[9.2,-35.3],"right_wrist":[-8.8,-34.6],"left_hip":[5.8,-33.8],"right_hip":[-5.6,-33.6],"left_knee":[15.2,-17.7],"right_knee":[-14.1,-16.9],"left_ankle":[24.8,-3.8],"right_ankle":[-24.8,0.0]}],[0.7341,{"nose":[-3.1,-60.1],"left_eye":[-1.1,-62.3],"right_eye":[-4.7,-62.3],"left_ear":[1.4,-61.3],"right_ear":[-7.6,-61.9],"left_shoulder":[4.8,-53.3],"right_shoulder":[-12.3,-53.8],"left_elbow":[6.3,-41.7],"right_elbow":[-16.3,-44.4],"left_wrist":[1.0,-37.5],"right_wrist":[-13.9,-36.6],"left_hip":[1.0,-35.8],"right_hip":[-9.8,-36.6],"left_knee":[10.6,-19.5],"right_knee":[-17.6,-18.7],"left_ankle":[22.2,-3.7],"right_ankle":[-22.2,0.0]}],[0.8008,{"nose":[-7.8,-62.5],"left_eye":[-5.8,-64.5],"right_eye":[-9.3,-64.3],"left_ear":[-3.1,-63.1],"right_ear":[-12.8,-63.9],"left_shoulder":[0.2,-54.9],"right_shoulder":[-16.7,-56.1],"left_elbow":[3.1,-43.6],"right_elbow":[-20.6,-46.7],"left_wrist":[0.4,-36.0],"right_wrist":[-15.4,-38.4],"left_hip":[-1.9,-35.8],"right_hip":[-13.2,-36.8],"left_knee":[8.4,-19.5],"right_knee":[-19.3,-18.5],"left_ankle":[22.4,-4.9],"right_ankle":[-22.4,0.0]}]]};
+  const OFFICIALS = [{"nose":[617.0,57.5],"left_eye":[618.7,55.4],"right_eye":[615.1,55.6],"left_ear":[621.3,56.8],"right_ear":[612.4,57.3],"left_shoulder":[627.0,67.8],"right_shoulder":[608.6,68.3],"left_elbow":[632.5,79.5],"right_elbow":[604.6,80.0],"left_wrist":[630.1,88.1],"right_wrist":[605.3,89.3],"left_hip":[624.2,95.5],"right_hip":[614.1,95.5],"left_knee":[627.0,116.5],"right_knee":[612.9,117.0],"left_ankle":[631.1,136.8],"right_ankle":[611.7,137.1]},{"nose":[1296.1,64.9],"left_eye":[1297.9,62.9],"right_eye":[1294.6,63.2],"left_ear":[1301.0,64.5],"right_ear":[1292.4,64.7],"left_shoulder":[1305.0,74.5],"right_shoulder":[1286.6,74.0],"left_elbow":[1307.0,85.8],"right_elbow":[1283.0,85.8],"left_wrist":[1301.2,92.2],"right_wrist":[1288.4,90.7],"left_hip":[1299.5,97.3],"right_hip":[1288.4,97.3],"left_knee":[1299.5,119.5],"right_knee":[1285.5,119.0],"left_ankle":[1299.0,139.4],"right_ankle":[1285.3,139.2]},{"nose":[952.8,78.1],"left_eye":[954.5,76.7],"right_eye":[950.7,76.7],"left_ear":[956.9,77.9],"right_ear":[948.3,77.9],"left_shoulder":[962.1,87.6],"right_shoulder":[945.3,88.4],"left_elbow":[967.7,99.2],"right_elbow":[940.8,100.0],"left_wrist":[966.7,110.6],"right_wrist":[939.8,111.0],"left_hip":[959.0,112.2],"right_hip":[948.7,112.2],"left_knee":[958.0,130.5],"right_knee":[943.9,131.1],"left_ankle":[959.6,143.3],"right_ankle":[943.1,143.7]},{"nose":[1708.8,403.4],"left_eye":[1708.8,399.2],"right_eye":[1707.2,400.5],"left_ear":[1714.7,396.9],"right_ear":[1712.4,396.0],"left_shoulder":[1727.6,402.1],"right_shoulder":[1727.3,395.3],"left_elbow":[1719.2,425.0],"right_elbow":[1716.3,421.2],"left_wrist":[1700.1,425.7],"right_wrist":[1700.4,423.4],"left_hip":[1778.3,403.4],"right_hip":[1778.0,402.4],"left_knee":[1803.2,423.4],"right_knee":[1803.2,421.2],"left_ankle":[1774.1,421.5],"right_ankle":[1773.5,419.5]},{"nose":[440.4,217.1],"left_eye":[440.0,214.0],"right_eye":[438.3,214.4],"left_ear":[426.3,215.1],"right_ear":[433.9,215.3],"left_shoulder":[423.7,230.3],"right_shoulder":[427.9,231.4],"left_elbow":[443.8,224.1],"right_elbow":[435.0,252.6],"left_wrist":[457.0,227.2],"right_wrist":[460.5,258.5],"left_hip":[431.6,268.9],"right_hip":[434.9,269.1],"left_knee":[457.9,282.9],"right_knee":[460.5,282.9],"left_ankle":[433.8,282.9],"right_ankle":[478.3,282.9]},{"nose":[739.4,81.0],"left_eye":[741.2,79.2],"right_eye":[737.8,79.2],"left_ear":[745.0,81.3],"right_ear":[735.3,81.9],"left_shoulder":[748.9,89.1],"right_shoulder":[731.5,89.2],"left_elbow":[754.9,99.7],"right_elbow":[727.6,98.4],"left_wrist":[754.7,109.4],"right_wrist":[727.2,109.4],"left_hip":[747.9,108.7],"right_hip":[734.2,108.3],"left_knee":[756.1,122.3],"right_knee":[728.5,121.4],"left_ankle":[762.4,138.0],"right_ankle":[725.2,138.0]}];
+  const SHOTS = [[{"duration":0.567233,"start":[1010,80],"end":[795,590],"v":[-283.8338,567.6676],"a":[-335.6605,1168.5959]},{"duration":0.333667,"start":[795,590],"end":[668,712],"v":[-350.6494,125.8741],"a":[-179.6405,1437.1243]}],[{"duration":0.967633,"start":[668,712],"end":[1107,252],"v":[823.6591,-1215.3364],"a":[-764.7005,1529.401]},{"duration":0.266933,"start":[1107,252],"end":[1139,183],"v":[149.8502,-280.969],"a":[-224.5507,168.413]}],[{"duration":0.8008,"start":[1139,183],"end":[687,672],"v":[-369.6304,78.6713],"a":[-486.5265,1328.5915]},{"duration":0.367033,"start":[687,672],"end":[469,835],"v":[-561.2569,242.4848],"a":[-178.1559,1098.6281]}],[{"duration":1.1011,"start":[469,835],"end":[811,251],"v":[543.0933,-1311.4159],"a":[-422.2955,1418.6489]},{"duration":0.433767,"start":[811,251],"end":[840,179],"v":[89.9101,-341.1973],"a":[-106.2962,807.8509]}],[{"duration":0.734067,"start":[840,179],"end":[1161,650],"v":[314.6853,246.5716],"a":[334.0423,1076.3586]},{"duration":0.6006,"start":[1161,650],"end":[1430,922],"v":[344.6553,59.9401],"a":[343.7566,1308.4928]}],[{"duration":0.967633,"start":[1430,922],"end":[1075,257],"v":[-712.0466,-1669.0206],"a":[713.4357,2029.2332]},{"duration":0.266933,"start":[1075,257],"end":[1054,193],"v":[-86.1638,-314.6853],"a":[56.1377,561.3767]}],[{"duration":0.8008,"start":[1054,193],"end":[793,684],"v":[-203.5465,41.2088],"a":[-305.6384,1428.3918]},{"duration":0.5005,"start":[793,684],"end":[605,974],"v":[-287.7123,131.8681],"a":[-351.2971,1788.4214]}],[{"duration":1.034367,"start":[605,974],"end":[1190,249],"v":[1116.6253,-1793.3679],"a":[-1065.5058,2112.3185]},{"duration":0.5005,"start":[1190,249],"end":[1216,188],"v":[75.9241,-301.6983],"a":[-95.8083,718.5622]}],[{"duration":0.734067,"start":[1216,188],"end":[1203,690],"v":[-9.5359,242.4848],"a":[-22.2695,1202.5524]},{"duration":0.367033,"start":[1203,690],"end":[1198,840],"v":[-8.1736,158.0238],"a":[-29.6927,1365.862]}],[{"duration":0.867533,"start":[1198,840],"end":[706,309],"v":[-1023.5918,-1393.6064],"a":[1052.3322,1801.7202]},{"duration":0.6006,"start":[706,309],"end":[632,202],"v":[-156.5102,-394.6054],"a":[110.8892,720.7799]}]];
+  const INPUTS = [{"t":0.0,"id":"move","value":{"x":567.5,"y":827.2,"speed":58.312}},{"t":0.5005,"id":"move","value":{"x":524.4,"y":803.9,"speed":97.892}},{"t":0.634,"id":"swing","value":{"style":"first"}},{"t":1.001,"id":"move","value":{"x":525.3,"y":805.1,"speed":3.458}},{"t":1.4348,"id":"move","value":{"x":705.5,"y":841.7,"speed":250.494}},{"t":2.1688,"id":"move","value":{"x":493.8,"y":901.2,"speed":219.683}},{"t":3.0364,"id":"swing","value":{"style":"backhand"}},{"t":3.1698,"id":"move","value":{"x":512.3,"y":882.6,"speed":52.415}},{"t":3.6703,"id":"move","value":{"x":543.0,"y":886.0,"speed":92.571}},{"t":4.004,"id":"move","value":{"x":652.7,"y":892.5,"speed":164.674}},{"t":4.6713,"id":"move","value":{"x":753.1,"y":919.6,"speed":239.744}},{"t":5.1051,"id":"move","value":{"x":1024.2,"y":919.9,"speed":477.934}},{"t":5.6723,"id":"move","value":{"x":1303.2,"y":925.0,"speed":557.536}},{"t":5.9059,"id":"swing","value":{"style":"wide"}},{"t":6.1728,"id":"move","value":{"x":1515.0,"y":960.7,"speed":429.146}},{"t":6.6733,"id":"move","value":{"x":1509.7,"y":944.7,"speed":50.514}},{"t":7.007,"id":"move","value":{"x":1265.8,"y":939.0,"speed":365.584}},{"t":7.6743,"id":"move","value":{"x":1028.2,"y":959.0,"speed":476.404}},{"t":8.1748,"id":"move","value":{"x":734.0,"y":996.0,"speed":592.443}},{"t":8.4418,"id":"swing","value":{"style":"reach"}},{"t":8.6753,"id":"move","value":{"x":575.4,"y":1071.9,"speed":277.343}},{"t":9.3093,"id":"move","value":{"x":604.6,"y":1057.7,"speed":121.64}},{"t":9.5762,"id":"move","value":{"x":765.5,"y":1016.7,"speed":292.722}},{"t":10.1435,"id":"move","value":{"x":801.8,"y":1008.4,"speed":101.453}},{"t":10.5105,"id":"move","value":{"x":1045.6,"y":976.0,"speed":368.547}},{"t":11.0777,"id":"swing","value":{"style":"last"}},{"t":11.1778,"id":"move","value":{"x":1104.5,"y":922.7,"speed":140.041}},{"t":11.7451,"id":"move","value":{"x":1099.5,"y":910.8,"speed":38.685}},{"t":12.0787,"id":"move","value":{"x":1010.2,"y":906.4,"speed":116.503}},{"t":12.8462,"id":"move","value":{"x":927.8,"y":910.1,"speed":98.881}},{"t":13.6803,"id":"move","value":{"x":841.5,"y":920.9,"speed":113.33}}];
+
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+  function line(a,b,w,cls='line') {
+    const dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy),x=-dy*w/(2*d),y=dx*w/(2*d);
+    return {cls,polygon:[[a[0]+x,a[1]+y],[b[0]+x,b[1]+y],[b[0]-x,b[1]-y],[a[0]-x,a[1]-y]]};
+  }
+  const REGIONS = [
+    {cls:'ground',rect:[0,0,1920,1080]},
+    {cls:'wall',rect:[205,0,1370,147]},
+    {cls:'structure',polygon:[[0,0],[253,0],[274,157],[0,365]]},
+    {cls:'structure',polygon:[[1500,0],[1920,0],[1920,514],[1591,177]]},
+    {cls:'wall',polygon:[[0,288],[258,147],[263,168],[0,319]]},
+    {cls:'wall',polygon:[[1530,136],[1920,468],[1920,509],[1530,170]]},
+    {cls:'court',polygon:[[627,236],[1286,236],[1623,855],[289,855]]},
+    line([627,236],[1286,236],4),line([1286,236],[1623,855],5),
+    line([1623,855],[289,855],6),line([289,855],[627,236],5),
+    line([712,236],[464,855],5),line([1204,236],[1454,855],5),
+    line([677,318],[1239,318],3),line([551,620],[1369,620],4),
+    line([957,318],[957,620],4),line([956,844],[956,855],4),
+    {cls:'structure',polygon:[[548,365],[1363,365],[1363,442],[548,442]]},
+    line([548,365],[1363,365],5),line([548,366],[548,445],7,'structure'),
+    line([1363,366],[1363,445],7,'structure'),
+    {cls:'platform',polygon:[[354,410],[473,410],[474,447],[343,447]]},
+    {cls:'structure',rect:[378,206,13,211]},
+    {cls:'structure',rect:[434,203,12,208]},
+    {cls:'platform',rect:[374,192,81,15]},
+    {cls:'platform',rect:[370,260,89,15]},
+    {cls:'obstacle',rect:[252,449,89,58]},
+    {cls:'obstacle',rect:[337,342,55,47]}
+  ];
+  // Seated audience silhouettes, arranged on the two fixed banks of seats.
+  function seated(x,y,h) {
+    return {nose:[x,y-h],left_eye:[x-2,y-h-1],right_eye:[x+2,y-h-1],
+      left_shoulder:[x-h*.18,y-h*.76],right_shoulder:[x+h*.18,y-h*.76],
+      left_elbow:[x-h*.23,y-h*.46],right_elbow:[x+h*.23,y-h*.46],
+      left_wrist:[x-h*.1,y-h*.35],right_wrist:[x+h*.1,y-h*.35],
+      left_hip:[x-h*.12,y-h*.3],right_hip:[x+h*.12,y-h*.3],
+      left_knee:[x-h*.22,y-h*.16],right_knee:[x+h*.22,y-h*.16],
+      left_ankle:[x-h*.19,y],right_ankle:[x+h*.19,y]};
+  }
+  const CROWD=[];
+  for(let row=0;row<6;row++) {
+    for(let col=0;col<8;col++) {
+      const x=col*29-40+row*6,y=45+row*33-col*5;
+      if(x>=0 && x<222-row*7 && y>20) CROWD.push(seated(x,y,29+row*2));
+      const rx=1565+col*48+row*9,ry=40+row*39+col*25;
+      if(rx<1920) CROWD.push(seated(rx,ry,32+row*2));
+    }
+  }
+  // Source pixels remain authoritative for people; only the collision boundary is SI.
+  const DEFAULTS={gravity:[0,-9.81,0],feedDelay:1.5,feedPosition:[-2.64654968,2,7.57606565],feedVelocity:[0,2.6959337,4.375],
+    requestBuffer:.6,minPhaseRate:.65,maxPhaseRate:1.6,commitLead:.10,armLimit:70,strikeSpeed:3,
+    ballRadius:.033,ballMass:.057,restitution:.73,racketRestitution:.82,
+    transition:.065,stride:285,depthAmplitude:.48,maxRacketSpeed:28,maxRacketAngularSpeed:32};
+  const copy=x=>JSON.parse(JSON.stringify(x));
+  const smooth=x=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+  const WINDOW={runL:{start:0,end:.6006,closing:.25},runR:{start:0,end:.6673,closing:.25},farRun:{start:0,end:.7341,closing:.2}};
+  // Projective quadrilateral: far (627,236)-(1286,236), near (289,855)-(1623,855).
+  // Court dimensions and vertical projection are hypotheses, not video calibration.
+  const projection=ContactGeometry.court({farLeft:[627,236],farRight:[1286,236],
+    nearLeft:[289,855],nearRight:[1623,855],width:10.97,length:23.77});
+  const ground=z=>projection.ground(z);
+  const screenToGround=(x,y)=>projection.onGround([x,y]);
+  const project=p=>projection.project(p);
+  function player(x,y,far){
+    let idle=ReferenceMotion.center(far?CLIPS.farIdle:CLIPS.idle);
+    // Settle the slight source idle ankle elevation without altering the stored asset.
+    idle=copy(idle);idle.left_ankle[1]=idle.right_ankle[1]=0;
+    return {x,y,tx:x,ty:y,speed:0,vx:0,vy:0,gait:0,amount:0,direction:1,
+      clip:null,poseTime:0,localPose:idle,idle,depth:0,joints:null,racket:null,collider:null,hold:false};
+  }
+  function move(p,dt,far,cfg){
+    const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy),travel=Math.min(d,Math.max(0,p.speed)*dt);
+    p.vx=d>1e-6?dx/d*travel/dt:0;p.vy=d>1e-6?dy/d*travel/dt:0;
+    if(d>1e-6){p.x+=dx/d*travel;p.y+=dy/d*travel;}
+    p.gait+=travel/(far?cfg.stride*.42:cfg.stride);
+    p.amount+=(clamp(travel/dt/(far?145:300),0,1)-p.amount)*(1-Math.exp(-dt/.1));
+    if(Math.abs(p.vx)>5)p.direction=p.vx<0?-1:1;
+  }
+  function stroke(s,p,style,by){
+    if(p.clip)return; // Held/repeated requests cannot reset an in-progress stroke.
+    p.clip=style;p.poseTime=0;p.strokeFrom=copy(p.localPose);
+    s.events.push({type:'swing',by,style});
+  }
+  function joints(p){return p.joints;}
+  function racketPose(p,far,local=p.localPose,depth=p.depth){
+    const j=SimKit.pose.placeAt(local,[p.x,p.y]),r=racket(j,far),head=r[1];
+    const root=screenToGround(p.x,p.y);
+    // Frontal face is a local modeling assumption. No ball-dependent aim.
+    const pose=ContactGeometry.racketFromScreen(head,root[2]+depth,projection,
+      {thickness:.036,yaw:0,pitch:0});
+    return {joints:j,racket:r,...pose};
+  }
+  function strokeDepth(t,duration,far,cfg){
+    // Local preparation -> forward acceleration -> follow-through -> recovery.
+    // At .30s the near racket travels toward the net (negative Z).
+    const a=cfg.depthAmplitude;
+    let d=t<.12?.25*a*smooth(t/.12):t<.36?
+      a*(.25-1.15*smooth((t-.12)/.24)):
+      -.9*a*(1-smooth((t-.36)/Math.max(.18,duration+.16-.36)));
+    return (far?-1:1)*d;
+  }
+  function animate(p,far,dt,cfg){
+    const name=far?'farRun':p.direction<0?'runL':'runR';
+    let locomotion=ReferenceMotion.locomotion(CLIPS[name],p.idle,p.gait,p.amount,WINDOW[name]);
+    if(far&&p.direction>0){
+      const mirrored=SimKit.pose.mirror(locomotion,0);
+      locomotion=ReferenceMotion.upperBody(mirrored,p.idle,1);
+    }
+    let desired=locomotion,depthGoal=0;
+    if(p.clip){
+      const clip=CLIPS[p.clip],duration=clip[clip.length-1][0];
+      p.poseTime+=dt*(p.phaseRate||1);
+      const reference=ReferenceMotion.center(ReferenceMotion.sample(clip,p.poseTime));
+      const moving=ReferenceMotion.upperBody(locomotion,reference,1);
+      const action=ReferenceMotion.blend(reference,moving,p.amount);
+      const enter=smooth(p.poseTime/.12),leave=smooth((duration+.16-p.poseTime)/.19);
+      desired=ReferenceMotion.blend(locomotion,ReferenceMotion.blend(p.strokeFrom,action,enter),leave);
+      depthGoal=strokeDepth(p.poseTime,duration,far,cfg);
+      if(p.poseTime>=duration+.16){p.clip=null;p.strokeFrom=null;}
+    }
+    let next=ReferenceMotion.blend(p.sourcePose||p.localPose,desired,1-Math.exp(-dt/cfg.transition));
+    p.sourcePose=copy(next);
+    let depth=p.depth+clamp(depthGoal-p.depth,-3*dt,3*dt);
+    if(!far&&p.control?.plan&&p.clip){
+      const c=p.control,q=c.plan,t=c.now+dt-q.contactAt;
+      const weight=smooth((t+.20)/.12)*(1-smooth((t-.055)/.17));
+      const root=screenToGround(p.x,p.y);
+      // Frozen world goal is explicitly rebased to the current ordinary-action root.
+      q.relative=q.position.map((v,i)=>v-root[i]);
+      const z=q.position[2]+cfg.ballRadius+.018-cfg.strikeSpeed*clamp(t,-.18,.18);
+      const target=project([q.position[0],q.position[1],z]).map((v,i)=>v-[p.x,p.y][i]);
+      const solved=InterceptMotion.solveArm(next,target,{handleLength:57,maxCorrection:cfg.armLimit,weight});
+      c.correction={accepted:solved.accepted,reason:solved.reason||null,correction:solved.correction||0,weight,target};
+      if(solved.accepted){next=solved.pose;c.lastAccepted=copy(next);c.fade=weight;}
+      else {
+        c.rejections++;c.lastRejection={time:c.now,reason:solved.reason,target};
+        c.fade=Math.max(0,(c.fade||0)-dt/.08);
+        if(c.lastAccepted&&c.fade>0){
+          const fallback=copy(next);fallback.right_elbow=c.lastAccepted.right_elbow;fallback.right_wrist=c.lastAccepted.right_wrist;
+          const blended=ReferenceMotion.blend(next,fallback,c.fade);
+          if(ReferenceMotion.boundedCorrection(next,blended,cfg.armLimit).accepted)next=blended;
+        }
+      }
+      const goal=depthGoal*(1-weight)+(z-root[2])*weight;
+      depth=p.depth+clamp(goal-p.depth,-cfg.strikeSpeed*dt,cfg.strikeSpeed*dt);
+    }
+    // Limit the actual displayed source-pose transition, not an invisible racket.
+    // This is a runtime safety bound; no IK or world-fixed hand target is used.
+    if(p.collider){
+      for(let i=0;i<4;i++){
+        const trial=racketPose(p,far,next,depth),old=p.collider;
+        const distance=Math.hypot(...trial.position.map((x,k)=>x-old.position[k]));
+        const dot=Math.abs(trial.quaternion.reduce((v,x,k)=>v+x*old.quaternion[k],0));
+        const angle=2*Math.acos(clamp(dot,-1,1));
+        const f=Math.min(1,cfg.maxRacketSpeed*dt/(distance||1e-9),cfg.maxRacketAngularSpeed*dt/(angle||1e-9));
+        if(f>=.999)break;
+        next=ReferenceMotion.blend(p.localPose,next,f*.95);depth=p.depth+(depth-p.depth)*f*.95;
+      }
+    }
+    p.localPose=next;p.depth=depth;
+    const result=racketPose(p,far);p.joints=result.joints;p.racket=result.racket;
+    p.collider={position:result.position,quaternion:result.quaternion,shape:result.shape};
+  }
+  function initialFeed(near,cfg){
+    return {start:copy(cfg.feedPosition),velocity:copy(cfg.feedVelocity),policy:'neutral_input_independent_fixture'};
+  }
+  function futureRoot(p,t){
+    if(p.hold)return [clamp(p.x+p.vx*t,290,1630),clamp(p.y+p.vy*t,480,1070)];
+    const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy),f=Math.min(1,p.speed*t/(d||1));
+    return [p.x+dx*f,p.y+dy*f];
+  }
+  function interception(s){
+    const p=s.near,c=p.control,cfg=s.config;c.now=s.elapsed;
+    if(c.plan&&p.clip){
+      const left=c.plan.contactAt-s.elapsed;
+      if(left<=cfg.commitLead){c.committed=true;c.state=left>0?'committed':'swinging';}
+      if(c.committed)return;
+    }else if(c.plan&&!p.clip){c.state='finished';c.plan=null;c.request=null;p.phaseRate=1;return;}
+    if(!c.request||s.phase==='ready')return;
+    if(s.elapsed-c.lastSearch<.045)return;c.lastSearch=s.elapsed;
+    if(c.plan&&c.plan.contactAt-s.elapsed<.14)return;
+    const preferred=c.plan?c.plan.contactAt-s.elapsed:.30;
+    let best=null;
+    // Bounded online target/source-phase search, not feed fitting or code variants.
+    for(let t=.14;t<=.65001;t+=.025){
+      const xy=futureRoot(p,t),root=screenToGround(...xy);
+      const candidate=InterceptMotion.plan({ball:s.physics.bodies.ball,gravity:s.physics.gravity,root,
+        minTime:t,maxTime:t,preferredTime:preferred,reach:1.55,minForward:-.3,maxForward:1.25,
+        restitution:cfg.restitution,minHeight:.35,maxHeight:2.35});
+      if(!candidate)continue;
+      const f=InterceptMotion.forecast(s.physics.bodies.ball,s.physics.gravity,t,{restitution:cfg.restitution});
+      const z=f.position[2]+cfg.ballRadius+.018;
+      if(Math.abs(z-p.collider.position[2])>cfg.strikeSpeed*t+.03)continue;
+      for(const phase of [.20,.24,.28,.32,.36]){
+        const rate=(phase-(p.clip?p.poseTime:0))/t;
+        if(rate<cfg.minPhaseRate||rate>cfg.maxPhaseRate)continue;
+        const preview=copy(p);preview.control=null;preview.phaseRate=rate;
+        if(!preview.clip)stroke({events:[]},preview,c.request.style,'near_player');
+        const n=Math.ceil(t/(1/120));
+        for(let i=0;i<n;i++){
+          const pos=futureRoot(p,(i+1)*t/n);preview.x=pos[0];preview.y=pos[1];
+          preview.gait+=Math.hypot(p.vx,p.vy)*t/n/cfg.stride;
+          animate(preview,false,t/n,cfg);
+        }
+        const target=project([f.position[0],f.position[1],z]).map((v,i)=>v-xy[i]);
+        const solve=InterceptMotion.solveArm(preview.sourcePose||preview.localPose,target,{handleLength:57,maxCorrection:cfg.armLimit,weight:1});
+        if(!solve.accepted){c.lastPlanRejection=solve.reason;continue;}
+        const cost=Math.abs(t-preferred)+.002*solve.correction+.12*Math.abs(phase-.28);
+        if(!best||cost<best.cost)best={position:f.position,velocity:f.velocity,contactAt:s.elapsed+t,
+          phase,rate,cost,armCorrection:solve.correction,root,relative:f.position.map((v,i)=>v-root[i])};
+      }
+    }
+    if(best){
+      c.plan=best;c.state='preparing';c.committed=false;
+      if(!p.clip)stroke(s,p,c.request.style,'near_player');p.phaseRate=best.rate;
+      c.planCount++;
+    }else if(!c.plan){
+      c.state='request accepted';
+      if(s.elapsed>=c.request.expires){
+        c.state='out of reach';c.lastFailure=c.lastPlanRejection||'no_reachable_future_point';
+        stroke(s,p,c.request.style,'near_player');p.phaseRate=1;c.request=null;
+      }
+    }
+  }
+  function racketFace(body,id){
+    const face=ContactGeometry.faceCorners(body,projection);
+    // Renderer requires eight corners; duplicate the physical midplane, not a second face.
+    return {id,cls:'tool',center:project(body.position),corners:face.concat(copy(face))};
+  }
+  function contactDiagnostics(s){
+    const ball=s.physics.bodies.ball,result={};
+    for(const id of ['near_racket','far_racket']){
+      const body=s.physics.bodies[id],physical=ContactGeometry.faceCorners(body,projection),rendered=racketFace(body,id).corners.slice(0,4);
+      result[id]={signedClearance:ContactGeometry.sphereBoxGap(ball,body),
+        physicalFaceCorners:physical,renderedFaceCorners:rendered,
+        renderedVsPhysicalFaceMaxErrorPixels:Math.max(...physical.map((p,i)=>Math.hypot(p[0]-rendered[i][0],p[1]-rendered[i][1]))),
+        normal:ContactGeometry.rotate([0,0,1],body.quaternion),halfExtents:copy(body.shape.halfExtents)};
+    }
+    return result;
+  }
+  function opponent(s){
+    const b=s.physics.bodies.ball,p=s.far;
+    if(s.ended||s.phase==='ready'){p.tx=p.x;p.ty=p.y;return;}
+    const root=screenToGround(p.x,p.y),time=(root[2]-b.position[2])/(b.velocity[2]||1e-6);
+    if(b.velocity[2]<-.3&&time>0&&time<2.5){
+      const projected=project([b.position[0]+b.velocity[0]*Math.min(time,1.2),0,root[2]]);
+      p.tx=clamp(projected[0]-25,625,1250);p.ty=212;p.speed=225;
+      if(time<.36&&!p.clip)stroke(s,p,'farHit','far_player');
+    }else{p.tx=1000;p.ty=226;p.speed=130;}
+  }
+  function endPoint(s,reason){if(!s.ended){s.ended=true;s.phase='ended';s.reason=reason;s.events.push({type:'point',reason});}}
+  function contactRules(s,contacts){
+    const b=s.physics.bodies.ball;
+    for(const c of contacts){
+      if(c.a!=='ball'&&c.b!=='ball')continue;
+      const other=c.a==='ball'?c.b:c.a;
+      if(c.time-(s.lastContact[other]??-100)<.08)continue;
+      s.lastContact[other]=c.time;
+      if(other.endsWith('_racket')){
+        const by=other==='near_racket'?'near_player':'far_player';
+        const record={...copy(c),elapsedTime:s.releaseElapsed+c.time};
+        s.contactLog.push(record);
+        s.events.push({type:'hit',by,time:c.time,elapsedTime:record.elapsedTime,
+          solver:copy(c.bodies)});s.lastHitter=by;s.bounces=0;
+      }else if(other==='floor'){
+        s.events.push({type:'bounce',at:copy(b.position),time:c.time});s.bounces++;
+        if(!s.ended){
+          if(Math.abs(b.position[0])>4.115||Math.abs(b.position[2])>11.885)endPoint(s,'出界');
+          else if(s.bounces>=2)endPoint(s,'两次弹地');
+        }
+      }else if(other==='net'){s.events.push({type:'net',time:c.time});endPoint(s,'触网');}
+    }
+    if(Math.abs(b.position[0])>16||Math.abs(b.position[2])>23||b.position[1]<-1)endPoint(s,'球离开场地');
+  }
+  function racket(j,far) {
+    const wrist=j.right_wrist,elbow=j.right_elbow;
+    let dx=wrist[0]-elbow[0],dy=wrist[1]-elbow[1],d=Math.hypot(dx,dy)||1;
+    dx/=d;dy/=d;
+    const length=far?25:57,head=far?13:25;
+    const c=[wrist[0]+dx*length,wrist[1]+dy*length];
+    return [
+      {cls:'tool',center:[wrist[0]+dx*length*.42,wrist[1]+dy*length*.42],size:[length*.85,far?2:4],angle:Math.atan2(dy,dx)},
+      {cls:'tool',center:c,size:[head*1.35,head],angle:Math.atan2(dy,dx)}
+    ];
+  }
+  window.World = {
+    meta:{name:'Baseline tennis rally',source:[1920,1080],fps:29.97002997002997,dt:1/60},
+    actions:[
+      {id:'move',kind:'drag',description:'choose a court position'},
+      {id:'left',kind:'hold',keys:['ArrowLeft','a'],description:'run left'},
+      {id:'right',kind:'hold',keys:['ArrowRight','d'],description:'run right'},
+      {id:'forward',kind:'hold',keys:['ArrowUp','w'],description:'approach the net'},
+      {id:'back',kind:'hold',keys:['ArrowDown','s'],description:'retreat'},
+      {id:'swing',kind:'tap',keys:[' ','f'],description:'swing the racket'},
+      {id:'backhand',kind:'tap',keys:['b'],description:'backhand return'},
+      {id:'restart',kind:'tap',keys:['r','R'],description:'restart practice feed'}
+    ],
+    init(rng,params={}) {
+      const cfg={...DEFAULTS,...params},s={elapsed:0,config:copy(cfg),near:player(538.8,832.5,false),far:player(1005,226,true),
+        phase:'ready',readyRemaining:cfg.feedDelay,ended:false,reason:'',bounces:0,lastHitter:null,lastContact:{},events:[],contactLog:[],releaseElapsed:null};
+      animate(s.near,false,1/120,cfg);animate(s.far,true,1/120,cfg);
+      s.near.control={state:'ready',request:null,plan:null,committed:false,now:0,lastSearch:-1,planCount:0,rejections:0,correction:null};
+      s.inputLatch={};s.feed=initialFeed(s.near,cfg);
+      const bodies={
+        floor:{type:'fixed',shape:{type:'box',halfExtents:[24,.1,30]},position:[0,-.1,0],restitution:cfg.restitution,friction:.18},
+        net:{type:'fixed',shape:{type:'box',halfExtents:[5.1,.47,.025]},position:[0,.47,0],restitution:.05,friction:.8},
+        ball:{type:'dynamic',shape:{type:'sphere',radius:cfg.ballRadius},mass:cfg.ballMass,
+          position:copy(s.feed.start),velocity:copy(s.feed.velocity),restitution:cfg.restitution,friction:.18}
+      };
+      for(const [id,p,far] of [['near_racket',s.near,false],['far_racket',s.far,true]]){
+        bodies[id]={type:'kinematic',...copy(p.collider),restitution:cfg.racketRestitution,friction:.35};
+      }
+      for(const [id,values] of Object.entries(params.initial?.objects||{}))if(bodies[id]){
+        if(values.position)bodies[id].position=copy(values.position);
+        if(values.velocity)bodies[id].velocity=copy(values.velocity);
+      }
+      s.physics=RuntimeTools.physics.create({gravity:cfg.gravity,bodies});return s;
+    },
+    step(s,acts,dt,rng) {
+      if(!(dt>0))return;
+      s.events=s.events||[];
+      if(acts.some(a=>a.id==='restart')){
+        RuntimeTools.physics.dispose(s.physics);const next=this.init(rng,s.config);
+        for(const key of Object.keys(s))if(key!=='__rng')delete s[key];Object.assign(s,next);return;
+      }
+      let dx=0,dy=0,held=false;
+      for(const a of acts){
+        const v=typeof a.value==='object'&&a.value?a.value:{};
+        if(a.id==='move'){
+          s.near.tx=clamp((v.x??s.near.x)+(v.dx||0),290,1630);
+          s.near.ty=clamp((v.y??s.near.y)+(v.dy||0),480,1070);
+          s.near.speed=clamp(v.speed??550,0,700);s.near.hold=false;
+        }
+        if(['left','right','forward','back'].includes(a.id)&&a.value!==0&&a.value!==false){
+          held=true;dx+=a.id==='left'?-1:a.id==='right'?1:0;dy+=a.id==='forward'?-1:a.id==='back'?1:0;
+        }
+        if((a.id==='swing'||a.id==='backhand')&&a.value!==false&&a.value!==0&&!s.inputLatch[a.id]){
+          const side=project(s.physics.bodies.ball.position)[0]-s.near.x;
+          const style=a.id==='backhand'?'backhand':v.style||(side<0?'backhand':'first');
+          const c=s.near.control;
+          if(!s.near.clip){c.request={at:s.elapsed,expires:s.elapsed+s.config.requestBuffer,
+            style:['first','backhand','wide','reach','last'].includes(style)?style:'first'};
+            c.plan=null;c.committed=false;c.state='request accepted';c.lastSearch=-1;}
+        }
+      }
+      for(const id of ['swing','backhand'])s.inputLatch[id]=acts.some(a=>a.id===id&&a.value!==false&&a.value!==0);
+
+      if(held){
+        const length=Math.hypot(dx,dy)||1;
+        s.near.tx=clamp(s.near.x+dx/length*540*dt,290,1630);
+        s.near.ty=clamp(s.near.y+dy/length*540*dt,480,1070);s.near.speed=540;s.near.hold=true;
+      }else if(s.near.hold){s.near.tx=s.near.x;s.near.ty=s.near.y;s.near.hold=false;}
+      const n=Math.max(1,Math.ceil(dt/(1/120))),h=dt/n;
+      for(let i=0;i<n;i++){
+        opponent(s);move(s.near,h,false,s.config);move(s.far,h,true,s.config);
+        interception(s);
+        animate(s.near,false,h,s.config);animate(s.far,true,h,s.config);
+        if(s.phase==='ready'){
+          s.readyRemaining-=h;
+          // The explicit countdown pauses the entire physics clock. Synchronize
+          // kinematic initial poses before release, without injecting velocity.
+          for(const [id,p] of [['near_racket',s.near],['far_racket',s.far]])Object.assign(s.physics.bodies[id],copy(p.collider));
+          if(s.readyRemaining<=1e-9){s.phase='rally';s.releaseElapsed=s.elapsed+h;}
+        }else{
+          const contacts=RuntimeTools.physics.step(s.physics,h,{near_racket:s.near.collider,far_racket:s.far.collider});
+          contactRules(s,contacts);
+        }
+        s.elapsed+=h;
+      }
+    },
+    status(s){
+      const c=s.near.control;
+      if(s.ended)return '本分结束：'+s.reason+'；R 重来（仍可移动、空挥）';
+      if(s.lastHitter)return '已发生真实拍面接触 · 方向键移动 · R 重来';
+      if(c.state==='out of reach')return '目标不可达，完成空挥 · R 重来';
+      if(c.state==='preparing')return '准备挥拍：已选择可达接触点';
+      if(c.state==='committed'||c.state==='swinging')return '挥拍中：目标已冻结';
+      if(c.state==='request accepted')return '请求已接受：寻找可达来球';
+      return s.phase==='ready'?'准备发球 · 方向键移动 · Space/F 请求挥拍，B 反手':'来球进行中 · Space/F 请求挥拍 · R 重来';
+    },
+    observe(s){return {objects:copy(s.physics.bodies),joints:{near_player:copy(s.near.joints),far_player:copy(s.far.joints)},
+      jointUnits:'source pixels',physicsUnits:'metres, seconds; Y up, X right, Z toward near baseline',events:copy(s.events),
+      controller:copy(s.near.control),stroke:{clip:s.near.clip,phase:s.near.poseTime,phaseRate:s.near.phaseRate||1,gait:s.near.gait},
+      contact:contactDiagnostics(s),actualRacketContacts:copy(s.contactLog),feed:copy(s.feed),
+      clocks:{elapsed:s.elapsed,physics:s.physics.time,releaseElapsed:s.releaseElapsed},
+      rules:{phase:s.phase,ended:s.ended,bounces:s.bounces,lastHitter:s.lastHitter,reason:s.reason}};},
+    proxy(s) {
+      const nj=joints(s.near,false),fj=joints(s.far,true);
+      const figures=CROWD.map(j=>({cls:'human',joints:j,thickness:4}));
+      OFFICIALS.forEach(j=>figures.push({cls:'human',joints:j,thickness:6}));
+      figures.push({id:'far_player',cls:'human',joints:fj,thickness:7});
+      figures.push({id:'near_player',cls:'human',joints:nj,thickness:12});
+      const boxes=[copy(s.near.racket[0]),racketFace(s.physics.bodies.near_racket,'near_racket'),
+        copy(s.far.racket[0]),racketFace(s.physics.bodies.far_racket,'far_racket')];
+      const point=project(s.physics.bodies.ball.position),b={x:point[0],y:point[1]};
+      if(b.x>-20&&b.x<1940&&b.y>-30&&b.y<1100){
+        const size=clamp(5.5+(b.y-180)/260,5.5,9);
+        boxes.push({id:'ball',cls:'projectile',center:[b.x,b.y],size:[size,size],z:2000});
+      }
+      const shadow=project([s.physics.bodies.ball.position[0],0,s.physics.bodies.ball.position[2]]);
+      const radius=clamp(ground(s.physics.bodies.ball.position[2]).scale*s.config.ballRadius*1.5,3,7);
+      return {regions:REGIONS.concat([{id:'ball_shadow',cls:'ground',
+        polygon:Array.from({length:12},(_,i)=>[shadow[0]+radius*Math.cos(i*Math.PI/6),shadow[1]+radius*.38*Math.sin(i*Math.PI/6)])}]),figures,boxes,media:[]};
+    },
+    replay:{duration:14.48,actions:INPUTS}
+  };
+})();

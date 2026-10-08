@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playable reconstruction</title>
+<style>body{margin:0;background:#17212b;color:#eef3fa;font:16px system-ui}main{max-width:1050px;margin:25px auto;padding:15px}canvas{width:100%;background:#e9eff4;border-radius:10px}button{padding:9px 18px;margin:8px;border:0;border-radius:7px;cursor:pointer}#error{color:#ffa4a4}#controls{line-height:1.8}</style>
+<main><h1>Playable reconstruction</h1><canvas id="scene" width="960" height="540"></canvas>
+<div><button id="pause">Pause</button><button id="reset">Reset</button><span id="time"></span></div>
+<div id="controls"></div><pre id="error"></pre></main>
+<script src="tool_loader.js"></script><script src="proxy.js"></script><script src="simkit.js"></script><script src="world.js"></script><script src="runtime.js"></script><script>
+// Only this display loop uses wall-clock time. The program receives a fixed dt.
+const canvas=document.querySelector('canvas'), P=window.Program;
+let state, params, running=true, accumulator=0, last=0, elapsed=0, taps=[], held=new Set();
+window.__harnessReady=(async()=>{
+  await window.__toolsReady;
+  params=await (await fetch('params.json')).json();
+  for(const name of ['reset','step','observe','render']) if(typeof P?.[name]!=='function') throw Error(`Program.${name} missing`);
+  state=P.reset(structuredClone(params),0);
+  canvas.height=Math.round(canvas.width*World.meta.source[1]/World.meta.source[0]);
+  document.querySelector('#controls').textContent=(P.actions||[]).map(a=>`${(a.keys||[]).map(k=>k===' '?'Space':k).join('/')||'drag'} : ${a.description||a.id}`).join(' · ');
+  P.render(canvas,state);
+})().catch(e=>{document.querySelector('#error').textContent=e.stack;throw e});
+addEventListener('keydown',e=>{if(!e.repeat) for(const a of P.actions||[]) if((a.keys||[]).includes(e.key)&&a.kind==='tap') taps.push({id:a.id,value:1});held.add(e.key);if([' ','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))e.preventDefault()});
+addEventListener('keyup',e=>held.delete(e.key));addEventListener('blur',()=>held.clear());
+document.querySelector('#pause').onclick=()=>{running=!running;document.querySelector('#pause').textContent=running?'Pause':'Play'};
+document.querySelector('#reset').onclick=()=>{state=P.reset(structuredClone(params),0);elapsed=0;accumulator=0;taps=[];held.clear();P.render(canvas,state)};
+async function frame(now){await window.__harnessReady;if(!last)last=now;accumulator+=running?Math.min(.1,(now-last)/1000):0;last=now;
+ try{const dt=P.dt;while(accumulator>=dt){const actions=[];for(const a of P.actions||[]){if(a.kind==='hold'&&(a.keys||[]).some(k=>held.has(k)))actions.push({id:a.id,value:1});if(a.kind==='continuous'){let v=0;if(held.has(a.keys[0]))v+=a.min??-1;if(held.has(a.keys[1]))v+=a.max??1;if(v)actions.push({id:a.id,value:v})}}P.step(state,actions.concat(taps),dt);taps=[];elapsed+=dt;accumulator-=dt}P.render(canvas,state);document.querySelector('#time').textContent=elapsed.toFixed(2)+' s'}catch(e){running=false;document.querySelector('#error').textContent=e.stack}requestAnimationFrame(frame)}
+let dragStart=null;const sourcePoint=e=>{const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*World.meta.source[0]/r.width,(e.clientY-r.top)*World.meta.source[1]/r.height]};
+canvas.addEventListener('pointerdown',e=>{dragStart=sourcePoint(e);canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointerup',e=>{const a=(P.actions||[]).find(a=>a.kind==='drag');if(a&&dragStart){const q=sourcePoint(e);taps.push({id:a.id,value:{x:dragStart[0],y:dragStart[1],dx:q[0]-dragStart[0],dy:q[1]-dragStart[1]}})}dragStart=null});
+if(!new URLSearchParams(location.search).has('test'))requestAnimationFrame(frame);
+</script></html>

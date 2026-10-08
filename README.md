@@ -5,6 +5,12 @@ generation, using self-generated Pong and Pac-Man datasets as a world-model test
 
 **Live: https://beijia11.github.io/Sim_AngryBird_Visualization/**
 
+Local update (2026-10-08): Week 6's one-step section now contains a playable tennis
+comparison: direct Astra, archived full-body IK v2, and harness v3/v4/v5, followed
+by concise tool responsibilities. Frozen execution files are copied unchanged;
+known failures remain labelled. See [week6/README.md](week6/README.md) for sources,
+rebuild and preview commands. Published 2026-10-08.
+
 ## Layout
 
 ```

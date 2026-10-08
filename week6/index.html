@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Harness &amp; Real-Time Video Gen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="week6.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="rt_data.js"></script>
+<script defer src="week6.js"></script>
+
+
+<!-- Icon sprite. Line icons after Lucide (ISC), a few drawn by hand. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cog" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-ball" viewBox="0 0 24 24"><path d="M3 20C5 9 10 4 13 6" stroke-dasharray="2 3"/><path d="M13 6c2 1.5 3 4.5 3.4 7" stroke-dasharray="2 3"/><circle cx="17.5" cy="17.5" r="3.5"/><path d="M2 22h20"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6"/><path d="m9 20 3-6 3 6"/><path d="m6 8 6 2 6-2"/><path d="M12 10v4"/></symbol>
+  <symbol id="i-racket" viewBox="0 0 24 24"><ellipse cx="10" cy="9" rx="5.5" ry="6.5" transform="rotate(-40 10 9)"/><path d="m13.5 13.5 7 7"/><path d="M7 6.5l6 5M6 10l4.5 4"/><circle cx="19.5" cy="4.5" r="1.6"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="i-game" viewBox="0 0 24 24"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59C2.6 9.4 2 14.46 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m10 13-2 2 2 2"/><path d="m14 17 2-2-2-2"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></symbol>
+  <symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect width="14" height="12" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.83 0L6 21"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-diff" viewBox="0 0 24 24"><path d="M12 3v14"/><path d="M5 10h14"/><path d="M5 21h14"/></symbol>
+</svg>
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">CVPR 2027 / Week 6</p>
+  <h1>Agent Harness &amp; Real-Time Video Gen</h1>
+  <nav class="parts" aria-label="Parts">
+    <a href="#harness"><svg class="i"><use href="#i-wrench"/></svg><span class="tag">A</span> Agent Harness</a>
+    <a href="#realtime"><svg class="i"><use href="#i-zap"/></svg><span class="tag">B</span> Real-Time Video Gen</a>
+  </nav>
+</header>
+
+<!-- ================================================================== -->
+<div class="part" id="harness">
+  <div class="part-head">
+    <span class="badge"><svg class="i"><use href="#i-wrench"/></svg></span>
+    <div><span class="tag">Part A</span><h2>Agent Harness</h2></div>
+  </div>
+
+  <p class="ref"><svg class="i"><use href="#i-book"/></svg>
+    Following <b><a href="https://github.com/KevinXu02/aha-3d">AHa-3D</a></b>: a standard agentic use</p>
+
+  <ol class="roadmap">
+    <li><a href="#one-step">
+      <span class="top"><svg class="i"><use href="#i-wrench"/></svg><span class="n">01</span></span>
+      <b>One step</b><span class="s">a good one step: tool calls</span></a></li>
+    <li><a href="#loop">
+      <span class="top"><svg class="i"><use href="#i-loop"/></svg><span class="n">02</span></span>
+      <b>Loop</b><span class="s">metric &rarr; which code to edit</span></a></li>
+    <li><a href="#shared">
+      <span class="top"><svg class="i"><use href="#i-layers"/></svg><span class="n">03</span></span>
+      <b>Multi-Video Shared Logic</b><span class="s">many clips, one logic</span></a></li>
+    <li><a href="#ideas">
+      <span class="top"><svg class="i"><use href="#i-spark"/></svg><span class="n">04</span></span>
+      <b>Ideas</b><span class="s">distill the whole loop into one?</span></a></li>
+  </ol>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="one-step">
+    <div class="sec-head"><span class="sec-num">1</span><h3>A good one step: tool calls</h3></div>
+
+    <h4><svg class="i"><use href="#i-target"/></svg> What we need from the agent</h4>
+    <div class="needs">
+      <div class="need"><span class="ico"><svg class="i"><use href="#i-cog"/></svg></span>
+        <div><span class="key">mechanism</span><b>Action Mechanism Fidelity</b></div></div>
+      <div class="need"><span class="ico"><svg class="i"><use href="#i-ball"/></svg></span>
+        <div><span class="key">physics</span><b>Physical Plausibility</b></div></div>
+      <div class="need"><span class="ico"><svg class="i"><use href="#i-person"/></svg></span>
+        <div><span class="key">motion</span><b>Articulated Motion Naturalness &amp; Consistency</b></div></div>
+    </div>
+
+    <h4><svg class="i"><use href="#i-help"/></svg> Per case, the agent analyses: what needs modelling?</h4>
+    <div class="matrix" role="table" aria-label="What each case needs modelled">
+      <div class="h" role="columnheader">case</div>
+      <div class="h" role="columnheader"><svg class="i"><use href="#i-cog"/></svg> mechanism</div>
+      <div class="h" role="columnheader"><svg class="i"><use href="#i-ball"/></svg> physics</div>
+      <div class="h" role="columnheader"><svg class="i"><use href="#i-person"/></svg> motion</div>
+
+      <div class="case"><svg class="i"><use href="#i-racket"/></svg> Tennis</div>
+      <div><span class="pill ok"><svg class="i"><use href="#i-check"/></svg> rules</span></div>
+      <div><span class="pill"><svg class="i"><use href="#i-ball"/></svg> ball</span></div>
+      <div><span class="pill"><svg class="i"><use href="#i-person"/></svg> human</span></div>
+
+      <div class="case"><svg class="i"><use href="#i-bot"/></svg> Robot</div>
+      <div><span class="pill ok"><svg class="i"><use href="#i-check"/></svg> rules</span></div>
+      <div><span class="pill tbd"><svg class="i"><use href="#i-ball"/></svg> xx</span></div>
+      <div><span class="pill tbd"><svg class="i"><use href="#i-person"/></svg> xx</span></div>
+
+      <div class="case"><svg class="i"><use href="#i-game"/></svg> Game</div>
+      <div><span class="pill ok"><svg class="i"><use href="#i-check"/></svg> rules</span></div>
+      <div class="wide"><span class="pill plain">ordinary</span></div>
+    </div>
+
+    <h4><svg class="i"><use href="#i-racket"/></svg> Tennis: agent vs harness versions</h4>
+    <p class="harness-help">All versions use Astra. Click a preview to play, or open it full size. Two versions per row.</p>
+    <div class="harness-grid" aria-label="Tennis version comparison">
+      <article class="harness-card">
+        <header class="harness-card-head"><span class="key">Simple · Astra</span><b>Agent directly generates</b></header>
+        <div class="harness-result-body"><div class="harness-player" data-version="simple">
+                <button class="harness-launch" data-src="play/tennis/simple/play.html" aria-label="Play Agent directly generates">
+                  <img src="play/tennis/simple/preview.png" alt="Simple · Astra tennis program" width="640" height="360" loading="lazy">
+                  <span><svg class="i"><use href="#i-play"/></svg> Play here</span>
+                </button>
+              </div>
+              <div class="harness-links"><a href="play/tennis/simple/play.html" target="_blank" rel="noopener">Open full size ↗</a><a href="play/tennis/simple/world.js" target="_blank" rel="noopener">Code</a></div>
+              <p class="harness-result">Source actions; fixed ball paths</p></div>
+        <div class="harness-tools"><span class="key">Tools → role</span><ul>
+              <li><b>Astra</b><span>scene, rules, inputs and poses</span></li>
+              <li><b>No specialist tools</b><span>motion and ball logic in generated code</span></li>
+            </ul></div>
+      </article>
+      <article class="harness-card">
+        <header class="harness-card-head"><span class="key">Full-body IK</span><b>Harness v2</b></header>
+        <div class="harness-result-body"><div class="harness-player" data-version="v2">
+                <button class="harness-launch" data-src="play/tennis/v2/play.html" aria-label="Play Harness v2">
+                  <img src="play/tennis/v2/preview.png" alt="Full-body IK tennis program" width="640" height="360" loading="lazy">
+                  <span><svg class="i"><use href="#i-play"/></svg> Play here</span>
+                </button>
+              </div>
+              <div class="harness-links"><a href="play/tennis/v2/play.html" target="_blank" rel="noopener">Open full size ↗</a><a href="play/tennis/v2/world.js" target="_blank" rel="noopener">Code</a></div>
+              <p class="harness-result negative">Negative example: motion degraded</p></div>
+        <div class="harness-tools"><span class="key">Tools → role</span><ul>
+              <li><b>Rapier</b><span>ball flight and collisions</span></li>
+              <li><b>Fullik / FABRIK</b><span>arm and leg IK</span></li>
+            </ul></div>
+      </article>
+      <article class="harness-card">
+        <header class="harness-card-head"><span class="key">Preserve source motion</span><b>Harness v3</b></header>
+        <div class="harness-result-body"><div class="harness-player" data-version="v3">
+                <button class="harness-launch" data-src="play/tennis/v3/play.html" aria-label="Play Harness v3">
+                  <img src="play/tennis/v3/preview.png" alt="Preserve source motion tennis program" width="640" height="360" loading="lazy">
+                  <span><svg class="i"><use href="#i-play"/></svg> Play here</span>
+                </button>
+              </div>
+              <div class="harness-links"><a href="play/tennis/v3/play.html" target="_blank" rel="noopener">Open full size ↗</a><a href="play/tennis/v3/world.js" target="_blank" rel="noopener">Code</a></div>
+              <p class="harness-result">Independent running and swings</p></div>
+        <div class="harness-tools"><span class="key">Tools → role</span><ul>
+              <li><b>Rapier</b><span>ball flight and collisions</span></li>
+              <li><b>ReferenceMotion¹</b><span>source poses, gait loops and transitions</span></li>
+            </ul></div>
+      </article>
+      <article class="harness-card">
+        <header class="harness-card-head"><span class="key">Physical racket contact</span><b>Harness v4</b></header>
+        <div class="harness-result-body"><div class="harness-player" data-version="v4">
+                <button class="harness-launch" data-src="play/tennis/v4/play.html" aria-label="Play Harness v4">
+                  <img src="play/tennis/v4/preview.png" alt="Physical racket contact tennis program" width="640" height="360" loading="lazy">
+                  <span><svg class="i"><use href="#i-play"/></svg> Play here</span>
+                </button>
+              </div>
+              <div class="harness-links"><a href="play/tennis/v4/play.html" target="_blank" rel="noopener">Open full size ↗</a><a href="play/tennis/v4/world.js" target="_blank" rel="noopener">Code</a></div>
+              <p class="harness-result">Real hits; returns stay too low</p></div>
+        <div class="harness-tools"><span class="key">Tools → role</span><ul>
+              <li><b>Rapier + ReferenceMotion¹</b><span>ball physics and source motion</span></li>
+              <li><b>ContactGeometry¹</b><span>align visible racket and collider</span></li>
+            </ul></div>
+      </article>
+      <article class="harness-card current">
+        <header class="harness-card-head"><span class="key">Incoming-ball interception</span><b>Harness v5</b></header>
+        <div class="harness-result-body"><div class="harness-player" data-version="v5">
+                <button class="harness-launch" data-src="play/tennis/v5/play.html" aria-label="Play Harness v5">
+                  <img src="play/tennis/v5/preview.png" alt="Incoming-ball interception tennis program" width="640" height="360" loading="lazy">
+                  <span><svg class="i"><use href="#i-play"/></svg> Play here</span>
+                </button>
+              </div>
+              <div class="harness-links"><a href="play/tennis/v5/play.html" target="_blank" rel="noopener">Open full size ↗</a><a href="play/tennis/v5/world.js" target="_blank" rel="noopener">Code</a></div>
+              <p class="harness-result">Easier contact; net clearance unresolved</p></div>
+        <div class="harness-tools"><span class="key">Tools → role</span><ul>
+              <li><b>Rapier + ReferenceMotion¹</b><span>ball physics and source motion</span></li>
+              <li><b>ContactGeometry¹</b><span>visible and physical racket alignment</span></li>
+              <li><b>InterceptMotion¹</b><span>contact timing and local arm IK</span></li>
+            </ul></div>
+      </article>
+    </div>
+    <p class="harness-help">¹ Harness utilities, not pretrained models. v2 is the archived failed integration. v3–v5 preserve the original poses and add local changes.</p>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="loop">
+    <div class="sec-head"><span class="sec-num">2</span><h3>Loop: which code each metric points to</h3></div>
+
+    <div class="flow loop">
+      <div class="box"><svg class="i"><use href="#i-gauge"/></svg><b>Score</b><span>metrics on the render</span></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="box"><svg class="i"><use href="#i-down"/></svg><b>Lowest group</b><span>the focus of this round</span></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="box key"><svg class="i"><use href="#i-code"/></svg><b>Edit that code</b><span>only the module the metric points to</span></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="box"><svg class="i"><use href="#i-check"/></svg><b>Accept</b><span>or <svg class="i"><use href="#i-undo"/></svg> roll back</span></div>
+      <div class="back"><span><svg class="i"><use href="#i-loop"/></svg> next round</span></div>
+    </div>
+
+    <h4><svg class="i"><use href="#i-route"/></svg> Metric &rarr; code (draft)</h4>
+    <div class="map">
+      <div class="r">
+        <div class="m"><svg class="i"><use href="#i-image"/></svg><div><b>Appearance</b><small>lpips · entity_dino · entity_color · background_lpips</small></div></div>
+        <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+        <div class="c"><svg class="i"><use href="#i-file"/></svg>renderer, assets</div>
+      </div>
+      <div class="r">
+        <div class="m"><svg class="i"><use href="#i-cog"/></svg><div><b>Mechanism</b><small>flow_epe · trajectory_ade · event_f1</small></div></div>
+        <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+        <div class="c"><svg class="i"><use href="#i-file"/></svg>rules, step()</div>
+      </div>
+      <div class="r">
+        <div class="m"><svg class="i"><use href="#i-ball"/></svg><div><b>Physics</b><small>physics · event_f1 (contacts)</small></div></div>
+        <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+        <div class="c"><svg class="i"><use href="#i-wrench"/></svg>physics tool params</div>
+      </div>
+      <div class="r">
+        <div class="m"><svg class="i"><use href="#i-person"/></svg><div><b>Naturalness</b><small>pose_dtw · kinematics · transitions · bone_stability · foot_slide · joint_range</small></div></div>
+        <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+        <div class="c"><svg class="i"><use href="#i-wrench"/></svg>motion module, IK targets</div>
+      </div>
+      <div class="r">
+        <div class="m"><svg class="i"><use href="#i-game"/></svg><div><b>Free play</b><small>entity_consistency · popping · controllability · not_copied</small></div></div>
+        <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+        <div class="c"><svg class="i"><use href="#i-file"/></svg>actions, input handling</div>
+      </div>
+    </div>
+
+    <div class="slot"><svg class="i"><use href="#i-diff"/></svg>
+      <span><b>To place:</b> one round, metric drop &rarr; code diff &rarr; before / after</span></div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="shared">
+    <div class="sec-head"><span class="sec-num">3</span><h3>Multi-Video Shared Logic</h3></div>
+
+    <div class="flow">
+      <div class="box"><span class="clips"><svg class="i"><use href="#i-film"/></svg><svg class="i"><use href="#i-film"/></svg><svg class="i"><use href="#i-film"/></svg></span>
+        <b>10 to 20 tennis clips</b><span>same kind of video</span></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="box key"><div class="outs">
+        <div class="shared"><svg class="i"><use href="#i-file"/></svg>tennis_logic.py</div>
+        <div><svg class="i"><use href="#i-sliders"/></svg>params.json, per video</div>
+        <div><svg class="i"><use href="#i-image"/></svg>assets, per video</div>
+      </div></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="box"><svg class="i"><use href="#i-target"/></svg><b>2 to 5 unseen clips</b><span>code frozen, fit params only</span></div>
+    </div>
+
+    <div class="slot"><svg class="i"><use href="#i-layers"/></svg>
+      <span><b>To place:</b> shared vs per-video code on unseen clips</span></div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="ideas">
+    <div class="sec-head"><span class="sec-num">4</span><h3>Some ideas</h3></div>
+
+    <div class="idea">
+      <svg class="i big"><use href="#i-loop"/></svg>
+      <svg class="i arr"><use href="#i-right"/></svg>
+      <svg class="i big"><use href="#i-funnel"/></svg>
+      <svg class="i arr"><use href="#i-right"/></svg>
+      <svg class="i big"><use href="#i-spark"/></svg>
+      <div class="t">Distill the whole loop into one?<small>many rounds &rarr; one step</small></div>
+    </div>
+
+    <div class="question">
+      <span class="ico"><svg class="i"><use href="#i-bulb"/></svg></span>
+      <div class="q"><b>Does it have to watch the video?</b><span>Can the agent not know human motion and ball physics by itself?</span></div>
+      <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+      <div class="q"><b><svg class="i"><use href="#i-eye"/></svg> &rarr; <svg class="i"><use href="#i-gauge"/></svg> The video is for evaluation?</b><span>open question</span></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================== -->
+<div class="part" id="realtime">
+  <div class="part-head">
+    <span class="badge"><svg class="i"><use href="#i-zap"/></svg></span>
+    <div><span class="tag">Part B</span><h2>Real-Time Video Gen</h2></div>
+  </div>
+
+  <p class="ref"><svg class="i"><use href="#i-book"/></svg>
+    <b><a href="https://arxiv.org/abs/2605.15141">Causal Forcing++</a></b> on our seg-transfer Cosmos3-Edge</p>
+
+  <!-- teacher -> student -->
+  <div class="goal">
+    <div class="end">
+      <div class="who"><svg class="i"><use href="#i-layers"/></svg> Teacher</div>
+      <ul>
+        <li><svg class="i"><use href="#i-eye"/></svg> bidirectional: every frame sees every frame</li>
+        <li><svg class="i"><use href="#i-loop"/></svg> 35 steps &times; 2 forwards (text CFG 3)</li>
+        <li><svg class="i"><use href="#i-clock"/></svg> <b>49.2 s</b> per clip, nothing shown before the end</li>
+      </ul>
+    </div>
+    <span class="arr"><svg class="i"><use href="#i-right"/></svg></span>
+    <div class="end key">
+      <div class="who"><svg class="i"><use href="#i-zap"/></svg> Student</div>
+      <ul>
+        <li><svg class="i"><use href="#i-right"/></svg> frame-wise autoregressive, KV cache</li>
+        <li><svg class="i"><use href="#i-loop"/></svg> 2 steps per latent frame, no CFG</li>
+        <li><svg class="i"><use href="#i-clock"/></svg> <b>8.7 s</b> per clip, first new frame after <b>2.7 s</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="chips">
+    <span class="chip"><svg class="i"><use href="#i-film"/></svg> in: seg control + GT first frame</span>
+    <span class="chip">121 frames, 25 fps &rarr; 31 latent frames</span>
+    <span class="chip">latent 0 = GT anchor</span>
+    <span class="chip">390 tokens / latent frame</span>
+    <span class="chip">1458 fine clips</span>
+    <span class="chip">control_guidance 1.0</span>
+  </div>
+
+  <div class="math">
+    <span class="lbl"><svg class="i"><use href="#i-code"/></svg> notation, used by every stage</span>
+    <div class="eq">\[ x_\sigma = (1-\sigma)\,x_0 + \sigma\,\epsilon, \qquad v = \epsilon - x_0, \qquad \hat x_0 = x_\sigma - \sigma\, v_\theta(x_\sigma,\sigma) \]</div>
+    <p class="where">\(x^i\): latent frame \(i\) &nbsp;·&nbsp; \(c^i\): seg control of frame \(i\) &nbsp;·&nbsp; \(y\): text &nbsp;·&nbsp; \(\sigma=1\) noise, \(\sigma=0\) data</p>
+  </div>
+
+  <h4><svg class="i"><use href="#i-layers"/></svg> The three stages at a glance</h4>
+  <div class="stages-wrap"><div class="stages">
+    <div class="h"></div>
+    <div class="h"><b>Teacher</b><span>bidirectional SFT, iter 600</span></div>
+    <div class="h"><b>1 · AR teacher</b><span>teacher forcing</span></div>
+    <div class="h"><b>2 · Causal CD</b><span>few steps</span></div>
+    <div class="h cur"><b>3 · DMD</b><span>self rollout</span></div>
+
+    <div class="rl"><svg class="i"><use href="#i-eye"/></svg> attention</div>
+    <div>bidirectional</div><div>frame-causal</div><div>frame-causal</div><div>frame-causal</div>
+
+    <div class="rl"><svg class="i"><use href="#i-loop"/></svg> steps / frame</div>
+    <div>35 &times; 2</div><div>35 &times; 2</div><div>4 or 2</div><div class="good">2</div>
+
+    <div class="rl"><svg class="i"><use href="#i-film"/></svg> history in training</div>
+    <div>whole clip</div><div>GT</div><div>GT</div><div class="good">its own frames</div>
+
+    <div class="rl"><svg class="i"><use href="#i-target"/></svg> loss</div>
+    <div>flow matching</div><div>flow matching</div><div>consistency</div><div>DMD</div>
+
+    <div class="rl"><svg class="i"><use href="#i-clock"/></svg> s / clip</div>
+    <div>49.2</div><div class="bad">114.4</div><div>11.4 / 8.1</div><div class="good">8.7</div>
+
+    <div class="rl"><svg class="i"><use href="#i-gauge"/></svg> fg MAE</div>
+    <div>16.94</div><div class="bad">33.74</div><div>19.66 / 20.53</div><div class="good">20.71</div>
+
+    <div class="rl"><svg class="i"><use href="#i-check"/></svg> state</div>
+    <div>done</div><div>stopped at 528, kept 500</div><div>stopped after 500</div><div>training, iter 750 validated</div>
+  </div></div>
+  <p class="where" style="color:var(--ink-3);font-size:.88rem;margin:8px 0 0">fg MAE: mean over the 3 fine held-out cases, seed 2026, lower is better. Stage 1 numbers are step 250, Stage 2 step 500 (4 / 2 steps), Stage 3 iter 750 raw weights.</p>
+
+  <div class="sticky-cases">
+    <div class="cases" role="group" aria-label="Case">
+      <span class="lab">case</span>
+      <button type="button" data-case="tennis__match116_000" aria-pressed="true">tennis</button>
+      <button type="button" data-case="tabletennis__match27_000" aria-pressed="false">table tennis</button>
+      <button type="button" data-case="badminton__match101_000" aria-pressed="false">badminton</button>
+    </div>
+  </div>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="rt-teacher">
+    <div class="sec-head"><span class="sec-num">0</span><h3>Starting point: the bidirectional teacher</h3></div>
+    <div class="vrow">
+      <div class="vrow-head"><span class="id"><svg class="i"><use href="#i-video"/></svg> input and teacher</span>
+        <span class="ctl"><button data-action="toggle">Pause</button><button data-action="restart">Restart</button></span></div>
+      <div class="vgrid c3">
+        <figure><video data-clip="gt" muted loop playsinline preload="metadata"></video><figcaption><b>GT</b></figcaption></figure>
+        <figure><video data-clip="control" muted loop playsinline preload="metadata"></video><figcaption><b>seg control</b></figcaption></figure>
+        <figure><video data-clip="teacher" muted loop playsinline preload="metadata"></video><figcaption><b>Teacher</b><span class="n" data-mae="teacher"></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="rt-stage1">
+    <div class="sec-head"><span class="sec-num">1</span><h3>Stage 1 · AR teacher by teacher forcing</h3></div>
+    <p class="find"><svg class="i"><use href="#i-eye"/></svg> bidirectional <span class="to">&rarr;</span> <b>frame-causal</b>: frame \(i\) sees clean frames \(&lt; i\) and controls \(\le i\). Still 35 steps.</p>
+
+    <div class="dg-wrap">
+      <svg class="dg" viewBox="0 0 900 250" role="img" aria-label="Attention of noisy target frames 1 to 5: bidirectional teacher sees all frames; Stage 1 sees controls up to i, clean GT frames before i, and itself">
+        <text class="t" x="70" y="20">Teacher: bidirectional</text>
+        <text class="t" x="530" y="20">Stage 1: frame-causal</text>
+        <g id="mask-a"></g><g id="mask-b"></g>
+        <!-- legend -->
+        <rect class="on2" x="70" y="226" width="14" height="14" rx="3"/><text x="90" y="238">seg control</text>
+        <rect class="on" x="190" y="226" width="14" height="14" rx="3"/><text x="210" y="238">clean GT frame</text>
+        <rect class="boxk" x="330" y="226" width="14" height="14" rx="3"/><text x="350" y="238">noisy frame, being denoised</text>
+        <rect class="off" x="540" y="226" width="14" height="14" rx="3"/><text x="560" y="238">masked</text>
+      </svg>
+    </div>
+
+    <div class="math">
+      <span class="lbl"><svg class="i"><use href="#i-target"/></svg> loss</span>
+      <div class="eq">\[ \mathcal L_1 = \mathbb E_{\sigma,\epsilon} \sum_{i=1}^{30} \Big\| \, v_\theta\big(x^i_\sigma,\ \sigma \;\big|\; \underbrace{x_0^{&lt;i}}_{\text{clean GT}},\ c^{\le i},\ y\big) - \big(\epsilon^i - x_0^i\big) \Big\|^2 \]</div>
+      <p class="where">one clean pass builds the K/V, one noisy pass denoises against it · one \(\sigma\) per clip, shift 5</p>
+    </div>
+    <div class="chips">
+      <span class="chip">init: teacher iter 600</span><span class="chip">batch 8</span><span class="chip">lr 2e-5</span>
+      <span class="chip"><svg class="i"><use href="#i-clock"/></svg> about 74 s / step</span><span class="chip">stopped at 528, step 500 kept</span>
+    </div>
+
+    <h4><svg class="i"><use href="#i-gauge"/></svg> Problem: exposure bias</h4>
+    <div class="chart" id="ch-stage1">
+      <p class="ttl">Foreground MAE per frame</p>
+      <p class="sub">step 250, mean of 3 cases, lower is better</p>
+      <div class="legend"></div>
+      <div class="plot"></div>
+    </div>
+    <p class="find"><svg class="i"><use href="#i-check"/></svg> GT history: <b>flat</b> (13.3 &rarr; 13.4)
+      <span class="to">·</span> <svg class="i warn"><use href="#i-down"/></svg> own history: <b>doubles</b> (22.7 &rarr; 44.9)
+      <span class="to">&rArr;</span> error accumulation <span class="to">&rArr;</span> fixed by Stage 3</p>
+
+    <div class="vrow">
+      <div class="vrow-head"><span class="id"><svg class="i"><use href="#i-video"/></svg> Stage 1 step 250 · 35 steps &times; CFG</span>
+        <span class="ctl"><button data-action="toggle">Pause</button><button data-action="restart">Restart</button></span></div>
+      <div class="vgrid c4">
+        <figure><video data-clip="gt" muted loop playsinline preload="metadata"></video><figcaption><b>GT</b></figcaption></figure>
+        <figure><video data-clip="teacher" muted loop playsinline preload="metadata"></video><figcaption><b>Teacher</b><span class="n" data-mae="teacher"></span></figcaption></figure>
+        <figure class="key"><video data-clip="s1_free" muted loop playsinline preload="metadata"></video><figcaption><b>Stage 1, own history</b><span class="n" data-mae="s1_free"></span></figcaption></figure>
+        <figure><video data-clip="s1_gthist" muted loop playsinline preload="metadata"></video><figcaption><b>Stage 1, GT history</b><span class="n" data-mae="s1_gthist"></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="rt-stage2">
+    <div class="sec-head"><span class="sec-num">2</span><h3>Stage 2 · Causal consistency distillation</h3></div>
+    <p class="find"><svg class="i"><use href="#i-loop"/></svg> 35 steps &times; CFG <span class="to">&rarr;</span> <b>4 or 2 steps, no CFG</b>. Still trained on GT history.</p>
+
+    <div class="dg-wrap">
+      <svg class="dg" viewBox="0 0 900 250" role="img" aria-label="Consistency distillation: noise GT to sigma n, the teacher takes one Euler step to sigma n plus 1, the student's x0 at sigma n must match the EMA student's x0 at sigma n plus 1">
+        <defs>
+          <marker id="mk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="kt"/></marker>
+          <marker id="mk-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="gt"/></marker>
+          <marker id="mk-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="wt"/></marker>
+        </defs>
+        <path class="curve" d="M90.0,150.0 L108.0,151.3 L126.0,151.8 L144.0,151.7 L162.0,151.0 L180.0,149.8 L198.0,148.0 L216.0,145.8 L234.0,143.1 L252.0,139.9 L270.0,136.2 L288.0,132.3 L306.0,128.0 L324.0,123.4 L342.0,118.6 L360.0,113.7 L378.0,108.7 L396.0,103.8 L414.0,98.9 L432.0,94.1 L450.0,89.5 L468.0,85.1 L486.0,81.0 L504.0,77.1 L522.0,73.6 L540.0,70.5 L558.0,67.7 L576.0,65.2 L594.0,63.1 L612.0,61.3 L630.0,59.8 L648.0,58.6 L666.0,57.6 L684.0,56.8 L702.0,56.2 L720.0,55.8 L738.0,55.5 L756.0,55.2 L774.0,55.1 L792.0,55.0 L810.0,55.0"/>
+        <text class="m" x="100" y="176">teacher ODE path</text>
+        <!-- student and EMA jumps to x0 -->
+        <path class="lnk" stroke-dasharray="6 4" d="M276 134 L798 58" marker-end="url(#mk-a)"/>
+        <path class="lng" stroke-dasharray="6 4" d="M420 98 L798 56" marker-end="url(#mk-g)"/>
+        <!-- teacher Euler step -->
+        <path class="lnw" stroke-width="3" d="M270 136 L408 101" marker-end="url(#mk-w)"/>
+        <circle class="pt" cx="270" cy="136.2" r="6"/>
+        <circle class="ptg" cx="414" cy="98.9" r="6"/>
+        <circle class="ink" cx="810" cy="55" r="7"/>
+        <text class="ink" x="822" y="50" style="font-size:15px">x̂₀</text>
+        <text x="822" y="70" class="m">match, MSE</text>
+        <text x="258" y="160" class="kt" text-anchor="end">xₙ at σₙ</text>
+        <text x="404" y="80" class="gt" text-anchor="end">xₙ₊₁ at σₙ₊₁</text>
+        <text x="300" y="164" class="wt">teacher, CFG 3, one Euler step</text>
+        <text x="520" y="118" class="kt">student θ</text>
+        <text x="600" y="48" class="gt">EMA θ⁻</text>
+        <!-- sigma grid -->
+        <path class="tk" d="M90.0 206v10 M93.1 206v10 M96.2 206v10 M99.5 206v10 M102.9 206v10 M106.4 206v10 M110.0 206v10 M113.8 206v10 M117.7 206v10 M121.8 206v10 M126.0 206v10 M130.4 206v10 M135.0 206v10 M139.8 206v10 M144.8 206v10 M150.0 206v10 M155.5 206v10 M161.2 206v10 M167.1 206v10 M173.4 206v10 M180.0 206v10 M186.9 206v10 M194.2 206v10 M201.9 206v10 M210.0 206v10 M218.6 206v10 M227.6 206v10 M237.3 206v10 M247.5 206v10 M258.4 206v10 M270.0 206v10 M282.4 206v10 M295.7 206v10 M310.0 206v10 M325.4 206v10 M342.0 206v10 M360.0 206v10 M379.6 206v10 M400.9 206v10 M424.3 206v10 M450.0 206v10 M478.4 206v10 M510.0 206v10 M545.3 206v10 M585.0 206v10 M630.0 206v10 M681.4 206v10 M740.8 206v10"/>
+        <path class="ln" d="M90 211H810"/>
+        <text class="m" x="90" y="236">σ = 1, noise</text>
+        <text class="m" x="810" y="236" text-anchor="end">σ = 0, data</text>
+        <text class="m" x="450" y="236" text-anchor="middle">48 grid points, shift 5 (real positions)</text>
+      </svg>
+    </div>
+
+    <div class="eqs">
+      <div class="math">
+        <span class="lbl"><svg class="i"><use href="#i-sliders"/></svg> grid and teacher step</span>
+        <div class="eq">\[ \sigma_n = \frac{5 s_n}{1 + 4 s_n},\quad s_n = 1 - \tfrac{n}{48},\quad n \in \{0..47\} \]</div>
+        <div class="eq">\[ x_{n+1} = x_n + (\sigma_{n+1}-\sigma_n)\big[\,v_\phi^{\varnothing} + 3\,(v_\phi^{y} - v_\phi^{\varnothing})\,\big] \]</div>
+        <p class="where">\(\phi\): frozen Stage 1 model · \(\varnothing\): negative prompt</p>
+      </div>
+      <div class="math">
+        <span class="lbl"><svg class="i"><use href="#i-target"/></svg> loss and EMA</span>
+        <div class="eq">\[ \mathcal L_2 = \Big\| \underbrace{x_n - \sigma_n v_\theta(x_n,\sigma_n)}_{\text{student } \hat x_0} - \operatorname{sg}\big[\underbrace{x_{n+1} - \sigma_{n+1} v_{\theta^-}(x_{n+1},\sigma_{n+1})}_{\text{EMA } \hat x_0}\big] \Big\|^2 \]</div>
+        <div class="eq">\[ \theta^- \leftarrow 0.99\,\theta^- + 0.01\,\theta \]</div>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">init: Stage 1 step 500, into all 3 nets</span><span class="chip">lr 2e-6, betas (0, 0.999)</span>
+      <span class="chip">8 passes / clip</span><span class="chip"><svg class="i"><use href="#i-clock"/></svg> about 119 s / step</span><span class="chip">stopped after 500</span>
+    </div>
+
+    <div class="chart" id="ch-stage2">
+      <p class="ttl">Foreground MAE per frame</p>
+      <p class="sub">Stage 2 step 500, mean of 3 cases, lower is better</p>
+      <div class="legend"></div>
+      <div class="plot"></div>
+    </div>
+    <p class="find"><svg class="i"><use href="#i-zap"/></svg> <b>4.3&times;</b> (4 steps) and <b>6.1&times;</b> (2 steps) faster
+      <span class="to">·</span> <svg class="i warn"><use href="#i-down"/></svg> late frames break into a <b>blocky grid</b>; fg MAE understates it</p>
+
+    <div class="vrow">
+      <div class="vrow-head"><span class="id"><svg class="i"><use href="#i-video"/></svg> Stage 2 step 500 · no CFG</span>
+        <span class="ctl"><button data-action="toggle">Pause</button><button data-action="restart">Restart</button></span></div>
+      <div class="vgrid c4">
+        <figure><video data-clip="gt" muted loop playsinline preload="metadata"></video><figcaption><b>GT</b></figcaption></figure>
+        <figure><video data-clip="teacher" muted loop playsinline preload="metadata"></video><figcaption><b>Teacher, 35 &times; 2</b><span class="n" data-mae="teacher"></span></figcaption></figure>
+        <figure><video data-clip="s2_4step" muted loop playsinline preload="metadata"></video><figcaption><b>Stage 2, 4 steps</b><span class="n" data-mae="s2_4step"></span></figcaption></figure>
+        <figure class="key"><video data-clip="s2_2step" muted loop playsinline preload="metadata"></video><figcaption><b>Stage 2, 2 steps</b><span class="n" data-mae="s2_2step"></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="rt-stage3">
+    <div class="sec-head"><span class="sec-num">3</span><h3>Stage 3 · DMD with self rollout</h3></div>
+    <p class="find"><svg class="i"><use href="#i-film"/></svg> train on <b>its own history</b>, exactly as at inference; judged on the whole clip by the bidirectional teacher.</p>
+
+    <div class="dg-wrap">
+      <svg class="dg" viewBox="0 0 900 270" role="img" aria-label="The student rolls out the clip frame by frame from its own KV cache; the clip is re-noised; the bidirectional teacher gives the real score and the critic the fake score; their difference updates the student">
+        <defs>
+          <marker id="mk-n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--ink-3)"/></marker>
+          <marker id="mk-a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="kt"/></marker>
+        </defs>
+        <!-- KV cache band -->
+        <rect class="boxg" x="30" y="12" width="520" height="26" rx="6" style="fill-opacity:.5"/>
+        <text x="290" y="30" text-anchor="middle" class="gt">KV cache: the student's own past frames, no GT</text>
+        <!-- frames -->
+        <rect class="boxg" x="30" y="56" width="80" height="50" rx="8"/><text class="t" x="70" y="87" text-anchor="middle">x⁰</text>
+        <rect class="boxk" x="140" y="56" width="80" height="50" rx="8"/><text class="t" x="180" y="87" text-anchor="middle">x̂¹</text>
+        <rect class="boxk" x="250" y="56" width="80" height="50" rx="8"/><text class="t" x="290" y="87" text-anchor="middle">x̂²</text>
+        <rect class="boxk" x="360" y="56" width="80" height="50" rx="8"/><text class="t" x="400" y="87" text-anchor="middle">x̂³</text>
+        <text x="470" y="87" class="t" text-anchor="middle">…</text>
+        <rect class="boxk" x="500" y="56" width="50" height="50" rx="8"/><text class="t" x="525" y="87" text-anchor="middle">x̂³⁰</text>
+        <path class="ln" d="M110 81H136" marker-end="url(#mk-n)"/><path class="ln" d="M220 81H246" marker-end="url(#mk-n)"/><path class="ln" d="M330 81H356" marker-end="url(#mk-n)"/>
+        <text class="m" x="70" y="124" text-anchor="middle">GT anchor</text>
+        <text class="m" x="290" y="124" text-anchor="middle">each: 2 steps, σ 0.999 → 0.833</text>
+        <!-- bracket to rolled-out clip -->
+        <path class="ln" d="M30 130v6H550v-6 M290 136v28" marker-end="url(#mk-n)"/>
+        <!-- DMD block -->
+        <rect class="box" x="200" y="168" width="180" height="44" rx="8"/>
+        <text x="290" y="187" text-anchor="middle" class="ink">rolled-out clip x̂</text>
+        <text x="290" y="204" text-anchor="middle" class="m">re-noise at σ</text>
+        <path class="ln" d="M380 182 L438 170" marker-end="url(#mk-n)"/>
+        <path class="ln" d="M380 198 L438 226" marker-end="url(#mk-n)"/>
+        <rect class="box" x="440" y="150" width="210" height="44" rx="8"/>
+        <text x="545" y="169" text-anchor="middle" class="ink">teacher: real score</text>
+        <text x="545" y="186" text-anchor="middle" class="m">bidirectional, frozen, CFG 3</text>
+        <rect class="box" x="440" y="206" width="210" height="44" rx="8"/>
+        <text x="545" y="225" text-anchor="middle" class="ink">critic ψ: fake score</text>
+        <text x="545" y="242" text-anchor="middle" class="m">bidirectional, trained online</text>
+        <path class="ln" d="M650 172 L698 186" marker-end="url(#mk-n)"/>
+        <path class="ln" d="M650 228 L698 204" marker-end="url(#mk-n)"/>
+        <rect class="boxk" x="700" y="170" width="180" height="46" rx="8"/>
+        <text x="790" y="190" text-anchor="middle" class="kt">x̂₀ fake − x̂₀ real</text>
+        <text x="790" y="207" text-anchor="middle" class="m">gradient for the student</text>
+        <path class="lnk" d="M790 170 V81 H566" marker-end="url(#mk-a3)"/>
+        <text x="680" y="74" class="kt">update student θ</text>
+      </svg>
+    </div>
+
+    <div class="eqs">
+      <div class="math">
+        <span class="lbl"><svg class="i"><use href="#i-film"/></svg> self rollout</span>
+        <div class="eq">\[ \hat x^i = G_\theta\big(z^i \;\big|\; \hat x^{&lt;i},\ c^{\le i},\ y\big), \quad i = 1..30 \]</div>
+        <p class="where">gradient kept at one random exit step per frame · past K/V detached</p>
+      </div>
+      <div class="math">
+        <span class="lbl"><svg class="i"><use href="#i-target"/></svg> DMD gradient and critic</span>
+        <div class="eq">\[ \nabla_\theta \mathcal L_{\text{DMD}} = \mathbb E_{\sigma,\epsilon}\!\left[ \frac{\hat x_0^{\text{fake}}(\hat x_\sigma) - \hat x_0^{\text{real}}(\hat x_\sigma)}{\operatorname{mean}\lvert \hat x - \hat x_0^{\text{real}} \rvert}\ \frac{\partial \hat x}{\partial \theta} \right] \]</div>
+        <div class="eq">\[ \mathcal L_\psi = \big\| v_\psi(\hat x_\sigma,\sigma) - (\epsilon - \operatorname{sg}[\hat x]) \big\|^2 \]</div>
+        <p class="where">critic 4 : student 1 updates</p>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">init: Stage 2 step 500</span><span class="chip">lr 2e-6, critic 4e-7</span><span class="chip">64 GB / GPU</span>
+      <span class="chip"><svg class="i"><use href="#i-clock"/></svg> about 107 s / iter</span><span class="chip">iter 750 = 150 student updates</span>
+    </div>
+
+    <div class="chart" id="ch-stage3">
+      <p class="ttl">Foreground MAE per frame</p>
+      <p class="sub">2 steps, mean of 3 cases, lower is better</p>
+      <div class="legend"></div>
+      <div class="plot"></div>
+    </div>
+
+    <div class="tbl-wrap"><table class="nums">
+      <thead><tr><th>2 steps</th><th>fg MAE</th><th>frames 1 to 30</th><th>last 30</th><th>tennis</th><th>table tennis</th><th>badminton</th></tr></thead>
+      <tbody>
+        <tr class="tref"><td>Teacher, 35 &times; 2</td><td>16.94</td><td>15.01</td><td>18.99</td><td>16.1</td><td>19.2</td><td>15.6</td></tr>
+        <tr><td>Start: Stage 2 step 500</td><td>20.53</td><td>13.80</td><td>28.78</td><td>19.5</td><td>23.5</td><td>18.5</td></tr>
+        <tr><td>Stage 3 iter 250, EMA</td><td class="win">19.13</td><td>13.79</td><td>25.88</td><td>17.7</td><td>22.3</td><td>17.3</td></tr>
+        <tr><td>Stage 3 iter 250, raw</td><td class="bad">90.27</td><td class="bad">61.74</td><td class="bad">97.40</td><td class="bad">110.4</td><td class="bad">84.1</td><td class="bad">76.4</td></tr>
+        <tr><td>Stage 3 iter 500, EMA</td><td class="bad">26.65</td><td>16.20</td><td class="bad">33.49</td><td class="bad">33.4</td><td>29.4</td><td>17.2</td></tr>
+        <tr><td>Stage 3 iter 500, raw</td><td>23.18</td><td>18.30</td><td>28.33</td><td>19.8</td><td>25.9</td><td>23.9</td></tr>
+        <tr><td>Stage 3 iter 750, EMA</td><td>22.29</td><td>17.88</td><td>26.54</td><td class="bad">23.2</td><td>24.2</td><td>19.5</td></tr>
+        <tr class="best"><td>Stage 3 iter 750, raw</td><td>20.71</td><td>17.94</td><td class="win">23.41</td><td>18.2</td><td>23.6</td><td>20.3</td></tr>
+      </tbody>
+    </table></div>
+    <p class="find"><svg class="i"><use href="#i-check"/></svg> <b>raw 750</b>: best late frames of any few-step model (last 30: <b>23.4</b> vs 28.8 at the start), tennis coherent to the end</p>
+    <p class="find"><svg class="i"><use href="#i-loop"/></svg> raw weights: washed out at 250 <span class="to">&rarr;</span> good since 500 <span class="to">&rarr;</span> better at 750
+      <span class="to">·</span> <svg class="i warn"><use href="#i-down"/></svg> EMA lags: 750 EMA still collapses on tennis <span class="to">&rArr;</span> <b>use raw weights</b></p>
+
+    <div class="vrow">
+      <div class="vrow-head"><span class="id"><svg class="i"><use href="#i-video"/></svg> Stage 3 · 2 steps · top: EMA · bottom: raw</span>
+        <span class="ctl"><button data-action="toggle">Pause</button><button data-action="restart">Restart</button></span></div>
+      <div class="vgrid c4">
+        <figure><video data-clip="gt" muted loop playsinline preload="metadata"></video><figcaption><b>GT</b></figcaption></figure>
+        <figure><video data-clip="s3_250_ema" muted loop playsinline preload="metadata"></video><figcaption><b>iter 250, EMA</b><span class="n" data-mae="s3_250_ema"></span></figcaption></figure>
+        <figure><video data-clip="s3_500_ema" muted loop playsinline preload="metadata"></video><figcaption><b>iter 500, EMA</b><span class="n" data-mae="s3_500_ema"></span></figcaption></figure>
+        <figure><video data-clip="s3_750_ema" muted loop playsinline preload="metadata"></video><figcaption><b>iter 750, EMA</b><span class="n" data-mae="s3_750_ema"></span></figcaption></figure>
+        <figure><video data-clip="s2_2step" muted loop playsinline preload="metadata"></video><figcaption><b>Start: Stage 2 step 500</b><span class="n" data-mae="s2_2step"></span></figcaption></figure>
+        <figure><video data-clip="s3_250_raw" muted loop playsinline preload="metadata"></video><figcaption><b>iter 250, raw</b><span class="n" data-mae="s3_250_raw"></span></figcaption></figure>
+        <figure><video data-clip="s3_500_raw" muted loop playsinline preload="metadata"></video><figcaption><b>iter 500, raw</b><span class="n" data-mae="s3_500_raw"></span></figcaption></figure>
+        <figure class="key"><video data-clip="s3_750_raw" muted loop playsinline preload="metadata"></video><figcaption><b>iter 750, raw</b><span class="n" data-mae="s3_750_raw"></span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="sub" id="rt-speed">
+    <div class="sec-head"><span class="sec-num"><svg class="i"><use href="#i-zap"/></svg></span><h3>How close to real time</h3></div>
+
+    <div class="tiles">
+      <div class="tile"><span class="k"><svg class="i"><use href="#i-clock"/></svg> first new frame</span>
+        <div class="v">2.7 s <small>vs 49.2 s</small></div><div class="d">teacher shows nothing until the whole clip is done</div></div>
+      <div class="tile"><span class="k"><svg class="i"><use href="#i-film"/></svg> per latent frame</span>
+        <div class="v">0.21 s <small>for 0.16 s of video</small></div><div class="d">1 latent frame = 4 video frames at 25 fps: <b>0.77&times; real time</b></div></div>
+      <div class="tile"><span class="k"><svg class="i"><use href="#i-zap"/></svg> whole clip</span>
+        <div class="v">5.7&times; <small>faster</small></div><div class="d">8.7 s vs 49.2 s for 121 frames (4.84 s of video)</div></div>
+    </div>
+
+    <div class="chart" id="ch-speed">
+      <p class="ttl">Sampling time per 121-frame clip</p>
+      <p class="sub">seconds, lower is better · sampling only: no model load, text encoding or VAE decode</p>
+      <div class="plot"></div>
+    </div>
+    <div class="slot"><svg class="i"><use href="#i-clock"/></svg>
+      <span><b>Next:</b> Stage 3 raw iter 1000 (queued) · Stage 4: export the student and time the full pipeline</span></div>
+  </section>
+</div>
+
+<footer><a href="../">&larr; all weeks</a></footer>
+
+</div>
