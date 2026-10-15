@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body { margin: 0; }</style>
+<title>射击 × 对话 试玩</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Silkscreen&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+  /* Layout: one column workbench; the 16:9 game screen is the hero, controls + live state under it. Single dark look by choice. */
+  :root {
+    --bg: #121419;
+    --panel: #1a1e26;
+    --line: #2a3140;
+    --fg: #e6e8ee;
+    --muted: #98a2b6;
+    --accent: #f2c14e;
+    --accent-ink: #1a1408;
+    --good: #7fd18b;
+    --bad: #ff8a7a;
+    --font-display: "Silkscreen", "Noto Sans SC", monospace;
+    --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color-scheme: dark;
+  }
+  html, body { background: var(--bg); color: var(--fg); }
+  body { font-family: var(--font-body); font-size: 15px; line-height: 1.6; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-block: 28px 48px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid; gap: 18px; }
+  header { display: grid; gap: 4px; }
+  h1 { margin: 0; font-size: 1.5rem; font-weight: 700; text-wrap: balance; }
+  .sub { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tab { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+    padding: 8px 14px; cursor: pointer; display: inline-flex; gap: 10px; align-items: baseline; }
+  .tab .code { font-family: var(--font-display); font-size: 0.85rem; color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .tab[aria-selected="true"] .code { color: var(--accent-ink); }
+  .tab:disabled { cursor: not-allowed; opacity: 0.55; }
+  .tab:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  #stage { position: relative; width: 100%; max-width: 960px; aspect-ratio: 16 / 9; border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden; background: #000; cursor: pointer; }
+  #screen { display: block; width: 100%; height: 100%; image-rendering: pixelated; outline: none; }
+  .overlay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(10, 12, 16, 0.62);
+    color: var(--fg); font-size: 1.05rem; pointer-events: none; }
+  .overlay span { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 18px; }
+  #stage[data-focused="true"] .overlay { display: none; }
+  #stage[data-focused="true"] { border-color: var(--accent); }
+
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 18px; }
+  @media (max-width: 720px) { .row { grid-template-columns: minmax(0, 1fr); } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .panel h2 { margin: 0; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); }
+  .keys { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 0.92rem; }
+  .keys dt { white-space: nowrap; }
+  .keys dd { margin: 0; color: var(--muted); }
+  kbd { font-family: var(--font-mono); font-size: 0.8rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+    border-bottom-width: 2px; border-radius: 4px; padding: 0 6px; }
+  .what { margin: 0; font-size: 0.9rem; color: var(--muted); }
+  #readout { margin: 0; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.7; white-space: pre-wrap; overflow-x: auto;
+    min-height: 6.8em; font-variant-numeric: tabular-nums; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .btn { font: inherit; font-size: 0.88rem; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  .btn:hover { border-color: var(--muted); }
+  .meta { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  #copy-fallback { width: 100%; height: 6em; font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 4px; }
+  .results { display: grid; gap: 14px; }
+  .sec { margin: 8px 0 0; font-size: 1.2rem; }
+  .note { margin: 0; color: var(--muted); font-size: 0.82rem; }
+  .sub3 { margin: 6px 0 0; font-size: 0.95rem; font-weight: 500; }
+  .scroll { overflow-x: auto; }
+  table.res { border-collapse: collapse; font-size: 0.85rem; width: 100%; font-variant-numeric: tabular-nums; }
+  table.res th, table.res td { border-bottom: 1px solid var(--line); padding: 6px 10px; text-align: left; white-space: nowrap; }
+  table.res thead th { color: var(--muted); font-weight: 500; }
+  table.res tr.ref { color: var(--muted); }
+  table.res td.div { white-space: normal; font-family: var(--font-mono); font-size: 0.75rem; min-width: 260px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .chip { font: inherit; font-size: 0.82rem; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; cursor: pointer; }
+  .chip[aria-selected="true"] { border-color: var(--accent); color: var(--accent); }
+  .case { display: grid; gap: 8px; }
+  .case video { width: 100%; border: 1px solid var(--line); background: #000; }
+  .vlabels { display: grid; font-size: 0.8rem; color: var(--muted); text-align: center; }
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; }
+  summary { cursor: pointer; font-size: 0.88rem; }
+  .flows { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; font-size: 0.8rem; }
+  .flows h4 { margin: 6px 0; color: var(--muted); font-weight: 500; }
+  .flows ol { margin: 0; padding-left: 1.6em; }
+  .flows li.bad { color: var(--bad); }
+  pre.diff { margin: 8px 0 0; font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.55; overflow-x: auto; max-height: 640px; overflow-y: auto; white-space: pre; }
+  pre.diff .file { color: var(--accent); font-weight: 700; }
+  pre.diff .meta { color: var(--muted); }
+  pre.diff .hunk { color: #8fb4ff; }
+  pre.diff .add { color: var(--good); }
+  pre.diff .del { color: var(--bad); }
+  ul.files { margin: 0; padding: 0; list-style: none; font-family: var(--font-mono); font-size: 0.78rem; }
+  ul.files .add { color: var(--good); } ul.files .mod { color: var(--accent); } ul.files .del { color: var(--bad); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>射击 × 对话：三程序试玩</h1>
+    <p class="sub">G1 射击场、G2 对话参考、G3 = G1 + G2 的对话。G3 有五份：我们写的 GT；Opus 5.5 和 astra 看 G1 源码 + G2 视频各做的一份（视频）；以及只看 G1 源码 + 一段文字描述各做的一份（文字，name-only 对照）。</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="选择程序">
+    <button class="tab" role="tab" data-game="g1" aria-selected="true"><span class="code">G1</span>射击场</button>
+    <button class="tab" role="tab" data-game="g2" aria-selected="false"><span class="code">G2</span>对话参考</button>
+    <button class="tab" role="tab" data-game="g3" aria-selected="false"><span class="code">G3</span>GT</button>
+    <button class="tab" role="tab" data-game="g3_opus" aria-selected="false"><span class="code">G3</span>Opus · 视频</button>
+    <button class="tab" role="tab" data-game="g3_astra" aria-selected="false"><span class="code">G3</span>astra · 视频</button>
+    <button class="tab" role="tab" data-game="g3_opus_text" aria-selected="false"><span class="code">G3</span>Opus · 文字</button>
+    <button class="tab" role="tab" data-game="g3_astra_text" aria-selected="false"><span class="code">G3</span>astra · 文字</button>
+  </nav>
+
+  <div id="stage" data-focused="false">
+    <canvas id="screen" tabindex="0" aria-label="游戏画面，点击后用键盘操作"></canvas>
+    <div class="overlay"><span>点击画面开始；移开焦点会暂停</span></div>
+  </div>
+
+  <div class="row">
+    <section class="panel">
+      <h2>操作</h2>
+      <div data-help="g1">
+        <p class="what">两人相向站立。对手按固定节奏朝你那一侧水平开火；离开它那一行就打不到你，可以绕过箱子走到它身边。</p>
+      </div>
+      <div data-help="g2" hidden>
+        <p class="what">走到绿衣角色身边，出现「E 交谈」提示后按 E。逐字显示中按 E 只补全当前句。</p>
+      </div>
+      <div data-help="g3 g3_opus g3_astra g3_opus_text g3_astra_text" hidden>
+        <p class="what">同一个射击场。绕开弹道走到对手身边，出现提示后按 E 和它说话；对话期间战斗全部暂停，关闭后继续。</p>
+      </div>
+      <dl class="keys">
+        <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd>移动（8 方向）</dd>
+        <dt><kbd>J</kbd></dt><dd>射击，按住连发（G1）</dd>
+        <dt><kbd>E</kbd></dt><dd>交互 / 补全文字 / 继续 / 确认（G2）</dd>
+        <dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>移动选项（G2）</dd>
+        <dt><kbd>Esc</kbd></dt><dd>关闭对话（G2）</dd>
+        <dt><kbd>R</kbd></dt><dd>完整重置</dd>
+      </dl>
+    </section>
+
+    <section class="panel">
+      <h2>实时状态</h2>
+      <pre id="readout">载入中…</pre>
+      <div class="actions">
+        <button class="btn" id="restart" type="button">重新开始</button>
+        <button class="btn" id="copy" type="button">复制本局动作记录</button>
+        <span class="meta">已运行 <span id="tick">0</span> tick · 60 Hz</span>
+      </div>
+      <span class="meta" id="copy-status">发现问题时可以复制动作记录发给我，我能逐 tick 重放。</span>
+      <textarea id="copy-fallback" hidden readonly aria-label="动作记录"></textarea>
+    </section>
+  </div>
+
+  <section id="results" class="results" hidden>
+    <h2 class="sec">G3 移植结果</h2>
+    <p class="sub">视频组输入：G1 源码 + G2 的 clean 视频 + 任务说明（含对话期间暂停战斗等约定）。文字组：同样的 G1 源码和任务说明，视频换成一段文字（宝可梦式像素对话的描述 + 说话者和全部台词，没有任何数值和画面）。每个 agent 在隔离沙箱里一次写完，看不到 G2 / G3 源码和隐藏测试。评测：9 段隐藏输入在 GT G3 和候选上逐 tick 回放，比较射击状态、对话观测、战斗事件和画面。</p>
+    <div id="res-summary"></div>
+    <p class="note">画面：逐帧平均像素差 &lt; 1.5（0–255）算一致；均差是 9 段的平均。完全一致 = 每个 tick 的射击状态、对话观测、战斗事件都和 GT 相同。</p>
+    <p class="note">事后补充诊断（不在 9 段隐藏输入里）：选项框里按 ↓ ↓ ↑ ↑ ↑，GT 到头停住（1 1 0 0 0），Opus 和 astra 都是循环（1 0 1 0 1）。G2 clean 视频里第二次 ↓ 按在边界上、画面不变，所以只看 clean 视频推不出这条规则。</p>
+    <h3 class="sub3">逐段对比</h3>
+    <div id="res-cases"></div>
+    <h3 class="sub3">代码改了什么</h3>
+    <div id="res-code"></div>
+  </section>
+</div>
+
+<script src="hat_opus.js"></script>
+<script src="hat_astra.js"></script>
+<script src="hat_opus_text.js"></script>
+<script src="hat_astra_text.js"></script>
+<script src="g3_results.js"></script>
+<script src="play.js"></script>
+<script src="results.js"></script>
+</html>
