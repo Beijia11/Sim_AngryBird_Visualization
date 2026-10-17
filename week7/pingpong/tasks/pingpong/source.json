@@ -1,0 +1,10 @@
+{
+  "video": "newnew_harness/new_harness/videos/human_pingpong.mp4",
+  "sha256": "1d2edf9fb8ea9cd4e3574b0296e9e5317ba1ce6f14a0a49230dbaa183bf76f05",
+  "duration_s": 4.96,
+  "fps": 25.0,
+  "frame_time_rule": "frame number / fps; frame numbers refer to legacy decoded reference",
+  "evidence_source": "/shared/perception/personals/beijia/newnew_harness/new_harness/surpass/runs/human_pingpong/claude_code/v1/observations",
+  "analysis_author": "current coding-agent session, 2026-10-17",
+  "automated_video_analysis": false
+}

@@ -1,0 +1,135 @@
+{
+  "character": [
+    {
+      "id": "near_player",
+      "description": "近端黑衣选手",
+      "reference_images": [
+        "evidence/frame_00000.jpg",
+        "evidence/frame_00048.jpg"
+      ],
+      "suggested_poses": [
+        "ready",
+        "side_step",
+        "swing"
+      ],
+      "asset_status": "generated 4-pose near-player sprite row implemented; approximate identity, not exact extraction"
+    },
+    {
+      "id": "far_player",
+      "description": "远端红衣选手",
+      "reference_images": [
+        "evidence/frame_00048.jpg"
+      ],
+      "asset_status": "generated 4-pose far-player sprite row implemented"
+    }
+  ],
+  "scene": {
+    "description": "蓝色球台、中央球网、红色地面，近远端选手",
+    "evidence": [
+      {
+        "start_s": 0,
+        "end_s": 4.8,
+        "frames": [
+          "evidence/frame_00000.jpg",
+          "evidence/frame_00048.jpg",
+          "evidence/frame_00120.jpg"
+        ]
+      }
+    ],
+    "uncertainty": "单视角透视；三维距离未标定"
+  },
+  "action": [
+    {
+      "id": "lateral_step_left",
+      "actor": "near_player",
+      "label": "向画面左侧横移",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 0.96,
+          "end_s": 2.88,
+          "frames": [
+            "evidence/frame_00024.jpg",
+            "evidence/frame_00048.jpg",
+            "evidence/frame_00072.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "相机平面方向；精确片段边界待跟踪"
+    },
+    {
+      "id": "lateral_step_right",
+      "actor": "near_player",
+      "label": "向画面右侧横移",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 0,
+          "end_s": 0.96,
+          "frames": [
+            "evidence/frame_00000.jpg",
+            "evidence/frame_00012.jpg",
+            "evidence/frame_00024.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "不等同于场地三维坐标方向"
+    },
+    {
+      "id": "racket_swing",
+      "actor": "near_player",
+      "label": "挥拍",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 1.44,
+          "end_s": 2.4,
+          "frames": [
+            "evidence/frame_00036.jpg",
+            "evidence/frame_00048.jpg",
+            "evidence/frame_00060.jpg"
+          ]
+        },
+        {
+          "start_s": 3.36,
+          "end_s": 4.32,
+          "frames": [
+            "evidence/frame_00084.jpg",
+            "evidence/frame_00096.jpg",
+            "evidence/frame_00108.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "不细分正反手；接触时刻、动作阶段、旋转未核验"
+    }
+  ],
+  "mechanism": [
+    {
+      "id": "racket_ball_contact",
+      "provenance": "inferred",
+      "condition": "球接近球拍且处于挥拍接触阶段",
+      "effect": "球改变运动方向",
+      "evidence": [
+        {
+          "start_s": 1.44,
+          "end_s": 2.4,
+          "frames": [
+            "evidence/frame_00036.jpg",
+            "evidence/frame_00048.jpg",
+            "evidence/frame_00060.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "小球模糊，需逐帧确认接触；不能从挥拍动画单独断言击球成功"
+    },
+    {
+      "id": "training_score",
+      "provenance": "designed",
+      "condition": "有效回球后落在对方台面",
+      "effect": "每次供球最多增加一次成功次数",
+      "evidence": [],
+      "uncertainty": "新增训练玩法，不是视频中测得的比赛规则"
+    }
+  ],
+  "status": "four-module playable training prototype implemented; exact motion and visual fidelity unmeasured"
+}

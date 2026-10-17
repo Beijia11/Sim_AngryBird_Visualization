@@ -1,0 +1,145 @@
+{
+  "source": "idea/anyvideo2game",
+  "files": {
+    "examples/pingpong/game_spec.json": {
+      "sha256": "ad2f6bae399d78e0fd291b9ac58ab164bdf2019d4ccc9732dcb6f567f834d3f4",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/action/config.json": {
+      "sha256": "7a43a26ae410a606af7497c79d79e0664c877a1702a65f570434674c78c0370d",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/action/module.mjs": {
+      "sha256": "128fd16d3d55fa53c88a30f9a40a85ce55cfb9f7af4c8e45834002f5c1a2e177",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/character/asset_provenance.json": {
+      "sha256": "ee9fde51ce263d5eac82a5b54087ebadf7dbedbc8539846d10981d93903cf4a6",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/character/assets/players.png": {
+      "sha256": "12c2e31c6ac3b8800c75d26ea6aba8f416ed669f50c5597c6c2f9f70fa6dd5f2",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/character/config.json": {
+      "sha256": "b197aeb2a7e43caaeeef8017919ab84c2c868bf28c301d71e11ee90610cab8b9",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/character/module.mjs": {
+      "sha256": "c0587a9ee4042ed6d99579d4a134f438ef381961de94e528cc2ad7559a73f520",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/mechanism/config.json": {
+      "sha256": "43db4000d3d0328835d1fcc136643220d6bd4f6b1d0ab21c1450de1ba0636c39",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/mechanism/module.mjs": {
+      "sha256": "c1f3684e5769415319ad1b36fd82fcfde0bc7ab790c42189268ed586b3fe1ea1",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/scene/asset_provenance.json": {
+      "sha256": "b2688717e1ba77a3235b420416f51fc99e759ab36cb62c0eb9c81fda987acc66",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/scene/assets/court.jpg": {
+      "sha256": "215177157247d8d3b5b063a9dd56fc36d0768f5fc9ff969bd30144c450c9019a",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/scene/config.json": {
+      "sha256": "bba2b2d6a06519447fe3eeab722aa4479dec3989e77b7c6e371548083997dad3",
+      "matches_source": true
+    },
+    "examples/pingpong/modules/scene/module.mjs": {
+      "sha256": "df05e1d0f80a11ca6f5fc9aaedbc5fb7e22b125d96ccefd47b4b242c306deebe",
+      "matches_source": true
+    },
+    "runtime/engine.mjs": {
+      "sha256": "66b603436b5bcd3a05b6b3fd2c0e5ecc7fee8e26922fe17e9ac2adbd0552c6c5",
+      "matches_source": true
+    },
+    "runtime/pingpong.html": {
+      "sha256": "40f77eaf329289511cda645db15b14ae7d96d96a8c2a0a7f1bb7e4ed266d6e2c",
+      "matches_source": false
+    },
+    "runtime/pingpong.mjs": {
+      "sha256": "27159fa5afa17d6b3372f5c2a03de600eed6b454eed54a5583c966ded29b9c59",
+      "matches_source": false
+    },
+    "tasks/pingpong/analysis/action.json": {
+      "sha256": "fcfdb7c303b37a3641b3a40fe42f92f16776fdf2230fd4446e1c12a1c12f3790",
+      "matches_source": true
+    },
+    "tasks/pingpong/analysis/character.json": {
+      "sha256": "e9122f4ced33e179cfeb166b4b0c0f3a88f5633ddc31931e0d0f6652f8dacc38",
+      "matches_source": true
+    },
+    "tasks/pingpong/analysis/mechanism.json": {
+      "sha256": "40d4c91f1cf244278cca69474e94f47000bd161082f6a17546294c87e2cc6243",
+      "matches_source": true
+    },
+    "tasks/pingpong/analysis/scene.json": {
+      "sha256": "35844f4456f9526e9a1af83969f07cde881cd5c5c2d7af3544e6b0c36a7ec849",
+      "matches_source": true
+    },
+    "tasks/pingpong/analysis.json": {
+      "sha256": "1296381fdd6b0a6f7b0815ed62f1103db1f83a950a91619243e50e9f54db2785",
+      "matches_source": true
+    },
+    "tasks/pingpong/contract.json": {
+      "sha256": "74f4b09e3ada89c88de361e195c16b270aa731a548467eb1c52ac25733f5cc9d",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00000.jpg": {
+      "sha256": "04dac75fcb5ad0ef8e34d6f2711549a332c6e5207ee484a975bcec3cf395c2f9",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00012.jpg": {
+      "sha256": "1e960767809edbded867fc1148d634fce3b38f1ee8c365fe8673b17affcb303d",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00024.jpg": {
+      "sha256": "3766fe283e985c140d88fbd74f9193c32de6ff4742b10b92eeec72490f5214c1",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00036.jpg": {
+      "sha256": "5d50c416ae3cfbb672cdddd0362f87b0c776a31a6a7c91f695d0f1845a98f066",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00048.jpg": {
+      "sha256": "7236fda08554748ac94c8efd7eea886aa3ff34fbe6813c9cdbc9d7394cdcfe0a",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00060.jpg": {
+      "sha256": "112fcd5244aaa439f230cc64ad045f52b6446e02448c2530fed4a053846c534b",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00072.jpg": {
+      "sha256": "4bac7fcc92f0a0a7066e419bcdd50a1a25f2e95cd1835bdc026f87c2f3b857d1",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00084.jpg": {
+      "sha256": "2c21420ce829c87915a5eb6739da0de898a9f2a2d8451ab34b22a3cb3fc7550b",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00096.jpg": {
+      "sha256": "101ce712572c4e418d5394e44e7fa5a5635afac9083b9848d39b513376e6266f",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00108.jpg": {
+      "sha256": "e7723fea1300fa84235dd60725b23a590c0caa601a8965b5f3fb537dbded2288",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/frame_00120.jpg": {
+      "sha256": "fd5962dd88ed739e666c716bd885716bcd2ad068e9e2e56b469952e53f9663d0",
+      "matches_source": true
+    },
+    "tasks/pingpong/evidence/reference.mp4": {
+      "sha256": "1d2edf9fb8ea9cd4e3574b0296e9e5317ba1ce6f14a0a49230dbaa183bf76f05",
+      "matches_source": true
+    },
+    "tasks/pingpong/source.json": {
+      "sha256": "857c5c2f7bde35a24fe8025b7550f0af25ab11552fb8d83aefc24f0223620a07",
+      "matches_source": true
+    }
+  }
+}

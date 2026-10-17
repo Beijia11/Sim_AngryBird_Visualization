@@ -1,0 +1,75 @@
+{
+  "forms": [
+    {
+      "id": "lateral_step_left",
+      "actor": "near_player",
+      "label": "向画面左侧横移",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 0.96,
+          "end_s": 2.88,
+          "frames": [
+            "evidence/frame_00024.jpg",
+            "evidence/frame_00048.jpg",
+            "evidence/frame_00072.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "相机平面方向；精确片段边界待跟踪"
+    },
+    {
+      "id": "lateral_step_right",
+      "actor": "near_player",
+      "label": "向画面右侧横移",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 0,
+          "end_s": 0.96,
+          "frames": [
+            "evidence/frame_00000.jpg",
+            "evidence/frame_00012.jpg",
+            "evidence/frame_00024.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "不等同于场地三维坐标方向"
+    },
+    {
+      "id": "racket_swing",
+      "actor": "near_player",
+      "label": "挥拍",
+      "provenance": "observed",
+      "evidence": [
+        {
+          "start_s": 1.44,
+          "end_s": 2.4,
+          "frames": [
+            "evidence/frame_00036.jpg",
+            "evidence/frame_00048.jpg",
+            "evidence/frame_00060.jpg"
+          ]
+        },
+        {
+          "start_s": 3.36,
+          "end_s": 4.32,
+          "frames": [
+            "evidence/frame_00084.jpg",
+            "evidence/frame_00096.jpg",
+            "evidence/frame_00108.jpg"
+          ]
+        }
+      ],
+      "uncertainty": "不细分正反手；接触时刻、动作阶段、旋转未核验"
+    }
+  ],
+  "step_per_tick": 0.022,
+  "move_limit": 0.88,
+  "swing": {
+    "active_start": 6,
+    "active_end": 16,
+    "total_ticks": 30
+  },
+  "timing_provenance": "designed playable timing; action categories supported by video, exact timing not fitted"
+}

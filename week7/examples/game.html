@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composition example game</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&display=swap">
+<style>
+  * { box-sizing:border-box; }
+  body { margin:0; background:#121419; color:#e6e8ee; font:14px/1.5 system-ui,sans-serif; }
+  #stage { position:relative; max-width:960px; margin:auto; aspect-ratio:16/9; }
+  #screen { display:block; width:100%; height:100%; image-rendering:pixelated; cursor:pointer; }
+  #screen:focus-visible { outline:2px solid #f2c14e; outline-offset:-2px; }
+  .hint { position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; }
+  .hint span { background:#121419cc; padding:5px 9px; border-radius:5px; font-size:12px; }
+  #stage[data-focused="true"] .hint { display:none; }
+  .controls { max-width:960px; margin:12px auto; padding:0 12px; }
+  button { font:inherit; cursor:pointer; }
+  body.embedded .controls { display:none; }
+</style>
+<body>
+  <div id="stage"><canvas id="screen" width="960" height="540" tabindex="0" aria-label="Playable game"></canvas><div class="hint"><span>Click to play</span></div></div>
+  <div class="controls"><p id="help"></p><button id="restart" type="button">Restart</button></div>
+  <div hidden><button id="selection" data-game="g1"></button><pre id="readout"></pre><span id="tick"></span><button id="copy"></button><span id="copy-status"></span><textarea id="copy-fallback"></textarea></div>
+  <script>
+    const games = {
+      g1: ['A · Shooter', 'WASD move · J shoot · R reset'],
+      g3: ['C · Talk mid fight (GT)', 'WASD move · J shoot · E talk / advance · ↑↓ choose · Esc close · R reset'],
+      e2a: ['A · Portals', 'A / D move · Space jump · R reset'],
+      e2c: ['C · Bounce through portals (GT)', 'A / D move · Space jump · R reset']
+    };
+    const requested = new URLSearchParams(location.search).get('game');
+    const id = Object.hasOwn(games, requested) ? requested : 'g1';
+    document.getElementById('selection').dataset.game = id;
+    document.title = games[id][0];
+    document.getElementById('screen').setAttribute('aria-label', games[id][0]);
+    document.getElementById('help').textContent = games[id][1];
+    document.body.classList.toggle('embedded', window.self !== window.top);
+  </script>
+  <script src="play.js"></script>
+</body>
+</html>

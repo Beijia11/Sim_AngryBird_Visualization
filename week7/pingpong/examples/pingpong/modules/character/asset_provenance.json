@@ -1,0 +1,10 @@
+{
+  "method": "built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset type: a compact transparent game sprite atlas, exactly 4 equal columns x 2 equal rows, landscape 1536x1024 if possible. Reference image: the table tennis video frame, use only the two athletes as character appearance references. Generate eight isolated full-body athlete sprites on genuine transparent background, no table, no floor, no shadows on floor, no captions, no grid lines, no text. Each sprite must fit entirely within its own equal-sized cell, all feet aligned at 92% of cell height, head near 8%, generous padding, no overlap between cells. Semi-realistic clean game cutout style with crisp silhouettes and intact bodies. Top row: same light-haired near athlete viewed from behind at mildly elevated camera, black short-sleeve athletic shirt with small white upper-back markings, black shorts, light shoes, right-handed racket. Four poses left to right: 1 ready athletic stance with racket, 2 side step with knees bent, 3 swing preparation racket arm drawn back, 4 swing follow-through racket arm extended toward the table ahead. Bottom row: same dark-haired far athlete viewed from the front at mildly elevated camera, red athletic shirt, black shorts, light shoes, right-handed racket. Same four pose phases in the same order. Preserve near-versus-far identity and outfit cues from the reference. Make all poses the same scale within each row; no extra athletes, floating fragments, table pieces, balls or backdrop. This is a generated approximation for an interactive 2.5D prototype, not exact motion reconstruction.",
+  "reference": "tasks/pingpong/evidence/frame_00048.jpg",
+  "output": "assets/players.png",
+  "transparent_background": true,
+  "generated_approximation": true,
+  "exact_identity_or_motion_reconstruction": false,
+  "usage": "2 rows x 4 columns; near black-shirt athlete, far red-shirt athlete"
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "near_player",
+    "description": "近端黑衣选手",
+    "reference_images": [
+      "evidence/frame_00000.jpg",
+      "evidence/frame_00048.jpg"
+    ],
+    "suggested_poses": [
+      "ready",
+      "side_step",
+      "swing"
+    ],
+    "asset_status": "generated 4-pose near-player sprite row implemented; approximate identity, not exact extraction"
+  },
+  {
+    "id": "far_player",
+    "description": "远端红衣选手",
+    "reference_images": [
+      "evidence/frame_00048.jpg"
+    ],
+    "asset_status": "generated 4-pose far-player sprite row implemented"
+  }
+]

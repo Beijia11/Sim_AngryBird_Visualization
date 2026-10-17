@@ -1,0 +1,45 @@
+{
+  "game_spec": {
+    "schema_version": 1,
+    "task": "pingpong_return_v0",
+    "fps": 60,
+    "balls": 5,
+    "required_returns": 3,
+    "enabled_actions": [
+      "lateral_step_left",
+      "lateral_step_right",
+      "racket_swing"
+    ],
+    "input_bindings": {
+      "ArrowLeft": "lateral_step_left",
+      "ArrowRight": "lateral_step_right",
+      " ": "racket_swing"
+    },
+    "intent": "控制近端选手左右移动和挥拍；5 次供球中至少 3 次有效回球。",
+    "designed_rules": [
+      "训练供球",
+      "简化2.5D球路",
+      "可见接球提示",
+      "每球只计一次",
+      "五球结束"
+    ],
+    "provenance": "current coding-agent session; source actions reviewed, gameplay parameters designed"
+  },
+  "required_observed_actions": [
+    "lateral_step_left",
+    "lateral_step_right",
+    "racket_swing"
+  ],
+  "scene": {
+    "center_x": 613,
+    "near_half_width": 132,
+    "far_half_width": 111,
+    "near_y": 410,
+    "far_y": 275
+  },
+  "unmeasured": [
+    "exact player identity fidelity",
+    "source motion timing",
+    "real-world physics accuracy"
+  ]
+}

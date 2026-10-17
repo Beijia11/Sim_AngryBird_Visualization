@@ -1,0 +1,28 @@
+[
+  {
+    "id": "racket_ball_contact",
+    "provenance": "inferred",
+    "condition": "球接近球拍且处于挥拍接触阶段",
+    "effect": "球改变运动方向",
+    "evidence": [
+      {
+        "start_s": 1.44,
+        "end_s": 2.4,
+        "frames": [
+          "evidence/frame_00036.jpg",
+          "evidence/frame_00048.jpg",
+          "evidence/frame_00060.jpg"
+        ]
+      }
+    ],
+    "uncertainty": "小球模糊，需逐帧确认接触；不能从挥拍动画单独断言击球成功"
+  },
+  {
+    "id": "training_score",
+    "provenance": "designed",
+    "condition": "有效回球后落在对方台面",
+    "effect": "每次供球最多增加一次成功次数",
+    "evidence": [],
+    "uncertainty": "新增训练玩法，不是视频中测得的比赛规则"
+  }
+]

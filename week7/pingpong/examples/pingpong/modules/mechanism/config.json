@@ -1,0 +1,16 @@
+{
+  "gravity": 0.001,
+  "incoming_speed": 0.011,
+  "return_speed": 0.0125,
+  "return_lift": 0.018,
+  "bounce_restitution": 0.85,
+  "net_height": 0.08,
+  "hit_y_min": -0.08,
+  "hit_y_max": 0.16,
+  "miss_y": -0.18,
+  "max_contact_height": 0.8,
+  "contact_radius": 0.23,
+  "initial_wait_ticks": 90,
+  "between_balls_ticks": 65,
+  "provenance": "simplified contact and ballistic training rules, not recovered physical parameters"
+}

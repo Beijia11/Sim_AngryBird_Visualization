@@ -1,0 +1,62 @@
+{
+  "atlas": "assets/players.png",
+  "columns": 4,
+  "rows": 2,
+  "poses": [
+    "ready",
+    "step",
+    "prepare",
+    "swing"
+  ],
+  "provenance": "reference-conditioned generated sprites; approximate appearance, not extracted exact poses",
+  "cells": [
+    [
+      43,
+      89,
+      288,
+      380
+    ],
+    [
+      55,
+      99,
+      298,
+      370
+    ],
+    [
+      38,
+      80,
+      316,
+      392
+    ],
+    [
+      45,
+      99,
+      317,
+      370
+    ],
+    [
+      41,
+      64,
+      308,
+      356
+    ],
+    [
+      44,
+      69,
+      327,
+      355
+    ],
+    [
+      37,
+      61,
+      316,
+      362
+    ],
+    [
+      13,
+      70,
+      332,
+      355
+    ]
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "background": "assets/court.jpg",
+  "center_x": 613,
+  "near_half_width": 132,
+  "far_half_width": 111,
+  "near_y": 410,
+  "far_y": 275,
+  "height_scale": 95,
+  "provenance": "legacy background plate plus procedural table reconstruction; approximate projection"
+}

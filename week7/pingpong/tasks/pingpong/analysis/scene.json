@@ -1,0 +1,15 @@
+{
+  "description": "蓝色球台、中央球网、红色地面，近远端选手",
+  "evidence": [
+    {
+      "start_s": 0,
+      "end_s": 4.8,
+      "frames": [
+        "evidence/frame_00000.jpg",
+        "evidence/frame_00048.jpg",
+        "evidence/frame_00120.jpg"
+      ]
+    }
+  ],
+  "uncertainty": "单视角透视；三维距离未标定"
+}

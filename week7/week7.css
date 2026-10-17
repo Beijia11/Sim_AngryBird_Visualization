@@ -1,0 +1,134 @@
+/* Week 7. Same tokens and type as weeks 2 to 6. Text page from the user's outline:
+   numbered sections, sub-headings, (1) (2) lists, no icons. The harness figure has its own
+   stylesheet (harness.css, scoped under .vp). */
+:root {
+  --ground:#F6F7FA; --surface:#FFFFFF; --ink:#14161C; --ink-2:#4C536A;
+  --ink-3:#8B92A6; --line:#DEE2EC; --line-soft:#EBEEF4;
+  --accent:#2121DE; --accent-bg:#ECECFD; --chip:#EEF0F8;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+    --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+    --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+  --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+  --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+}
+
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1000px; margin:0 auto; padding:0 28px; }
+a { color:var(--accent); }
+
+/* ---------- masthead ---------- */
+header.page { padding:60px 0 30px; border-bottom:1px solid var(--line); margin-bottom:24px; }
+.eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px; }
+h1 { font-family:var(--display); font-weight:500; font-size:clamp(2.4rem,6vw,3.8rem); line-height:1.05; letter-spacing:-.018em; margin:0 0 24px; }
+nav.toc ol { margin:0; padding-left:1.8em; list-style:decimal; }
+nav.toc li { padding-left:.4em; margin:4px 0; }
+nav.toc li::marker { font-family:var(--mono); font-size:.85em; color:var(--ink-3); }
+nav.toc a { text-decoration:none; color:var(--ink-2); }
+nav.toc a:hover { color:var(--accent); }
+
+/* ---------- headings: section > subsection ---------- */
+section.sec { padding:56px 0 8px; }
+h2 {
+  display:flex; align-items:baseline; gap:16px;
+  font-family:var(--display); font-weight:500; font-size:clamp(1.9rem,4vw,2.6rem); line-height:1.12;
+  margin:0 0 8px; padding-bottom:14px; border-bottom:2px solid var(--accent);
+}
+h2 .n { font-family:var(--mono); font-size:.5em; font-weight:500; color:var(--accent); }
+h3 {
+  font-family:var(--display); font-weight:500; font-size:clamp(1.4rem,3vw,1.75rem); line-height:1.2;
+  margin:40px 0 12px;
+}
+p { margin:0 0 14px; max-width:72ch; }
+p.q { font-family:var(--display); font-size:1.35rem; line-height:1.45; }
+
+/* ---------- lists ---------- */
+ol.items { list-style:decimal; margin:0 0 16px; padding-left:2.1em; max-width:80ch; }
+ol.items li { padding-left:.35em; margin:0 0 8px; }
+ol.items li::marker { content:"(" counter(list-item) ") "; color:var(--ink-3); font-family:var(--mono); font-size:.85em; }
+ol.items b { font-weight:600; }
+ul.links { margin:0 0 16px; padding:0 0 0 1.2em; display:grid; gap:4px; }
+
+/* Term, then a separated title and explanation: no concatenated inline spans. */
+.concepts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; border-top:1px solid var(--line); margin:4px 0 24px; }
+.concept { min-width:0; padding:22px 0 24px; border-bottom:1px solid var(--line); }
+.concept dt { display:block; margin:0 0 12px; font-family:var(--mono); font-size:15px; font-weight:500; color:var(--accent); }
+.concept dt.symbol { font-family:var(--display); font-style:italic; font-size:1.7rem; line-height:1.1; }
+.concept dd { margin:0; }
+.concept-title { margin:0 0 6px; font-size:1.15rem; font-weight:600; color:var(--ink); }
+.concept-description { margin:0; color:var(--ink-2); max-width:70ch; }
+
+.concl {
+  margin:22px 0 0; padding:16px 20px; border-left:4px solid var(--accent); border-radius:0 12px 12px 0;
+  background:var(--accent-bg);
+}
+.concl .k { display:block; font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+.concl p { margin:0; }
+
+figure.fig-img { margin:8px 0 18px; padding:18px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+figure.fig-img img { display:block; width:100%; max-width:860px; height:auto; margin:0 auto; }
+
+/* Match the original week7prepare/videoplay typography and full-window diagram. */
+.vp { font-size:16px; line-height:1.45; }
+
+.intent-examples { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; margin:24px 0 12px; }
+.intent-example { min-width:0; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+.intent-example h4 { margin:0 0 8px; font-family:var(--display); font-size:1.4rem; font-weight:500; line-height:1.2; }
+.intent-source { font-size:15px; line-height:1.5; color:var(--ink-2); margin:0 0 16px; }
+.intent-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.intent-options figure { min-width:0; margin:0; }
+.intent-options a { display:block; border-radius:8px; overflow:hidden; background:var(--ground); }
+.intent-options img { display:block; width:100%; aspect-ratio:3/4; object-fit:contain; }
+.intent-options figcaption { margin-top:10px; font-size:14px; line-height:1.45; }
+.intent-options figcaption b { display:block; margin-bottom:5px; font-size:16px; font-weight:600; }
+.intent-options figcaption span { display:block; color:var(--ink-2); }
+.intent-caption { font-size:14px; color:var(--ink-3); max-width:none; }
+
+.pingpong-demo { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:22px; margin:22px 0 12px; }
+.pingpong-play { min-width:0; }
+.pingpong-play iframe { display:block; width:100%; height:620px; border:0; border-radius:12px; background:#10151a; }
+.pingpong-play p { font-size:14px; margin-top:10px; }
+.pingpong-play p span { display:block; margin-top:4px; color:var(--ink-2); }
+.pingpong-reference h4 { font-size:18px; line-height:1.4; margin:0 0 14px; }
+.pingpong-reference figure { margin:0 0 12px; }
+.pingpong-reference img { display:block; width:100%; border-radius:6px; }
+.pingpong-reference figcaption { font-size:12px; line-height:1.5; color:var(--ink-2); margin-top:6px; }
+.pingpong-reference-strip { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.pingpong-reference p,.pingpong-reference details,.pingpong-assets { font-size:14px; }
+.pingpong-reference video { width:100%; margin-top:10px; }
+.pingpong-assets summary,.pingpong-reference summary { cursor:pointer; }
+.pingpong-assets img { display:block; width:100%; max-width:760px; background:var(--chip); margin:14px 0; border-radius:8px; }
+
+@media (max-width:760px) {
+  .pingpong-demo { grid-template-columns:minmax(0,1fr); }
+  .intent-examples { grid-template-columns:minmax(0,1fr); }
+  .intent-example { padding:14px; }
+}
+
+footer { margin:72px 0 64px; padding-top:20px; border-top:1px solid var(--line); color:var(--ink-3); font-size:.9rem; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+@media (max-width:850px) {
+  .concepts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:480px) {
+  .concepts { grid-template-columns:1fr; gap:0; }
+}
+@media (max-width:620px) {
+  .wrap { padding:0 16px; }
+  body { font-size:17px; }
+  figure.fig-img { padding:10px; }
+}

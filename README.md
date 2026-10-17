@@ -11,6 +11,12 @@ by concise tool responsibilities. Frozen execution files are copied unchanged;
 known failures remain labelled. See [week6/README.md](week6/README.md) for sources,
 rebuild and preview commands. Published 2026-10-08.
 
+Week 7 release (2026-10-17): `week7/` contains the Decompose & Combine / AnyVideo2Game report,
+playable composition examples, video + intent illustrations, the Harness diagram, and table-tennis training
+with its analysis reference images. The landing page links to Week 7. The temporary `week7prepare/`
+directory was removed at the user's request after its required assets were copied into `week7/`.
+See [week7/README.md](week7/README.md) for provenance and validation.
+
 ## Layout
 
 ```

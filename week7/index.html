@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decompose &amp; Combine, Any Video to Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="week7.css?v=20261017-harness-restored">
+<link rel="stylesheet" href="examples/examples.css?v=20261017">
+<script defer src="examples/data.js?v=20261017"></script>
+<script defer src="examples/results.js?v=20261017"></script>
+<link rel="stylesheet" href="harness.css?v=20261017-structure">
+<script defer src="videoplay/videoplay.js?v=20261017-harness-restored"></script>
+
+<div class="wrap">
+
+<header class="page">
+  <p class="eyebrow">CVPR 2027 / Week 7</p>
+  <h1>Decompose &amp; Combine<br>Any Video to Game</h1>
+  <nav class="toc" aria-label="Sections">
+    <ol start="0">
+      <li><a href="#opening">Opening: overlap with prior work</a></li>
+      <li><a href="#deco">Decompose and Combine</a></li>
+      <li><a href="#any">Any Video to Game</a></li>
+      <li><a href="#concl">Conclusion</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ================================================================ -->
+<section class="sec" id="opening">
+  <h2><span class="n">0</span>Opening: overlap with prior work</h2>
+
+  <h3>We overlap with other work only in the rough pipeline</h3>
+  <ul class="links">
+    <li><a href="https://vast-eden.ai/?p=edenlive" target="_blank" rel="noopener">EdenLive</a></li>
+    <li><a href="https://code-video-model.github.io/" target="_blank" rel="noopener">Code Video Model</a></li>
+    <li><a href="https://nvlabs.github.io/Sana/Sol-Engine/StreamRender-H3/" target="_blank" rel="noopener">StreamRender-H3</a></li>
+  </ul>
+  <ol class="items">
+    <li>The <b>agent</b> handles the game part.</li>
+    <li>The <b>video model</b> handles rendering.</li>
+  </ol>
+
+  <h3>What they have now</h3>
+  <ol class="items">
+    <li>The agent's games are not really well designed: <b>only a racing game</b>.</li>
+    <li>The video is <b>not real-time enough</b>.</li>
+    <li>They do not use the video model's ability to <b>auto-complete</b>.</li>
+  </ol>
+
+  <h3>Our focus</h3>
+  <p><b>Video part</b></p>
+  <ol class="items">
+    <li>Make video generation real-time.</li>
+    <li>Explore the video model's ability to complete missing information.</li>
+  </ol>
+  <p><b>Agent part</b></p>
+  <ol class="items">
+    <li>How to evaluate the transition from the real world to a game?</li>
+    <li>Why use video as input?</li>
+  </ol>
+
+  <h3>Previous task: video to game</h3>
+  <figure class="fig-img">
+    <img src="img/pipeline.png" alt="1 Coding agent, 2 Simulator code, 3 Structured guidance (depth, semantic), 4 Generated video" width="813" height="298">
+  </figure>
+</section>
+
+<!-- ================================================================ -->
+<section class="sec" id="deco">
+  <h2><span class="n">1</span>Decompose and Combine</h2>
+  <h3>Question</h3>
+  <p class="q">Since we can build a game's modules (objects, mechanics, ...) from text, can we decompose all of them out of a video?</p>
+
+  <h3>A game / world is made of four factors</h3>
+  <dl class="concepts">
+    <div class="concept">
+      <dt class="symbol">S</dt>
+      <dd>
+        <p class="concept-title">State space</p>
+        <p class="concept-description">Which entities exist and what attributes they have (scene)</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt class="symbol">T</dt>
+      <dd>
+        <p class="concept-title">Transition rules</p>
+        <p class="concept-description">How the state changes (mechanics)</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt class="symbol">π</dt>
+      <dd>
+        <p class="concept-title">Behavior</p>
+        <p class="concept-description">How entities move in this world (motion / style / play style)</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt class="symbol">A</dt>
+      <dd>
+        <p class="concept-title">Appearance</p>
+        <p class="concept-description">What they look like (visuals)</p>
+      </dd>
+    </div>
+  </dl>
+  <p>I think a game is made of these. Can we extract all of them from a video? Then can it do:</p>
+  <ol class="items">
+    <li><b>Transplantation</b>: transplant one factor from one game onto another.</li>
+    <li><b>Composition</b>: decompose factors from different videos and compose them into your world?</li>
+  </ol>
+
+  <div class="composition-examples" id="composition-examples">
+    <div class="test" data-test="t1" data-start="1">
+      <div class="test-head"><span class="n">T1</span><h4>Shooter × Dialogue</h4><span class="run">run r1 · 2026-10-15</span></div>
+      <div class="test-body">
+        <div class="abc">
+          <div class="card a"><div class="who"> A · Shooter</div><span class="style">code · pixel</span>
+            <ul><li>8 way move, shoot</li><li>static opponent fires back</li><li>crates block bullets</li></ul>
+            <div class="game-frame"><iframe src="examples/game.html?game=g1" title="A · Shooter" loading="lazy"></iframe></div><a class="open-game" href="examples/game.html?game=g1" target="_blank" rel="noopener">Open game</a><p class="game-help">WASD move · J shoot · R reset</p></div>
+          <span class="op">+</span>
+          <div class="card b"><div class="who"> B · Talk to the guard</div><span class="style">video only · pixel room</span>
+            <video src="examples/media/t1/ref_b.mp4" poster="examples/media/t1/ref_b.jpg" controls muted loop playsinline preload="none"></video></div>
+          <span class="op">=</span>
+          <div class="card c"><div class="who"> C · Talk mid fight</div><span class="style">GT written by us</span>
+            <div class="game-frame"><iframe src="examples/game.html?game=g3" title="C · Talk mid fight" loading="lazy"></iframe></div><a class="open-game" href="examples/game.html?game=g3" target="_blank" rel="noopener">Open game</a><p class="game-help">WASD move · J shoot · E talk / advance · ↑↓ choose · Esc close · R reset</p>
+            <ul><li>walk up to the opponent, press E</li><li>fight pauses while talking</li><li>held keys do nothing after closing</li></ul></div>
+        </div>
+        <div class="score-slot"></div>
+        <ul class="notes">
+          <li class="ok"><span>Both agents <b>measured from the video</b>: talk radius 72 px, 1 character per 5 ticks, ▼ blinks every 30 ticks.</span></li>
+          <li class="miss"><span>Opus's only error: read the full width <b>「？」 as half width "?"</b>. Swapping it back gives 9/9 (diagnostic, not counted).</span></li>
+          <li class="info"><span>Text control (all lines, no numbers): both guessed <b>radius 96 px, 1 char per 2 ticks</b>, same 2/9. Only the no-dialogue scripts pass.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="test" data-test="t3" data-start="0">
+      <div class="test-head"><span class="n">T3</span><h4>Portal × Angled bounce</h4><span class="run">run e2-r3 · 2026-10-16</span></div>
+      <div class="test-body">
+        <div class="abc">
+          <div class="card a"><div class="who"> A · Portals</div><span class="style">code · neon</span>
+            <ul><li>enter through the face</li><li>mirrored offset, exit ×1.5</li><li>cooldown 10 ticks</li></ul>
+            <div class="game-frame"><iframe src="examples/game.html?game=e2a" title="A · Portals" loading="lazy"></iframe></div><a class="open-game" href="examples/game.html?game=e2a" target="_blank" rel="noopener">Open game</a><p class="game-help">A / D move · Space jump · R reset</p></div>
+          <span class="op">+</span>
+          <div class="card b"><div class="who"> B · Angled pad</div><span class="style">video only · flat</span>
+            <video src="examples/media/t3/ref_b.mp4" poster="examples/media/t3/ref_b.jpg" controls muted loop playsinline preload="none"></video></div>
+          <span class="op">=</span>
+          <div class="card c"><div class="who"> C · Bounce through portals</div><span class="style">GT written by us · neon</span>
+            <div class="game-frame"><iframe src="examples/game.html?game=e2c" title="C · Bounce through portals" loading="lazy"></iframe></div><a class="open-game" href="examples/game.html?game=e2c" target="_blank" rel="noopener">Open game</a><p class="game-help">A / D move · Space jump · R reset</p>
+            <ul><li>pad → wall portal → tower top</li><li>drag keeps going after a portal</li><li>star: 141/270 timings, 0 without any part</li></ul></div>
+        </div>
+        <div class="score-slot"></div>
+        <ul class="notes">
+          <li class="ok"><span>Opus read from the video: <b>strength = 7 + fall speed, depth = 2 × fall speed, 35°, 24 ticks to launch</b>. Events and end state 9/9, error 0.23 px.</span></li>
+          <li class="info"><span>First reference video landed at one fall speed only, so Opus used a fixed strength. <b>Re-recorded with fall speeds 8, 9, 12</b> (this run).</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="concl"><span class="k">Conclusion</span>
+    <p>I did not find many examples of factor composition, and I feel it would need to go up to 3D. I think this is a good form of world in today's agent era, but it may be too big a jump at once.</p></div>
+</section>
+
+<!-- ================================================================ -->
+<section class="sec" id="any">
+  <h2><span class="n">2</span>Any Video to Game</h2>
+
+  <h3>Why not video + intent to game?</h3>
+  <p>Sometimes it feels awkward. Regardless of how realistic the result is, not every video needs to become a game, and not every video has game-like qualities.</p>
+  <p>A video of two ducks chasing each other could become <b>a chase game</b> or <b>a cooperative game</b>. A person should define the intent.</p>
+
+  <div class="intent-examples" aria-label="Same video, different game intents">
+    <article class="intent-example">
+      <h4>One duck video, two possible games</h4>
+      <p class="intent-source">Same ducks and motion. Choose the goal: chase or cooperate.</p>
+      <div class="intent-options">
+        <figure>
+          <a href="img/intent/ducks-chase.png" target="_blank" rel="noopener" aria-label="Enlarge the duck chase concept"><img src="img/intent/ducks-chase.png" alt="Two ducks chasing each other across a grassy field, with move and dash controls" loading="lazy"></a>
+          <figcaption><b>Chase</b><span>Catch the other duck, or escape from it.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="img/intent/ducks-cooperate.png" target="_blank" rel="noopener" aria-label="Enlarge the duck cooperation concept"><img src="img/intent/ducks-cooperate.png" alt="Two ducks working together to push a crate across a bridge" loading="lazy"></a>
+          <figcaption><b>Cooperate</b><span>Work together to push objects and clear obstacles.</span></figcaption>
+        </figure>
+      </div>
+    </article>
+    <article class="intent-example">
+      <h4>One tennis video, two possible games</h4>
+      <p class="intent-source">Same court and swings. Choose the goal: rally or dodge.</p>
+      <div class="intent-options">
+        <figure>
+          <a href="img/intent/tennis-rally.png" target="_blank" rel="noopener" aria-label="Enlarge the tennis rally concept"><img src="img/intent/tennis-rally.png" alt="Two tennis characters rallying across a net, with move and hit controls" loading="lazy"></a>
+          <figcaption><b>Multi-agent tennis</b><span>Agents play against one another, returning the ball across the net.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="img/intent/tennis-dodge.png" target="_blank" rel="noopener" aria-label="Enlarge the tennis dodge concept"><img src="img/intent/tennis-dodge.png" alt="A tennis character dodging several incoming balls, with move and dash controls" loading="lazy"></a>
+          <figcaption><b>Dodge the balls</b><span>Avoid the balls hit toward you by the opposing agent.</span></figcaption>
+        </figure>
+      </div>
+    </article>
+  </div>
+  <p class="intent-caption">Illustrative game concepts: the video provides the visual and motion cues; the intent defines the goal and rules. Click an image to enlarge.</p>
+
+  <h3>What we want to keep from the video</h3>
+  <dl class="concepts">
+    <div class="concept">
+      <dt>Who</dt>
+      <dd>
+        <p class="concept-title">Character appearance</p>
+        <p class="concept-description">Identity, shape, clothing and visual features of the person / object</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt>Where</dt>
+      <dd>
+        <p class="concept-title">Scene structure</p>
+        <p class="concept-description">Background, object layout, spatial relations and activity boundaries</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt>How</dt>
+      <dd>
+        <p class="concept-title">Motion features</p>
+        <p class="concept-description">How it moves, turns and swings: pose, trajectory, speed and rhythm</p>
+      </dd>
+    </div>
+    <div class="concept">
+      <dt>What happens</dt>
+      <dd>
+        <p class="concept-title">Interaction cues</p>
+        <p class="concept-description">Who interacts with whom, and the observable result, e.g. after the racket hits the ball, the ball changes direction</p>
+      </dd>
+    </div>
+  </dl>
+
+  <h3 id="harness">Harness: first-round result</h3>
+</section>
+</div>
+
+<div class="vp">
+  <div class="wrap">
+    <p class="lede"><b>VideoPlay Harness: From Watching to Playing.</b> Reference video + user Intent &rarr; an agent writes a playable program. It keeps the video's character, scene and motion, but the gameplay follows the Intent: not a replay of the video.
+      <span class="scope">Scope: Video &rarr; Playable Program. No video renderer, no RL.</span></p>
+    <div class="toolbar">
+      <span class="badge-illu">All images, numbers and code are illustrative, not experiment results</span>
+      <span class="legend"><i class="ln gen"></i> generation dependency</span>
+      <span class="legend"><i class="ln fix"></i> targeted fix</span>
+      <button type="button" id="zoom">View at 100 %</button>
+    </div>
+  </div>
+
+<div class="fig-wrap" id="figWrap">
+<div class="fig" id="fig">
+
+  <!-- ===== column labels ===== -->
+  <div class="colhead" style="grid-column:1">Input</div>
+  <div class="colhead" style="grid-column:2 / 6">Four modules <small>what each one produces</small></div>
+  <div class="colhead" style="grid-column:6 / 8">Implementation</div>
+
+  <!-- ===== row 2-3, column 1: inputs ===== -->
+  <div class="card input" id="vid" style="grid-column:1; grid-row:3">
+    <div class="hd"><span class="ic">▶</span> Video</div>
+    <div class="stack">
+      <img src="videoplay/img/video_t5.jpg" alt="">
+      <img src="videoplay/img/video_t3.jpg" alt="">
+      <img src="videoplay/img/video_t1.jpg" alt="Tennis broadcast frame: a player swings">
+    </div>
+    <p class="cap">A player moves on a court and swings at the ball.</p>
+    <div class="gives"><b>gives</b> look · court · motion</div>
+  </div>
+
+  <div class="card input" id="intent" style="grid-column:1; grid-row:4">
+    <div class="hd"><span class="ic">✎</span> Intent</div>
+    <p class="bubble">"Let me control this player to move and swing. Every successful return scores 1 point."</p>
+    <div class="gives"><b>gives</b> controls · goal · new rules</div>
+  </div>
+
+  <!-- ===== Mechanics ===== -->
+  <div class="card mod mech" id="mdraft" style="grid-column:2; grid-row:3">
+    <div class="hd"><span class="tag">M</span> Mechanics <span class="step">draft</span></div>
+<pre class="code"><span class="k">if</span> arrow keys  → move
+<span class="k">if</span> Space       → swing
+<span class="c">goal:</span> +1 per return</pre>
+    <p class="note">Rough on purpose: enough to ask Action what the player must be able to do.</p>
+  </div>
+
+  <div class="card mod mech" id="mfull" style="grid-column:2; grid-row:4">
+    <div class="hd"><span class="tag">M</span> Mechanics <span class="step">completed</span></div>
+<pre class="code"><span class="k">if</span> player.swinging
+   <span class="k">and</span> swing.in_hit_window
+   <span class="k">and</span> dist(ball, racket) &lt; reach:
+     hit(ball)
+
+<span class="k">if</span> return_ok(ball)
+   <span class="k">and not</span> ball.scored:
+     score += 1
+     ball.scored = True
+
+<span class="k">if</span> ball.out <span class="k">or</span> ball.bounced_twice:
+     serve_again()</pre>
+    <div class="src-row"><span class="src d">designed</span> success, miss, restart come from Intent + design; the video does not show all rules</div>
+  </div>
+
+  <!-- ===== Action ===== -->
+  <div class="card mod act" id="action" style="grid-column:3; grid-row:3 / 5">
+    <div class="hd"><span class="tag">A</span> Action</div>
+    <div class="ins">
+      <span><b>needs</b> from draft: move, swing</span>
+      <span><b>evidence</b> from video: footwork, forehand</span>
+    </div>
+    <svg class="traj" viewBox="0 0 240 132" aria-label="Movement directions and swing path">
+      <rect x="1" y="1" width="238" height="130" rx="8" class="court-bg"/>
+      <line x1="16" y1="112" x2="224" y2="112" class="court-ln"/>
+      <line x1="16" y1="22" x2="224" y2="22" class="court-ln"/>
+      <!-- movement -->
+      <g class="mv">
+        <circle cx="62" cy="78" r="6" class="dot"/>
+        <path d="M62 70 V46"/><path d="M62 86 V104"/><path d="M54 78 H28"/><path d="M70 78 H96"/>
+        <path d="M58 50 l4 -6 4 6"/><path d="M58 100 l4 6 4 -6"/><path d="M32 74 l-6 4 6 4"/><path d="M92 74 l6 4 -6 4"/>
+      </g>
+      <text x="12" y="124" class="t" style="text-anchor:start">move: 8 dir · 4 px/tick</text>
+      <!-- swing arc with keyframes -->
+      <path d="M200 92 C 214 70, 196 46, 160 44 S 128 60, 134 78" class="arc"/>
+      <path d="M131 72 l3 7 5 -6" class="arc"/>
+      <circle cx="200" cy="92" r="4" class="kf"/><text x="214" y="108" class="t s">prepare 6</text>
+      <circle cx="160" cy="44" r="5" class="kf hit"/><text x="160" y="36" class="t s">hit window 4</text>
+      <circle cx="134" cy="78" r="4" class="kf"/><text x="120" y="66" class="t s">follow 8</text>
+      <text x="228" y="124" class="t" style="text-anchor:end">swing (ticks)</text>
+    </svg>
+    <table class="acts">
+      <tr><th>action</th><th>spec</th><th>source</th></tr>
+      <tr><td>idle</td><td>loop · 1 pose</td><td><span class="src v">video</span></td></tr>
+      <tr><td>move ← →</td><td>4 px/tick · 2 poses</td><td><span class="src v">video</span></td></tr>
+      <tr><td>move ↑ ↓</td><td>same speed</td><td><span class="src a">added</span></td></tr>
+      <tr><td>swing</td><td>6 · 4 · 8 ticks · locks move</td><td><span class="src v">video</span></td></tr>
+    </table>
+    <div class="fsm"><span>idle</span>⇄<span>move</span><span class="any">any</span>→<span class="sw">swing</span>→<span>idle</span></div>
+    <div class="out"><b>pose needs</b> idle ×1 · move ×2 · swing ×3</div>
+  </div>
+
+  <!-- ===== Character ===== -->
+  <div class="card mod chr" id="char" style="grid-column:4; grid-row:3 / 5">
+    <div class="hd"><span class="tag">C</span> Character</div>
+    <div class="ref">
+      <img src="videoplay/img/char_ref.jpg" alt="The player cropped from the video">
+      <span>reference<br>from video</span>
+    </div>
+    <div class="poses" id="poses"></div>
+    <p class="note">One consistent look, a few key poses per action. No full multi-view animation in v1.</p>
+  </div>
+
+  <!-- ===== Scene ===== -->
+  <div class="card mod scn" id="scene" style="grid-column:5; grid-row:3 / 5">
+    <div class="hd"><span class="tag">S</span> Scene</div>
+    <div class="scene-img">
+      <img src="videoplay/img/scene.jpg" alt="Court frame from the video">
+      <svg viewBox="0 0 960 540" preserveAspectRatio="none" aria-hidden="true">
+        <g class="extract">
+          <path d="M172 356 L792 358 L600 75 L362 75 Z"/>
+          <path d="M250 356 L392 75 M712 358 L572 75"/>
+          <path d="M316 233 L646 233 M481 105 L481 233 M378 104 L585 104"/>
+          <path d="M280 150 L683 150" class="net"/>
+        </g>
+        <path d="M100 360 L870 360 L960 540 L0 540 Z" class="estim"/>
+        <rect x="272" y="364" width="90" height="130" class="mask"/>
+        <rect x="538" y="20" width="40" height="56" class="mask"/>
+      </svg>
+    </div>
+    <div class="scene-legend">
+      <span><i class="lg ex"></i> visible → extracted</span>
+      <span><i class="lg es"></i> off screen → estimated</span>
+      <span><i class="lg mk"></i> players masked</span>
+    </div>
+    <ul class="outs">
+      <li>background plate</li>
+      <li>court bounds · net · baselines</li>
+      <li>play area + colliders</li>
+    </ul>
+<pre class="code sm">net:      y=150, collider
+baseline: y=356
+play_area: <span class="c">estimated</span></pre>
+  </div>
+
+  <!-- ===== Coding Agent ===== -->
+  <div class="card agent" id="agent" style="grid-column:6; grid-row:3 / 5">
+    <div class="hd"><span class="ic">⚙</span> Coding Agent</div>
+    <ol class="todo">
+      <li>input control + action state machine</li>
+      <li>load scene and character assets</li>
+      <li>bind each action to its poses</li>
+      <li>collision, hitting, ball motion</li>
+      <li>score, end, restart</li>
+      <li>runnable, testable build</li>
+    </ol>
+    <p class="note">Modules define content and behavior. Game Code is the implementation layer: evaluated and fixed on its own.</p>
+  </div>
+
+  <!-- ===== Game code + playable game ===== -->
+  <div class="card code-card" id="code" style="grid-column:7; grid-row:3">
+    <div class="hd"><span class="ic">&lt;/&gt;</span> Game Code</div>
+<pre class="code sm"><span class="k">on</span> key(Space):
+  <span class="k">if</span> state != swing:
+    start(swing)
+<span class="k">update</span>():
+  move(player, keys * 4)
+  <span class="k">if</span> hit_window: try_hit(ball)
+<span class="k">render</span>():
+  draw(scene.bg)
+  draw(pose[state][frame])</pre>
+  </div>
+
+  <div class="card game" id="game" style="grid-column:7; grid-row:4">
+    <div class="hd"><span class="ic">🎮</span> Playable game</div>
+    <canvas id="play" width="500" height="300" tabindex="0" aria-label="Mock tennis game: arrows move, Space swings"></canvas>
+    <p class="keys"><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>Space</kbd> swing · click to play</p>
+  </div>
+
+  <!-- ===== evaluation row ===== -->
+  <div class="evhead" style="grid-column:1; grid-row:6">
+    <b>Evaluation</b>
+    <span>per target, from real runs</span>
+    <p>A check points to a place to look. It does not prove the root cause.</p>
+  </div>
+
+  <div class="card ev mech" id="ev-mech" style="grid-column:2; grid-row:6">
+    <div class="evt"><span class="tag">M</span> Mechanics</div>
+    <p class="chk">intent satisfied · rule asserts · hit condition · scoring & restart</p>
+    <p class="eg"><b>e.g.</b> one successful return scored twice</p>
+    <p class="fx">fix → conditions and rule functions</p>
+  </div>
+  <div class="card ev act" id="ev-act" style="grid-column:3; grid-row:6">
+    <div class="evt"><span class="tag">A</span> Action</div>
+    <p class="chk">required actions covered · direction / speed · swing timing · matches reference</p>
+    <p class="eg"><b>e.g.</b> swing too short in the spec; move speed unrealistic</p>
+    <p class="fx">fix → action definitions, params, transitions</p>
+  </div>
+  <div class="card ev chr" id="ev-char" style="grid-column:4; grid-row:6">
+    <div class="evt"><span class="tag">C</span> Character</div>
+    <p class="chk">same identity and look · pose coverage · consistent across poses</p>
+    <p class="eg"><b>e.g.</b> swing frame does not look like the player; hit pose missing</p>
+    <p class="fx">fix → action images / poses</p>
+  </div>
+  <div class="card ev scn" id="ev-scene" style="grid-column:5; grid-row:6">
+    <div class="evt"><span class="tag">S</span> Scene</div>
+    <p class="chk">background and layout kept · court bounds · collision aligned with image</p>
+    <p class="eg"><b>e.g.</b> boundary config off the visible white line</p>
+    <p class="fx">fix → layout, bounds, collision config</p>
+  </div>
+  <div class="card ev cod" id="ev-code" style="grid-column:6; grid-row:6">
+    <div class="evt"><span class="tag">&lt;/&gt;</span> Game Code</div>
+    <p class="chk">builds and runs · spec ↔ implementation · input / event / asset binding · stable</p>
+    <p class="eg"><b>e.g.</b> assets are right, but Space plays the wrong animation</p>
+    <p class="fx">fix → implementation and integration code</p>
+  </div>
+  <div class="card evidence" id="evidence" style="grid-column:7; grid-row:6">
+    <div class="evt">Run evidence</div>
+    <ul>
+      <li>screenshots / recordings</li>
+      <li>input traces</li>
+      <li>state + event logs</li>
+      <li>automatic tests</li>
+      <li>visual review when needed</li>
+    </ul>
+  </div>
+
+  <!-- ===== refinement row ===== -->
+  <div class="refine" style="grid-column:1 / 8; grid-row:8">
+    <div class="loop-box">
+      <div class="rt">Refinement loop</div>
+      <ol class="loop" id="loop">
+        <li>Run &amp; play</li>
+        <li>Evaluate per target</li>
+        <li>Reproduce &amp; diagnose</li>
+        <li>Pick fix target</li>
+        <li class="hl">Local fix</li>
+        <li>Re-run + regression</li>
+      </ol>
+      <div class="loopback">↺ back to 1 until all checks pass; only the broken part changes</div>
+    </div>
+
+    <div class="packet">
+      <div class="rt">Every fix request carries</div>
+      <dl>
+        <dt>expected / actual</dt><dd>Space → swing pose / Space → move pose</dd>
+        <dt>repro</dt><dd>seed 3 · keys → ×20, Space @ tick 41</dd>
+        <dt>evidence</dt><dd>frame 41 screenshot · log <code>anim=move</code></dd>
+        <dt>target</dt><dd><span class="pill cod">Game Code</span> action binding</dd>
+        <dt>allowed scope</dt><dd><code>game/input.ts</code>, <code>game/anim.ts</code></dd>
+      </dl>
+    </div>
+
+    <div class="diag">
+      <div class="rt">Same symptom, different root cause</div>
+      <div class="sym">"the swing looks wrong"</div>
+      <ul>
+        <li><span>the swing image itself is wrong</span><i>→</i><span class="pill chr">Character</span></li>
+        <li><span>swing timing defined wrong</span><i>→</i><span class="pill act">Action</span></li>
+        <li><span>image and spec right, played wrong</span><i>→</i><span class="pill cod">Game Code</span></li>
+        <li><span>hit condition itself unreasonable</span><i>→</i><span class="pill mech">Mechanics</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <svg class="wires" id="wires" aria-hidden="true"></svg>
+  <div class="labels" id="labels" aria-hidden="true"></div>
+</div>
+</div>
+
+  <div class="wrap">
+  <section class="takeaway">
+    <span class="ti">In one line</span>
+    <p>Mechanics first, video motion fills in the details, actions drive the character assets, a Coding Agent implements, and per-target evaluation sends each fix to the part that broke.</p>
+  </section>
+  </div>
+</div>
+
+<div class="wrap">
+<!-- ================================================================ -->
+<section class="sec" aria-labelledby="pingpong-demo">
+  <h3 id="pingpong-demo">From a table-tennis video to a playable game</h3>
+  <p>Control the near player: move sideways and swing. Return at least <b>3 of 5 balls</b> onto the far side of the table.</p>
+  <div class="pingpong-demo">
+    <div class="pingpong-play">
+      <iframe src="pingpong/runtime/pingpong.html?embed&v=20261017-en" title="Playable table-tennis return training" loading="lazy"></iframe>
+      <p><a href="pingpong/runtime/pingpong.html" target="_blank" rel="noopener">Open game full size</a> <span>← / → move · Space swing · R restart. On-screen buttons are also available.</span></p>
+    </div>
+    <aside class="pingpong-reference" aria-label="Original analysis reference images">
+      <h4>Reference images used in the analysis</h4>
+      <figure>
+        <a href="pingpong/tasks/pingpong/evidence/frame_00048.jpg" target="_blank" rel="noopener"><img src="pingpong/tasks/pingpong/evidence/frame_00048.jpg" alt="Original table-tennis frame: near player in black, far player in red, blue table and red court" loading="lazy"></a>
+        <figcaption>Frame 48 · 1.92 s<br>Character appearance and scene reference</figcaption>
+      </figure>
+      <div class="pingpong-reference-strip">
+        <figure><a href="pingpong/tasks/pingpong/evidence/frame_00000.jpg" target="_blank" rel="noopener"><img src="pingpong/tasks/pingpong/evidence/frame_00000.jpg" alt="Original analysis reference at the start of the table-tennis clip" loading="lazy"></a><figcaption>Frame 0 · 0.00 s</figcaption></figure>
+        <figure><a href="pingpong/tasks/pingpong/evidence/frame_00120.jpg" target="_blank" rel="noopener"><img src="pingpong/tasks/pingpong/evidence/frame_00120.jpg" alt="Original analysis reference near the end of the table-tennis clip" loading="lazy"></a><figcaption>Frame 120 · 4.80 s</figcaption></figure>
+      </div>
+      <p><b>Observed actions:</b> left and right lateral steps, racket swings.</p>
+      <details><summary>Original reference video · 4.96 s</summary><video src="pingpong/tasks/pingpong/evidence/reference.mp4" poster="pingpong/tasks/pingpong/evidence/frame_00048.jpg" controls muted playsinline preload="none"></video></details>
+    </aside>
+  </div>
+  <details class="pingpong-assets"><summary>Character poses derived from the reference</summary><img src="pingpong/examples/pingpong/modules/character/assets/players.png" alt="Generated pose sheet: near and far players, each with ready, step, prepare and swing poses" loading="lazy"><p>Generated appearance approximations, not extracted video frames. The five-ball challenge, timing and simplified physics are designed gameplay rules.</p></details>
+
+</section>
+
+<section class="sec" id="concl">
+  <h2><span class="n">3</span>Conclusion</h2>
+  <p class="q">I prefer any video 2 game.</p>
+
+  <h3>What I will do</h3>
+  <ol class="items">
+    <li><b>Build a dataset</b>: write games with e.g. Google Playground / Unity, to make (intent, video, game code) pair data.</li>
+    <li><b>Harness</b>: observe results based on the current one.</li>
+    <li><b>RL</b> to fine-tune.</li>
+    <li><b>Video distillation</b>: explore which proxy is better.</li>
+  </ol>
+</section>
+
+<footer>Week 7 · standalone harness page: <a href="videoplay/">videoplay/</a></footer>
+</div>
