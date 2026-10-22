@@ -1,0 +1,177 @@
+/* Week 8. Same tokens and type as week 7: numbered sections, sub-headings, (1) (2) lists, no icons.
+   The harness figure keeps its own stylesheet (harness.css, scoped under .vp). Wide demo blocks sit
+   between .wrap blocks, like the harness figure. */
+:root {
+  --ground:#F6F7FA; --surface:#FFFFFF; --ink:#14161C; --ink-2:#4C536A;
+  --ink-3:#8B92A6; --line:#DEE2EC; --line-soft:#EBEEF4;
+  --accent:#2121DE; --accent-bg:#ECECFD; --chip:#EEF0F8;
+  --on:#D7EB8C; --on-line:#587B32; --warm:#CE6E39; --hit-bg:#F7F0E4; --move-bg:#EFF4E7;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+    --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+    --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+    --on:#5D7A2A; --on-line:#A8D06A; --warm:#F0945E; --hit-bg:#2A2419; --move-bg:#1C2519;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+  --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+  --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+  --on:#5D7A2A; --on-line:#A8D06A; --warm:#F0945E; --hit-bg:#2A2419; --move-bg:#1C2519;
+}
+
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1000px; margin:0 auto; padding:0 28px; }
+a { color:var(--accent); }
+
+/* ---------- masthead ---------- */
+header.page { padding:60px 0 30px; border-bottom:1px solid var(--line); margin-bottom:24px; }
+.eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px; }
+h1 { font-family:var(--display); font-weight:500; font-size:clamp(2.4rem,6vw,3.8rem); line-height:1.05; letter-spacing:-.018em; margin:0 0 24px; }
+nav.toc ol { margin:0; padding-left:1.8em; list-style:decimal; }
+nav.toc li { padding-left:.4em; margin:4px 0; }
+nav.toc li::marker { font-family:var(--mono); font-size:.85em; color:var(--ink-3); }
+nav.toc a { text-decoration:none; color:var(--ink-2); }
+nav.toc a:hover { color:var(--accent); }
+
+/* ---------- headings: section > subsection ---------- */
+section.sec { padding:56px 0 8px; }
+section.cont { padding-top:8px; }
+h2 {
+  display:flex; align-items:baseline; gap:16px;
+  font-family:var(--display); font-weight:500; font-size:clamp(1.9rem,4vw,2.6rem); line-height:1.12;
+  margin:0 0 8px; padding-bottom:14px; border-bottom:2px solid var(--accent);
+}
+h2 .n { font-family:var(--mono); font-size:.5em; font-weight:500; color:var(--accent); }
+h3 {
+  font-family:var(--display); font-weight:500; font-size:clamp(1.4rem,3vw,1.75rem); line-height:1.2;
+  margin:40px 0 12px;
+}
+p { margin:0 0 14px; max-width:72ch; }
+
+/* ---------- lists ---------- */
+ol.items { list-style:decimal; margin:28px 0 12px; padding-left:2.1em; max-width:80ch; }
+ol.items li { padding-left:.35em; margin:0 0 8px; }
+ol.items li::marker { content:"(" counter(list-item) ") "; color:var(--ink-3); font-family:var(--mono); font-size:.85em; }
+ol.items b { font-weight:600; }
+
+/* Match the week 7 harness typography and full-window diagram. */
+.vp { font-size:16px; line-height:1.45; }
+
+/* ---------- wide demo blocks ---------- */
+.wide { max-width:1376px; margin:0 auto 12px; padding:0 28px; }
+.demo-help { font-size:14px; color:var(--ink-2); margin:10px 0 0; max-width:none; }
+.demo-help a { margin-left:10px; }
+iframe.autoh { display:block; width:100%; border:0; border-radius:12px; background:var(--surface); }
+
+.game-card { min-width:0; border:1px solid var(--line); border-radius:14px; background:var(--surface); padding:16px; }
+.game-card h4 { margin:0 0 2px; font-size:18px; font-weight:600; }
+.game-card .src { margin:0 0 12px; font-size:14px; color:var(--ink-3); }
+.game-card .simple-frame { display:block; width:100%; aspect-ratio:1280 / 790; border:0; border-radius:8px; background:#111; }
+.astra-example { max-width:760px; margin:16px 0 18px; }
+.compare { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
+@media (max-width:900px) { .compare { grid-template-columns:1fr; } }
+
+/* ---------- (1) state viewer, copied from the :8000 page and scoped ---------- */
+.sv-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:22px; align-items:start; }
+.sv-panel { border:1px solid var(--line); border-radius:12px; background:var(--surface); overflow:hidden; min-width:0; }
+.sv-head { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; }
+.sv-head h4 { margin:0; font-size:18px; font-weight:600; }
+.sv-head .pill { border:1px solid var(--line); border-radius:20px; padding:2px 10px; font:12px var(--mono); color:var(--ink-2); white-space:nowrap; }
+.sv-video { display:block; width:100%; aspect-ratio:16/9; background:#102326; }
+.sv-tools { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:12px 16px 4px; font-size:13px; }
+.sv-tools button, .sv-tools select {
+  font:13px var(--body); color:var(--ink); background:var(--surface); border:1px solid var(--line);
+  border-radius:6px; padding:5px 10px; cursor:pointer;
+}
+.sv-tools button:hover { border-color:var(--accent); }
+.sv-time { margin-left:auto; font-family:var(--mono); }
+.sv-seek { display:block; width:calc(100% - 32px); margin:12px 16px; accent-color:var(--accent); }
+.sv-caption { font-size:13px; color:var(--ink-3); margin:4px 16px 14px; }
+.sv-cards { margin:0 16px 8px; }
+.state-card { display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--move-bg); border-top:3px solid var(--on-line); border-radius:6px; padding:10px 12px; }
+.state-card.unknown, .state-card.outside { background:var(--chip); border-color:var(--ink-3); }
+.state-card small { display:block; font-size:12px; color:var(--ink-3); }
+.state-card strong { display:block; font-size:24px; font-weight:600; line-height:1.3; }
+.state-card > div:last-child { text-align:right; }
+.state-card .phase { font-size:13px; color:var(--ink-2); }
+.sv-map { padding:2px 8px; }
+.sv-map svg { display:block; width:100%; height:auto; }
+.sv-map .map-region { fill:var(--move-bg); stroke:var(--line); }
+.sv-map .shot-region { fill:var(--hit-bg); }
+.sv-map .parent-active { stroke:var(--on-line); stroke-width:2.5; }
+.sv-map .region-title, .sv-map .bridge-label { font:13px var(--body); fill:var(--ink-2); }
+.sv-map .region-title { font-weight:600; }
+.sv-map .edge { fill:none; stroke:var(--ink-3); stroke-width:1.5; }
+.sv-map .parent-link { stroke-width:2; }
+.sv-map .node rect { fill:var(--surface); stroke:var(--line); stroke-width:1.4; }
+.sv-map .node text { text-anchor:middle; fill:var(--ink); font:600 17px var(--body); }
+.sv-map .node.active rect { fill:var(--on); stroke:var(--on-line); stroke-width:3; }
+.sv-map .overlay-edge { stroke:var(--warm); stroke-width:3; fill:none; }
+.sv-transition { font-size:13px; padding:9px 12px; margin:8px 16px; background:var(--hit-bg); border-radius:6px; min-height:37px; }
+.sv-details { margin:10px 16px 14px; font-size:13px; color:var(--ink-2); }
+.sv-details summary { cursor:pointer; }
+.sv-evidence p { margin:8px 0; }
+.sv-error { margin-top:10px; padding:10px 14px; border-radius:8px; background:#932f24; color:#fff; font-size:14px; }
+[hidden] { display:none !important; }
+
+@media (max-width:960px) { .sv-grid { grid-template-columns:1fr; } }
+@media (max-width:560px) {
+  .wrap, .wide { padding:0 16px; }
+  .sv-map .node text { font-size:19px; }
+  .sv-map .region-title, .sv-map .bridge-label { font-size:14px; }
+}
+
+/* (1) (2) (3) under "Character" are step headings. */
+ol.steps { margin:36px 0 16px; }
+ol.steps li { font-family:var(--display); font-weight:500; font-size:clamp(1.25rem,2.6vw,1.5rem); line-height:1.3; }
+ol.steps li::marker { font-size:.75em; color:var(--accent); }
+
+/* Simple · Astra example: input video left, generated game right. */
+.astra-example { max-width:none; }
+.pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; }
+.pair figure { margin:0; min-width:0; }
+.pair video { display:block; width:100%; aspect-ratio:16/9; border-radius:8px; background:#111; }
+.pair figcaption { font-size:14px; color:var(--ink-2); margin-top:8px; }
+.pair figcaption a { margin-left:10px; }
+@media (max-width:700px) { .pair { grid-template-columns:1fr; } }
+
+/* (4) Improve through validation: synced video rows and the before / after players. */
+h4.part { font-family:var(--display); font-weight:500; font-size:1.3rem; margin:26px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line); }
+.part-sub { font-weight:600; margin:26px 0 8px; }
+.changes-lead { margin-top:18px; }
+ol.changes { margin-top:8px; }
+.improve .vrow { margin:0 0 16px; padding:12px 14px 14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+.vrow-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; font-size:15px; }
+.vrow-head b { min-width:150px; }
+.vrow-head button { font:14px var(--body); padding:4px 14px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); cursor:pointer; }
+.vrow-head button:hover { border-color:var(--accent); }
+.vseek { flex:1; accent-color:var(--accent); }
+.vtime { font-family:var(--mono); font-size:13px; color:var(--ink-2); min-width:60px; text-align:right; }
+.vgrid { display:grid; gap:10px; }
+.vgrid.cols-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.vgrid.cols-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.vgrid figure { margin:0; min-width:0; }
+.vgrid video { display:block; width:100%; aspect-ratio:16/9; object-fit:contain; background:#111; border-radius:6px; }
+.vgrid video.proxy { image-rendering:pixelated; }
+.vgrid figcaption { font-size:13px; color:var(--ink-2); margin-top:4px; }
+.play-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.play-card { min-width:0; padding:14px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+.play-card h5 { margin:0 0 4px; font-size:16px; font-weight:600; }
+.play-card p { font-size:14px; color:var(--ink-2); margin:0 0 8px; }
+.play-card iframe { display:block; width:100%; height:470px; border:0; border-radius:8px; background:#111b1b; }
+.play-card a { display:inline-block; margin-top:6px; font-size:14px; }
+@media (max-width:760px) {
+  .vgrid.cols-3, .vgrid.cols-2, .play-grid { grid-template-columns:1fr; }
+  .vrow-head b { min-width:0; }
+  .play-card iframe { height:360px; }
+}

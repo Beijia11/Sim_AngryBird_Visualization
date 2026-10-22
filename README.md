@@ -17,6 +17,10 @@ with its analysis reference images. The landing page links to Week 7. The tempor
 directory was removed at the user's request after its required assets were copied into `week7/`.
 See [week7/README.md](week7/README.md) for provenance and validation.
 
+Week 8 release (2026-10-22): `week8/` is Agent Harness Design: Character (Simple · Astra example, then state machine →
+transitions → game B vs Simple · Astra → (4) improve through validation), then the reorganised VideoPlay harness figure.
+The empty Ref to Video section was removed at the user's request. See [week8/README.md](week8/README.md).
+
 ## Layout
 
 ```

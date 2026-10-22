@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tennis motion: curated clips and transitions</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="curated-style.css">
+<!-- Week 8 copy of :8079/control/ (curated v3), English. Layout for week 8: the selected state clips (02) and
+     transitions (03) come first; below them, the keyboard control sits in one row with the live state machine
+     and current clip (01), stacked. The collections show only the states and transitions listed here. -->
+<script>window.WEEK8_SHOW={states:['stationary','left','forehand','backhand'],relations:['stationary--left','left--forehand','forehand--stationary','backhand--left']};</script>
+<style>
+main{margin-top:0}.filter-row{display:none}
+#collections .collection-section:first-child{margin-top:4px}
+@media(min-width:1100px){.asset-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.asset-card{padding:12px}}
+.play-row{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start;margin-top:48px;padding-top:28px;border-top:1px solid var(--line)}
+.play-row .topline{margin-top:0;flex-wrap:wrap;gap:12px}.play-row .actions button,.play-row .actions select{white-space:nowrap}
+#side .inspect-section{margin-top:0}#side .section-title{flex-direction:column;align-items:flex-start;gap:6px}#side .section-title h2{font-size:20px}
+#side .inspect-grid{grid-template-columns:1fr;gap:14px}
+@media(max-width:1000px){.play-row{grid-template-columns:1fr}}
+</style></head><body><main>
+<div id="collections"></div>
+<div class="play-row"><div id="play">
+<div class="topline"><div><h1>Press keys, and the motion carries on.</h1><p>Arrow keys move · J forehand · K backhand · S serve</p></div><div class="actions"><select id="mode" aria-label="Display mode"><option value="person">Person</option><option value="overlay">Person + skeleton</option><option value="pose">Skeleton</option></select><button id="pause" disabled>Loading</button><button id="reset" disabled>Reset R</button></div></div><section class="stage-wrap"><canvas id="stage" width="1000" height="540" tabindex="0" aria-label="Controllable tennis player: arrow keys, J, K, S"></canvas><div class="hud"><span id="state">Loading assets…</span><span id="phase"></span><span id="held">no keys</span></div><div id="hint" class="hint">Loading the player and motions…</div></section><div class="under"><p id="status" role="status">Preparing the motion library</p><span id="clip"></span></div><div class="key-row"><div class="pad"><button data-code="ArrowUp" aria-label="Forward">↑</button><div><button data-code="ArrowLeft" aria-label="Left">←</button><button data-code="ArrowDown" aria-label="Back">↓</button><button data-code="ArrowRight" aria-label="Right">→</button></div></div><div class="hit-keys"><button data-code="KeyJ"><kbd>J</kbd> Forehand</button><button data-code="KeyK"><kbd>K</kbd> Backhand</button><button data-code="KeyS"><kbd>S</kbd> Serve</button></div><p>Hold to move, release to return to stationary. After a stroke finishes, the current direction resumes.<br>The serve only starts from stationary; repeated stroke keys do not restart a stroke. Space pauses, R resets.</p></div><details id="library"><summary>Curated transitions: key exits and candidates</summary><p id="library-count"></p><div class="library-picker"><select id="relation" aria-label="Choose a state connection"></select><select id="variant" aria-label="Choose an offline transition"></select><button id="preview">Play this connection</button></div><p>Plays the generated transition from its bound source exit frame, then continues into the target clip. This version uses only the 8 curated main clips; non-stroke entries are matched as well.</p></details><details><summary>Lookup, input handling and asset limits</summary><p>While moving you can request a forehand or backhand; during a stroke only the latest direction is kept, and the stroke cannot change type or be interrupted. With several arrow keys, the last pressed wins; losing focus clears the keys and pauses.</p><p>The 19 observed relations follow the original state machine. Connections the video does not cover, such as key release, free direction changes and serving from stationary, are labelled "Control supplement"; their transitions are also generated in advance, and runtime only looks them up and plays them. Canvas movement only indicates direction; it is not a court or stride simulation.</p><p>Curated clips have re-exported person masks checked at start, middle and end; racket and limb edges may still be incomplete. Both switches and same-state continuations play a stored 5-frame transition; the two images are aligned offline to one guide pose, and the page does not compute MLS. Movement exits are at most 3 frames apart; a transition in progress finishes first, and the page waits visibly if assets are not loaded. Ghosting or foot jumps can still appear.</p><output id="diagnostic"></output><ol id="events"></ol><button id="download-log">Download this session's log</button></details>
+</div><div id="side"></div></div>
+<div id="curated-content" hidden></div>
+</main><div id="error" role="alert" hidden></div>
+<script>
+// curated-view.js renders 01 / 02 / 03 into #curated-content; place them for this layout.
+new MutationObserver((_, observer) => {
+  const inspect = document.querySelector('#curated-content .inspect-section');
+  if (!inspect) return;
+  observer.disconnect();
+  document.querySelector('#side').append(inspect);
+  document.querySelector('#collections').append(document.querySelector('#selected-states'), document.querySelector('#selected-transitions'));
+}).observe(document.querySelector('#curated-content'), {childList: true});
+</script>
+<script type="module" src="curated-app.js"></script></body></html>
