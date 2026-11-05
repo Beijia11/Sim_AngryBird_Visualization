@@ -1,0 +1,72 @@
+/* Week 10. Same tokens and type as weeks 7-8 and the landing page; four entry cards into the tennis site copy. */
+:root {
+  --ground:#F6F7FA; --surface:#FFFFFF; --ink:#14161C; --ink-2:#4C536A;
+  --ink-3:#8B92A6; --line:#DEE2EC; --line-soft:#EBEEF4;
+  --accent:#2121DE; --accent-bg:#ECECFD; --chip:#EEF0F8;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+    --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+    --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0F1116; --surface:#171A22; --ink:#EEF1F7; --ink-2:#A8B0C4;
+  --ink-3:#737B90; --line:#2A2F3C; --line-soft:#21262F;
+  --accent:#8C8CFF; --accent-bg:#1D1F3A; --chip:#1E2230;
+}
+
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1000px; margin:0 auto; padding:0 28px 96px; }
+a { color:var(--accent); }
+
+header.page { padding:60px 0 30px; border-bottom:1px solid var(--line); margin-bottom:36px; }
+.eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin:0 0 16px; }
+h1 { font-family:var(--display); font-weight:500; font-size:clamp(2.4rem,6vw,3.8rem); line-height:1.05; letter-spacing:-.018em; margin:0 0 14px; }
+.standfirst { font-size:1.15rem; color:var(--ink-2); margin:0; }
+
+.entries { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+.entry {
+  display:flex; flex-direction:column; gap:8px; height:100%;
+  padding:26px 26px 22px; background:var(--surface); border:1px solid var(--line); border-radius:10px;
+  color:inherit; text-decoration:none; transition:border-color .12s ease, transform .12s ease;
+}
+.entry:hover, .entry:focus-visible { border-color:var(--accent); transform:translateY(-2px); }
+.num { font-family:var(--mono); font-size:13px; font-weight:500; color:var(--accent); }
+.entry h2 {
+  font-family:var(--display); font-weight:500; font-size:clamp(1.45rem,3vw,1.9rem);
+  line-height:1.15; letter-spacing:-.01em; margin:0; text-wrap:balance;
+}
+.arrow { color:var(--accent); }
+.sub { margin:0; color:var(--ink-2); font-size:1rem; }
+/* Card drawings copied from the hub home page (hub.css .entry-art / .orb / .orbit / .ball-orb), same colours:
+   blue = near player, orange = far player, yellow-green = ball. Purely decorative. */
+.art { height:150px; position:relative; color:#6492a0; margin:2px 0 4px; }
+.art.summary { color:#84985e; }
+.art.play { color:#9b9470; }
+.art .orb { position:absolute; border-radius:50%; background:currentColor; box-shadow:0 0 0 9px #a5b69b10; }
+.art .orb.big { width:42px; height:42px; left:45%; top:52px; }
+.art .orb.a { width:14px; height:14px; left:23%; top:87px; }
+.art .orb.b { width:20px; height:20px; left:74%; top:35px; }
+.art .orb.c { width:10px; height:10px; left:64%; top:121px; }
+.art .orbit { position:absolute; top:42px; left:18%; width:68%; height:80px; border:1px dashed currentColor; border-radius:50%; transform:rotate(-20deg); opacity:.55; }
+.art .ball-orb { position:absolute; left:46%; top:62px; background:#d6dfa0; border:1px solid #a0b471; border-radius:50%; padding:10px; color:#4d5c2b; line-height:1; font-size:14px; }
+.art.summary .a, .art.summary .b { width:35px; height:35px; }
+.art.play .a, .art.play .b { width:32px; height:32px; }
+.art.summary .a, .art.play .a { color:#6492a0; }
+.art.summary .b, .art.play .b { color:#c89c6d; }
+
+.foot { margin:auto 0 0; padding-top:14px; border-top:1px solid var(--line-soft); font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+
+footer { margin-top:56px; padding-top:22px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+@media (max-width:680px) { .entries { grid-template-columns:1fr; } .wrap { padding:0 16px 72px; } .art { height:120px; transform:scale(.85); transform-origin:center top; } }
+@media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
