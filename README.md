@@ -21,9 +21,9 @@ Week 8 release (2026-10-22): `week8/` is Agent Harness Design: Character (Simple
 transitions → game B vs Simple · Astra → (4) improve through validation), then the reorganised VideoPlay harness figure.
 The empty Ref to Video section was removed at the user's request. See [week8/README.md](week8/README.md).
 
-Week 10 (2026-11-05, not yet pushed): `week10/` is a weekly-style page with four entries into an English, static copy
+Week 10 release (2026-11-05): `week10/` is a weekly-style page with four entries into an English, static copy
 of the tennis demo site ("Tennis: From Match Video to Game": Character Modelling / Action & Dynamic / Composite / Visual Quality Improvement) under
-`week10/atlas/` (939 MB, atlases re-encoded as WebP q90). The whole site then exceeds GitHub Pages' 1 GB limit; see
+`week10/atlas/` (939 MB, atlases re-encoded as WebP q90). The whole site is now ~1.5 GB, past GitHub Pages' documented 1 GB limit, but the deploy succeeded; see
 [week10/README.md](week10/README.md) for the rebuild steps and the open size decision.
 
 ## Layout

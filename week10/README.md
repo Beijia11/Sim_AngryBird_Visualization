@@ -78,10 +78,13 @@ Done:
   sections have no horizontal overflow at 390 and 1440 px.
 - Repo copy `atlas/` verified against the build (same 33,679 paths and sizes, spot `cmp`) and re-run through the browser
   check from the repo.
-- Landing page: Week 10 row added. Not committed or pushed (the user uploads).
+- Landing page: Week 10 row added. Card drawings copied from the hub home page (`.art` in week10.css), at the user's request.
+- Released 2026-11-05 at the user's request: commit `da72c9e` on `main` (made in a clone on local disk to avoid
+  33k small object writes on NFS, then this repo fetched and `git reset origin/main`). GitHub Pages deploy succeeded;
+  `check_week10.py` against https://beijia11.github.io/Sim_AngryBird_Visualization/week10/ passes for all four sections.
 
 To confirm with the user:
-- **Size.** With week 10 the published site is about 1.5 GB (weeks 2–8 ≈ 545 MB + 939 MB), above GitHub Pages' documented
+- **Size.** (Deploy succeeded anyway; keep watching.) With week 10 the published site is about 1.5 GB (weeks 2–8 ≈ 545 MB + 939 MB), above GitHub Pages' documented
   1 GB site limit; a single push of ~1 GB is near GitHub's push limits. Options: accept and try; drop or shrink a section
   (e.g. Visual Quality's new RGBA transitions are 392 MB); host the large media elsewhere.
 - Name (2026-11-05, user): not "Motion Atlas"; a tennis name instead. Week page / landing row: "Tennis: From Match Video to Game"
