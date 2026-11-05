@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tennis | Playable Demos</title>
+<!-- Reuses the week 10 site copy without duplicating it: every relative URL on this page (and inside summary.js)
+     resolves as if the page were week10/atlas/tennis/, a sibling of week10/atlas/summary/. -->
+<base href="../../week10/atlas/tennis/">
+<link rel="stylesheet" href="../hub.css">
+<link rel="stylesheet" href="../hub-nav.css">
+<link rel="stylesheet" href="../summary-graph.css">
+<script type="module" src="../summary.js"></script>
+<style>
+  .demo-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    min-height:52px;padding:0 32px;background:#183c32;color:#f5f7ed;font:13px system-ui,sans-serif}
+  .demo-bar a{color:inherit;text-decoration:none;letter-spacing:.08em;font-weight:600}
+  .demo-bar span{opacity:.7}
+  .demo-play{scroll-margin-top:60px;margin-top:34px;padding-top:22px;border-top:1px solid #d3ddcc}
+  .demo-play .section-head{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .demo-play h2{font-size:23px;font-weight:500;margin:0}
+  .demo-play a{color:#2c6956;font-size:14px}
+  .demo-play p{color:#65776c;font-size:14px;margin:10px 0 16px}
+  #play-frame{display:block;width:100%;height:1100px;border:1px solid #cbd4ca;border-radius:12px;background:#fff}
+  @media(max-width:800px){.demo-bar{padding:0 14px}#play-frame{height:1320px}}
+</style>
+</head>
+<body data-section="summary">
+<nav class="demo-bar" aria-label="Demo"><a href="../../../demo/">&larr; PLAYABLE DEMOS</a><span>01 Tennis</span></nav>
+<main>
+  <div class="eyebrow">02 / ACTION &amp; DYNAMIC</div>
+  <div class="page-title"><div><h1>How the players move, how the ball changes.</h1>
+    <p class="lead">See both players’ states at the same moment, and compare incoming ball, response and outgoing ball shot by shot.</p></div>
+    <span class="pill">Observed in source video</span></div>
+  <div id="load-error" role="alert" hidden></div>
+  <div class="toolbar">
+    <label>Source video <select id="summary-source"></select></label>
+    <label>Rally <select id="rally-filter"><option value="all">All rallies</option></select></label>
+    <label><input id="overlay-toggle" type="checkbox" checked> Players and ball path</label>
+    <a id="download-video" download>Download overlay video ↗</a>
+  </div>
+
+  <!-- left: source video with overlay; right: linked player × ball × player graph (same markup as the Action & Dynamic page) -->
+  <div class="summary-workspace">
+    <div class="overview"><div>
+      <div class="summary-video"><video id="summary-video" controls playsinline muted preload="metadata"></video>
+        <svg id="summary-overlay" viewBox="0 0 1920 1080" aria-label="Both players’ positions and the ball path"></svg></div>
+      <div class="transport"><button id="prev-frame">−1 frame</button><button id="next-frame">+1 frame</button>
+        <span id="video-clock" class="mono">—</span><span id="point-kind">—</span></div>
+      <p class="hint">Cyan: near · orange: far · yellow: ball; dashed ball points / path are short-gap interpolation.</p></div>
+      <details class="summary-live-details"><summary>Details of the players and ball now</summary>
+        <aside class="live-panel"><div class="eyebrow">SAME MOMENT</div><div id="near-now" class="live-card near"></div>
+          <div id="ball-now" class="live-card ball"></div><div id="far-now" class="live-card far"></div></aside></details>
+    </div>
+    <section id="relation-atlas" aria-label="Linked state graph of both players and the ball"></section>
+  </div>
+
+  <!-- summary.js also writes the shot-by-shot exchange and table; they are not part of this demo, so kept hidden -->
+  <div hidden>
+    <h2 id="exchange-title"></h2><button id="prev-event"></button><button id="next-event"></button>
+    <div id="exchange"></div><p id="change-note"></p>
+    <select id="actor-filter"><option value="all">Both</option><option value="near">Near player</option><option value="far">Far player</option></select>
+    <span id="row-count"></span><table><tbody id="exchange-rows"></tbody></table>
+  </div>
+
+  <section class="demo-play" id="interactive">
+    <div class="section-head"><h2>Play with the new RGBA</h2><a href="../play/">Compare with 03 Composite ↗</a></div>
+    <p>Same near-player control, far agent, ball paths and fixed court as the Composite page; only the player action and transition assets are replaced.</p>
+    <iframe id="play-frame" src="../generated-play/" title="Two-player tennis with the new RGBA" allow="autoplay" loading="lazy"></iframe>
+  </section>
+</main>
+<script>
+  // The game page carries the week 10 section bar; hide it inside this embed.
+  document.getElementById('play-frame').addEventListener('load', e => {
+    try { const s = e.target.contentDocument.createElement('style'); s.textContent = '.atlas-sections{display:none!important}';
+          e.target.contentDocument.head.append(s); } catch (_) {}
+  });
+</script>
+</body>
+</html>
