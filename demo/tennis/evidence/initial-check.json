@@ -1,0 +1,366 @@
+{
+  "errors": [],
+  "http_errors": [],
+  "initial": {
+    "status": "ready",
+    "paused": true,
+    "time": 0,
+    "count": 0,
+    "message": "S starts the point. Move with arrows; press J / K early or as the ball arrives.",
+    "agent": "You serve this game",
+    "position": {
+      "near": {
+        "u": 0.68,
+        "v": 1.035
+      },
+      "far": {
+        "u": 0.31999999999999995,
+        "v": -0.025
+      }
+    },
+    "flight": null,
+    "players": {
+      "near": {
+        "state": "stationary",
+        "sequence": "I10",
+        "frame": 0,
+        "phase": "entry",
+        "cycles": 0,
+        "paused": true,
+        "held": []
+      },
+      "far": {
+        "state": "stationary",
+        "sequence": "I17",
+        "frame": 0,
+        "phase": "entry",
+        "cycles": 0,
+        "paused": true,
+        "held": []
+      }
+    },
+    "events": [],
+    "score": {
+      "points": {
+        "near": 0,
+        "far": 0
+      },
+      "display": {
+        "near": "0",
+        "far": "0"
+      },
+      "games": {
+        "near": 0,
+        "far": 0
+      },
+      "sets": {
+        "near": 0,
+        "far": 0
+      },
+      "server": "near",
+      "court": "deuce",
+      "tieBreak": false,
+      "winner": null,
+      "label": "One set · advantage scoring",
+      "totalPoints": 0
+    },
+    "serveAttempt": 1,
+    "autoServeAt": null,
+    "reaction": null,
+    "receiveRules": {
+      "nearReach": 0.12,
+      "farReach": 0.085,
+      "depthReach": 0.17,
+      "earlyWindow": 0.18,
+      "lateWindow": 0.14,
+      "shotBuffer": 0.5,
+      "prepareLead": 0.65,
+      "queueLead": 0.8,
+      "agentServeDelay": 1.1,
+      "reactionSeconds": 1.25,
+      "maxMotionRate": 6
+    }
+  },
+  "score_rules": {
+    "deuce": true,
+    "advantage": true,
+    "game_rotation": true,
+    "tie_break": true,
+    "terminal_lock": true
+  },
+  "rally": {
+    "iterations": 434,
+    "status": "rally",
+    "paused": true,
+    "time": 14.514499999999867,
+    "count": 10,
+    "message": "Ball coming! Move to the receiving circle and press J / K.",
+    "agent": "Preparing Backhand",
+    "position": {
+      "near": {
+        "u": 0.68144,
+        "v": 1.035
+      },
+      "far": {
+        "u": 0.7370833333333334,
+        "v": -0.025
+      }
+    },
+    "flight": {
+      "receiver": "near",
+      "progress": 0,
+      "committed": false,
+      "target": {
+        "u": 0.1976,
+        "v": 1.035
+      },
+      "landing": {
+        "u": 0.2966321483336224,
+        "v": 0.86
+      },
+      "landingPoint": [
+        522.7322535006326,
+        473.8245654451644
+      ],
+      "origin": {
+        "u": 0.80357218901557,
+        "v": -0.03581523386200658
+      },
+      "bounceAt": 0.8365731132075472,
+      "duration": 1.2222222222222223,
+      "rate": 0.8181818181818181,
+      "contactReady": null,
+      "template": "07-b008",
+      "predictedTicks": null
+    },
+    "players": {
+      "near": {
+        "state": "stationary",
+        "sequence": "I27",
+        "frame": 5,
+        "phase": "core",
+        "cycles": 0,
+        "paused": false,
+        "held": []
+      },
+      "far": {
+        "state": "backhand",
+        "sequence": "K19",
+        "frame": 16,
+        "phase": "action",
+        "cycles": 18,
+        "paused": false,
+        "held": []
+      }
+    },
+    "events": [
+      {
+        "type": "hit",
+        "note": "You · H01 Forehand → right",
+        "time": 8.34166666666668,
+        "actor": "near",
+        "sequence": "H01",
+        "action": "forehand",
+        "template": "01-b005",
+        "tier": "exact",
+        "source_id": "01",
+        "source_time": 27.1,
+        "landing": {
+          "u": 0.7121683737391742,
+          "v": 0.14
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "prepare",
+        "note": "Agent prepares Backhand",
+        "time": 8.641966666666672,
+        "actor": "far",
+        "sequence": "K20",
+        "ticks": 31,
+        "receiveWindow": [
+          1.0422222222222224,
+          1.3622222222222224
+        ]
+      },
+      {
+        "type": "hit",
+        "note": "Agent · K20 Backhand → left",
+        "time": 9.576233333333317,
+        "actor": "far",
+        "sequence": "K20",
+        "action": "backhand",
+        "template": "07-b010",
+        "tier": "exact",
+        "source_id": "07",
+        "source_time": 25.058,
+        "landing": {
+          "u": 0.4199094130099734,
+          "v": 0.86
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "prepare",
+        "note": "You prepares Forehand",
+        "time": 10.210199999999968,
+        "actor": "near",
+        "sequence": "H15",
+        "ticks": 33,
+        "receiveWindow": [
+          1.0422222222222224,
+          1.3622222222222224
+        ]
+      },
+      {
+        "type": "hit",
+        "note": "You · H15 Forehand → left",
+        "time": 10.810799999999954,
+        "actor": "near",
+        "sequence": "H15",
+        "action": "forehand",
+        "template": "05-b010",
+        "tier": "exact",
+        "source_id": "05",
+        "source_time": 12.725,
+        "landing": {
+          "u": 0.22010317223284726,
+          "v": 0.14
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "prepare",
+        "note": "Agent prepares Forehand",
+        "time": 11.211199999999945,
+        "actor": "far",
+        "sequence": "H10",
+        "ticks": 27,
+        "receiveWindow": [
+          1.0422222222222224,
+          1.3622222222222224
+        ]
+      },
+      {
+        "type": "hit",
+        "note": "Agent · H10 Forehand → right",
+        "time": 12.045366666666592,
+        "actor": "far",
+        "sequence": "H10",
+        "action": "forehand",
+        "template": "08-b003",
+        "tier": "exact",
+        "source_id": "08",
+        "source_time": 17.651,
+        "landing": {
+          "u": 0.6021264783857248,
+          "v": 0.86
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "prepare",
+        "note": "You prepares Forehand",
+        "time": 12.679333333333243,
+        "actor": "near",
+        "sequence": "H28",
+        "ticks": 34,
+        "receiveWindow": [
+          1.0422222222222224,
+          1.3622222222222224
+        ]
+      },
+      {
+        "type": "hit",
+        "note": "You · H28 Forehand → right",
+        "time": 13.27993333333323,
+        "actor": "near",
+        "sequence": "H28",
+        "action": "forehand",
+        "template": "08-b004",
+        "tier": "exact",
+        "source_id": "08",
+        "source_time": 18.9,
+        "landing": {
+          "u": 0.7845167817509241,
+          "v": 0.14
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "prepare",
+        "note": "Agent prepares Backhand",
+        "time": 13.68033333333322,
+        "actor": "far",
+        "sequence": "K19",
+        "ticks": 26,
+        "receiveWindow": [
+          1.0422222222222224,
+          1.3622222222222224
+        ]
+      },
+      {
+        "type": "hit",
+        "note": "Agent · K19 Backhand → left",
+        "time": 14.514499999999867,
+        "actor": "far",
+        "sequence": "K19",
+        "action": "backhand",
+        "template": "07-b008",
+        "tier": "exact",
+        "source_id": "07",
+        "source_time": 22.105,
+        "landing": {
+          "u": 0.2966321483336224,
+          "v": 0.86
+        },
+        "duration": 1.2222222222222223
+      },
+      {
+        "type": "pause",
+        "note": "paused",
+        "time": 14.514499999999867
+      }
+    ],
+    "score": {
+      "points": {
+        "near": 0,
+        "far": 0
+      },
+      "display": {
+        "near": "0",
+        "far": "0"
+      },
+      "games": {
+        "near": 0,
+        "far": 0
+      },
+      "sets": {
+        "near": 0,
+        "far": 0
+      },
+      "server": "near",
+      "court": "deuce",
+      "tieBreak": false,
+      "winner": null,
+      "label": "One set · advantage scoring",
+      "totalPoints": 0
+    },
+    "serveAttempt": 1,
+    "autoServeAt": null,
+    "reaction": null,
+    "receiveRules": {
+      "nearReach": 0.12,
+      "farReach": 0.085,
+      "depthReach": 0.17,
+      "earlyWindow": 0.18,
+      "lateWindow": 0.14,
+      "shotBuffer": 0.5,
+      "prepareLead": 0.65,
+      "queueLead": 0.8,
+      "agentServeDelay": 1.1,
+      "reactionSeconds": 1.25,
+      "maxMotionRate": 6
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "errors": [],
+  "zero": {
+    "points": {
+      "near": 0,
+      "far": 0
+    },
+    "display": {
+      "near": "0",
+      "far": "0"
+    },
+    "games": {
+      "near": 0,
+      "far": 0
+    },
+    "sets": {
+      "near": 0,
+      "far": 0
+    },
+    "server": "near",
+    "court": "deuce",
+    "tieBreak": false,
+    "winner": null,
+    "label": "One set \u00b7 advantage scoring",
+    "totalPoints": 0
+  },
+  "rendering": {
+    "namesMatch": true,
+    "pointPixelsChanged": true,
+    "livePointText": true,
+    "score": {
+      "points": {
+        "near": 1,
+        "far": 0
+      },
+      "display": {
+        "near": "15",
+        "far": "0"
+      },
+      "games": {
+        "near": 0,
+        "far": 0
+      },
+      "sets": {
+        "near": 0,
+        "far": 0
+      },
+      "server": "near",
+      "court": "ad",
+      "tieBreak": false,
+      "winner": null,
+      "label": "One set \u00b7 advantage scoring",
+      "totalPoints": 1
+    }
+  }
+}

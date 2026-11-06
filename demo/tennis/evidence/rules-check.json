@@ -1,0 +1,129 @@
+{
+  "errors": [],
+  "timing": [
+    {
+      "offset": -0.6,
+      "name": "before",
+      "hit": true,
+      "end": "Agent receiving"
+    },
+    {
+      "offset": -0.6,
+      "name": "after",
+      "hit": true,
+      "end": "Agent receiving"
+    },
+    {
+      "offset": -0.2,
+      "name": "before",
+      "hit": true,
+      "end": "Agent receiving"
+    },
+    {
+      "offset": -0.2,
+      "name": "after",
+      "hit": true,
+      "end": "Agent receiving"
+    },
+    {
+      "offset": 0,
+      "name": "before",
+      "hit": false,
+      "end": "You missed this ball · press S for a new rally"
+    },
+    {
+      "offset": 0,
+      "name": "after",
+      "hit": false,
+      "end": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "offset": 0.1,
+      "name": "before",
+      "hit": false,
+      "end": "You missed this ball · press S for a new rally"
+    },
+    {
+      "offset": 0.1,
+      "name": "after",
+      "hit": false,
+      "end": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "offset": 0.2,
+      "name": "before",
+      "hit": false,
+      "end": "You missed this ball · press S for a new rally"
+    },
+    {
+      "offset": 0.2,
+      "name": "after",
+      "hit": false,
+      "end": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "offset": 0.4,
+      "name": "before",
+      "hit": false,
+      "end": "You missed this ball · press S for a new rally"
+    },
+    {
+      "offset": 0.4,
+      "name": "after",
+      "hit": false,
+      "end": "Agent’s point. You missed this ball. Press S for the next point."
+    }
+  ],
+  "spatial": {
+    "before": false,
+    "after": false
+  },
+  "serves": [
+    {
+      "role": "near",
+      "side": "deuce",
+      "landing": {
+        "u": 0.23838859011884772,
+        "v": 0.34
+      },
+      "sequence": "S06"
+    },
+    {
+      "role": "near",
+      "side": "ad",
+      "landing": {
+        "u": 0.7383885901188477,
+        "v": 0.34
+      },
+      "sequence": "S06"
+    },
+    {
+      "role": "far",
+      "side": "deuce",
+      "landing": {
+        "u": 0.7383885901188476,
+        "v": 0.66
+      },
+      "sequence": "S01"
+    },
+    {
+      "role": "far",
+      "side": "ad",
+      "landing": {
+        "u": 0.23838859011884772,
+        "v": 0.66
+      },
+      "sequence": "S01"
+    }
+  ],
+  "point_score_faults_end": {
+    "miss_scores_once": true,
+    "score_persists": true,
+    "two_faults": true,
+    "end_state": true
+  },
+  "score_layer": {
+    "original_name_pixels_restored_above_characters": true
+  },
+  "mobile_no_overflow": true
+}

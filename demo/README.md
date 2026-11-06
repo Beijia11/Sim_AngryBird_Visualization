@@ -5,7 +5,8 @@ A multi-section demo page; each section is one playable world. Started 2026-11-0
 | Path | What |
 | --- | --- |
 | `index.html`, `demo.css` | entry page, one card per section (weekly tokens + the hub card drawings, copied from `week10/week10.css`) |
-| `tennis/index.html` | 01 Tennis |
+| `tennis/index.html` | 01 Tennis: source analysis plus the rally game |
+| `tennis/game/` | Demo-specific game, dynamic scoring and end reactions; reuses weekly RGBA assets |
 
 ## 01 Tennis (user's spec)
 
@@ -14,11 +15,10 @@ A multi-section demo page; each section is one playable world. Started 2026-11-0
 2. Below it, "Play with the new RGBA" with the link "Compare with 03 Composite ↗": the two-player game using the
    new RGBA assets.
 
-No assets are copied. `tennis/index.html` sets `<base href="../../week10/atlas/tennis/">`, so the unchanged week 10
-`summary.js`, data, videos and the `generated-play/` game resolve exactly as on the week 10 Action & Dynamic page.
-Consequences: every relative URL in that page is written relative to `week10/atlas/tennis/`; the demo breaks if
-`week10/atlas/` is moved or removed. The shot-by-shot exchange / table that `summary.js` also fills are present but
-hidden. The game iframe's week 10 section bar is hidden by a small same-origin style injection.
+No media assets are copied. `tennis/index.html` retains its base at `week10/atlas/tennis/` for the video/graph,
+and embeds the demo-owned `tennis/game/` controller. The game reuses week 10 RGBA/pose assets through its own base URL.
+Keep `week10/atlas/` available. See [Tennis README](tennis/README.md) for controls, rules, validation and limitations.
+The shot-by-shot exchange/table that summary.js fills are present but hidden.
 
 Preview: `python3 week10/serve_week10.py` from the repo root, open http://localhost:8510/demo/.
 
@@ -31,3 +31,8 @@ ready; links go to `demo/` and `week10/atlas/play/`; no horizontal overflow.
 Eyebrow says "ICML 2027 / Demo" (user: not CVPR). Pushed to `main` at the user's request.
 To confirm: the demo is not linked from the landing page; page title "Playable Demos" and the card text are mine.
 Live: https://beijia11.github.io/Sim_AngryBird_Visualization/demo/
+
+## Rally feedback update (2026-11-06)
+Implemented locally: wider receiving area/timing window; dynamic tennis points/games/set score; scoreboard above character compositing; legal diagonal serves and server rotation; distinct point/match-end reactions. Real browser and Pages-prefix embed checks pass; details and evidence in [tennis/README.md](tennis/README.md). This version was approved for publication on 2026-11-06; the earlier “pushed” status describes the original version.
+
+Follow-up: tightened receiving after playtesting, automated the far player’s service games, and restored the original broadcast scoreboard appearance (Djokovic / Federer), starting from 0 rather than recorded scores. Current checks are documented in the Tennis README; the user approved publishing this version to GitHub Pages on 2026-11-06.

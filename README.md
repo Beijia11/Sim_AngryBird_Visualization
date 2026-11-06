@@ -60,3 +60,7 @@ Two things worth knowing before adding clips:
 
 Datasets, training configs, launch commands and evaluation live outside this repo,
 in `cosmos/FINETUNE_ON_SPATIAL_MAP.md`.
+
+Local demo update (2026-11-06): `demo/tennis/` now has its own more forgiving match controller, live tennis scoring, serving rules, foreground scoreboard and finish reactions while reusing week 10 assets. See [Tennis demo README](demo/tennis/README.md) for validation and local preview. User approved publishing this update to `main` / GitHub Pages on 2026-11-06.
+
+Tennis follow-up: balanced contact tolerance, automatic agent service on its games, and original-video scoreboard styling with zero-start dynamic scoring; local preview remains on port 8510.

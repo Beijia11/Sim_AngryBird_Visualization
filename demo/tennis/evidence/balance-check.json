@@ -1,0 +1,86 @@
+{
+  "errors": [],
+  "receiving": [
+    {
+      "name": "good",
+      "hit": true,
+      "score": 0,
+      "message": "Agent receiving"
+    },
+    {
+      "name": "near_edge",
+      "hit": true,
+      "score": 0,
+      "message": "Agent receiving"
+    },
+    {
+      "name": "too_wide",
+      "hit": false,
+      "score": 1,
+      "message": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "name": "too_early",
+      "hit": false,
+      "score": 1,
+      "message": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "name": "late",
+      "hit": false,
+      "score": 1,
+      "message": "Agent’s point. You missed this ball. Press S for the next point."
+    },
+    {
+      "name": "no_swing",
+      "hit": false,
+      "score": 1,
+      "message": "Agent’s point. You missed this ball. Press S for the next point."
+    }
+  ],
+  "actual_contact": {
+    "planned": true,
+    "actual": false
+  },
+  "serve_rotation": {
+    "servers": [
+      "near",
+      "near",
+      "near",
+      "near",
+      "near",
+      "near"
+    ],
+    "score": {
+      "points": {
+        "near": 0,
+        "far": 0
+      },
+      "display": {
+        "near": "0",
+        "far": "0"
+      },
+      "games": {
+        "near": 0,
+        "far": 1
+      },
+      "sets": {
+        "near": 0,
+        "far": 0
+      },
+      "server": "far",
+      "court": "deuce",
+      "tieBreak": false,
+      "winner": null,
+      "label": "One set · advantage scoring",
+      "totalPoints": 6
+    },
+    "autoFarServe": true,
+    "automaticStart": true
+  },
+  "no_cap": {
+    "shots": 12,
+    "status": "rally",
+    "reason": "Ball coming! Move to the receiving circle and press J / K."
+  }
+}

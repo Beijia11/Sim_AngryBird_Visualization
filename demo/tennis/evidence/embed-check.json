@@ -1,0 +1,31 @@
+{
+  "errors": [],
+  "http_errors": [],
+  "iframe_url": "http://127.0.0.1:45861/repo/demo/tennis/game/",
+  "live_serve_agent_return": true,
+  "live_scored": {
+    "points": {
+      "near": 0,
+      "far": 1
+    },
+    "display": {
+      "near": "0",
+      "far": "15"
+    },
+    "games": {
+      "near": 0,
+      "far": 0
+    },
+    "sets": {
+      "near": 0,
+      "far": 0
+    },
+    "server": "near",
+    "court": "ad",
+    "tieBreak": false,
+    "winner": null,
+    "label": "One set · advantage scoring",
+    "totalPoints": 1
+  },
+  "mobile_no_overflow": true
+}

@@ -1,0 +1,40 @@
+{
+  "status": "verified implementation; user approved publication on 2026-11-06",
+  "updated": "2026-11-06T23:09:24.825238+00:00",
+  "checks": [
+    "initial-check.json",
+    "rules-check.json",
+    "embed-check.json",
+    "edge-check.json",
+    "balance-check.json",
+    "scoreboard-check.json"
+  ],
+  "manual_visual_review": [
+    "broadcast-score-zero.png",
+    "broadcast-score-point.png",
+    "match-finish-desktop.png"
+  ],
+  "limits": [
+    "Repurposed existing end poses, not newly generated videos",
+    "Fixed court ends; no net-cord let simulation",
+    "User subjective playtesting pending"
+  ],
+  "files": {
+    "demo/tennis/game/app.js": "cb541604ef02ea224f5d7ec15639bacf9302f852493c405b181ea8952cfbee52",
+    "demo/tennis/game/hud.js": "27c447639ec7ff9a0e30efc9d37f62d946cc653c74a0a7922b0268f3d6f14112",
+    "demo/tennis/game/style.css": "771990d3fc75072b7deb2169e678d749e8bb944125d35dd12e0bd032d9036bdd",
+    "demo/tennis/game/engine.js": "746d8eb1f8422fe26232edb158967974c073d11cb1fef5d9bcb06842424754e2",
+    "demo/tennis/game/index.html": "9bf095f1524c73791534510a81d82af6921ed87b63d3ab80df9e958eec395f75",
+    "demo/tennis/game/score.js": "a984c2e75189dd826089afe9dd4c6baba5567c8e1d5ce69cf0a8c1f661d49092",
+    "demo/tennis/tests/check_edges.py": "0a02de058c8fbb2705f17ea8a63a3629e3c3474fdd209a3400f72878a2c884ae",
+    "demo/tennis/tests/check_embed.py": "c3f12f4ee9cd71f6737af74a3837cbe016f6262e7458fa9e86a0074d3b54f39f",
+    "demo/tennis/tests/check_scoreboard.py": "92c57ff693ece1d3b341ec0c724d3ed2b6b9ddbea24e5630ed25e7a7a5f3a339",
+    "demo/tennis/tests/check_rules.py": "b2852740c4fc9922fe326ba7ed3c27be8f9ad36bd6aee1284b4064d6b0db0613",
+    "demo/tennis/tests/check_initial.py": "91cc8ff95d2c9313fabbf0b860edb6378a42f59475a617e73e2fccabb018f6d5",
+    "demo/tennis/tests/check_balance.py": "98b4acbf396d91bc032e4dc185feab1e2415369e87c8684fc04fb0ecf6848034",
+    "demo/tennis/index.html": "c75f66e74520de9722a0da8f034d4463758d900459f5cbe773b7d6eaba24e8ab",
+    "demo/tennis/README.md": "cec344d2986698f0ca38b7da18dd52fa8394ad28dc78bb2c36458a3a95b2b2e1",
+    "demo/README.md": "f73114fbc8455b7fba9c65fa4e659e1343c0d798f4b40394a50d4f09b5fc73dd",
+    "README.md": "8561a549c3099b09ef3544f26bf2f9f60e3fc4eb8424d56e4ae5c27abf257d45"
+  }
+}

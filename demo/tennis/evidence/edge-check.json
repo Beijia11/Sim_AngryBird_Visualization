@@ -1,0 +1,13 @@
+{
+  "serve_fault_boundaries": true,
+  "straight_path_grace": true,
+  "pause_resume": true,
+  "winner_raised_racket": {
+    "sequence": "S02",
+    "frame": 38
+  },
+  "loser_relaxed": {
+    "sequence": "I03",
+    "frame": 9
+  }
+}
